@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Sample Polymer"/>
+    <title>Sample Polymer</title>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- Chrome for Android theme color -->
+    <meta name="theme-color" content="#303F9F">
+
+    <!-- Web Application Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Chrome for Android Theme color -->
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Polymer Starter Kit">
+    <link rel="icon" sizes="192x192" href="images/touch/chrome-touch-icon-192x192.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Sample Polymer">
+    <link rel="apple-touch-icon" href="images/touch/apple-touch-icon.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="css/index.css">
+    <!-- endbuild-->
+
+    <!-- build:js bower_components/webcomponentsjs/webcomponents.min.js -->
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+    <!-- endbuild -->
+
+    <!-- will be replaced with elements/elements.vulcanized.html -->
+    <link rel="import" href="elements/elements.html">
+    <!-- endreplace-->
+</head>
+<body unresolved class="fullbleed layout vertical">
+<template is="dom-bind" id="app">
+    <!-- Main Content -->
+    <!-- iron-pages attr-for-selected="data-route" selected="{{select}}">
+        <section data-route="login">
+            <app-login id="loginPage"></app-login>
+        </section>
+
+        <section data-route="main">
+            <app-main id="mainPage"></app-main>
+        </section>
+    </iron-pages -->
+
+    <neon-animated-pages attr-for-selected="data-route" selected="{{select}}" style="position: inherit !important;"
+                         entry-animation="slide-from-right-animation" exit-animation="slide-left-animation">
+        <neon-animatable data-route="login">
+            <app-login id="loginPage"></app-login>
+        </neon-animatable>
+
+        <neon-animatable data-route="main">
+            <app-main id="mainPage"></app-main>
+        </neon-animatable>
+    </neon-animated-pages>
+
+    <paper-dialog id="testDlg" modal class="size-position">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        <div class="buttons">
+            <paper-button dialog-confirm autofocus>Tap me to close</paper-button>
+        </div>
+    </paper-dialog>
+
+    <app-auth id="appAuth"></app-auth>
+
+</template>
+
+<!-- build:js scripts/app.js -->
+<script type="text/javascript" src="js/keycloak.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<!-- endbuild-->
+</body>
+
+</html>
+

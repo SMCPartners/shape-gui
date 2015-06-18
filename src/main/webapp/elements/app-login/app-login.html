@@ -1,0 +1,79 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+<dom-module id="app-login">
+    <style>
+        .horizontal-section {
+            background-color: white;
+            padding: 24px;
+            min-width: 200px;
+        @apply(--shadow-elevation-2dp);
+        }
+
+        .vertical-section {
+            background-color: white;
+            padding: 24px;
+            margin: 0 24px 24px 24px;
+        @apply(--shadow-elevation-2dp);
+        }
+
+        .centered {
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .button-end {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+    <template>
+        <!-- div class="horizontal center-center layout">
+            <div>
+                <h4>Please Login</h4>
+
+                <div class="horizontal-section">
+                    <form is="iron-form" id="formGet" method="get" action="/">
+                        <paper-input name="name" label="User Id" required>{{userId}}</paper-input>
+                        <br>
+                        <paper-input type="password" name="password" label="Password" required>{{password}}
+                        </paper-input>
+                        <br><br>
+
+                        <div class="button-end">
+                            <paper-button raised on-tap="handleLogin">Submit</paper-button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div -->
+        <div class="horizontal center-center layout">
+            <paper-button raised on-tap="handleLogin">Login</paper-button>
+        </div>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-login',
+            properties: {
+                userId: {
+                    type: String,
+                    value: '',
+                    notify: true
+                },
+                password: {
+                    type: String,
+                    value: '',
+                    notify: true
+                }
+            },
+            handleLogin: function (e) {
+                appAuth.login();
+                //mainPage.route = 'home';
+                //app.select = 'main';
+            }
+        });
+    })();
+</script>

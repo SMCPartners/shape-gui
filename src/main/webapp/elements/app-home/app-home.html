@@ -1,0 +1,36 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+<link rel="import" href="../app-theme.html">
+
+<dom-module id="app-home">
+    <style>
+        .pms {
+        @apply(--pm-style)
+        }
+    </style>
+    <template>
+        <div class="pms">
+            <paper-material style="padding: 5px;" elevation="1">
+                <my-greeting></my-greeting>
+
+                <p class="paper-font-subhead">You now have:</p>
+                <my-list></my-list>
+
+                <p class="paper-font-body2">Looking for more Web App layouts? Check out our
+                    <a href="https://github.com/PolymerElements/app-layout-templates">layouts</a>
+                    collection.
+                    You can also
+                    <a href="http://polymerelements.github.io/app-layout-templates/">preview</a>
+                    them live.</p>
+            </paper-material>
+        </div>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-home',
+            properties: {}
+        });
+    })();
+</script>

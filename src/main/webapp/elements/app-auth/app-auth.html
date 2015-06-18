@@ -1,0 +1,63 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+<script>
+    (function () {
+        Polymer({
+            is: 'app-auth',
+            properties: {
+                kc: {
+                    type: Object,
+                    notify: true,
+                    readOnly: true,
+                    value: function() {
+                        return Keycloak();
+                    }
+                }
+            },
+            ready: function() {
+                this.kc.onAuthSuccess = function () {
+                    console.log('Auth Success');
+                    mainPage.route = 'home';
+                    app.select = 'main';
+                };
+
+                this.kc.onAuthError = function () {
+                    console.log('Auth Error');
+                };
+
+                this.kc.onAuthRefreshSuccess = function () {
+                    console.log('Auth Refresh Success');
+                };
+
+                this.kc.onAuthRefreshError = function () {
+                    console.log('Auth Refresh Error');
+                };
+
+                this.kc.onAuthLogout = function () {
+                    console.log('Auth Logout');
+                };
+            },
+            initialize: function() {
+                var that = this;
+                this.kc.init().success(function (authenticated) {
+                    that._output('Init Success (' + (authenticated ? 'Authenticated' : 'Not Authenticated') + ')');
+                }).error(function () {
+                    that._output('Init Error');
+                });
+            },
+            _output: function(data) {
+                if (typeof data === 'object') {
+                    data = JSON.stringify(data, null, '  ');
+                }
+                console.log(data);
+            },
+            login: function() {
+                this.kc.login();
+            },
+            logout: function() {
+                this.kc.logout();
+            }
+        });
+    })();
+</script>

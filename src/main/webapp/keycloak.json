@@ -1,0 +1,10 @@
+{
+  "realm": "shape",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhNe20RjtmUbWnIC8ULmefZ+Xr5wulCTn3oGZ2Z0V1B1HZYSfka0iHYLgfCe2Mo77UOFJTWnOFH+/NSIFvNH72zOc0KHqnUAdtNZmNY8RcGhXXvFhXieQ4W6KN11H1d+8qqmpXfIfmr6mDE1O2ukfmyShJ6xF/eae+kezlh4Rh5SmlrEwizB79vua91f7IA1cKd05YNSwckfa5tGviv9jR1AmZdDrNq5Dvdxbar7S7vQER08D/BQOqG7P1d1VcEOkOgXic/IW3aNM8KEl2UIiPsp6xvJJKypyVpRHI3qwUI1QFn1fw7gO6P+pDountRxmojT82uavfm+k75dacXngoQIDAQAB",
+  "auth-server-url": "http://localhost:8080/auth",
+  "ssl-required": "external",
+  "resource": "shape-gui",
+  "credentials": {
+    "secret": "5f23ae2a-d512-43ef-a904-609191710230"
+  }
+}

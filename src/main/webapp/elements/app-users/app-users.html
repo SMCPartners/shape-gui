@@ -1,0 +1,35 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+<dom-module id="app-users">
+    <style>
+        .pms {
+        @apply(--pm-style)
+        }
+    </style>
+    <template>
+        <div class="pms">
+            <paper-material style="padding: 5px;" elevation="1">
+                <h2 class="paper-font-display2">Users</h2>
+
+                <p>This is the users section</p>
+                <a on-tap="showModal">Rob</a></p>
+            </paper-material>
+        </div>
+
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-users',
+            properties: {
+            },
+            ready: function() {
+            },
+            showModal: function(evt) {
+                testDlg.open();
+            }
+        });
+    })();
+</script>
