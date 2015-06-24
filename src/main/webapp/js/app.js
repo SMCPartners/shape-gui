@@ -7,7 +7,7 @@
     app.addEventListener('template-bound', function () {
         var testDlg = document.querySelector("#testDlg");
         var loginPage = document.querySelector('#loginPage');
-        var mainPage = document.querySelector('#mainPage');
+        //var mainPage = document.querySelector('#mainPage');
         console.log('Our app is ready to rock!');
     });
 

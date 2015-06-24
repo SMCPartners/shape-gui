@@ -68,17 +68,18 @@
             padding: 8px;
         }
     </style>
-    <template>
-        <paper-drawer-panel id="paperDrawerPanel" force-narrow=true>
+    <template is="dom-bind">
+      <!--
+        <paper-drawer-panel id="paperDrawerPanel">
             <div drawer>
 
                 <!-- Drawer Toolbar -->
+        <!--
                 <paper-toolbar id="drawerToolbar">
                     <span>Menu</span>
                 </paper-toolbar>
-
                 <!-- Drawer Content -->
-                <paper-menu id="mainMenu" on-tap="_toggleDrawerPanel" class="list"
+        <!--        <paper-menu id="mainMenu" on-tap="_toggleDrawerPanel" class="list"
                             attr-for-selected="data-route" selected="{{route}}">
                     <a data-route="home">
                         <iron-icon icon="home"></iron-icon>
@@ -101,17 +102,21 @@
                     </a>
                 </paper-menu>
             </div>
+            -->
             <paper-header-panel main mode="standard">
                 <!-- Main Toolbar -->
                 <paper-toolbar id="mainToolbar">
+                    <!--
                     <button tabindex="1" id="paperToggle" paper-drawer-toggle>
                         <iron-icon icon="menu" paper-drawer-toggle></iron-icon>
                     </button>
-                    <span class="title" style="margin-left: 0px;">Sample Polymer</span>
+                    -->
+                    <span class="title" style="margin-left: 0px;">Hello, {{User Name}}</span>
 
                     <!-- Toolbar icons -->
-                    <paper-icon-button icon="refresh"></paper-icon-button>
-                    <paper-icon-button icon="search"></paper-icon-button>
+                    <paper-button>Add Organization</paper-button>
+                    <paper-button>Add Provider</paper-button>
+                    <paper-icon-button icon="settings"></paper-icon-button>
 
                     <!-- div class="middle"></div -->
 
@@ -119,7 +124,30 @@
                     <!--div class="appname top paper-font-display2">Polymer Sample</div -->
 
                 </paper-toolbar>
+            </paper-header-panel>
 
+                <!--
+                <paper-menu>
+                    <paper-item>Provider 1</paper-item>
+                    <paper-item>Provider 1</paper-item>
+                    <paper-item>Provider 1</paper-item>
+                </paper-menu>
+                <paper-menu>
+                    <paper-item>Provider 1</paper-item>
+                    <paper-item>Provider 1</paper-item>
+                    <paper-item>Provider 1</paper-item>
+                </paper-menu>
+                -->
+                <paper-tabs selected="{{selected}}">
+                    <paper-tab>Measure Input</paper-tab>
+                    <paper-tab>Past Measure Reports</paper-tab>
+                </paper-tabs>
+                <paper-button>Organization <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
+                <paper-button>Provider <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
+                <iron-pages selected="{{selected}}">
+                    <app-dashboard></app-dashboard>
+                    <app-history></app-history>
+                </iron-pages>
                 <!-- Main Content -->
                 <!-- iron-pages attr-for-selected="data-route" selected="{{route}}">
 
@@ -167,7 +195,7 @@
                     </section>
 
                 </iron-pages -->
-
+                <!--
                 <neon-animated-pages attr-for-selected="data-route" selected="{{route}}">
 
                     <neon-animatable data-route="home">
@@ -195,6 +223,8 @@
                 </neon-animated-pages>
             </paper-header-panel>
         </paper-drawer-panel>
+        -->
+
     </template>
 </dom-module>
 <script>

@@ -1,7 +1,7 @@
 group 'com.smcpartners.shape'
 version '1.0-SNAPSHOT'
 
-def deployDir = '/Users/johndestefano/javastuff/jboss/keycloak/keycloak-demo-1.2.0.Final/keycloak/standalone/deployments'
+def deployDir = '/home/shapedev/shape_dev/keycloak/keycloak/standalone/deployments'
 
 apply plugin: 'java'
 apply plugin: 'war'
