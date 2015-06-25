@@ -68,7 +68,7 @@
             padding: 8px;
         }
     </style>
-    <template is="dom-bind">
+    <template>
       <!--
         <paper-drawer-panel id="paperDrawerPanel">
             <div drawer>
@@ -114,9 +114,11 @@
                     <span class="title" style="margin-left: 0px;">Hello, {{User Name}}</span>
 
                     <!-- Toolbar icons -->
-                    <paper-button>Add Organization</paper-button>
-                    <paper-button>Add Provider</paper-button>
+
+                    <paper-button>Admin Panel</paper-button>
+                    <paper-button on-tap="handleAccount">Account</paper-button>
                     <paper-icon-button icon="settings"></paper-icon-button>
+
 
                     <!-- div class="middle"></div -->
 
@@ -124,7 +126,7 @@
                     <!--div class="appname top paper-font-display2">Polymer Sample</div -->
 
                 </paper-toolbar>
-            </paper-header-panel>
+
 
                 <!--
                 <paper-menu>
@@ -138,32 +140,12 @@
                     <paper-item>Provider 1</paper-item>
                 </paper-menu>
                 -->
-                <paper-tabs selected="{{selected}}">
-                    <paper-tab>Measure Input</paper-tab>
-                    <paper-tab>Past Measure Reports</paper-tab>
-                </paper-tabs>
-                <paper-button>Organization <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
-                <paper-button>Provider <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
-                <iron-pages selected="{{selected}}">
-                    <app-dashboard></app-dashboard>
-                    <app-history></app-history>
-                </iron-pages>
+
                 <!-- Main Content -->
-                <!-- iron-pages attr-for-selected="data-route" selected="{{route}}">
-
+                <iron-pages attr-for-selected="data-route" selected="{{route}}">
                     <section data-route="home">
-                        <paper-material elevation="1">
-                            <my-greeting></my-greeting>
-
-                            <p class="paper-font-subhead">You now have:</p>
-                            <my-list></my-list>
-
-                            <p class="paper-font-body2">Looking for more Web App layouts? Check out our <a
-                                    href="https://github.com/PolymerElements/app-layout-templates">layouts</a>
-                                collection.
-                                You can also <a
-                                        href="http://polymerelements.github.io/app-layout-templates/">preview</a>
-                                them live.</p>
+                        <paper-materials>
+                            <app-dashboard></app-dashboard>
                         </paper-material>
                     </section>
 
@@ -194,7 +176,8 @@
                         </paper-material>
                     </section>
 
-                </iron-pages -->
+                </iron-pages>
+
                 <!--
                 <neon-animated-pages attr-for-selected="data-route" selected="{{route}}">
 
@@ -257,6 +240,10 @@
             },
             logout: function(e) {
 
+            },
+            handleAccount: function (e) {
+                app.select = 'account';
+                console.log("It worked!");
             }
         });
     })();

@@ -8,12 +8,17 @@
         }
     </style>
     <template>
-        <div class="pms">
-            <paper-material elevation="1">
-                <h2 class="paper-font-display2">This is the dashboard</h2>
+        <paper-tabs selected="{{selected}}">
+            <paper-tab>Measure Input</paper-tab>
+            <paper-tab>Past Measure Reports</paper-tab>
+        </paper-tabs>
+        <paper-button>Organization <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
+        <paper-button>Provider <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
+        <iron-pages selected="{{selected}}">
+            <app-measure-input></app-measure-input>
+            <app-history></app-history>
+        </iron-pages>
 
-            </paper-material>
-        </div>
 
     </template>
 </dom-module>
