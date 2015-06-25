@@ -112,10 +112,11 @@
                     </button>
                     -->
                     <span class="title" style="margin-left: 0px;">Hello, {{User Name}}</span>
+                    <paper-icon-button icon="home" on-tap="navigateHome"></paper-icon-button>
 
                     <!-- Toolbar icons -->
 
-                    <paper-button>Admin Panel</paper-button>
+                    <paper-button on-tap="handleAdminPanel">Admin Panel</paper-button>
                     <paper-button on-tap="handleAccount">Account</paper-button>
                     <paper-icon-button icon="settings"></paper-icon-button>
 
@@ -149,26 +150,19 @@
                         </paper-material>
                     </section>
 
-                    <section data-route="users">
+                    <section data-route="account">
                         <paper-material elevation="1">
-                            <h2 class="paper-font-display2">Users</h2>
-
-                            <p>This is the users section</p>
-                            <a href="/users/Rob">Rob</a></p>
+                            <app-account></app-account>
                         </paper-material>
                     </section>
 
-                    <section data-route="user-info">
+                    <section data-route="adminpanel">
                         <paper-material elevation="1">
-                            <h2 class="paper-font-display2">
-                                User:<span>{{params.name}}</span>
-                            </h2>
-
-                            <div>This is <span>{{params.name}}</span>'s section</div>
+                            <app-adminpanel></app-adminpanel>
                         </paper-material>
                     </section>
 
-                    <section data-route="contact">
+                    <section data-route="settings">
                         <paper-material elevation="1">
                             <h2 class="paper-font-display2">Contact</h2>
 
@@ -242,8 +236,16 @@
 
             },
             handleAccount: function (e) {
-                app.select = 'account';
-                console.log("It worked!");
+                this.route = 'account';
+                console.log("It worked for Account!");
+            },
+            handleAdminPanel: function (e) {
+                this.route = 'adminpanel';
+                console.log("It worked for Admin!");
+            },
+            navigateHome: function (e) {
+                this.route = 'home';
+                console.log("I'm home!");
             }
         });
     })();
