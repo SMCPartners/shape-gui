@@ -4,15 +4,71 @@
 <dom-module id="app-measure-input">
     <style>
         .pms {
-        @apply(--pm-style)
+            @apply(--pm-style)
+        };
+        .rowItem {
+            display: inline-block;
+        };
+        .centerItem {
+            margin: 0 auto;
+        };
+        .rightItem {
+            flex-basis: auto;
+        };
+        .leftItem {
+            position: absolute;
+        };
+        .nqf-id {
+            margin-left: 10%;
+            width: 100%;
         }
+        
     </style>
     <template is="dom-bind">
         <div class="pms">
-            <paper-material elevation="1">
-                <h2 class="paper-font-display2">This is the measure input</h2>
+        <paper-material class="pms">
+            <div class="measure-container">
+                <div class="container">
+                    <div class="bobtwo rowItem leftItem pull-left" align="left">
+                        <paper-button background-color="blue" raised>Info</paper-button>
+                        <div class="nqf-id">NQF 0018</div>
+                    </div>
+                    <div class="rowItem centerItem Bob" align="middle">Controlling High Blood Pressure</div>
+                </div>
+                <br/>
+                <div>
+                    <div class="rowItem">Numerator</div>
+                    <paper-spinner active="false" class="rowItem"></paper-spinner>
+                </div>
+                <br/>
+                <div>
+                    <paper-button raised class="button">Edit</paper-button>
+                </div>
+            </div>
+        </paper-material>
+        <!--<paper-material class="pms">
+            <div>
 
-            </paper-material>
+            <div>
+                <div class="rowItem leftItem">Test</div>
+                <div class="rowItem centerItem">Another Test</div>
+                <div class="rowItem rightItem">
+                    <paper-icon-button icon="Settings"></paper-icon-button>
+                </div>
+            </div>
+            <div>
+                <div class="rowItem leftItem">Numerator/Denominator</div>
+                <div class="rowItem centerItem">51/100</div>
+                <div class="rowItem rightItem">
+                    <paper-icon-button icon="Home"></paper-icon-button>
+                </div>
+            </div>
+            <div>
+                <paper-button raised class="centerItem">Edit</paper-button>
+            </div>
+
+            </div>
+        </paper-material> -->
         </div>
 
     </template>

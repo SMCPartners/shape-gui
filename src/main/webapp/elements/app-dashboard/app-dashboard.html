@@ -8,13 +8,13 @@
         }
     </style>
     <template>
+        <paper-button>Organization <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
+        <paper-button>Provider <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
         <paper-tabs selected="{{selected}}">
             <paper-tab>Measure Input</paper-tab>
             <paper-tab>Past Measure Reports</paper-tab>
         </paper-tabs>
-        <paper-button>Organization <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
-        <paper-button>Provider <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
-        <iron-pages selected="{{selected}}">
+                <iron-pages selected="{{selected}}">
             <app-measure-input></app-measure-input>
             <app-history></app-history>
         </iron-pages>
