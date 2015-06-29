@@ -118,36 +118,6 @@
         <div class="pms">
             <paper-material class="pms">
                 <div class="parent">
-                    <div class="child header">NQF 0018​</div>
-                    <div class="child header">Controlling High Blood Pressure</div>
-                    <div class="child">
-                        <paper-icon-button icon="info" on-tap="measureDetail"></paper-icon-button>
-                    </div>
-                </div>
-                <div class="parent">
-                    <div class="fraction child">
-                        <span class="fup">Numerator</span>
-                        <span class="bar">/</span>
-                        <span class="fdn">Denominator</span>
-                    </div>
-                    <div class="child header">=</div>
-                    <div class="fraction child">
-                        <span class="fup">51</span>
-                        <span class="bar">/</span>
-                        <span class="fdn">100</span>
-                    </div>
-                    <div class="child">
-                        <img src="http://www.clipart-box.com/images/circle-graphic.jpg">
-                    </div>
-                    <div class="child">
-                        <paper-button raised on-tap="editMeasure">Edit</paper-button>
-                    </div>
-                </div>
-            </paper-material>
-        </div>
-        <div class="pms">
-            <paper-material class="pms">
-                <div class="parent">
                     <div class="child header">NQF 0059</div>
                     <div class="child header">Diabetes: HbA1c Poor Control</div>
                     <div class="child">
@@ -185,34 +155,35 @@
             },
             ready: function() {
             },
-            var stratify = {
-                gender1: "Male",
-                gender2: "Female",
-                race1: "African American/Black",
-                race2: "American Indian or Alaska Native",
-                race3: "Asian",
-                race4: "Native Hawaiian or Pacific Islander",
-                race5: "White",
-                race6: "Other",
-                ethnicity1: "Hispanic/Latino",
-                ethnicity2: "Not Hispanic/Latino",
-                age1: "18-44 Years",
-                age2: "45-64 Years",
-                age3: "65-85 Years"
-            },
             buildStratify: function (e) {
-                for (i = 0; i < stratify.length; i++)
+                var stratify = {
+                    gender1: "Male",
+                    gender2: "Female",
+                    race1: "African American/Black",
+                    race2: "American Indian or Alaska Native",
+                    race3: "Asian",
+                    race4: "Native Hawaiian or Pacific Islander",
+                    race5: "White",
+                    race6: "Other",
+                    ethnicity1: "Hispanic/Latino",
+                    ethnicity2: "Not Hispanic/Latino",
+                    age1: "18-44 Years",
+                    age2: "45-64 Years",
+                    age3: "65-85 Years"
+                };
+                console.log(stratify);
+            for (i = 0; i < stratify.length; i++)
                 {
-                    document.write(
-                    "<div class="parent">
-                        <div class="child modalSection double">"stratify.i"</div>
-                        <div class="child single">
-                            <paper-input label="Numerator"></paper-input>
+                    document.write("<h1>Hello</h1>")
+                    /*"<div class='parent'>
+                        <div class='child modalSection double'>'stratify.i'</div>
+                        <div class='child single'>
+                            <paper-input label='Numerator'></paper-input>
                         </div>
-                        <div class="child single">
-                            <paper-input label="Denominator"></paper-input>
+                        <div class='child single'>
+                            <paper-input label='Denominator'></paper-input>
                         </div>
-                    </div>")
+                    </div>"*/
                 }
                 console.log("I'm calling the function")
             }
