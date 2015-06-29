@@ -1,0 +1,32 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+<dom-module id="app-measure-input">
+    <style>
+        .pms {
+        @apply(--pm-style)
+        };
+
+    </style>
+    <template is="dom-bind">
+        <div class="pms">
+            <paper-dialog attr-for-selected="data-route" selected="{{route}}">
+                <paper-dialog-scrollable data-route="fieldentry">
+                Stuff Stuff Stuff
+                </paper-dialog-scrollable>
+            </paper-dialog>
+        </div>
+
+
+
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-fieldentry',
+            properties: {
+            },
+        });
+    })();
+</script>

@@ -1,75 +1,321 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
+<link rel="import" href="../paper-styles/paper-styles.html">
+<link rel="import" href="../iron-overlay-behavior/iron-overlay-behavior.html">
 
 <dom-module id="app-measure-input">
     <style>
         .pms {
             @apply(--pm-style)
         };
-        .rowItem {
+        .child {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: center;
+        };
+        .parent {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-content: space-between;
+            align-items: flex-start;
+        };
+        .parenttwo {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: space-between;
+            align-items: flex-start;
+        };
+        .fraction {
             display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            letter-spacing: 0.001em;
+            text-align: center;
+            font-size: 36px;
         };
-        .centerItem {
-            margin: 0 auto;
+        .fraction > span {
+            display: block;
+            padding: 0.1em;
         };
-        .rightItem {
-            flex-basis: auto;
+        .fraction span.fdn {
+            border-top: thin solid black;
         };
-        .leftItem {
-            position: absolute;
+        .fraction span.bar {
+            display: none;
         };
-        .nqf-id {
-            margin-left: 10%;
-            width: 100%;
+        .header {
+            font-size: 36px;
+        };
+        .modalHeader {
+            align: center;
+        };
+        .modalSection {
+            font-size: 20px;
+        };
+        .leader {
+            border-color: black;
+        };
+        .double {
+            flex: 2 2;
+        };
+        .single {
+            flex: 1 1;
+        };
+        :host {
+        display: block;
+        margin: 24px 40px;
+
+        background: var(--paper-dialog-background-color, --primary-background-color);
+        color: var(--paper-dialog-color, --primary-text-color);
+
+        @apply(--layout-scroll);
+        @apply(--paper-font-body1);
+        @apply(--shadow-elevation-16dp);
+        @apply(--paper-dialog);
         }
-        
+
+        :host > ::content > * {
+        margin-top: 20px;
+        padding: 0 24px;
+        }
+
+        :host > ::content > .no-padding {
+        padding: 0;
+        }
+
+        :host > ::content > *:first-child {
+        margin-top: 24px;
+        }
+
+        :host > ::content > *:last-child {
+        margin-bottom: 24px;
+        }
+
+        :host > ::content h2 {
+        position: relative;
+        margin: 0;
+        @apply(--paper-font-title);
+
+        @apply(--paper-dialog-title);
+        }
+
+        :host > ::content .buttons {
+        position: relative;
+        padding: 8px 8px 8px 24px;
+        margin: 0;
+
+        color: var(--paper-dialog-button-color, --default-primary-color);
+
+        @apply(--layout-horizontal);
+        @apply(--layout-end-justified);
+        }
     </style>
     <template is="dom-bind">
         <div class="pms">
-        <paper-material class="pms">
-            <div class="measure-container">
-                <div class="container">
-                    <div class="bobtwo rowItem leftItem pull-left" align="left">
-                        <paper-button background-color="blue" raised>Info</paper-button>
-                        <div class="nqf-id">NQF 0018</div>
+            <paper-material class="pms">
+                <div class="parent">
+                    <div class="child header">NQF 0018​</div>
+                    <div class="child header">Controlling High Blood Pressure</div>
+                    <div class="child">
+                        <paper-icon-button icon="info" on-tap="measureDetail"></paper-icon-button>
                     </div>
-                    <div class="rowItem centerItem Bob" align="middle">Controlling High Blood Pressure</div>
                 </div>
-                <br/>
-                <div>
-                    <div class="rowItem">Numerator</div>
-                    <paper-spinner active="false" class="rowItem"></paper-spinner>
+                <div class="parent">
+                    <div class="fraction child">
+                        <span class="fup">Numerator</span>
+                        <span class="bar">/</span>
+                        <span class="fdn">Denominator</span>
+                    </div>
+                    <div class="child header">=</div>
+                    <div class="fraction child">
+                        <span class="fup">51</span>
+                        <span class="bar">/</span>
+                        <span class="fdn">100</span>
+                    </div>
+                    <div class="child">
+                        <img src="http://www.clipart-box.com/images/circle-graphic.jpg">
+                    </div>
+                    <div class="child">
+                        <paper-button raised on-tap="editMeasure">Edit</paper-button>
+                    </div>
                 </div>
-                <br/>
-                <div>
-                    <paper-button raised class="button">Edit</paper-button>
-                </div>
-            </div>
-        </paper-material>
-        <!--<paper-material class="pms">
-            <div>
-
-            <div>
-                <div class="rowItem leftItem">Test</div>
-                <div class="rowItem centerItem">Another Test</div>
-                <div class="rowItem rightItem">
-                    <paper-icon-button icon="Settings"></paper-icon-button>
-                </div>
-            </div>
-            <div>
-                <div class="rowItem leftItem">Numerator/Denominator</div>
-                <div class="rowItem centerItem">51/100</div>
-                <div class="rowItem rightItem">
-                    <paper-icon-button icon="Home"></paper-icon-button>
-                </div>
-            </div>
-            <div>
-                <paper-button raised class="centerItem">Edit</paper-button>
-            </div>
-
-            </div>
-        </paper-material> -->
+            </paper-material>
         </div>
+        <div class="pms">
+            <paper-material class="pms">
+                <div class="parent">
+                    <div class="child header">NQF 0059</div>
+                    <div class="child header">Diabetes: HbA1c Poor Control</div>
+                    <div class="child">
+                        <paper-icon-button icon="info" on-tap="measureDetail"></paper-icon-button>
+                    </div>
+                </div>
+                <div class="parent">
+                    <div class="fraction child">
+                        <span class="fup">Numerator</span>
+                        <span class="bar">/</span>
+                        <span class="fdn">Denominator</span>
+                    </div>
+                    <div class="child header">=</div>
+                    <div class="fraction child">
+                        <span class="fup">63</span>
+                        <span class="bar">/</span>
+                        <span class="fdn">100</span>
+                    </div>
+                    <div class="child">
+                        <img src="http://www.clipart-box.com/images/circle-graphic.jpg">
+                    </div>
+                    <div class="child">
+                        <paper-button raised on-tap="editMeasure">Edit</paper-button>
+                    </div>
+                </div>
+            </paper-material>
+        </div>
+        <paper-dialog id="edit">
+            <h2 class="modalHeader">Controlling High Blood Pressure</h2>
+            <paper-dialog-scrollable elevation="0">
+                <div>
+                      <div class="parenttwo">
+                          <div class="child">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent leader">
+                          <div class="child modalSection double">Male</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent">
+                          <div class="child modalSection double">Female</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent leader">
+                          <div class="child modalSection double">African American/Black</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent">
+                          <div class="child modalSection double">American Indian or Alaska Native</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent">
+                          <div class="child modalSection double">Asian</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent">
+                          <div class="child modalSection double">Native Hawaiian or Pacific Islander</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent">
+                          <div class="child modalSection double">White</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent">
+                          <div class="child modalSection double">Other</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent leader">
+                          <div class="child modalSection double">Hispanic/Latino</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent">
+                          <div class="child modalSection double">Not Hispanic/Latino</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent leader">
+                          <div class="child modalSection double">18-44 Years</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent">
+                          <div class="child modalSection double">45-64 Years</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                      <div class="parent">
+                          <div class="child modalSection double">65-85 Years</div>
+                          <div class="child single">
+                              <paper-input label="Numerator"></paper-input>
+                          </div>
+                          <div class="child single">
+                              <paper-input label="Denominator"></paper-input>
+                          </div>
+                      </div>
+                </div>
+            </paper-dialog-scrollable>
+            <div class="parenttwo">
+                <paper-button raised class="child">Submit</paper-button>
+                <paper-button raised class="child">Cancel</paper-button>
+            </div>
+        </paper-dialog>
+        <paper-dialog id="info">
+            <paper-dialog-scrollable>
+                Info Info Info
+            </paper-dialog-scrollable>
+        </paper-dialog>
 
     </template>
 </dom-module>
@@ -80,7 +326,15 @@
             properties: {
             },
             ready: function() {
-            }
+            },
+            editMeasure: function (e) {
+                this.$.edit.toggle();
+                console.log("It worked for Edit!");
+            },
+            measureDetail: function (e) {
+                this.$.info.toggle();
+                console.log("It worked for Info!");
+            },
         });
     })();
 </script>
