@@ -1,0 +1,254 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+<dom-module id="app-demographic-input">
+    <style>
+        .pms {
+            @apply(--pm-style)
+        };
+        .child {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: center;
+        };
+        .parent {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-between;
+            align-items: flex-start;
+        };
+        .parenttwo {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: space-between;
+            align-items: flex-start;
+        };
+        .fraction {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            letter-spacing: 0.001em;
+            text-align: center;
+            font-size: 36px;
+        };
+        .fraction > span {
+            display: block;
+            padding: 0.1em;
+        };
+        .fraction span.fdn {
+            border-top: thin solid black;
+        };
+        .fraction span.bar {
+            display: none;
+        };
+        .header {
+            font-size: 36px;
+        };
+        .modalHeader {
+            align: center;
+        };
+        .modalSection {
+            font-size: 20px;
+        };
+        .leader {
+            border-color: black;
+        };
+        .double {
+            flex: 2 2;
+        };
+        .single {
+            flex: 1 1;
+        };
+        .modalBox {
+            width: 70%;
+            height: 70%;
+        };
+    </style>
+    <template>
+        <paper-dialog id="testDemIn">
+            <div class="parenttwo">
+                <h2 class="child">Controlling High Blood Pressure</h2>
+            </div>
+            <paper-dialog-scrollable  elevation="1">
+                <div>
+                    <div class="parenttwo">
+                        <div class="child">
+                            <paper-input label="Numerator" id="mainNum"></paper-input>
+                        </div>
+                        <div class="child">
+                            <paper-input label="Denominator" id="mainDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent leader">
+                        <div class="child modalSection double">Male</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="maleNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="maleDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent">
+                        <div class="child modalSection double">Female</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="femaleNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="femaleDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent leader">
+                        <div class="child modalSection double">African American/Black</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="blackNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="blackDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent">
+                        <div class="child modalSection double">American Indian or Alaska Native</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="indianNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="indianDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent">
+                        <div class="child modalSection double">Asian</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="asianNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="asianDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent">
+                        <div class="child modalSection double">Native Hawaiian or Pacific Islander</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="hawaiianNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="hawaiianDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent">
+                        <div class="child modalSection double">White</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="whiteNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="whiteDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent">
+                        <div class="child modalSection double">Other</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="otherNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="otherDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent leader">
+                        <div class="child modalSection double">Hispanic/Latino</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="hispanicNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="hispanicDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent">
+                        <div class="child modalSection double">Not Hispanic/Latino</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="notHispanicNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="notHispanicDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent leader">
+                        <div class="child modalSection double">18-44 Years</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="eighteenNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="eighteenDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent">
+                        <div class="child modalSection double">45-64 Years</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="fortyFiveNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="fortyFiveDen"></paper-input>
+                        </div>
+                    </div>
+                    <div class="parent">
+                        <div class="child modalSection double">65-85 Years</div>
+                        <div class="child single">
+                            <paper-input label="Numerator" id="sixtyFiveNum"></paper-input>
+                        </div>
+                        <div class="child single">
+                            <paper-input label="Denominator" id="sixtyFiveDen"></paper-input>
+                        </div>
+                    </div>
+                </div>
+            </paper-dialog-scrollable>
+            <div class="parenttwo">
+                <paper-button raised class="child" on-tap="logNumbers">Submit</paper-button>
+                <paper-button raised class="child">Cancel</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-demographic-input',
+            properties: {
+            },
+            logNumbers: function (e) {
+                var formSubmit = {
+                mainNum: mainNum.value,
+                mainDen: mainDen.value,
+                maleNum: maleNum.value,
+                maleDen: maleDen.value,
+                femaleNum: femaleNum.value,
+                femaleDen: femaleDen.value,
+                blackNum: blackNum.value,
+                blackDen: blackDen.value,
+                indianNum: indianNum.value,
+                indianDen: indianDen.value,
+                asianNum: asianNum.value,
+                asianDen: asianDen.value,
+                hawaiianNum: hawaiianNum.value,
+                hawaiianDen: hawaiianDen.value,
+                whiteNum: whiteNum.value,
+                whiteDen: whiteDen.value,
+                otherNum: otherNum.value,
+                otherDen: otherDen.value,
+                hispanicNum: hispanicNum.value,
+                hispanicDen: hispanicDen.value,
+                notHispanicNum: notHispanicNum.value,
+                notHispanicDen: notHispanicDen.value,
+                eighteenNum: eighteenNum.value,
+                eighteenDen: eighteenDen.value,
+                fortyFiveNum: fortyFiveNum.value,
+                fortyFiveDen: fortyFiveDen.value,
+                sixtyFiveNum: sixtyFiveNum.value,
+                sixtyFiveDen: sixtyFiveDen.value
+                };
+                this.$.testDemIn.toggle();
+                console.log(formSubmit)
+            },
+        });
+    })();
+</script>
