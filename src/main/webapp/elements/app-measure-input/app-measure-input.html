@@ -17,7 +17,7 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: space-around;
             align-content: space-between;
             align-items: flex-start;
         };
@@ -65,57 +65,19 @@
         .single {
             flex: 1 1;
         };
-        :host {
-        display: block;
-        margin: 24px 40px;
-
-        background: var(--paper-dialog-background-color, --primary-background-color);
-        color: var(--paper-dialog-color, --primary-text-color);
-
-        @apply(--layout-scroll);
-        @apply(--paper-font-body1);
-        @apply(--shadow-elevation-16dp);
-        @apply(--paper-dialog);
-        }
-
-        :host > ::content > * {
-        margin-top: 20px;
-        padding: 0 24px;
-        }
-
-        :host > ::content > .no-padding {
-        padding: 0;
-        }
-
-        :host > ::content > *:first-child {
-        margin-top: 24px;
-        }
-
-        :host > ::content > *:last-child {
-        margin-bottom: 24px;
-        }
-
-        :host > ::content h2 {
-        position: relative;
-        margin: 0;
-        @apply(--paper-font-title);
-
-        @apply(--paper-dialog-title);
-        }
-
-        :host > ::content .buttons {
-        position: relative;
-        padding: 8px 8px 8px 24px;
-        margin: 0;
-
-        color: var(--paper-dialog-button-color, --default-primary-color);
-
-        @apply(--layout-horizontal);
-        @apply(--layout-end-justified);
-        }
+        .modalBox {
+        position: fixed;
+        width: 70%;
+        height: 70%;
+        top: 0;
+        right: 0;
+        bottom: auto;
+        left: 0;
+        margin: 0px !important;
+        };
     </style>
     <template is="dom-bind">
-        <div class="pms">
+
             <paper-material class="pms">
                 <div class="parent">
                     <div class="child header">NQF 0018​</div>
@@ -144,8 +106,8 @@
                     </div>
                 </div>
             </paper-material>
-        </div>
-        <div class="pms">
+
+
             <paper-material class="pms">
                 <div class="parent">
                     <div class="child header">NQF 0059</div>
@@ -174,143 +136,164 @@
                     </div>
                 </div>
             </paper-material>
-        </div>
-        <paper-dialog-impl id="edit">
-            <h2 class="modalHeader">Controlling High Blood Pressure</h2>
-            <paper-dialog-scrollable elevation="0">
+
+       <paper-dialog class="modalBox" id="edit">
+            <div class="parenttwo">
+                <h2 class="child">Controlling High Blood Pressure</h2>
+            </div>
+            <paper-dialog-scrollable  style="max-height: 70%;" elevation="1">
                 <div>
                       <div class="parenttwo">
                           <div class="child">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="mainNum"></paper-input>
                           </div>
                           <div class="child">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="mainDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent leader">
                           <div class="child modalSection double">Male</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="maleNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="maleDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent">
                           <div class="child modalSection double">Female</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="femaleNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="femaleDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent leader">
                           <div class="child modalSection double">African American/Black</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="blackNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="blackDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent">
                           <div class="child modalSection double">American Indian or Alaska Native</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="indianNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="indianDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent">
                           <div class="child modalSection double">Asian</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="asianNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="asianDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent">
                           <div class="child modalSection double">Native Hawaiian or Pacific Islander</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="hawaiianNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="hawaiianDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent">
                           <div class="child modalSection double">White</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="whiteNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="whiteDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent">
                           <div class="child modalSection double">Other</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="otherNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="otherDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent leader">
                           <div class="child modalSection double">Hispanic/Latino</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="hispanicNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="hispanicDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent">
                           <div class="child modalSection double">Not Hispanic/Latino</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="notHispanicNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="notHispanicDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent leader">
                           <div class="child modalSection double">18-44 Years</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="eighteenNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="eighteenDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent">
                           <div class="child modalSection double">45-64 Years</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="fortyFiveNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="fortyFiveDen"></paper-input>
                           </div>
                       </div>
                       <div class="parent">
                           <div class="child modalSection double">65-85 Years</div>
                           <div class="child single">
-                              <paper-input label="Numerator"></paper-input>
+                              <paper-input label="Numerator" id="sixtyFiveNum"></paper-input>
                           </div>
                           <div class="child single">
-                              <paper-input label="Denominator"></paper-input>
+                              <paper-input label="Denominator" id="sixtyFiveDen"></paper-input>
                           </div>
                       </div>
                 </div>
             </paper-dialog-scrollable>
             <div class="parenttwo">
-                <paper-button raised class="child">Submit</paper-button>
+                <paper-button raised class="child" on-tap="logNumbers">Submit</paper-button>
                 <paper-button raised class="child">Cancel</paper-button>
             </div>
-        </paper-dialog-impl>
+        </paper-dialog>
+        <!--  <section>
+         <paper-dialog role="dialog" id="edit">
+             <h2>Scrolling</h2>
+             <paper-dialog-scrollable>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+             </paper-dialog-scrollable>
+             <div class="buttons">
+                 <paper-button dialog-dismiss>Cancel</paper-button>
+                 <paper-button dialog-confirm autofocus>OK</paper-button>
+             </div>
+         </paper-dialog>
+         </section> -->
         <paper-dialog id="info">
             <paper-dialog-scrollable>
                 Info Info Info
@@ -334,6 +317,40 @@
             measureDetail: function (e) {
                 this.$.info.toggle();
                 console.log("It worked for Info!");
+            },
+            logNumbers: function (e) {
+                var formSubmit = {
+                mainNum: mainNum.value,
+                mainDen: mainDen.value,
+                maleNum: maleNum.value,
+                maleDen: maleDen.value,
+                femaleNum: femaleNum.value,
+                femaleDen: femaleDen.value,
+                blackNum: blackNum.value,
+                blackDen: blackDen.value,
+                indianNum: indianNum.value,
+                indianDen: indianDen.value,
+                asianNum: asianNum.value,
+                asianDen: asianDen.value,
+                hawaiianNum: hawaiianNum.value,
+                hawaiianDen: hawaiianDen.value,
+                whiteNum: whiteNum.value,
+                whiteDen: whiteDen.value,
+                otherNum: otherNum.value,
+                otherDen: otherDen.value,
+                hispanicNum: hispanicNum.value,
+                hispanicDen: hispanicDen.value,
+                notHispanicNum: notHispanicNum.value,
+                notHispanicDen: notHispanicDen.value,
+                eighteenNum: eighteenNum.value,
+                eighteenDen: eighteenDen.value,
+                fortyFiveNum: fortyFiveNum.value,
+                fortyFiveDen: fortyFiveDen.value,
+                sixtyFiveNum: sixtyFiveNum.value,
+                sixtyFiveDen: sixtyFiveDen.value
+                };
+                this.$.edit.toggle();
+                console.log(formSubmit)
             },
         });
     })();

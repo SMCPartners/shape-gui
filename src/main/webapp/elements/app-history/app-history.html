@@ -1,7 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
-<link rel="import" href="../paper-styles/paper-styles.html">
-<link rel="import" href="../iron-overlay-behavior/iron-overlay-behavior.html">
+
 
 <dom-module id="app-history">
     <style>
@@ -65,60 +64,14 @@
         .single {
         flex: 1 1;
         };
-        :host {
-        display: block;
-        margin: 24px 40px;
 
-        background: var(--paper-dialog-background-color, --primary-background-color);
-        color: var(--paper-dialog-color, --primary-text-color);
-
-        @apply(--layout-scroll);
-        @apply(--paper-font-body1);
-        @apply(--shadow-elevation-16dp);
-        @apply(--paper-dialog);
-        }
-
-        :host > ::content > * {
-        margin-top: 20px;
-        padding: 0 24px;
-        }
-
-        :host > ::content > .no-padding {
-        padding: 0;
-        }
-
-        :host > ::content > *:first-child {
-        margin-top: 24px;
-        }
-
-        :host > ::content > *:last-child {
-        margin-bottom: 24px;
-        }
-
-        :host > ::content h2 {
-        position: relative;
-        margin: 0;
-        @apply(--paper-font-title);
-
-        @apply(--paper-dialog-title);
-        }
-
-        :host > ::content .buttons {
-        position: relative;
-        padding: 8px 8px 8px 24px;
-        margin: 0;
-
-        color: var(--paper-dialog-button-color, --default-primary-color);
-
-        @apply(--layout-horizontal);
-        @apply(--layout-end-justified);
-        }
     </style>
-    <template is="dom-bind">
-        <div class="pms">
+    <template>
+        <template is="dom-bind">
+            <div class="pms">
             <paper-material class="pms">
                 <div class="parent">
-                    <div class="child header">NQF 0059</div>
+                    <div class="child header">{{owner}}</div>
                     <div class="child header">Diabetes: HbA1c Poor Control</div>
                     <div class="child">
                         <paper-icon-button icon="info" on-tap="buildStratify"></paper-icon-button>
@@ -145,6 +98,7 @@
                 </div>
             </paper-material>
         </div>
+        </template>
     </template>
 </dom-module>
 <script>
@@ -152,11 +106,12 @@
         Polymer({
             is: 'app-history',
             properties: {
-            },
-            ready: function() {
-            },
-            buildStratify: function (e) {
-                var stratify = {
+              owner : {
+                    type: String,
+                    value: 'Daniel',
+                    notify: true
+                }
+                /*stratify: {
                     gender1: "Male",
                     gender2: "Female",
                     race1: "African American/Black",
@@ -170,12 +125,20 @@
                     age1: "18-44 Years",
                     age2: "45-64 Years",
                     age3: "65-85 Years"
-                };
+                };*/
+
+            },
+            ready: function() {
+                this.owner="it is here";
+
+            },
+            /*buildStratify: function (e) {
+
                 console.log(stratify);
             for (i = 0; i < stratify.length; i++)
                 {
                     document.write("<h1>Hello</h1>")
-                    /*"<div class='parent'>
+                    "<div class='parent'>
                         <div class='child modalSection double'>'stratify.i'</div>
                         <div class='child single'>
                             <paper-input label='Numerator'></paper-input>
@@ -183,10 +146,10 @@
                         <div class='child single'>
                             <paper-input label='Denominator'></paper-input>
                         </div>
-                    </div>"*/
+                    </div>"
                 }
                 console.log("I'm calling the function")
-            }
+            }*/
         });
     })();
 </script>
