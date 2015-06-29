@@ -102,7 +102,7 @@
                         <img src="http://www.clipart-box.com/images/circle-graphic.jpg">
                     </div>
                     <div class="child">
-                        <paper-button raised on-tap="editMeasure">Edit</paper-button>
+                        <paper-button raised on-tap="editMeasure" id="b1">Edit</paper-button>
                     </div>
                 </div>
             </paper-material>
@@ -307,12 +307,14 @@
         Polymer({
             is: 'app-measure-input',
             properties: {
+                currentMeasure: String
             },
             ready: function() {
             },
             editMeasure: function (e) {
                 this.$.edit.toggle();
-                console.log("It worked for Edit!");
+                var nMeasure = e.currentTarget.id;
+                console.log(nMeasure);
             },
             measureDetail: function (e) {
                 this.$.info.toggle();

@@ -67,38 +67,36 @@
 
     </style>
     <template>
-        <template is="dom-bind">
             <div class="pms">
-            <paper-material class="pms">
-                <div class="parent">
-                    <div class="child header">{{owner}}</div>
-                    <div class="child header">Diabetes: HbA1c Poor Control</div>
-                    <div class="child">
-                        <paper-icon-button icon="info" on-tap="buildStratify"></paper-icon-button>
+                <paper-material class="pms">
+                    <div class="parent">
+                        <div class="child header">{{owner}}</div>
+                        <div class="child header">Diabetes: HbA1c Poor Control</div>
+                        <div class="child">
+                            <paper-icon-button icon="info" on-tap="buildStratify"></paper-icon-button>
+                        </div>
                     </div>
-                </div>
-                <div class="parent">
-                    <div class="fraction child">
-                        <span class="fup">Numerator</span>
-                        <span class="bar">/</span>
-                        <span class="fdn">Denominator</span>
+                    <div class="parent">
+                        <div class="fraction child">
+                            <span class="fup">Numerator</span>
+                            <span class="bar">/</span>
+                            <span class="fdn">Denominator</span>
+                        </div>
+                        <div class="child header">=</div>
+                        <div class="fraction child">
+                            <span class="fup">63</span>
+                            <span class="bar">/</span>
+                            <span class="fdn">100</span>
+                        </div>
+                        <div class="child">
+                            <img src="http://www.clipart-box.com/images/circle-graphic.jpg">
+                        </div>
+                        <div class="child">
+                            <paper-button raised>Edit</paper-button>
+                        </div>
                     </div>
-                    <div class="child header">=</div>
-                    <div class="fraction child">
-                        <span class="fup">63</span>
-                        <span class="bar">/</span>
-                        <span class="fdn">100</span>
-                    </div>
-                    <div class="child">
-                        <img src="http://www.clipart-box.com/images/circle-graphic.jpg">
-                    </div>
-                    <div class="child">
-                        <paper-button raised>Edit</paper-button>
-                    </div>
-                </div>
-            </paper-material>
-        </div>
-        </template>
+                </paper-material>
+            </div>
     </template>
 </dom-module>
 <script>
@@ -152,4 +150,5 @@
             }*/
         });
     })();
+
 </script>
