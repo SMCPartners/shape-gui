@@ -1,0 +1,162 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+<script src="js/sorttable.js"></script>
+
+<dom-module id="app-admin-panel-user">
+    <style>
+        .pms {
+        @apply(--pm-style)
+        };
+
+        th {
+        text-align: left
+        };
+
+        .fraction {
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        letter-spacing: 0.001em;
+        text-align: center;
+        font-size: 36px;
+        };
+
+        .fraction > span {
+        display: block;
+        padding: 0.1em;
+        };
+
+        .fraction span.fdn {
+        border-top: thin solid black;
+        };
+
+        .fraction span.bar {
+        display: none;
+        };
+
+        .header {
+        font-size: 36px;
+        };
+
+        .modalHeader {
+        align: center;
+        };
+
+        .modalSection {
+        font-size: 20px;
+        };
+
+        .leader {
+        border-color: black;
+        };
+
+        .double {
+        flex: 2 2;
+        };
+
+        .single {
+        flex: 1 1;
+        };
+
+        .modalBox {
+        position: fixed;
+        width: 70%;
+        height: 70%;
+        top: 0;
+        right: 0;
+        bottom: auto;
+        left: 0;
+        margin: 0px !important;
+        };
+
+    </style>
+    <template>
+        <table class="sortable" style= "width:100%">
+            <thead>
+            <th>User</th>
+            <th>Organization</th>
+            <th>Provider</th>
+            <th>Measure</th>
+            </thead>
+            <tbody>
+            <tr>
+                <div align="left">
+                    <td>JSmith</td>
+                    <td>John Smith</td>
+                    <td>Org User</td>
+                    <td>Assigned</td>
+                    <td>
+                        <div class="child">
+                            <paper-button raised on-tap="editUserRegistration">Edit Registration</paper-button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="child">
+                            <paper-button raised on-tap="editUserPermissions">Edit Permissions</paper-button>
+                        </div>
+                    </td>
+                </div>
+            </tr>
+            <tr>
+                <div align="left">
+                    <td>BDoe</td>
+                    <td>Ben Doe</td>
+                    <td>Assigned</td>
+                    <td>ProHealth</td>
+                    <td>
+                        <div class="child">
+                            <paper-button raised on-tap="editUserRegistration">Edit Registration</paper-button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="child">
+                            <paper-button raised on-tap="editUserPermissions">Edit Permissions</paper-button>
+                        </div>
+                    </td>
+                </div>
+            </tr>
+            </tbody>
+        </table>
+        <!--<paper-material class="pms">
+            <div class="parent">
+                <div class="child">Username​</div>
+                <div class="child">Name</div>
+                <div class="child">Type</div>
+                <div class="child">Assigned</div>
+                <div class="child>"></div>
+                <div class="child>"></div>
+            </div>
+            <div class="parenttwo">
+                <div class="child">Jsmith</div>
+                <div class="child">John Smith</div>
+                <div class="child">Org User</div>
+                <div class="child">ProHealth</div>
+                <div class="childtwo">
+                    <paper-button raised on-tap="editUserRegistration">Edit Registration</paper-button>
+                    <paper-button raised on-tap="editUserPermissions">Edit Permissions</paper-button>
+                </div>
+            </div>
+            <div class="parenttwo">
+                <div class="child">BDoe</div>
+                <div class="child">Betty Doe</div>
+                <div class="child">Org User</div>
+                <div class="child">ProHealth</div>
+                <div class="childtwo">
+                    <paper-button raised on-tap="editUserRegistration">Edit Registration</paper-button>
+                    <paper-button raised on-tap="editUserPermissions">Edit Permissions</paper-button>
+                </div>
+            </div>
+        </paper-material>-->
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-admin-panel-user',
+            properties: {
+            },
+            ready: function() {
+            }
+        });
+    })();
+</script>

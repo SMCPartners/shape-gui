@@ -9,13 +9,18 @@
         }
     </style>
     <template>
-        <div class="pms">
-            <paper-material elevation="1">
-                <h2 class="paper-font-display2">This is the admin page</h2>
-
-            </paper-material>
-        </div>
-
+            <paper-tabs selected="{{selected}}">
+                <paper-tab>User</paper-tab>
+                <paper-tab>Provider</paper-tab>
+                <paper-tab>Organization</paper-tab>
+                <paper-tab>Measure</paper-tab>
+            </paper-tabs>
+            <iron-pages selected="{{selected}}">
+                <app-admin-panel-user></app-admin-panel-user>
+                <app-admin-panel-provider></app-admin-panel-provider>
+                <app-admin-panel-organization></app-admin-panel-organization>
+                <app-admin-panel-measure></app-admin-panel-measure>
+            </iron-pages>
     </template>
 </dom-module>
 <script>
