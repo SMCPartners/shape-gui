@@ -5,9 +5,11 @@
       }
     </style>
   <template>
+      <providers-ctrl id="get_dem_providers"></providers-ctrl>
     <ul>
-      <template is="dom-repeat" items="{{items}}">
-        <li><span class="paper-font-body1">{{item}}</span></li>
+      <span>{{items}}</span>
+      <template is="dom-repeat" items="{{providers}}">
+        <li><span class="paper-font-body1">{{item.title}}</span></li>
       </template>
     </ul>
   </template>
@@ -18,21 +20,35 @@
       Polymer({
         is: 'my-list',
         properties: {
-          items: {
+          providers: {
             type: Array,
-            notify: true,
+            notify: true
           }
         },
+        handleResponse: function(request) {
+            console.log(typeof(request.detail.response))
+            this.providers = request.detail.response;
+            console.log("after");
+        },
         ready: function() {
-        this.items = [
-            'Responsive Web App boilerplate',
-            'Iron Elements and Paper Elements',
-            'End-to-end Build Tooling (including Vulcanize)',
-            'Unit testing with Web Component Tester',
-            'Routing with Page.js',
-            'Offline support with the Platinum Service Worker Elements'
-            ];
-        }
-      });
+            var fooBar = this.$.get_dem_providers;
+            fooBar.onResponseHandler = this.handleResponse;
+
+            fooBar.index();
+
+
+
+            //console.log();
+            //this.items = [
+            //    'Responsive Web App boilerplate',
+            //    'Iron Elements and Paper Elements',
+            //    'End-to-end Build Tooling (including Vulcanize)',
+            //    'Unit testing with Web Component Tester',
+            //    'Routing with Page.js',
+            //    'Offline support with the Platinum Service Worker Elements'
+            //    ];
+            }
+
+        });
     })();
   </script>

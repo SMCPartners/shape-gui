@@ -1,0 +1,94 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements/elements.html">
+
+<dom-module id="providers-ctrl">
+    <style></style>
+    <template>
+        <iron-ajax id='ajaxHandler' on-response="onResponseHandler" handle-as="json"></iron-ajax>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'providers-ctrl',
+
+            properties: {
+                testName: {
+                    type: String,
+                    value: "blah"
+                }
+            },
+            onResponseHandler: function() {
+                return true;
+            },
+            ready: function() {
+            },
+            showModal: function(evt) {
+                testDlg.open();
+            },
+            index: function() {
+                console.log("HAHAHA");
+                this.$.ajaxHandler.url = "http://jsonplaceholder.typicode.com/posts";
+                this.$.ajaxHandler.method = "GET";
+                this.$.ajaxHandler.generateRequest();
+            },
+            show: function(){
+                if(id != null){
+                    this.$.ajaxHandler.url = "/providers/show/" + String(id);
+                    this.$.ajaxHandler.method = "GET";
+                    this.$.ajaxHandler.onResponse = function(request){
+                        return request.detail.response;
+                    };
+                    this.$.ajaxHandler.generateRequest();
+                } else {
+                    return null;
+                }
+            }
+        });
+    })();
+</script>
+<!--
+<script>
+function Provider(){
+    this.create = function(params){
+
+    };
+
+    this.show = function(id){
+        if(id != null){
+            var elem = this.$['ajax-handler'];
+            elem.url = "/providers/show/" + String(this.id);
+            elem.method = "GET";
+            elem.onResponse = function(request){
+                return request.detail.response;
+            };
+            elem.generateRequest();
+        } else {
+            return null;
+        };
+    };
+
+    this.index = function(){
+        var elem = this.$.ajax-handler;
+        elem.url = "/providers/index";
+        elem.method = "GET";
+        elem.onResponse = function(request){
+            return request.detail.response;
+        };
+        elem.generateRequest();
+    };
+
+    this.destroy = function(id){
+        if(id != null){
+            this.$.ajax.url = "/providers/destroy/" + String(id);
+            this.$.ajax.method = "DELETE";
+            this.$.ajax.onResponse = function(request){
+                return request.detail.response;
+            };
+            this.$.ajax.generateRequest();
+        } else {
+            return null;
+        };
+    };
+};
+</script> -->
