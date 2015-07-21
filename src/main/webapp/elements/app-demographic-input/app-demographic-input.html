@@ -73,10 +73,6 @@
             width: 70%;
             height: 70%;
         };
-        .inputField {
-            type: number;
-            errorMessage: "Please Enter a Number";
-        }
     </style>
     <template>
         <paper-dialog id="testDemIn">
@@ -98,25 +94,71 @@
                             Gender
                         </div>
                     </div>
-                    <div class="parent">
-                        <div class="child modalSection double">Male</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="maleNum"></paper-input>
+                    <template is="dom-repeat" items="{{genders}}">
+                        <div class="parent">
+                            <div class="child modalSection double">{{item.strat}}</div>
+                            <div class="child single">
+                                <paper-input type="number" class="inputField" label="Numerator" id="{{item.num}}"></paper-input>
+                            </div>
+                            <div class="child single">
+                                <paper-input type="number" class="inputField" label="Denominator" id="{{item.den}}"></paper-input>
+                            </div>
                         </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="maleDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">Female</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="femaleNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="femaleDen"></paper-input>
-                        </div>
-                    </div>
+                    </template>
                     <div class="parenttwo">
+                        <div class="leader">
+                            Age
+                        </div>
+                    </div>
+                    <template is="dom-repeat" items="{{ages}}">
+                        <div class="parent">
+                            <div class="child modalSection double">{{item.strat}}</div>
+                            <div class="child single">
+                                <paper-input type="number" class="inputField" label="Numerator" id="{{item.num}}"></paper-input>
+                            </div>
+                            <div class="child single">
+                                <paper-input type="number" class="inputField" label="Denominator" id="{{item.den}}"></paper-input>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="parenttwo">
+                        <div class="leader">
+                            Ethnicity
+                        </div>
+                    </div>
+                    <template is="dom-repeat" items="{{ethnicities}}">
+                        <div class="parent">
+                            <div class="child modalSection double">{{item.strat}}</div>
+                            <div class="child single">
+                                <paper-input type="number" class="inputField" label="Numerator" id="{{item.num}}"></paper-input>
+                            </div>
+                            <div class="child single">
+                                <paper-input type="number" class="inputField" label="Denominator" id="{{item.den}}"></paper-input>
+                            </div>
+                        </div>
+                    </template>
+                    <div class="parenttwo">
+                        <div class="leader">
+                            Race
+                        </div>
+                    </div>
+                    <template is="dom-repeat" items="{{races}}">
+                        <div class="parent">
+                            <div class="child modalSection double">{{item.strat}}</div>
+                            <div class="child single">
+                                <paper-input type="number" class="inputField" label="Numerator" id="{{item.num}}"></paper-input>
+                            </div>
+                            <div class="child single">
+                                <paper-input type="number" class="inputField" label="Denominator" id="{{item.den}}"></paper-input>
+                            </div>
+                        </div>
+                    </template>
+
+
+
+
+
+                    <!--div class="parenttwo">
                         <div class="leader">
                             Race
                         </div>
@@ -221,7 +263,7 @@
                             <paper-input type="number" class="inputField" label="Denominator" id="fortyFiveDen"></paper-input>
                         </div>
                     </div>
-                    <div class="parent">
+                    <div-- class="parent">
                         <div class="child modalSection double">65-85 Years</div>
                         <div class="child single">
                             <paper-input type="number" class="inputField" label="Numerator" id="sixtyFiveNum"></paper-input>
@@ -229,7 +271,7 @@
                         <div class="child single">
                             <paper-input type="number" class="inputField" label="Denominator" id="sixtyFiveDen"></paper-input>
                         </div>
-                    </div>
+                    </div-->
                 </div>
             </paper-dialog-scrollable>
             <div class="parenttwo">
@@ -244,49 +286,72 @@
         Polymer({
             is: 'app-demographic-input',
             properties: {
-            },
-            logNumbers: function (e) {
-                var formSubmit = {
-                mainNum: mainNum.value,
-                mainDen: mainDen.value,
-                maleNum: maleNum.value,
-                maleDen: maleDen.value,
-                femaleNum: femaleNum.value,
-                femaleDen: femaleDen.value,
-                blackNum: blackNum.value,
-                blackDen: blackDen.value,
-                indianNum: indianNum.value,
-                indianDen: indianDen.value,
-                asianNum: asianNum.value,
-                asianDen: asianDen.value,
-                hawaiianNum: hawaiianNum.value,
-                hawaiianDen: hawaiianDen.value,
-                whiteNum: whiteNum.value,
-                whiteDen: whiteDen.value,
-                otherNum: otherNum.value,
-                otherDen: otherDen.value,
-                hispanicNum: hispanicNum.value,
-                hispanicDen: hispanicDen.value,
-                notHispanicNum: notHispanicNum.value,
-                notHispanicDen: notHispanicDen.value,
-                eighteenNum: eighteenNum.value,
-                eighteenDen: eighteenDen.value,
-                fortyFiveNum: fortyFiveNum.value,
-                fortyFiveDen: fortyFiveDen.value,
-                sixtyFiveNum: sixtyFiveNum.value,
-                sixtyFiveDen: sixtyFiveDen.value
-                };
-                for (var i in formSubmit)
-                {
-                    if (formSubmit[i].length <= 0)
-                    {
-                    return(i)
+                logNumbers: function (e) {
+                    var formSubmit = {
+                    mainNum: mainNum.value,
+                    mainDen: mainDen.value,
+                    maleNum: maleNum.value,
+                    maleDen: maleDen.value,
+                    femaleNum: femaleNum.value,
+                    femaleDen: femaleDen.value,
+                    blackNum: blackNum.value,
+                    blackDen: blackDen.value,
+                    indianNum: indianNum.value,
+                    indianDen: indianDen.value,
+                    asianNum: asianNum.value,
+                    asianDen: asianDen.value,
+                    hawaiianNum: hawaiianNum.value,
+                    hawaiianDen: hawaiianDen.value,
+                    whiteNum: whiteNum.value,
+                    whiteDen: whiteDen.value,
+                    otherNum: otherNum.value,
+                    otherDen: otherDen.value,
+                    hispanicNum: hispanicNum.value,
+                    hispanicDen: hispanicDen.value,
+                    notHispanicNum: notHispanicNum.value,
+                    notHispanicDen: notHispanicDen.value,
+                    eighteenNum: eighteenNum.value,
+                    eighteenDen: eighteenDen.value,
+                    fortyFiveNum: fortyFiveNum.value,
+                    fortyFiveDen: fortyFiveDen.value,
+                    sixtyFiveNum: sixtyFiveNum.value,
+                    sixtyFiveDen: sixtyFiveDen.value
                     };
-                };
-                /*console.log(formSubmit);*/
-                this.$.testDemIn.toggle();
-                console.log(formSubmit)
+                    for (var i in formSubmit)
+                    {
+                        if (formSubmit[i].length <= 0)
+                        {
+                        return(i)
+                        };
+                    };
+                    /*console.log(formSubmit);*/
+                    this.$.testDemIn.toggle();
+                    console.log(formSubmit)
+                },
             },
+            ready: function () {
+                this.genders = [
+                    {strat: 'Male', num: 'maleNum', den: 'maleDen'},
+                    {strat: 'Female', num: 'femaleNum', den: 'femaleDen'}
+                ];
+                this.ages = [
+                        {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
+                        {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
+                        {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'}
+                ];
+                this.ethnicities = [
+                        {strat: 'Hispanic/Latino', num: 'hispanicNum', den: 'hispanicDen'},
+                        {strat: 'Not Hispanic/Latino', num: 'notHispanicNum', den: 'notHispanicDen'}
+                ];
+                this.races = [
+                        {strat: 'African American/Black', num: 'blackNum', den: 'blackDen'},
+                        {strat: 'American Indian or Alaska Native', num: 'indianNum', den: 'indianDen'},
+                        {strat: 'Asian', num: 'asianNum', den: 'asianDen'},
+                        {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianNum', den: 'hawaiianDen'},
+                        {strat: 'White', num: 'whiteNum', den: 'whiteDen'},
+                        {strat: 'Other', num: 'otherNum', den: 'otherDen'}
+                ];
+            }
         });
     })();
 </script>

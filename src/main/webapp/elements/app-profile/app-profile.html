@@ -5,7 +5,8 @@
 <dom-module id="app-profile">
     <style>
         .pms {
-            @apply(--pm-style)
+            @apply(--pm-style);
+
         };
         .child {
             order: 0;
@@ -14,6 +15,7 @@
         };
         .childtwo {
             max-width: 100%;
+            text-align: center;
         };
 
         .parent {
@@ -31,6 +33,15 @@
             justify-content: center;
             align-content: space-between;
             align-items: stretch;
+        };
+        .parentthree {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-content: space-between;
+            align-items: stretch;
+            margin-top: 1em;
         };
         .flex-container {
             display: flex;
@@ -64,6 +75,10 @@
         :host [disabled='true'] {
             opacity: 0.95;
         };
+        :host [--paper-input-container-color] {
+            background-color: red;
+        };
+
 
     </style>
     <template>
@@ -94,47 +109,92 @@
                             <h2>Gender</h2>
                         </div>
                         <paper-input-container>
-
-
-                            <label>Fourth Gender <span>{{testInput}}</span></label>
-                            <!--input is="iron-input"-->
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{testInput}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                            <label>Male</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{male}}' prevent-invalid-input=true allowed-pattern="[0-9]">
                         </paper-input-container>
-                        <paper-input class="childtwo" label='Male' disabled="true" value='{{testInput}}' type="number"></paper-input>
-                        <paper-input class="childtwo" label='Female' disabled="true" value=100,000></paper-input>
-                        <paper-input class="childtwo" label='Other' disabled="true" value=100></paper-input>
+                        <paper-input-container>
+                            <label>Female</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{female}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>Other</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{otherGen}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
                     </paper-material>
                     <paper-material class='demoCard' elevation="2">
                         <div class="parenttwo">
                             <h2>Age</h2>
                         </div>
-                        <paper-input class="childtwo" label='17 & Under' disabled="true" value=50,025></paper-input>
-                        <paper-input class="childtwo" label='18-44 Years' disabled="true" value=50,025></paper-input>
-                        <paper-input class="childtwo" label='45-64 Years' disabled="true" value=50,025></paper-input>
-                        <paper-input class="childtwo" label='65 & Over' disabled="true" value=50,025></paper-input>
+                        <paper-input-container>
+                            <label>17 & Under</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{17Under}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>18-44 Years</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{18-44}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>45-64 Years</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{45-64}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>65 & Over</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{65Over}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
                     </paper-material>
                     <paper-material class='demoCard' elevation="2">
                         <div class="parenttwo">
                             <h2>Ethnicity</h2>
                         </div>
-                        <paper-input class="childtwo" label='Hispanic/Latino' disabled="true" value=100,000></paper-input>
-                        <paper-input class="childtwo" label='Not Hispanic/Latino' disabled="true" value=100,000></paper-input>
-                        <paper-input class="childtwo" label='Not Reported' disabled="true" value=100></paper-input>
-                    </paper-material>
+                        <paper-input-container>
+                            <label>Hispanic/Latino</span></label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{hispanic}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>Not-Hispanic/Latino</span></label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{notHispanic}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>Other</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{otherEth}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        </paper-material>
                     <paper-material class='demoCard' elevation="2">
                         <div class="parenttwo">
                             <h2>Race</h2>
                         </div>
-                        <paper-input class="childtwo" label='African American or Black' disabled="true" value=40,000></paper-input>
-                        <paper-input class="childtwo" label='American Indian or Alaska Native' disabled="true" value=40,000></paper-input>
-                        <paper-input class="childtwo" label='Asian' disabled="true" value=40,000></paper-input>
-                        <paper-input class="childtwo" label='Native Hawaiian or Pacific Islander' disabled="true" value=40,000></paper-input>
-                        <paper-input class="childtwo" label='White' disabled="true" value=40,000></paper-input>
-                        <paper-input class="childtwo" label='Other' disabled="true" value=100></paper-input>
-                    </paper-material>
+                        <paper-input-container>
+                            <label>African American or Black</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{africanAmer}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>American Indian or Alaska Native</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{amerIndian}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>Asian</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{asian}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>Native Hawaiian or Pacific Islander</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{hawaiian}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>White</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{white}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input-container>
+                            <label>Other</label>
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{otherRac}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        </paper-material>
+                </div>
+                <div class="parentthree">
+                    <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
+                    <paper-button on-tap="cancelEdit" raised="2" class="childtwo" disabled=true>Cancel</paper-button>
                 </div>
             </paper-material>
-        <paper-button on-tap="execute" raised="2">CLICK</paper-button>
+
         </paper-material>
     </template>
 </dom-module>
@@ -149,15 +209,28 @@
             this.city = 'Hartford';
             this.state = 'CT';
             this.zip = '06106';
-            this.testInput= 100000
+            this.profButton = 'Edit';
             },
-            execute: function(e) {
-                var changeInput = document.getElementsByClassName('childtwo');
-                for(var i = 0; i < changeInput.length; i++) {
-                changeInput[i].disabled = false;
-                //changeInput[i].preventInvalidInput = true;
+            editProfile: function(e) {
+                if (this.profButton == 'Save') {
+                    console.log(this.profButton);
+                }
+                else {
+                    console.log(this.profButton);
                 };
+                var editInput = document.getElementsByClassName('childtwo');
+                for(var i = 0; i < editInput.length; i++) {
+                    editInput[i].disabled = false;
+                };
+                this.profButton = 'Save';
             },
+            cancelEdit: function (e) {
+                var cancelInput = document.getElementsByClassName('childtwo');
+                for(var i = 0; i < cancelInput.length; i++) {
+                cancelInput[i].disabled = true;
+                };
+                this.profButton = 'Edit';
+            }
         });
     })();
 
