@@ -1,0 +1,164 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+
+<dom-module id="app-profile">
+    <style>
+        .pms {
+            @apply(--pm-style)
+        };
+        .child {
+            order: 0;
+            flex: 1 1 auto;
+            align-self: center;
+        };
+        .childtwo {
+            max-width: 100%;
+        };
+
+        .parent {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-between;
+            align-items: stretch;
+        };
+        .parenttwo {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-content: space-between;
+            align-items: stretch;
+        };
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: stretch;
+        };
+        .flex-item {
+            order: 0;
+            flex: 1 1 auto;
+            align-self: auto;
+        };
+        .demoCard {
+            display: inline-block;
+            width: 23%;
+            height: 30em;
+            margin: auto;
+            vertical-align: middle;
+        };
+        .stratCards {
+            text-align: center
+        };
+        .double {
+            flex: 2 2;
+        };
+        .single {
+            flex: 1 1;
+        };
+        :host [disabled='true'] {
+            opacity: 0.95;
+        };
+
+    </style>
+    <template>
+        <paper-material class="pms">
+            <paper-material elevation="1">
+                <div class="parenttwo">
+                    <h2>Organization Name</h2>
+                </div>
+                <div class="parent">
+                    <div class="child" style="text-align: center">
+                        <h3>Address:</h3>
+                        <h3>123 Main Street</h3>
+                        <h3>Suite 1A</h3>
+                        <h3><span>{{city}}</span>, <span>{{state}}</span> <span>{{zip}}</span></h3>
+                        <h3>860-555-5555</h3>
+                    </div>
+                    <div class="child" style="text-align: center">
+                        <h3>Primary Contact:</h3>
+                        <h3>Judy Smith</h3>
+                        <h3>Vice President</h3>
+                        <h3>judysmith@test.com</h3>
+                        <h3>860-666-6666</h3>
+                    </div>
+                </div>
+                <div class="stratCards">
+                    <paper-material class='demoCard' elevation="2">
+                        <div class="parenttwo">
+                            <h2>Gender</h2>
+                        </div>
+                        <paper-input-container>
+
+
+                            <label>Fourth Gender <span>{{testInput}}</span></label>
+                            <!--input is="iron-input"-->
+                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{testInput}}' prevent-invalid-input=true allowed-pattern="[0-9]">
+                        </paper-input-container>
+                        <paper-input class="childtwo" label='Male' disabled="true" value='{{testInput}}' type="number"></paper-input>
+                        <paper-input class="childtwo" label='Female' disabled="true" value=100,000></paper-input>
+                        <paper-input class="childtwo" label='Other' disabled="true" value=100></paper-input>
+                    </paper-material>
+                    <paper-material class='demoCard' elevation="2">
+                        <div class="parenttwo">
+                            <h2>Age</h2>
+                        </div>
+                        <paper-input class="childtwo" label='17 & Under' disabled="true" value=50,025></paper-input>
+                        <paper-input class="childtwo" label='18-44 Years' disabled="true" value=50,025></paper-input>
+                        <paper-input class="childtwo" label='45-64 Years' disabled="true" value=50,025></paper-input>
+                        <paper-input class="childtwo" label='65 & Over' disabled="true" value=50,025></paper-input>
+                    </paper-material>
+                    <paper-material class='demoCard' elevation="2">
+                        <div class="parenttwo">
+                            <h2>Ethnicity</h2>
+                        </div>
+                        <paper-input class="childtwo" label='Hispanic/Latino' disabled="true" value=100,000></paper-input>
+                        <paper-input class="childtwo" label='Not Hispanic/Latino' disabled="true" value=100,000></paper-input>
+                        <paper-input class="childtwo" label='Not Reported' disabled="true" value=100></paper-input>
+                    </paper-material>
+                    <paper-material class='demoCard' elevation="2">
+                        <div class="parenttwo">
+                            <h2>Race</h2>
+                        </div>
+                        <paper-input class="childtwo" label='African American or Black' disabled="true" value=40,000></paper-input>
+                        <paper-input class="childtwo" label='American Indian or Alaska Native' disabled="true" value=40,000></paper-input>
+                        <paper-input class="childtwo" label='Asian' disabled="true" value=40,000></paper-input>
+                        <paper-input class="childtwo" label='Native Hawaiian or Pacific Islander' disabled="true" value=40,000></paper-input>
+                        <paper-input class="childtwo" label='White' disabled="true" value=40,000></paper-input>
+                        <paper-input class="childtwo" label='Other' disabled="true" value=100></paper-input>
+                    </paper-material>
+                </div>
+            </paper-material>
+        <paper-button on-tap="execute" raised="2">CLICK</paper-button>
+        </paper-material>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-profile',
+            properties: {
+            },
+            ready: function() {
+            this.cityStateZip = 'Hartford, CT 06106';
+            this.city = 'Hartford';
+            this.state = 'CT';
+            this.zip = '06106';
+            this.testInput= 100000
+            },
+            execute: function(e) {
+                var changeInput = document.getElementsByClassName('childtwo');
+                for(var i = 0; i < changeInput.length; i++) {
+                changeInput[i].disabled = false;
+                //changeInput[i].preventInvalidInput = true;
+                };
+            },
+        });
+    })();
+
+</script>

@@ -1,0 +1,168 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+<dom-module id="app-history-list">
+    <style>
+        .pms {
+            @apply(--pm-style);
+        };
+        .card {
+            width: 60%;
+        };
+        .child {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: center;
+        };
+        .parent {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-between;
+            align-items: flex-start;
+        };
+        .parenttwo {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: space-between;
+            align-items: flex-start;
+        };
+        .header {
+            font-size: 36px;
+        };
+    </style>
+    <template>
+        <paper-material class="pms">
+            <div class="parenttwo">
+                <h1 class="child">
+                    January 2014-March 2014
+                </h1>
+            </div>
+            <div class="parent">
+                <div class="child">
+                    <google-chart
+                            type='pie'
+                            options='{"title": "Group Measure Performance",
+                                           "pieSliceText": "none",
+                                           "pieHole": ".6"}'
+                            data='{{groupQ1}}'>
+                    </google-chart>
+                </div>
+                <div class="child">
+                    <google-chart
+                            type='pie'
+                            options='{"title": "Aggregate Measure Performance",
+                                           "pieSliceText": "none",
+                                           "pieHole": ".6"}'
+                            data='{{aggregateQ1}}'>
+                    </google-chart>
+                </div>
+            </div>
+        </paper-material>
+        <paper-material class="pms">
+            <div class="parenttwo">
+                <h1 class="child">
+                    April 2014-June 2014
+                </h1>
+            </div>
+            <div class="parent">
+                <div class="child">
+                    <google-chart
+                            type='pie'
+                            options='{"title": "Group Measure Performance",
+                                           "pieSliceText": "none",
+                                           "pieHole": ".6"}'
+                            data='{{groupQ2}}'>
+                    </google-chart>
+                </div>
+                <div class="child">
+                    <google-chart
+                            type='pie'
+                            options='{"title": "Aggregate Measure Performance",
+                                           "pieSliceText": "none",
+                                           "pieHole": ".6"}'
+                            data='{{aggregateQ2}}'>
+                    </google-chart>
+                </div>
+            </div>
+        </paper-material>
+        <paper-material class="pms">
+            <div class="parenttwo">
+                <h1 class="child">
+                    July 2014-September 2014
+                </h1>
+            </div>
+            <div class="parent">
+                <div class="child">
+                    <google-chart
+                            type='pie'
+                            options='{"title": "Group Measure Performance",
+                                           "pieSliceText": "none",
+                                           "pieHole": ".6"}'
+                            data='{{groupQ3}}'>
+                    </google-chart>
+                </div>
+                <div class="child">
+                    <google-chart
+                            type='pie'
+                            options='{"title": "Aggregate Measure Performance",
+                                           "pieSliceText": "none",
+                                           "pieHole": ".6"}'
+                            data='{{aggregateQ3}}'>
+                    </google-chart>
+                </div>
+            </div>
+        </paper-material>
+        <paper-material class="pms">
+            <div class="parenttwo">
+                <h1 class="child">
+                    October 2014-December 2014
+                </h1>
+            </div>
+            <div class="parent">
+                <div class="child">
+                    <google-chart
+                            type='pie'
+                            options='{"title": "Group Measure Performance",
+                                           "pieSliceText": "none",
+                                           "pieHole": ".6"}'
+                            data='{{groupQ4}}'>
+                    </google-chart>
+                </div>
+                <div class="child">
+                    <google-chart
+                            type='pie'
+                            options='{"title": "Aggregate Measure Performance",
+                                           "pieSliceText": "none",
+                                           "pieHole": ".6"}'
+                            data='{{aggregateQ4}}'>
+                    </google-chart>
+                    <div>DELETE ME!</div>
+                </div>
+            </div>
+        </paper-material>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-history-list',
+            properties: {
+            },
+            ready: function() {
+            this.groupQ1=[["Criterion", "Numerator"], ["Well Controlled", 63], ["Poorly Controlled", 37]];
+            this.aggregateQ1=[["Month", "Days"], ["Well Controlled", 66], ["Poorly Controlled", 34]];
+            this.groupQ2=[["Month", "Days"], ["Well Controlled", 58], ["Poorly Controlled", 42]];
+            this.aggregateQ2=[["Month", "Days"], ["Well Controlled", 67], ["Poorly Controlled", 33]];
+            this.groupQ3=[["Month", "Days"], ["Well Controlled", 65], ["Poorly Controlled", 35]];
+            this.aggregateQ3=[["Month", "Days"], ["Well Controlled", 66], ["Poorly Controlled", 34]];
+            this.groupQ4=[["Month", "Days"], ["Well Controlled", 71], ["Poorly Controlled", 29]];
+            this.aggregateQ4=[["Month", "Days"], ["Well Controlled", 67], ["Poorly Controlled", 33]];
+            },
+        });
+    })();
+
+</script>

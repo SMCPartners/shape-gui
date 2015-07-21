@@ -5,49 +5,31 @@
 <dom-module id="app-history">
     <style>
         .pms {
-        @apply(--pm-style)
+            @apply(--pm-style)
         };
         .child {
-        order: 0;
-        flex: 0 1 auto;
-        align-self: center;
+            order: 0;
+            flex: 0 1 auto;
+            align-self: center;
         };
         .parent {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-content: space-between;
-        align-items: flex-start;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-between;
+            align-items: flex-start;
         };
         .parenttwo {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-content: space-between;
-        align-items: flex-start;
-        };
-        .fraction {
-        display: inline-block;
-        position: relative;
-        vertical-align: middle;
-        letter-spacing: 0.001em;
-        text-align: center;
-        font-size: 36px;
-        };
-        .fraction > span {
-        display: block;
-        padding: 0.1em;
-        };
-        .fraction span.fdn {
-        border-top: thin solid black;
-        };
-        .fraction span.bar {
-        display: none;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: space-between;
+            align-items: flex-start;
         };
         .header {
-        font-size: 36px;
+            font-size: 36px;
         };
         .modalHeader {
         align: center;
@@ -67,36 +49,37 @@
 
     </style>
     <template>
-            <div class="pms">
-                <paper-material class="pms">
-                    <div class="parent">
-                        <div class="child header">{{owner}}</div>
-                        <div class="child header">Diabetes: HbA1c Poor Control</div>
-                        <div class="child">
-                            <paper-icon-button icon="info" on-tap="buildStratify"></paper-icon-button>
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="fraction child">
-                            <span class="fup">Numerator</span>
-                            <span class="bar">/</span>
-                            <span class="fdn">Denominator</span>
-                        </div>
-                        <div class="child header">=</div>
-                        <div class="fraction child">
-                            <span class="fup">63</span>
-                            <span class="bar">/</span>
-                            <span class="fdn">100</span>
-                        </div>
-                        <div class="child">
-                            <img src="http://www.clipart-box.com/images/circle-graphic.jpg">
-                        </div>
-                        <div class="child">
-                            <paper-button raised>Edit</paper-button>
-                        </div>
-                    </div>
-                </paper-material>
+        <div class="pms">
+            <div class="parent">
+                <div class="child">
+                    <select>
+                        <option>NQF 0018 Controlling High Blood Pressure</option>
+                        <option>NQF 0059 Diabetes: HbA1c Poor Control</option>
+                    </select>
+                </div>
+                <div class="child">
+                    <select>
+                        <option>2015</option>
+                        <option>2014</option>
+                        <option>2013</option>
+                        <option>2012</option>
+                        <option>2011</option>
+                    </select>
+                </div>
             </div>
+            <div>
+                <paper-tabs selected="{{selected}}">
+                    <paper-tab>List</paper-tab>
+                    <paper-tab>Measure Trend</paper-tab>
+                    <paper-tab>Measure Demographics</paper-tab>
+                </paper-tabs>
+                <iron-pages selected="{{selected}}">
+                    <app-history-list></app-history-list>
+                    <app-history-graph></app-history-graph>
+                    <app-history-demographics></app-history-demographics>
+                </iron-pages>
+            </div>
+        </div>
     </template>
 </dom-module>
 <script>

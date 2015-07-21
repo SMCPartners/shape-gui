@@ -1,0 +1,37 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+
+<dom-module id="app-history-graph">
+    <style>
+        .pms {
+        @apply(--pm-style)
+        };
+    </style>
+    <template>
+        <div class="pms">
+            <div>
+                <google-chart
+                        type='line'
+                        options='{"title": "Aggregate Measure Performance",
+                                           "pieSliceText": "none"}'
+                        data='{{test1}}'>
+                </google-chart>
+            </div>
+        </div>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-history-graph',
+            properties: {
+            },
+            ready: function() {
+                this.test1=[["Criterion", "Numerator"], ["Well Controlled", 63], ["Poorly Controlled", 37],
+                ["Test 1", 45], ["Test 2", 56], ["Test 3", 79]];
+            },
+        });
+    })();
+
+</script>

@@ -1,0 +1,47 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+
+<dom-module id="app-history-demographics">
+    <style>
+        .pms {
+        @apply(--pm-style)
+        };
+    </style>
+    <template>
+        <div class="pms">
+            <div>
+                <app-diffpie-chart newData='{{newData}}' oldData='{{oldData}}'></app-diffpie-chart>
+            </div>
+            <div>
+                <google-chart
+                        type='bar'
+                        options='{"title": "Aggregate Measure Performance",
+                                           "pieSliceText": "none"}'
+                        data='{{test2}}'>
+                </google-chart>
+            </div>
+        </div>
+
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-history-demographics',
+            properties: {
+            },
+            ready: function() {
+            this.newData=[["Criterion", "Numerator"], ["Well Controlled", 63], ["Poorly Controlled", 37]];
+            this.oldData=[["Month", "Days"], ["Well Controlled", 66], ["Poorly Controlled", 34]];
+            this.test2=[['Race', 'Population', 'Diabetes', 'High Cholesterol'],
+          ['Asian', 20, 18, 15],
+          ['Black', 30, 37, 31],
+          ['White', 40, 41, 45],
+          ['Other', 10, 4, 9]]
+            },
+        });
+    })();
+
+
+</script>

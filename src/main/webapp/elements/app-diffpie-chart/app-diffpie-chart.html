@@ -1,0 +1,116 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+
+<dom-module id="app-diffpie-chart">
+    <link rel="import" type="css" href="app-diffpie-chart.css">
+    <template>
+        <paper-button on-tap="drawChart">CLICK ME!</paper-button>
+        <iron-ajax id="ajax" handle-as="json" url="{{data}}"
+                   on-response="_externalDataLoaded"></iron-ajax>
+        <div id="chartDiv"></div>
+        <google-legacy-loader on-api-load="_readyForAction"></google-legacy-loader>
+    </template>
+</dom-module>
+
+<script>
+    (function () {
+        "use strict";
+        Polymer({
+            is: 'app-diffpie-chart',
+            properties: {
+                options: {
+                    type: Object,
+                    value: function () {
+                        return {};
+                    }
+                },
+                oldData: {
+                    type: Array,
+                    value: [['Major', 'Degrees'],
+                              ['African American', 256070], ['Other', 108034],
+                              ['Hawaiian & Pacific Islander', 127101], ['Asian', 81863],
+                              ['White', 74194]]
+
+
+
+                    /*function () {
+                        return [];
+                    }*/
+                },
+                newData: {
+                    type: Array,
+                    value: [['Major', 'Degrees'],
+                              ['African American', 358293], ['Other', 101265],
+                              ['Hawaiian & Pacific Islander', 172780], ['White', 129634],
+                              ['Asian', 97216]]
+
+
+                    /*function () {
+                        return [];
+                   }*/
+                },
+                selection: {
+                    type: Array,
+                    value: function () {
+                        return [];
+                    },
+                    observer: '_selectionChanged'
+                },
+            },
+            observers: [
+                '_loadData(oldData, newData)'
+            ],
+            _chartObject: null,
+            _isReady: false,
+            _canDraw: false,
+            _readyForAction: function (e, detail, sender) {
+              google.load("visualization", "1", {
+                packages: 'corechart',
+                callback: function() {
+                  this._isReady = true;
+                  this._canDraw = true;
+                }.bind(this)
+              });
+            },
+
+            _selectionChanged: function () {
+                if (this._chartObject && this.setSelection) {
+                    this._chartObject.setSelection(this.selection);
+                }
+            },
+            drawChart: function () {
+                if (this._canDraw) {
+                    if (!this.options) {
+                        this.options = {};
+                    }
+                    if (!this._chartObject) {
+                        this._chartObject = new google.visualization.PieChart(this.$.chartDiv);
+                    }
+                    if (this._chartObject) {
+                        google.visualization.events.addOneTimeListener(this._chartObject,
+                                'ready', function () {
+                                    this.fire('google-chart-render');
+                                }.bind(this));
+
+                        google.visualization.events.addListener(this._chartObject,
+                                'select', function () {
+                                    this.selection = this._chartObject.getSelection();
+                                    this.fire('google-chart-select',
+                                            {selection: this._chartObject.getSelection()});
+                                }.bind(this));
+                        var oData = google.visualization.arrayToDataTable(this.oldData);
+                        var nData = google.visualization.arrayToDataTable(this.newData);
+                        var diffData = this._chartObject.computeDiff(oData, nData);
+                        this._chartObject.draw(diffData, this.options);
+
+                        if (this._chartObject.setSelection) {
+                            this._chartObject.setSelection(this.selection);
+                        }
+                    }
+                }
+                return null;
+            },
+        });
+    })();
+</script>
