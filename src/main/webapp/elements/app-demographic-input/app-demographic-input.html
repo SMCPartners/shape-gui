@@ -89,194 +89,33 @@
                             <paper-input type="number" class="inputField" label="Denominator" id="mainDen"></paper-input>
                         </div>
                     </div>
-                    <div class="parenttwo">
-                        <div class="leader">
-                            Gender
+                    <template is="dom-repeat" items="{{stratifyGroups}}" as="group">
+                        <div class="parenttwo">
+                            <div class="leader">{{group.name}}</div>
                         </div>
-                    </div>
-                    <template is="dom-repeat" items="{{genders}}">
-                        <div class="parent">
-                            <div class="child modalSection double">{{item.strat}}</div>
-                            <div class="child single">
-                                <paper-input type="number" class="inputField" label="Numerator" id="{{item.num}}"></paper-input>
+                        <template is="dom-repeat" items="{{group.categories}}" as="category">
+                            <div class="parent">
+                                <div class="child modalSection double">{{category.strat}}</div>
+                                <div class="child single">
+                                    <paper-input-container>
+                                        <label>Numerator</label>
+                                        <input class='inputField' id="{{category.num}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                                    </paper-input-container>
+                                </div>
+                                <div class="child single">
+                                    <paper-input-container>
+                                        <label>Denominator</label>
+                                        <input class='inputField' id="{{category.den}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                                    </paper-input-container>
+                                </div>
                             </div>
-                            <div class="child single">
-                                <paper-input type="number" class="inputField" label="Denominator" id="{{item.den}}"></paper-input>
-                            </div>
-                        </div>
+                        </template>
                     </template>
-                    <div class="parenttwo">
-                        <div class="leader">
-                            Age
-                        </div>
-                    </div>
-                    <template is="dom-repeat" items="{{ages}}">
-                        <div class="parent">
-                            <div class="child modalSection double">{{item.strat}}</div>
-                            <div class="child single">
-                                <paper-input type="number" class="inputField" label="Numerator" id="{{item.num}}"></paper-input>
-                            </div>
-                            <div class="child single">
-                                <paper-input type="number" class="inputField" label="Denominator" id="{{item.den}}"></paper-input>
-                            </div>
-                        </div>
-                    </template>
-                    <div class="parenttwo">
-                        <div class="leader">
-                            Ethnicity
-                        </div>
-                    </div>
-                    <template is="dom-repeat" items="{{ethnicities}}">
-                        <div class="parent">
-                            <div class="child modalSection double">{{item.strat}}</div>
-                            <div class="child single">
-                                <paper-input type="number" class="inputField" label="Numerator" id="{{item.num}}"></paper-input>
-                            </div>
-                            <div class="child single">
-                                <paper-input type="number" class="inputField" label="Denominator" id="{{item.den}}"></paper-input>
-                            </div>
-                        </div>
-                    </template>
-                    <div class="parenttwo">
-                        <div class="leader">
-                            Race
-                        </div>
-                    </div>
-                    <template is="dom-repeat" items="{{races}}">
-                        <div class="parent">
-                            <div class="child modalSection double">{{item.strat}}</div>
-                            <div class="child single">
-                                <paper-input type="number" class="inputField" label="Numerator" id="{{item.num}}"></paper-input>
-                            </div>
-                            <div class="child single">
-                                <paper-input type="number" class="inputField" label="Denominator" id="{{item.den}}"></paper-input>
-                            </div>
-                        </div>
-                    </template>
-
-
-
-
-
-                    <!--div class="parenttwo">
-                        <div class="leader">
-                            Race
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">African American/Black</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="blackNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="blackDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">American Indian or Alaska Native</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="indianNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="indianDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">Asian</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="asianNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="asianDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">Native Hawaiian or Pacific Islander</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="hawaiianNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="hawaiianDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">White</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="whiteNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="whiteDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">Other</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="otherNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="otherDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parenttwo">
-                        <div class="leader">
-                            Ethnicity
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">Hispanic/Latino</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="hispanicNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="hispanicDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">Not Hispanic/Latino</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="notHispanicNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="notHispanicDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parenttwo">
-                        <div class="leader">
-                            Age
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">18-44 Years</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="eighteenNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="eighteenDen"></paper-input>
-                        </div>
-                    </div>
-                    <div class="parent">
-                        <div class="child modalSection double">45-64 Years</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="fortyFiveNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="fortyFiveDen"></paper-input>
-                        </div>
-                    </div>
-                    <div-- class="parent">
-                        <div class="child modalSection double">65-85 Years</div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Numerator" id="sixtyFiveNum"></paper-input>
-                        </div>
-                        <div class="child single">
-                            <paper-input type="number" class="inputField" label="Denominator" id="sixtyFiveDen"></paper-input>
-                        </div>
-                    </div-->
                 </div>
             </paper-dialog-scrollable>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logNumbers">Submit</paper-button>
-                <paper-button raised class="child">Cancel</paper-button>
+                <paper-button raised class="child" on-tap="cancelLog">Cancel</paper-button>
             </div>
         </paper-dialog>
     </template>
@@ -286,8 +125,34 @@
         Polymer({
             is: 'app-demographic-input',
             properties: {
-                logNumbers: function (e) {
-                    var formSubmit = {
+            },
+            ready: function () {
+                this.stratifyGroups = [
+                {name: 'Gender', categories: [
+                    {strat: 'Male', num: 'maleNum', den: 'maleDen'},
+                    {strat: 'Female', num: 'femaleNum', den: 'femaleDen'} ]
+                },
+                {name: 'Age', categories: [
+                    {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
+                    {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
+                    {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'} ]
+                },
+                {name: 'Ethnicity', categories:[
+                    {strat: 'Hispanic/Latino', num: 'hispanicNum', den: 'hispanicDen'},
+                    {strat: 'Not Hispanic/Latino', num: 'notHispanicNum', den: 'notHispanicDen'} ]
+                },
+                {name: 'Race', categories: [
+                    {strat: 'African American/Black', num: 'blackNum', den: 'blackDen'},
+                    {strat: 'American Indian or Alaska Native', num: 'indianNum', den: 'indianDen'},
+                    {strat: 'Asian', num: 'asianNum', den: 'asianDen'},
+                    {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianNum', den: 'hawaiianDen'},
+                    {strat: 'White', num: 'whiteNum', den: 'whiteDen'},
+                    {strat: 'Other', num: 'otherNum', den: 'otherDen'} ]
+                }
+                ];
+            },
+            logNumbers: function (e) {
+                var formSubmit = {
                     mainNum: mainNum.value,
                     mainDen: mainDen.value,
                     maleNum: maleNum.value,
@@ -316,41 +181,19 @@
                     fortyFiveDen: fortyFiveDen.value,
                     sixtyFiveNum: sixtyFiveNum.value,
                     sixtyFiveDen: sixtyFiveDen.value
-                    };
-                    for (var i in formSubmit)
+                };
+                /*for (var i in formSubmit)
                     {
                         if (formSubmit[i].length <= 0)
-                        {
-                        return(i)
-                        };
-                    };
-                    /*console.log(formSubmit);*/
+                            {
+                                return(i)
+                            };
+                    };*/
+                    console.log(formSubmit);
                     this.$.testDemIn.toggle();
-                    console.log(formSubmit)
-                },
             },
-            ready: function () {
-                this.genders = [
-                    {strat: 'Male', num: 'maleNum', den: 'maleDen'},
-                    {strat: 'Female', num: 'femaleNum', den: 'femaleDen'}
-                ];
-                this.ages = [
-                        {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
-                        {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
-                        {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'}
-                ];
-                this.ethnicities = [
-                        {strat: 'Hispanic/Latino', num: 'hispanicNum', den: 'hispanicDen'},
-                        {strat: 'Not Hispanic/Latino', num: 'notHispanicNum', den: 'notHispanicDen'}
-                ];
-                this.races = [
-                        {strat: 'African American/Black', num: 'blackNum', den: 'blackDen'},
-                        {strat: 'American Indian or Alaska Native', num: 'indianNum', den: 'indianDen'},
-                        {strat: 'Asian', num: 'asianNum', den: 'asianDen'},
-                        {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianNum', den: 'hawaiianDen'},
-                        {strat: 'White', num: 'whiteNum', den: 'whiteDen'},
-                        {strat: 'Other', num: 'otherNum', den: 'otherDen'}
-                ];
+            cancelLog: function (e) {
+
             }
         });
     })();

@@ -78,11 +78,11 @@
         };
     </style>
     <template>
-
+        <template is="dom-repeat" items="{{measures}}">
             <paper-material class="pms">
                 <div class="parent">
-                    <div class="child header">NQF 0018​</div>
-                    <div class="child header">Controlling High Blood Pressure</div>
+                    <div class="child header">{{item.NQF}}</div>
+                    <div class="child header">{{item.name}}</div>
                     <div class="child">
                         <paper-icon-button icon="info" on-tap="measureDetail"></paper-icon-button>
                     </div>
@@ -95,18 +95,17 @@
                     </div>
                     <div class="child header">=</div>
                     <div class="fraction child">
-                        <span class="fup">51</span>
+                        <span class="fup">{{item.numerator}}</span>
                         <span class="bar">/</span>
-                        <span class="fdn">100</span>
+                        <span class="fdn">{{item.denominator}}</span>
                     </div>
                     <div class="child">
                         <google-chart id="bpChart"
-                                type='pie'
-                                options='{"title": "Poorly Controlled HbA1c",
-                                           "pieHole": ".6",
-                                           "pieSliceText": "none"}'
-                                data='{{bloodpressure}}'>
-                            <!--"diff": "innerCircle":{"radiusFactor": ".6"}-->
+                               type='pie'
+                               options='{"title": "{{item.name}}",
+                                         "pieHole": ".6",
+                                         "pieSliceText": "none"}'
+                               data='{{item.chart}}'>
                         </google-chart>
                     </div>
                     <div class="child">
@@ -114,44 +113,7 @@
                     </div>
                 </div>
             </paper-material>
-
-
-            <paper-material class="pms">
-                <div class="parent">
-                    <div class="child header">NQF 0059</div>
-                    <div class="child header">Diabetes: HbA1c Poor Control</div>
-                    <div class="child">
-                        <paper-icon-button icon="info" on-tap="measureDetail"></paper-icon-button>
-                    </div>
-                </div>
-                <div class="parent">
-                    <div class="fraction child">
-                        <span class="fup">Numerator</span>
-                        <span class="bar">/</span>
-                        <span class="fdn">Denominator</span>
-                    </div>
-                    <div class="child header">=</div>
-                    <div class="fraction child">
-                        <span class="fup">63</span>
-                        <span class="bar">/</span>
-                        <span class="fdn">100</span>
-                    </div>
-                    <div class="child">
-
-                        <google-chart
-                                type='pie'
-                                options='{"title": "Poorly Controlled HbA1c",
-                                           "pieSliceText": "none",
-                                           "pieHole": ".6"}'
-                                data='{{diabetes}}'>
-                        </google-chart>
-                    </div>
-                    <div class="child">
-                        <paper-button raised on-tap="editMeasure">Edit</paper-button>
-                    </div>
-                </div>
-            </paper-material>
-
+        </template>
     </template>
 </dom-module>
 <script>
@@ -160,33 +122,14 @@
             is: 'app-measure-input',
             properties: {
                 currentMeasure: String,
-                oldData: Object,
-                newData: Object,
-                diffData: Object
-
-                /*stratify: {
-                    gender1: "Male",
-                    gender2: "Female",
-                    race1: "African American/Black",
-                    race2: "American Indian or Alaska Native",
-                    race3: "Asian",
-                    race4: "Native Hawaiian or Pacific Islander",
-                    race5: "White",
-                    race6: "Other",
-                    ethnicity1: "Hispanic/Latino",
-                    ethnicity2: "Not Hispanic/Latino",
-                    age1: "18-44 Years",
-                    age2: "45-64 Years",
-                    age3: "65-85 Years"
-                };*/
             },
             ready: function() {
-                this.diabetes=[["Month", "Days"], ["Poorly Controlled", 63], ["Well Controlled", 37]];
-                //this.diffData=.computeDiff(oldData, newData);
-                //console.log(diffData);
-                this.oldData=[["Month", "Days"], ["Well Controlled", 51], ["Poorly Controlled", 49]];
-                this.newData=[["Month", "Days"], ["Well Controlled", 60], ["Poorly Controlled", 40]];
-                this.bloodpressure=[["Month", "Days"], ["Well Controlled", 51], ["Poorly Controlled", 49]];
+                this.measures = [
+                    {name: 'Controlling High Blood Pressure', NQF: 'NQF 0018', numerator: 3241, denominator: 4231, chart:
+                    [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]]},
+                    {name: 'Diabetes: HbA1c Poor Control', NQF: 'NQF 0059', numerator: 2153, denominator: 3597, chart:
+                    [["Month", "Days"], ["Well Controlled", 1444], ["Poorly Controlled", 2153]]}
+                ];
             },
             attached: function() {
 
@@ -198,27 +141,10 @@
                 var nMeasure = e.currentTarget.id;
                 console.log(nMeasure);
             },
-            /*buildStratify: function (e) {
-
-                console.log(stratify);
-            for (i = 0; i < stratify.length; i++)
-                {
-                    document.write("<h1>Hello</h1>")
-                    "<div class='parent'>
-                        <div class='child modalSection double'>'stratify.i'</div>
-                        <div class='child single'>
-                            <paper-input label='Numerator'></paper-input>
-                        </div>
-                        <div class='child single'>
-                            <paper-input label='Denominator'></paper-input>
-                        </div>
-                    </div>"
-                }
-                console.log("I'm calling the function")
-            }*/
             measureDetail: function (e) {
-                this.$.info.toggle();
-                console.log("It worked for Info!");
+                //this.$.info.toggle();
+                //console.log("It worked for Info!");
+                console.log(this.measures)
             }
 
         });

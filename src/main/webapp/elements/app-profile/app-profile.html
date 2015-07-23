@@ -103,98 +103,24 @@
                         <h3>860-666-6666</h3>
                     </div>
                 </div>
-                <div class="stratCards">
+                <template is="dom-repeat" items="{{practiceGroups}}" as="group">
                     <paper-material class='demoCard' elevation="2">
                         <div class="parenttwo">
-                            <h2>Gender</h2>
+                            <h2>{{group.name}}</h2>
                         </div>
-                        <paper-input-container>
-                            <label>Male</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{male}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>Female</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{female}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>Other</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{otherGen}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
+                        <template is="dom-repeat" items="{{group.categories}}" as="category">
+                            <paper-input-container>
+                                <label>{{category.strat}}</label>
+                                <input class='childtwo' disabled="true" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                            </paper-input-container>
+                        </template>
                     </paper-material>
-                    <paper-material class='demoCard' elevation="2">
-                        <div class="parenttwo">
-                            <h2>Age</h2>
-                        </div>
-                        <paper-input-container>
-                            <label>17 & Under</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{17Under}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>18-44 Years</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{18-44}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>45-64 Years</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{45-64}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>65 & Over</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{65Over}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                    </paper-material>
-                    <paper-material class='demoCard' elevation="2">
-                        <div class="parenttwo">
-                            <h2>Ethnicity</h2>
-                        </div>
-                        <paper-input-container>
-                            <label>Hispanic/Latino</span></label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{hispanic}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>Not-Hispanic/Latino</span></label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{notHispanic}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>Other</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{otherEth}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        </paper-material>
-                    <paper-material class='demoCard' elevation="2">
-                        <div class="parenttwo">
-                            <h2>Race</h2>
-                        </div>
-                        <paper-input-container>
-                            <label>African American or Black</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{africanAmer}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>American Indian or Alaska Native</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{amerIndian}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>Asian</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{asian}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>Native Hawaiian or Pacific Islander</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{hawaiian}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>White</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{white}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        <paper-input-container>
-                            <label>Other</label>
-                            <input class='childtwo' disabled="true" is="iron-input" bind-value='{{otherRac}}' prevent-invalid-input=true allowed-pattern="[0-9]">
-                        </paper-input-container>
-                        </paper-material>
-                </div>
+                </template>
                 <div class="parentthree">
                     <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
                     <paper-button on-tap="cancelEdit" raised="2" class="childtwo" disabled=true>Cancel</paper-button>
                 </div>
             </paper-material>
-
         </paper-material>
     </template>
 </dom-module>
@@ -205,11 +131,37 @@
             properties: {
             },
             ready: function() {
-            this.cityStateZip = 'Hartford, CT 06106';
-            this.city = 'Hartford';
-            this.state = 'CT';
-            this.zip = '06106';
-            this.profButton = 'Edit';
+                this.cityStateZip = 'Hartford, CT 06106';
+                this.city = 'Hartford';
+                this.state = 'CT';
+                this.zip = '06106';
+                this.profButton = 'Edit';
+                this.practiceGroups = [
+                    {name: 'Gender', categories: [
+                        {strat: 'Male', num: 'malePractice'},
+                        {strat: 'Female', num: 'femalePractice'},
+                        {strat: 'Other', num: 'otherGenPractice'}]
+                    },
+                    {name: 'Age', categories: [
+                        {strat: '17 & Under', num: 'seventeenPractice'},
+                        {strat: '18-44 Years', num: 'eighteenPractice'},
+                        {strat: '45-64 Years', num: 'fortyFivePractice'},
+                        {strat: '65 & Over', num: 'sixtyFivePractice'} ]
+                    },
+                    {name: 'Ethnicity', categories:[
+                        {strat: 'Hispanic/Latino', num: 'hispanicPractice'},
+                        {strat: 'Not Hispanic/Latino', num: 'notHispanicPractice'},
+                        {strat: 'Other', num: 'otherEthPractice'}]
+                    },
+                    {name: 'Race', categories: [
+                        {strat: 'African American/Black', num: 'blackPractice'},
+                        {strat: 'American Indian or Alaska Native', num: 'indianPractice'},
+                        {strat: 'Asian', num: 'asianPractice'},
+                        {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianPractice'},
+                        {strat: 'White', num: 'whitePractice'},
+                        {strat: 'Other', num: 'otherPractice'} ]
+                    }
+                    ];
             },
             editProfile: function(e) {
                 if (this.profButton == 'Save') {
