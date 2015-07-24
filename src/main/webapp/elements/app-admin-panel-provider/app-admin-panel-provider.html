@@ -1,25 +1,138 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
 
-
 <dom-module id="app-admin-panel-provider">
     <style>
         .pms {
         @apply(--pm-style)
-        }
+        };
+
+        th {
+        text-align: center;
+        background-color: #0066FF;
+        color: white;
+        border-right: 1px solid #808080;
+        border-bottom: 1px solid #808080;
+        font-weight: bold;
+        justify-content: center;
+        };
+
+        th, td {padding: 10px 15px;
+        };
+
+        thead {
+        background: #395870;
+        color: #fff;
+        border-top: 1px solid #cecfd5;
+        justify-content: center;
+        };
+
+        .table {
+        border-bottom: 1px solid #cecfd5;
+        border-right: 1px solid #cecfd5;
+        };
+
+        td: first-child {
+        border-left: 1px solid #cecfd5;
+        };
+
+        tr: nth-child(even) {
+        background-color: #395870;
+
+        .columnRight {
+        flex: 0 0;
+        };
+
+        .alignright {
+        float: right;
+        };
+
+        .editButton {
+        justify-content: center;
+        };
+
+        .addButton {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        align-content: stretch;
+        align-items: center;
+        };
+
+
     </style>
     <template>
-        <h2>test</h2>
+        <input type="search" data-table="order-table" placeholder="Search">
+        <paper-button class="addButton" raised on-tap="addProvider" modalName="addProvider">Add Provider
+            <!--<colgroup>
+                <col span="4" style="width:22.5%">
+                <col span="1" style="width:10%">
+            </colgroup>-->
+        </paper-button>
+        <table class="sortable order-table" style="width: 100%">
+            <colgroup>
+                <col span="4" style="width:22.5%">
+                <col span="1" style="width:10%">
+            </colgroup>
+            <thead>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>NPI</th>
+                <th>Organization</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="table">{{firstName}}</td>
+                <td class="table">{{lastName}}</td>
+                <td class="table">{{NPI}}</td>
+                <td class="table">{{organization}}</td>
+                <td style="font-size: 12px width=100%">
+                    <paper-button raised on-tap="editProvider" modalName="editProvider">Edit</paper-button>
+                </td>
+            </tr>
+            <tr>
+                <td class="table">Nick</td>
+                <td class="table">Martinez</td>
+                <td class="table">34252341233</td>
+                <td class="table">SMC Partners</td>
+                <td style="font-size: 12px width: 100%">
+                    <paper-button raised on-tap="editProvider" modalName="editProvider">Edit</paper-button>
+                </td>
+            </tr>
+                <app-admin-add id="inputModal"></app-admin-add>
+                <app-admin-edit id="editModal"></app-admin-edit>
+            </tbody>
+        </table>
     </template>
 </dom-module>
 <script>
-    (function () {
-        Polymer({
+    (function() {
+    Polymer({
             is: 'app-admin-panel-provider',
             properties: {
+            firstName: String,
+            lastName: String,
+            NPI: String,
+            organization: String
             },
+
             ready: function() {
-            }
+            this.providers=[
+                {firstName : 'John',
+                lastName: 'Smith',
+                NPI : '123456789',
+                organization: 'ProHealth'}
+                ]
+            },
+
+            editProvider: function(e) {
+                this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+            },
+
+            addProvider: function(e){
+                this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
+            },
         });
-    })();
+})();
 </script>

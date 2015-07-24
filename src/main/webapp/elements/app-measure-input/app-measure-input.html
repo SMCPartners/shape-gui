@@ -2,8 +2,6 @@
 <link rel="import" href="../elements.html">
 
 
-
-
 <dom-module id="app-measure-input">
     <style>
         .pms {
@@ -135,8 +133,9 @@
 
             },
             editMeasure: function (e) {
-                console.log(testDlg)
-                console.log(testDemIn)
+                console.log(testDlg);
+                console.log(testDemIn);
+                console.log(testDemIn.open);
                 testDemIn.open();
                 var nMeasure = e.currentTarget.id;
                 console.log(nMeasure);

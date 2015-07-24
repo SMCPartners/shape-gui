@@ -1,25 +1,105 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
 
-
 <dom-module id="app-admin-panel-organization">
     <style>
         .pms {
         @apply(--pm-style)
-        }
+        };
+
+        th {
+        text-align: center;
+        background-color: #0066FF;
+        color: white;
+        border-right: 1px solid #808080;
+        border-bottom: 1px solid #808080;
+        font-weight: bold;
+        };
+
+        th, td {padding: 10px 15px;
+        };
+
+        thead {
+        background: #395870;
+        color: #fff;
+        };
+
+        td {
+        border-bottom: 1px solid #cecfd5;
+        border-right: 1px solid #cecfd5;
+        };
+
+        td: first-child {
+        border-left: 1px solid #cecfd5;
+        };
+
+        tr: nth-child(even) {
+        background-color: #395870;
+
+        .addButton {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        align-content: stretch;
+        align-items: center;
+        };
+
     </style>
     <template>
-        <h2>test</h2>
+        <input type="search" data-table="order-table" placeholder="Search">
+        <div class="addButton" align="right">
+            <paper-button raised on-tap="addOrganization" modalName="addOrganization">Add Organization</paper-button>
+        </div>
+        <table class="sortable order-table table-rows" style="width: 100%">
+            <colgroup>
+                <col span="4" style="width:22.5%">
+                <col span="2" style="width:10%">
+            </colgroup>
+            <thead>
+                <th>Name</th>
+                <th>Address</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>ProHealth Physicians</td>
+                <td>123 Hartford Rd.</td>
+                <td style="font-size: 12px">
+                    <paper-button raised on-tap="editOrganization" modalName="editOrganization">Edit</paper-button>
+                </td>
+            </tr>
+            <app-admin-add id="inputModal"></app-admin-add>
+            <app-admin-edit id="editModal"></app-admin-edit>
+            </tbody>
+        </table>
     </template>
 </dom-module>
 <script>
-    (function () {
-        Polymer({
+    (function() {
+    Polymer({
             is: 'app-admin-panel-organization',
-            properties: {
-            },
+            properties: {},
+
             ready: function() {
+            },
+
+            editOrganization: function(e) {
+                this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+            },
+
+            addOrganization: function(e) {
+                this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
+            },
+
+           logOrganization: function (e) {
+                var formSubmitEditOrganization = {
+                firstName: firstName.value,
+                lastName: lastName.value,
+                NPI: NPI.value,
+                organization: organization.value
+                };
+                this.$.editOrganizationInfo.toggle();
             }
         });
-    })();
+})();
 </script>
