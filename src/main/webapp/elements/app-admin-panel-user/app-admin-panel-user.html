@@ -1,6 +1,5 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
-<script src="js/sorttable.js"></script>
 
 <dom-module id="app-admin-panel-user">
     <style>
@@ -9,154 +8,105 @@
         };
 
         th {
-        text-align: left
-        };
-
-        .fraction {
-        display: inline-block;
-        position: relative;
-        vertical-align: middle;
-        letter-spacing: 0.001em;
         text-align: center;
-        font-size: 36px;
+        background-color: #0066FF;
+        color: white;
+        border-right: 1px solid #808080;
+        border-bottom: 1px solid #808080;
+        font-weight: bold;
         };
 
-        .fraction > span {
-        display: block;
-        padding: 0.1em;
+        th, td {padding: 10px 15px;
         };
 
-        .fraction span.fdn {
-        border-top: thin solid black;
+        thead {
+        background: #395870;
+        color: #fff;
         };
 
-        .fraction span.bar {
-        display: none;
+        td {
+        border-bottom: 1px solid #cecfd5;
+        border-right: 1px solid #cecfd5;
         };
 
-        .header {
-        font-size: 36px;
+        td: first-child {
+        border-left: 1px solid #cecfd5;
         };
 
-        .modalHeader {
-        align: center;
-        };
+        tr: nth-child(even) {
+        background-color: #395870;
 
-        .modalSection {
-        font-size: 20px;
-        };
-
-        .leader {
-        border-color: black;
-        };
-
-        .double {
-        flex: 2 2;
-        };
-
-        .single {
-        flex: 1 1;
-        };
-
-        .modalBox {
-        position: fixed;
-        width: 70%;
-        height: 70%;
-        top: 0;
-        right: 0;
-        bottom: auto;
-        left: 0;
-        margin: 0px !important;
+        .addButton {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        align-content: stretch;
+        align-items: center;
         };
 
     </style>
     <template>
-        <table class="sortable" style= "width:100%">
+        <div style="display: inline">
+            <input type="search" data-table="order-table" placeholder="Search">
+            <div class="addButton" align="right">
+                <paper-button raised on-tap="addUser" modalName="addUser">Add User</paper-button>
+            </div>
+        </div>
+        <table class="sortable order-table table-rows" style="width: 100%">
+            <colgroup>
+                <col span="4" style="width:22.5%">
+                <col span="2" style="width:10%">
+            </colgroup>
             <thead>
-            <th>User</th>
-            <th>Organization</th>
-            <th>Provider</th>
-            <th>Measure</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Organization</th>
             </thead>
             <tbody>
             <tr>
-                <div align="left">
-                    <td>JSmith</td>
-                    <td>John Smith</td>
-                    <td>Org User</td>
-                    <td>Assigned</td>
-                    <td>
-                        <div class="child">
-                            <paper-button raised on-tap="editUserRegistration">Edit Registration</paper-button>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="child">
-                            <paper-button raised on-tap="editUserPermissions">Edit Permissions</paper-button>
-                        </div>
-                    </td>
-                </div>
+                <td>{{username}}</td>
+                <td>{{userFullName}}</td>
+                <td>{{userRole}}</td>
+                <td>{{userOrganization}}</td>
+                <td style="font-size: 12px">
+                    <div class="editButton">
+                        <paper-button raised on-tap="editUser" modalName="editUser">Edit</paper-button>
+                    </div>
+                </td>
             </tr>
-            <tr>
-                <div align="left">
-                    <td>BDoe</td>
-                    <td>Ben Doe</td>
-                    <td>Assigned</td>
-                    <td>ProHealth</td>
-                    <td>
-                        <div class="child">
-                            <paper-button raised on-tap="editUserRegistration">Edit Registration</paper-button>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="child">
-                            <paper-button raised on-tap="editUserPermissions">Edit Permissions</paper-button>
-                        </div>
-                    </td>
-                </div>
-            </tr>
+            <app-admin-add id="inputModal"></app-admin-add>
+            <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
-        <!--<paper-material class="pms">
-            <div class="parent">
-                <div class="child">Username​</div>
-                <div class="child">Name</div>
-                <div class="child">Type</div>
-                <div class="child">Assigned</div>
-                <div class="child>"></div>
-                <div class="child>"></div>
-            </div>
-            <div class="parenttwo">
-                <div class="child">Jsmith</div>
-                <div class="child">John Smith</div>
-                <div class="child">Org User</div>
-                <div class="child">ProHealth</div>
-                <div class="childtwo">
-                    <paper-button raised on-tap="editUserRegistration">Edit Registration</paper-button>
-                    <paper-button raised on-tap="editUserPermissions">Edit Permissions</paper-button>
-                </div>
-            </div>
-            <div class="parenttwo">
-                <div class="child">BDoe</div>
-                <div class="child">Betty Doe</div>
-                <div class="child">Org User</div>
-                <div class="child">ProHealth</div>
-                <div class="childtwo">
-                    <paper-button raised on-tap="editUserRegistration">Edit Registration</paper-button>
-                    <paper-button raised on-tap="editUserPermissions">Edit Permissions</paper-button>
-                </div>
-            </div>
-        </paper-material>-->
     </template>
 </dom-module>
 <script>
-    (function () {
-        Polymer({
+    (function() {
+    Polymer({
             is: 'app-admin-panel-user',
             properties: {
+            firstName: String,
+            lastName: String,
+            NPI: String,
+            organization: String
             },
+
             ready: function() {
-            }
+            this.username = 'jsmith123';
+            this.userFullName= 'John Smith';
+            this.userRole = 'Org Administrator';
+            this.userOrganization='ProHealth';
+            },
+
+            editUser: function(e) {
+                this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+            },
+
+            addUser: function(e){
+                this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
+            },
         });
-    })();
+})();
 </script>

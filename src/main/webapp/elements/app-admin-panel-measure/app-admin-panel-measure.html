@@ -1,25 +1,101 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
 
-
 <dom-module id="app-admin-panel-measure">
     <style>
         .pms {
         @apply(--pm-style)
-        }
+        };
+
+        th {
+        text-align: center;
+        background-color: #0066FF;
+        color: white;
+        border-right: 1px solid #808080;
+        border-bottom: 1px solid #808080;
+        font-weight: bold;
+        };
+
+        th, td {padding: 10px 15px;
+        };
+
+        thead {
+        background: #395870;
+        color: #fff;
+        };
+
+        td {
+        border-bottom: 1px solid #cecfd5;
+        border-right: 1px solid #cecfd5;
+        };
+
+        td: first-child {
+        border-left: 1px solid #cecfd5;
+        };
+
+        tr: nth-child(even) {
+        background-color: #395870;
+
+        .addButton {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        align-content: stretch;
+        align-items: center;
+        };
+
+        table {
+        border-collapse: separate;
+        border-spacing: 0;
+        };
+
     </style>
     <template>
-        <h2>test</h2>
+        <input type="search" data-table="order-table" placeholder="Search">
+        <div class="addButton" align="right">
+            <paper-button raised on-tap="addMeasure" modalName="addMeasure">Add Measure</paper-button>
+        </div>
+        <table class="sortable order-table table-rows" style="width: 100%">
+            <colgroup>
+                <col span="4" style="width:22.5%">
+                <col span="2" style="width:10%">
+            </colgroup>
+            <thead>
+                <th>NQF ID</th>
+                <th>CMS ID</th>
+                <th>Name</th>
+                <th>Description</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>0018</td>
+                <td>165v2</td>
+                <td>Controlling Blood Pressure</td>
+                <td>Descriptionp ppppp pppppp pppppppp  pppppp pppp p pppp ppp ppp ppppppppppppp</td>
+                <td style="font-size: 12px">
+                    <paper-button raised on-tap="editMeasure" modalName="editMeasure">Edit</paper-button>
+                </td>
+            </tr>
+            <app-admin-add id="inputModal"></app-admin-add>
+            <app-admin-edit id="editModal"></app-admin-edit>
+            </tbody>
+        </table>
     </template>
 </dom-module>
 <script>
-    (function () {
-        Polymer({
+    (function() {
+    Polymer({
             is: 'app-admin-panel-measure',
-            properties: {
+            properties: {},
+
+            editMeasure: function(e) {
+                this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
             },
-            ready: function() {
+
+            addMeasure: function(e) {
+                this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
             }
         });
-    })();
+})();
 </script>

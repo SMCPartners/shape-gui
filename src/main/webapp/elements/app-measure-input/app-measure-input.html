@@ -77,7 +77,6 @@
         };
     </style>
     <template>
-
             <paper-material class="pms">
                 <div class="parent">
                     <div class="child header">NQF 0018​</div>
@@ -136,7 +135,6 @@
                     </div>
                 </div>
             </paper-material>
-
     </template>
 </dom-module>
 <script>
@@ -149,8 +147,9 @@
             ready: function() {
             },
             editMeasure: function (e) {
-                console.log(testDlg)
-                console.log(testDemIn)
+                console.log(testDlg);
+                console.log(testDemIn);
+                console.log(testDemIn.open);
                 testDemIn.open();
                 var nMeasure = e.currentTarget.id;
                 console.log(nMeasure);
