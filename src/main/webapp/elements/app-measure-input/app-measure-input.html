@@ -28,26 +28,52 @@
             align-content: space-between;
             align-items: flex-start;
         };
-        .fraction {
+        .fraction1 {
             display: inline-block;
             position: relative;
             vertical-align: middle;
             letter-spacing: 0.001em;
             text-align: center;
-            font-size: 36px;
+            font-size: 20px;
         };
-        .fraction > span {
+        .fraction2 {
+            display: inline-block;
+            position: relative;
+            vertical-align: middle;
+            letter-spacing: 0.001em;
+            text-align: center;
+            font-size: 40px;
+        };
+        .fraction1 > span {
             display: block;
             padding: 0.1em;
         };
-        .fraction span.fdn {
+        .fraction1 span.fdn {
             border-top: thin solid black;
         };
-        .fraction span.bar {
+        .fraction1 span.bar {
+            display: none;
+        };
+        .fraction2 > span {
+            display: block;
+            padding: 0.1em;
+        };
+        .fraction2 span.fdn {
+            border-top: thin solid black;
+        };
+        .fraction2 span.bar {
             display: none;
         };
         .header {
             font-size: 36px;
+        };
+        .description {
+            font-size: 20px;
+            text-align: center;
+            margin-left: 2em;
+            margin-right: 2em;
+            margin-top: 1em;
+            margin-bottom: 1em;
         };
         .modalHeader {
             align: center;
@@ -65,14 +91,18 @@
             flex: 1 1;
         };
         .modalBox {
-        position: fixed;
-        width: 70%;
-        height: 70%;
-        top: 0;
-        right: 0;
-        bottom: auto;
-        left: 0;
-        margin: 0px !important;
+            position: fixed;
+            width: 70%;
+            height: 70%;
+            top: 0;
+            right: 0;
+            bottom: auto;
+            left: 0;
+            margin: 0px !important;
+        };
+        #measureChart {
+            margin-top: 1em;
+            height: 80%
         };
     </style>
     <template>
@@ -82,36 +112,46 @@
                     <div class="child header">{{item.NQF}}</div>
                     <div class="child header">{{item.name}}</div>
                     <div class="child">
-                        <paper-icon-button icon="info" on-tap="measureDetail"></paper-icon-button>
+                        <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item.description}}"></paper-icon-button>
                     </div>
                 </div>
+                <div class="child description">{{item.description}}</div>
                 <div class="parent">
-                    <div class="fraction child">
+                    <div class="fraction1 child">
                         <span class="fup">Numerator</span>
                         <span class="bar">/</span>
                         <span class="fdn">Denominator</span>
                     </div>
                     <div class="child header">=</div>
-                    <div class="fraction child">
+                    <div class="fraction2 child">
                         <span class="fup">{{item.numerator}}</span>
                         <span class="bar">/</span>
                         <span class="fdn">{{item.denominator}}</span>
                     </div>
                     <div class="child">
-                        <google-chart id="bpChart"
+                        <google-chart id="measureChart"
                                type='pie'
-                               options='{"title": "{{item.name}}",
-                                         "pieHole": ".6",
-                                         "pieSliceText": "none"}'
+                               options='{{item.chartOptions}}'
                                data='{{item.chart}}'>
                         </google-chart>
                     </div>
                     <div class="child">
-                        <paper-button raised on-tap="editMeasure" id="b1">Edit</paper-button>
+                        <paper-button raised on-tap="editMeasure" id="{{item.name}}">Edit</paper-button>
                     </div>
+                </div>
+                <div class="parent">
+                    <paper-material elevation="2" class="child">
+                        <div>Your Measure Results:</div>
+                        <div>56%</div>
+                    </paper-material>
+                    <paper-material elevation="2" class="child">
+                        <div>Aggregate Measure Results:</div>
+                        <div>60%</div>
+                    </paper-material>
                 </div>
             </paper-material>
         </template>
+
     </template>
 </dom-module>
 <script>
@@ -123,29 +163,37 @@
             },
             ready: function() {
                 this.measures = [
-                    {name: 'Controlling High Blood Pressure', NQF: 'NQF 0018', numerator: 3241, denominator: 4231, chart:
-                    [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]]},
-                    {name: 'Diabetes: HbA1c Poor Control', NQF: 'NQF 0059', numerator: 2153, denominator: 3597, chart:
-                    [["Month", "Days"], ["Well Controlled", 1444], ["Poorly Controlled", 2153]]}
+                    {name: 'Controlling High Blood Pressure', NQF: 'NQF 0018', numerator: 3241, denominator: 4231,
+                    chart: [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]],
+                    chartOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"},
+                    description: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90mmHg) during the measurement period.'},
+                    {name: 'Diabetes: HbA1c Poor Control', NQF: 'NQF 0059', numerator: 2153, denominator: 3597,
+                    chart: [["Month", "Days"], ["Well Controlled", 1444], ["Poorly Controlled", 2153]],
+                    chartOptions: {"title": "Diabetes: HbA1c Poor Control", "pieHole": ".6", "pieSliceText": "none"},
+                    description: 'Percentage of patients 18-75 years of age with diabetes who had hemoglobin A1c > 9.0% during the measurement period.'}
                 ];
             },
             attached: function() {
 
             },
             editMeasure: function (e) {
-                console.log(testDlg);
-                console.log(testDemIn);
-                console.log(testDemIn.open);
-                testDemIn.open();
                 var nMeasure = e.currentTarget.id;
                 console.log(nMeasure);
+                appDemographicInput.nameOfMeasure=nMeasure;
+                demIn.open();
             },
             measureDetail: function (e) {
-                //this.$.info.toggle();
-                //console.log("It worked for Info!");
-                console.log(this.measures)
+                var nInfo = e.currentTarget.id;
+                //console.log(nInfo);
+                var nDescription = e.currentTarget.data;
+                console.log(nDescription);
+                appInformationModal.nameOfMeasure=nInfo;
+                appInformationModal.detailedDescription=nDescription;
+                infoMod.open();
             }
-
+            //To be added to object to style graphs:
+            //"slices": {"0": {'color': #32cd32}, "1": {'color': 'transparent'}},
         });
     })();
 </script>
+

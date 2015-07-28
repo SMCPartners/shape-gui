@@ -75,18 +75,24 @@
         };
     </style>
     <template>
-        <paper-dialog id="testDemIn" modal class="size-position">
+        <paper-dialog id="demIn" modal class="size-position">
             <div class="parenttwo">
-                <h2 class="child">Controlling High Blood Pressure</h2>
+                <h2 class="child">{{nameOfMeasure}}</h2>
             </div>
             <paper-dialog-scrollable  elevation="1">
                 <div>
                     <div class="parenttwo">
                         <div class="child">
-                            <paper-input type="number" class="inputField" label="Numerator" id="mainNum"></paper-input>
+                            <paper-input-container>
+                                <label>Numerator</label>
+                                <input class='inputField' id=mainNum is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                            </paper-input-container>
                         </div>
                         <div class="child">
-                            <paper-input type="number" class="inputField" label="Denominator" id="mainDen"></paper-input>
+                            <paper-input-container>
+                                <label>Denominator</label>
+                                <input class='inputField' id=mainDen is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                            </paper-input-container>
                         </div>
                     </div>
                     <template is="dom-repeat" items="{{stratifyGroups}}" as="group">
@@ -125,6 +131,9 @@
         Polymer({
             is: 'app-demographic-input',
             properties: {
+                nameOfMeasure: {
+                    type: String
+                }
             },
             ready: function () {
                 this.stratifyGroups = [
@@ -182,18 +191,19 @@
                     sixtyFiveNum: sixtyFiveNum.value,
                     sixtyFiveDen: sixtyFiveDen.value
                 };
+                //if we want to do field completion validation, we can start with below...phase 2?
                 /*for (var i in formSubmit)
                     {
                         if (formSubmit[i].length <= 0)
                             {
-                                return(i)
+                                console.log(i)
                             };
-                    };*/
-                    console.log(formSubmit);
-                    this.$.testDemIn.toggle();
+                    };
+                console.log(formSubmit);*/
+                this.$.demIn.toggle();
             },
             cancelLog: function (e) {
-
+                this.$.demIn.toggle();
             }
         });
     })();

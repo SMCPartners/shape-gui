@@ -1,0 +1,110 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+<dom-module id="app-info-modal">
+    <style>
+        .pms {
+        @apply(--pm-style)
+        };
+        .child {
+        order: 0;
+        flex: 0 1 auto;
+        align-self: center;
+        };
+        .parent {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-content: space-between;
+        align-items: flex-start;
+        };
+        .parenttwo {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-content: space-between;
+        align-items: flex-start;
+        };
+        .fraction {
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        letter-spacing: 0.001em;
+        text-align: center;
+        font-size: 36px;
+        };
+        .fraction > span {
+        display: block;
+        padding: 0.1em;
+        };
+        .fraction span.fdn {
+        border-top: thin solid black;
+        };
+        .fraction span.bar {
+        display: none;
+        };
+        .header {
+        font-size: 36px;
+        };
+        .modalHeader {
+        align: center;
+        };
+        .modalSection {
+        font-size: 20px;
+        };
+        .leader {
+        font-size: 20px;
+        font-color: #D6D6C2;
+        font-style: italic;
+        border-top: thick double black;
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+        };
+        .double {
+        flex: 2 2;
+        };
+        .single {
+        flex: 1 1;
+        };
+        .modalBox {
+        width: 70%;
+        height: 70%;
+        };
+    </style>
+    <template>
+        <paper-dialog id="infoMod" modal class="size-position">
+            <div class="parenttwo">
+                <h2 class="child">{{nameOfMeasure}}</h2>
+            </div>
+            <div>{{detailedDescription}}</div>
+            <div class="parenttwo">
+                <paper-button raised class="child" on-tap="exitInfo">Exit</paper-button>
+            </div>
+        </paper-dialog>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-info-modal',
+            properties: {
+                nameOfMeasure: {
+                    type: String
+                }
+            },
+            ready: function () {
+                this.detailedMeasures = [
+                    {id: 'hypertensionDetail', details: 'Test Hypertension'},
+                    {id: 'diabetesDetail', details: 'Test Diabetes'}
+                ];
+            },
+            exitInfo: function (e) {
+                this.$.infoMod.toggle();
+            }
+        });
+    })();
+</script>
+
