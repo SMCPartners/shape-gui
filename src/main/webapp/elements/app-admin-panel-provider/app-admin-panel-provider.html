@@ -63,14 +63,11 @@
 
     </style>
     <template>
-        <input type="search" data-table="order-table" placeholder="Search">
-        <paper-button class="addButton" raised on-tap="addProvider" modalName="addProvider">Add Provider
-            <!--<colgroup>
-                <col span="4" style="width:22.5%">
-                <col span="1" style="width:10%">
-            </colgroup>-->
-        </paper-button>
-        <table class="sortable order-table" style="width: 100%">
+        <div class="row-inline">
+            <input class="pull-left" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search">
+            <paper-button style="float: right" raised on-tap="addProvider" modalName="addProvider">Add Provider</paper-button>
+        </div>
+        <table class="sortable order-table table-hover" style="width: 100%">
             <colgroup>
                 <col span="4" style="width:22.5%">
                 <col span="1" style="width:10%">
@@ -82,24 +79,19 @@
                 <th>Organization</th>
             </thead>
             <tbody>
-            <tr>
-                <td class="table">{{firstName}}</td>
-                <td class="table">{{lastName}}</td>
-                <td class="table">{{NPI}}</td>
-                <td class="table">{{organization}}</td>
-                <td style="font-size: 12px width=100%">
-                    <paper-button raised on-tap="editProvider" modalName="editProvider">Edit</paper-button>
-                </td>
-            </tr>
-            <tr>
-                <td class="table">Nick</td>
-                <td class="table">Martinez</td>
-                <td class="table">34252341233</td>
-                <td class="table">SMC Partners</td>
-                <td style="font-size: 12px width: 100%">
-                    <paper-button raised on-tap="editProvider" modalName="editProvider">Edit</paper-button>
-                </td>
-            </tr>
+            <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}">
+                <tr>
+                    <td><span>{{item.firstName}}</span></td>
+                    <td><span>{{item.lastName}}</span></td>
+                    <td><span>{{item.NPI}}</span></td>
+                    <td><span>{{item.organization}}</span></td>
+                    <td style="font-size: 12px">
+                        <div class="editButton">
+                            <paper-button raised on-tap="editProvider" modalName="editProvider">Edit</paper-button>
+                        </div>
+                    </td>
+                </tr>
+                </template>
                 <app-admin-add id="inputModal"></app-admin-add>
                 <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
@@ -119,11 +111,20 @@
 
             ready: function() {
             this.providers=[
-                {firstName : 'John',
-                lastName: 'Smith',
-                NPI : '123456789',
-                organization: 'ProHealth'}
-                ]
+            {firstName: 'Nick', lastName: 'Martinez', NPI: '123456789', organization: 'SMC Partners'},
+            {firstName: 'Gregory', lastName: 'House', NPI: '999999999', organization: 'Princeton'},
+            ];
+            },
+
+            _filter: function(val) {
+                return function(provider) {
+                    if (!val) return true;
+                    if (!provider) return false;
+                    return (provider.firstName && ~provider.firstName.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (provider.lastName && ~provider.lastName.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (provider.NPI && ~provider.NPI.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (provider.organization && ~provider.organization.toLowerCase().indexOf(val.toLowerCase()));
+               };
             },
 
             editProvider: function(e) {

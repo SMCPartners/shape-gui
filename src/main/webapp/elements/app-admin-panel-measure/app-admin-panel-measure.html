@@ -52,14 +52,15 @@
 
     </style>
     <template>
-        <input type="search" data-table="order-table" placeholder="Search">
-        <div class="addButton" align="right">
-            <paper-button raised on-tap="addMeasure" modalName="addMeasure">Add Measure</paper-button>
+        <div class="row-inline">
+            <input class="pull-left" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search">
+            <paper-button style="float: right" raised on-tap="addMeasure" modalName="addMeasure">Add Measure</paper-button>
         </div>
         <table class="sortable order-table table-rows" style="width: 100%">
             <colgroup>
-                <col span="4" style="width:22.5%">
-                <col span="2" style="width:10%">
+                <col span="3" style="width:15%">
+                <col span="1" style="width:35%">
+                <col span="1" style="width:10%">
             </colgroup>
             <thead>
                 <th>NQF ID</th>
@@ -68,17 +69,21 @@
                 <th>Description</th>
             </thead>
             <tbody>
+            <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}">
             <tr>
-                <td>0018</td>
-                <td>165v2</td>
-                <td>Controlling Blood Pressure</td>
-                <td>Descriptionp ppppp pppppp pppppppp  pppppp pppp p pppp ppp ppp ppppppppppppp</td>
+                <td><span>{{item.nqfID}}</span></td>
+                <td><span>{{item.cmsID}}</span></td>
+                <td><span>{{item.measureName}}</span></td>
+                <td><span>{{item.measureDescription}}</span></td>
                 <td style="font-size: 12px">
-                    <paper-button raised on-tap="editMeasure" modalName="editMeasure">Edit</paper-button>
+                    <div class="editButton">
+                        <paper-button raised on-tap="editMeasure" modalName="editMeasure">Edit</paper-button>
+                    </div>
                 </td>
             </tr>
-            <app-admin-add id="inputModal"></app-admin-add>
-            <app-admin-edit id="editModal"></app-admin-edit>
+            </template>
+                <app-admin-add id="inputModal"></app-admin-add>
+                <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
     </template>
@@ -88,6 +93,24 @@
     Polymer({
             is: 'app-admin-panel-measure',
             properties: {},
+
+            ready: function() {
+            this.measure=[
+            {nqfID: '0018', cmsID: '165v3', measureName: 'Controlling Blood Pressure'},
+            {nqfID: '0059', cmsID: '123v2', measureName: 'Diabetes: HbA1c Poor Control', measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'},
+            ];
+            },
+
+            _filter: function(val) {
+                return function(measure) {
+                    if (!val) return true;
+                    if (!measure) return false;
+                    return (measure.nqfID && ~measure.nqfID.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (measure.cmsID && ~measure.cmsID.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (measure.measureName && ~measure.measureName.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (measure.measureDescription && ~measure.measureDescription.toLowerCase().indexOf(val.toLowerCase()));
+               };
+            },
 
             editMeasure: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));

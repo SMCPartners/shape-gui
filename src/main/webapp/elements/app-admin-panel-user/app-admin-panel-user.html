@@ -49,7 +49,7 @@
     </style>
     <template>
         <div style="display: inline">
-            <input type="search" data-table="order-table" placeholder="Search">
+            <input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search">
             <div class="addButton" align="right">
                 <paper-button raised on-tap="addUser" modalName="addUser">Add User</paper-button>
             </div>
@@ -66,19 +66,21 @@
                 <th>Organization</th>
             </thead>
             <tbody>
-            <tr>
-                <td>{{username}}</td>
-                <td>{{userFullName}}</td>
-                <td>{{userRole}}</td>
-                <td>{{userOrganization}}</td>
-                <td style="font-size: 12px">
-                    <div class="editButton">
-                        <paper-button raised on-tap="editUser" modalName="editUser">Edit</paper-button>
-                    </div>
-                </td>
-            </tr>
-            <app-admin-add id="inputModal"></app-admin-add>
-            <app-admin-edit id="editModal"></app-admin-edit>
+            <template is="dom-repeat" items="{{users}}" filter="{{_filter(filterVal)}}">
+                <tr>
+                    <td><span>{{item.username}}</span></td>
+                    <td><span>{{item.userFullName}}</span></td>
+                    <td><span>{{item.userRole}}</span></td>
+                    <td><span>{{item.userOrganization}}</span></td>
+                    <td style="font-size: 12px">
+                        <div class="editButton">
+                            <paper-button raised on-tap="editUser" modalName="editUser">Edit</paper-button>
+                        </div>
+                    </td>
+                </tr>
+            </template>
+                <app-admin-add id="inputModal"></app-admin-add>
+                <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
     </template>
@@ -88,20 +90,32 @@
     Polymer({
             is: 'app-admin-panel-user',
             properties: {
-            firstName: String,
-            lastName: String,
-            NPI: String,
-            organization: String
+            username: String,
+            userFullName: String,
+            userRole: String,
+            userOrganization: String
+            },
+
+            _filter: function(val) {
+                return function(user) {
+                    if (!val) return true;
+                    if (!user) return false;
+                    return (user.username && ~user.username.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (user.userFullName && ~user.userFullName.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (user.userRole && ~user.userRole.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (user.userOrganization && ~user.userOrganization.toLowerCase().indexOf(val.toLowerCase()));
+               };
             },
 
             ready: function() {
-            this.username = 'jsmith123';
-            this.userFullName= 'John Smith';
-            this.userRole = 'Org Administrator';
-            this.userOrganization='ProHealth';
+            this.users=[
+            {username: 'jsmith123', userFullName: 'John Smith', userRole: 'Org Administrator', userOrganization: 'ProHealth'},
+            {username: 'nmartinez', userFullName: 'Nick Martinez', userRole: 'Org User', userOrganization: 'SMC Partners'},
+            ];
             },
 
             editUser: function(e) {
+                console.log(e.target.parentNode.getAttribute("modalName")),
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
             },
 

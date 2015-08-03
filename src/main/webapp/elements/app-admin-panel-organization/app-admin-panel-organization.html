@@ -47,13 +47,16 @@
 
     </style>
     <template>
-        <input type="search" data-table="order-table" placeholder="Search">
-        <div class="addButton" align="right">
-            <paper-button raised on-tap="addOrganization" modalName="addOrganization">Add Organization</paper-button>
+        <div style="display: inline">
+            <input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search">
+            <div class="addButton" align="right">
+                <paper-button class="addButton" raised on-tap="addOrganization" modalName="addOrganization">Add Organization</paper-button>
+            </div>
         </div>
         <table class="sortable order-table table-rows" style="width: 100%">
             <colgroup>
-                <col span="4" style="width:22.5%">
+                <col span="1" style="width:40%">
+                <col span="1" style="width:50%">
                 <col span="2" style="width:10%">
             </colgroup>
             <thead>
@@ -61,15 +64,19 @@
                 <th>Address</th>
             </thead>
             <tbody>
-            <tr>
-                <td>ProHealth Physicians</td>
-                <td>123 Hartford Rd.</td>
-                <td style="font-size: 12px">
-                    <paper-button raised on-tap="editOrganization" modalName="editOrganization">Edit</paper-button>
-                </td>
-            </tr>
-            <app-admin-add id="inputModal"></app-admin-add>
-            <app-admin-edit id="editModal"></app-admin-edit>
+            <template is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}">
+                <tr>
+                    <td><span>{{item.name}}</span></td>
+                    <td><span>{{item.address}}</span></td>
+                    <td style="font-size: 12px">
+                        <div class="editButton">
+                            <paper-button raised on-tap="editOrganization" modalName="editOrganization">Edit</paper-button>
+                        </div>
+                    </td>
+                </tr>
+            </template>
+                <app-admin-add id="inputModal"></app-admin-add>
+                <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
     </template>
@@ -78,9 +85,25 @@
     (function() {
     Polymer({
             is: 'app-admin-panel-organization',
-            properties: {},
+            properties: {
+            name: String,
+            address: String,
+            },
 
             ready: function() {
+            this.organization=[
+            {name: 'Prohealth', address: '1234 Hartford Rd'},
+            {name: 'Hartford', address: '9999 Columbus Blvd'},
+            ];
+            },
+
+            _filter: function(val) {
+                return function(organization) {
+                    if (!val) return true;
+                    if (!organization) return false;
+                    return (organization.name && ~organization.name.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (organization.address && ~organization.address.toLowerCase().indexOf(val.toLowerCase()));
+               };
             },
 
             editOrganization: function(e) {
