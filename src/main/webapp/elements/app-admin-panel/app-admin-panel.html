@@ -6,10 +6,14 @@
     <style>
         .pms {
         @apply(--pm-style)
-        }
+        };
+
+        paper-tab[tabindex="0"] {
+            background-color: lightgray;
+        };
     </style>
     <template>
-        <p>ADMIN PANEL</p>
+            <h2 style="margin: 0 0.4em;">ADMIN PANEL</h2>
             <paper-tabs style="font-size: 24" selected="{{selected}}">
                 <paper-tab>User</paper-tab>
                 <paper-tab>Provider</paper-tab>
