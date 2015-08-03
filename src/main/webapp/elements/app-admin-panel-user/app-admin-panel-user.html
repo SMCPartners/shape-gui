@@ -35,25 +35,15 @@
 
         tr: nth-child(even) {
         background-color: #395870;
-
-        .addButton {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
-        align-content: stretch;
-        align-items: center;
         };
 
     </style>
     <template>
-        <div style="display: inline">
-            <input type="search" data-table="order-table" placeholder="Search">
-            <div class="addButton" align="right">
-                <paper-button raised on-tap="addUser" modalName="addUser">Add User</paper-button>
-            </div>
+        <div style="padding: 0 0.4em">
+            <input type="search" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
+            <paper-button raised on-tap="addUser" modalName="addUser" style="float:right">Add User</paper-button>
         </div>
-        <table class="sortable order-table table-rows" style="width: 100%">
+        <table class="sortable order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
                 <col span="4" style="width:22.5%">
                 <col span="2" style="width:10%">
@@ -63,6 +53,7 @@
                 <th>Name</th>
                 <th>Role</th>
                 <th>Organization</th>
+                <th></th>
             </thead>
             <tbody>
             <tr>
@@ -71,9 +62,7 @@
                 <td>{{userRole}}</td>
                 <td>{{userOrganization}}</td>
                 <td style="font-size: 12px">
-                    <div class="editButton">
-                        <paper-button raised on-tap="editUser" modalName="editUser">Edit</paper-button>
-                    </div>
+                    <paper-button raised on-tap="editUser" modalName="editUser">Edit</paper-button>
                 </td>
             </tr>
             <app-admin-add id="inputModal"></app-admin-add>
