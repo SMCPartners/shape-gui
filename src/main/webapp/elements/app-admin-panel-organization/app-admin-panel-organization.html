@@ -52,8 +52,14 @@
             <div class="addButton" align="right">
                 <paper-button class="addButton" raised on-tap="addOrganization" modalName="addOrganization">Add Organization</paper-button>
             </div>
+            <label>Sort By:</label>
+            <select value="{{sortVal::change}}">
+                <option>Select:</option>
+                <option value="name">Name</option>
+                <option value="address">Address</option>
+            </select>
         </div>
-        <table class="sortable order-table table-rows" style="width: 100%">
+        <table class="order-table table-rows" style="width: 100%">
             <colgroup>
                 <col span="1" style="width:40%">
                 <col span="1" style="width:50%">
@@ -64,7 +70,7 @@
                 <th>Address</th>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}">
+            <template is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.name}}</span></td>
                     <td><span>{{item.address}}</span></td>
@@ -105,6 +111,22 @@
                             (organization.address && ~organization.address.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
+
+            _sort: function(val) {
+                switch(val) {
+                case 'name':
+                    return function(a, b) {
+                    if (a.name.toLowerCase() === b.name.toLowerCase()) return 0;
+                    return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
+                    };
+
+                 case 'address':
+                    return function(a, b) {
+                    if (a.address.toLowerCase() === b.address.toLowerCase()) return 0;
+                    return a.address.toLowerCase() < b.address.toLowerCase() ? -1 : 1;
+                    };
+                }
+             },
 
             editOrganization: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));

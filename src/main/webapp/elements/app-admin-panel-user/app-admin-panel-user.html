@@ -53,8 +53,16 @@
             <div class="addButton" align="right">
                 <paper-button raised on-tap="addUser" modalName="addUser">Add User</paper-button>
             </div>
+            <label>Sort By:</label>
+            <select value="{{sortVal::change}}">
+                <option>Select:</option>
+                <option value="username">Username</option>
+                <option value="userFullName">Name</option>
+                <option value="userRole">Role</option>
+                <option value="userOrganization">Organization</option>
+            </select>
         </div>
-        <table class="sortable order-table table-rows" style="width: 100%">
+        <table class="order-table table-rows" style="width: 100%">
             <colgroup>
                 <col span="4" style="width:22.5%">
                 <col span="2" style="width:10%">
@@ -66,7 +74,7 @@
                 <th>Organization</th>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{users}}" filter="{{_filter(filterVal)}}">
+            <template is="dom-repeat" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.username}}</span></td>
                     <td><span>{{item.userFullName}}</span></td>
@@ -107,10 +115,39 @@
                };
             },
 
+            _sort: function(val) {
+                switch(val) {
+                case 'username':
+                    return function(a, b) {
+                    if (a.username.toLowerCase() === b.username.toLowerCase()) return 0;
+                    return a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
+                    };
+
+                 case 'userFullName':
+                    return function(a, b) {
+                    if (a.userFullName.toLowerCase() === b.userFullName.toLowerCase()) return 0;
+                    return a.userFullName.toLowerCase() < b.userFullName.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'userRole':
+                    return function(a, b) {
+                    if (a.userRole.toLowerCase() === b.userRole.toLowerCase()) return 0;
+                    return a.userRole.toLowerCase() < b.userRole.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'userOrganization':
+                    return function(a, b) {
+                    if (a.userOrganization.toLowerCase() === b.userOrganization.toLowerCase()) return 0;
+                    return a.userOrganization.toLowerCase() < b.userOrganization.toLowerCase() ? -1 : 1;
+                    };
+                }
+             },
+
             ready: function() {
             this.users=[
-            {username: 'jsmith123', userFullName: 'John Smith', userRole: 'Org Administrator', userOrganization: 'ProHealth'},
-            {username: 'nmartinez', userFullName: 'Nick Martinez', userRole: 'Org User', userOrganization: 'SMC Partners'},
+                {username: 'rsmith123', userFullName: 'John Smith', userRole: 'Org Administrator', userOrganization: 'ProHealth'},
+                {username: 'nmartinez', userFullName: 'Nick Martinez', userRole: 'Org User', userOrganization: 'SMC Partners'},
+                {username: 'tdoe', userFullName: 'allen Martinez', userRole: 'Org man', userOrganization: 'house'}
             ];
             },
 

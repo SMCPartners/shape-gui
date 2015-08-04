@@ -56,7 +56,15 @@
             <input class="pull-left" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search">
             <paper-button style="float: right" raised on-tap="addMeasure" modalName="addMeasure">Add Measure</paper-button>
         </div>
-        <table class="sortable order-table table-rows" style="width: 100%">
+        <label>Sort By:</label>
+        <select value="{{sortVal::change}}">
+            <option>Select:</option>
+            <option value="nqfID">NQF ID</option>
+            <option value="cmsID">CMS ID</option>
+            <option value="measureName">Name</option>
+            <option value="measureDescription">Description</option>
+        </select>
+        <table class="order-table table-rows" style="width: 100%">
             <colgroup>
                 <col span="3" style="width:15%">
                 <col span="1" style="width:35%">
@@ -69,7 +77,7 @@
                 <th>Description</th>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}">
+            <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
             <tr>
                 <td><span>{{item.nqfID}}</span></td>
                 <td><span>{{item.cmsID}}</span></td>
@@ -111,6 +119,34 @@
                             (measure.measureDescription && ~measure.measureDescription.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
+
+            _sort: function(val) {
+                switch(val) {
+                case 'nqfID':
+                    return function(a, b) {
+                    if (a.nqfID.toLowerCase() === b.nqfID.toLowerCase()) return 0;
+                    return a.nqfID.toLowerCase() < b.nqfID.toLowerCase() ? -1 : 1;
+                    };
+
+                 case 'cmsID':
+                    return function(a, b) {
+                    if (a.cmsID.toLowerCase() === b.cmsID.toLowerCase()) return 0;
+                    return a.cmsID.toLowerCase() < b.cmsID.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'measureName':
+                    return function(a, b) {
+                    if (a.measureName.toLowerCase() === b.measureName.toLowerCase()) return 0;
+                    return a.measureName.toLowerCase() < b.measureName.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'measureDescription':
+                    return function(a, b) {
+                    if (a.measureDescription.toLowerCase() === b.measureDescription.toLowerCase()) return 0;
+                    return a.measureDescription.toLowerCase() < b.measureDescription.toLowerCase() ? -1 : 1;
+                    };
+                }
+             },
 
             editMeasure: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));

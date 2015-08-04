@@ -67,7 +67,15 @@
             <input class="pull-left" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search">
             <paper-button style="float: right" raised on-tap="addProvider" modalName="addProvider">Add Provider</paper-button>
         </div>
-        <table class="sortable order-table table-hover" style="width: 100%">
+        <label>Sort By:</label>
+        <select value="{{sortVal::change}}">
+            <option>Select:</option>
+            <option value="firstName">First Name</option>
+            <option value="lastName">Last Name</option>
+            <option value="NPI">NPI</option>
+            <option value="organization">Organization</option>
+        </select>
+        <table class="order-table table-hover" style="width: 100%">
             <colgroup>
                 <col span="4" style="width:22.5%">
                 <col span="1" style="width:10%">
@@ -79,7 +87,7 @@
                 <th>Organization</th>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}">
+            <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.firstName}}</span></td>
                     <td><span>{{item.lastName}}</span></td>
@@ -126,6 +134,34 @@
                             (provider.organization && ~provider.organization.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
+
+            _sort: function(val) {
+                switch(val) {
+                case 'firstName':
+                    return function(a, b) {
+                    if (a.firstName.toLowerCase() === b.firstName.toLowerCase()) return 0;
+                    return a.firstName.toLowerCase() < b.firstName.toLowerCase() ? -1 : 1;
+                    };
+
+                 case 'lastName':
+                    return function(a, b) {
+                    if (a.lastName.toLowerCase() === b.lastName.toLowerCase()) return 0;
+                    return a.lastName.toLowerCase() < b.lastName.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'NPI':
+                    return function(a, b) {
+                    if (a.NPI.toLowerCase() === b.NPI.toLowerCase()) return 0;
+                    return a.NPI.toLowerCase() < b.NPI.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'organization':
+                    return function(a, b) {
+                    if (a.organization.toLowerCase() === b.organization.toLowerCase()) return 0;
+                    return a.organization.toLowerCase() < b.organization.toLowerCase() ? -1 : 1;
+                    };
+                }
+             },
 
             editProvider: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
