@@ -27,6 +27,7 @@
         td {
         border-bottom: 1px solid #cecfd5;
         border-right: 1px solid #cecfd5;
+        border-left: 1px solid #cecfd5;
         };
 
         td: first-child {
@@ -35,6 +36,7 @@
 
         tr: nth-child(even) {
         background-color: #395870;
+        };
 
         .addButton {
         display: flex;
@@ -47,13 +49,11 @@
 
     </style>
     <template>
-        <div style="display: inline">
-            <input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search">
-            <div class="addButton" align="right">
-                <paper-button class="addButton" raised on-tap="addOrganization" modalName="addOrganization">Add Organization</paper-button>
-            </div>
+        <div style="padding: 0 0.4em">
+            <input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
+            <paper-button raised on-tap="addOrganization" modalName="addOrganization" style="float:right">Add Organization</paper-button>
         </div>
-        <table class="sortable order-table table-rows" style="width: 100%">
+        <table class="sortable order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
                 <col span="1" style="width:40%">
                 <col span="1" style="width:50%">
@@ -62,6 +62,7 @@
             <thead>
                 <th>Name</th>
                 <th>Address</th>
+                <th></th>
             </thead>
             <tbody>
             <template is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}">

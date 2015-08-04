@@ -27,9 +27,10 @@
         justify-content: center;
         };
 
-        .table {
+        td {
         border-bottom: 1px solid #cecfd5;
         border-right: 1px solid #cecfd5;
+        border-left: 1px solid #cecfd5;
         };
 
         td: first-child {
@@ -38,6 +39,7 @@
 
         tr: nth-child(even) {
         background-color: #395870;
+        };
 
         .columnRight {
         flex: 0 0;
@@ -50,24 +52,13 @@
         .editButton {
         justify-content: center;
         };
-
-        .addButton {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
-        align-content: stretch;
-        align-items: center;
-        };
-
-
     </style>
     <template>
-        <div class="row-inline">
-            <input class="pull-left" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search">
-            <paper-button style="float: right" raised on-tap="addProvider" modalName="addProvider">Add Provider</paper-button>
+        <div style="padding: 0 0.4em">
+            <input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
+            <paper-button raised on-tap="addProvider" modalName="addProvider" style="float:right">Add Provider</paper-button>
         </div>
-        <table class="sortable order-table table-hover" style="width: 100%">
+        <table class="sortable order-table table-hover" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
                 <col span="4" style="width:22.5%">
                 <col span="1" style="width:10%">
@@ -77,6 +68,7 @@
                 <th>Last Name</th>
                 <th>NPI</th>
                 <th>Organization</th>
+                <th></th>
             </thead>
             <tbody>
             <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}">

@@ -28,6 +28,7 @@
         td {
         border-bottom: 1px solid #cecfd5;
         border-right: 1px solid #cecfd5;
+        border-left: 1px solid #cecfd5;
         };
 
         td: first-child {
@@ -41,7 +42,7 @@
     </style>
     <template>
         <div style="padding: 0 0.4em">
-            <input type="search" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
+            <input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
             <paper-button raised on-tap="addUser" modalName="addUser" style="float:right">Add User</paper-button>
         </div>
         <table class="sortable order-table table-rows" style="width: 100%; padding: 0 0.4em;">

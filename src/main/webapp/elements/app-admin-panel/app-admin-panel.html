@@ -8,12 +8,21 @@
         @apply(--pm-style)
         };
 
+        paper-tab {
+            border-top: 1px solid lightgray;
+        };
+
+        paper-tabs {
+            border-bottom: 1px solid lightgray;
+            --paper-tabs-selection-bar-color: lightgray;
+        };
+
         paper-tab[tabindex="0"] {
             background-color: lightgray;
         };
     </style>
     <template>
-            <h2 style="margin: 0 0.4em;">ADMIN PANEL</h2>
+            <h2 style="margin: 0 0 0.4em 0.4em;">ADMIN PANEL</h2>
             <paper-tabs style="font-size: 24" selected="{{selected}}">
                 <paper-tab>User</paper-tab>
                 <paper-tab>Provider</paper-tab>
