@@ -18,7 +18,7 @@
             </paper-material>
         </div>
         <paper-dialog id="editUsername">
-            <p>{{userName}}</p>
+            <paper-input label="User Name" value="{{userName}}"></paper-input>
         </paper-dialog>
         <paper-dialog id="editSecurityQuestions">
             <p>Change Security Questions</p>
@@ -60,8 +60,7 @@
                     this.$.changePassword.open();
                 }
                 if (buttonClicked=='email'){
-                    this.$.editEmail.open();
-
+                    this.$.editEmail.open
                 }
                 if (buttonClicked=='securityQuestions'){
                     this.$.editSecurityQuestions.open();
