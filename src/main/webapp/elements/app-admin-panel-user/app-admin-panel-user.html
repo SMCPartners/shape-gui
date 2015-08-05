@@ -39,16 +39,21 @@
         background-color: #395870;
         };
 
+        table {
+        border-collapse: separate;
+        border-spacing: 0;
+        };
+
     </style>
     <template>
         <div style="padding: 0 0.4em">
             <input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
-            <paper-button raised on-tap="addUser" modalName="addUser" style="float:right">Add User</paper-button>
+            <paper-button raised on-tap="addUser" modalName="addUser" style="float:right; padding-top: 0.1em;">Add User</paper-button>
         </div>
         <table class="sortable order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
-                <col span="4" style="width:22.5%">
-                <col span="2" style="width:10%">
+                <col span="4" style="width:23.5%">
+                <col style="width:6%">
             </colgroup>
             <thead>
                 <th>Username</th>

@@ -38,26 +38,23 @@
         background-color: #395870;
         };
 
-        .addButton {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
-        align-content: stretch;
-        align-items: center;
+
+
+        table {
+        border-collapse: separate;
+        border-spacing: 0;
         };
 
     </style>
     <template>
         <div style="padding: 0 0.4em">
             <input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
-            <paper-button raised on-tap="addOrganization" modalName="addOrganization" style="float:right">Add Organization</paper-button>
+            <paper-button raised on-tap="addOrganization" modalName="addOrganization" style="float:right;padding-top: 0.1em;">Add Organization</paper-button>
         </div>
         <table class="sortable order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
-                <col span="1" style="width:40%">
-                <col span="1" style="width:50%">
-                <col span="2" style="width:10%">
+                <col span="2" style="width:47%">
+                <col span="1" style="width:6%">
             </colgroup>
             <thead>
                 <th>Name</th>

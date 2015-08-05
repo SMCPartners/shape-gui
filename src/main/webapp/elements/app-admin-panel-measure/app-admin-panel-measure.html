@@ -49,13 +49,13 @@
     <template>
         <div style="padding: 0 0.4em">
             <input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
-            <paper-button raised on-tap="addMeasure" modalName="addMeasure" style="float:right">Add Measure</paper-button>
+            <paper-button raised on-tap="addMeasure" modalName="addMeasure" style="float:right; padding-top: 0.1em;">Add Measure</paper-button>
         </div>
         <table class="sortable order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
                 <col span="3" style="width:15%">
-                <col span="1" style="width:35%">
-                <col span="1" style="width:10%">
+                <col span="1" style="width:50%">
+                <col span="1" style="width:5%">
             </colgroup>
             <thead>
                 <th>NQF ID</th>
@@ -72,9 +72,7 @@
                 <td><span>{{item.measureName}}</span></td>
                 <td><span>{{item.measureDescription}}</span></td>
                 <td style="font-size: 12px">
-                    <div class="editButton">
-                        <paper-button raised on-tap="editMeasure" modalName="editMeasure">Edit</paper-button>
-                    </div>
+                    <paper-button raised on-tap="editMeasure" modalName="editMeasure">Edit</paper-button>
                 </td>
             </tr>
             </template>
@@ -91,10 +89,10 @@
             properties: {},
 
             ready: function() {
-            this.measure=[
-            {nqfID: '0018', cmsID: '165v3', measureName: 'Controlling Blood Pressure'},
-            {nqfID: '0059', cmsID: '123v2', measureName: 'Diabetes: HbA1c Poor Control', measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'},
-            ];
+                this.measure=[
+                    {nqfID: '0018', cmsID: '165v3', measureName: 'Controlling Blood Pressure'},
+                    {nqfID: '0059', cmsID: '123v2', measureName: 'Diabetes: HbA1c Poor Control', measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'},
+                ];
             },
 
             _filter: function(val) {
