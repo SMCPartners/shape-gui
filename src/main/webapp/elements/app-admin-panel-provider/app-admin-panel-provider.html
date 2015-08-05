@@ -56,13 +56,36 @@
         .editButton {
         justify-content: center;
         };
+
+        .flex-item {
+        order: 0;
+        flex: 1 1 auto;
+        align-self: auto;
+        }
     </style>
     <template>
-        <div style="padding: 0 0.4em">
-            <input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
-            <paper-button raised on-tap="addProvider" modalName="addProvider" style="float:right;padding-top: 0.1em;">Add Provider</paper-button>
+        <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
+            <div class='flex-item'>
+                <input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
+            </div>
+            <!--
+            <div class="flex-item">
+               <label>Sort By:</label>
+               <select value="{{sortVal::change}}">
+                   <option>Select:</option>
+                   <option value="firstName">First Name</option>
+                   <option value="lastName">Last Name</option>
+                   <option value="NPI">NPI</option>
+                   <option value="organization">Organization</option>
+               </select>
+            </div>
+            -->
+            <div class="flex-item">
+                <paper-button raised on-tap="addProvider" modalName="addProvider" style="float:right; padding-top: 0.1em;">Add Provider</paper-button>
+            </div>
         </div>
-        <table class="sortable order-table table-hover" style="width: 100%; padding: 0 0.4em;">
+
+        <table class="order-table table-hover" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
                 <col span="4" style="width:23.5%">
                 <col span="1" style="width:6%">
@@ -75,7 +98,7 @@
                 <th></th>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}">
+            <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.firstName}}</span></td>
                     <td><span>{{item.lastName}}</span></td>
@@ -122,6 +145,34 @@
                             (provider.organization && ~provider.organization.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
+
+            _sort: function(val) {
+                switch(val) {
+                case 'firstName':
+                    return function(a, b) {
+                    if (a.firstName.toLowerCase() === b.firstName.toLowerCase()) return 0;
+                    return a.firstName.toLowerCase() < b.firstName.toLowerCase() ? -1 : 1;
+                    };
+
+                 case 'lastName':
+                    return function(a, b) {
+                    if (a.lastName.toLowerCase() === b.lastName.toLowerCase()) return 0;
+                    return a.lastName.toLowerCase() < b.lastName.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'NPI':
+                    return function(a, b) {
+                    if (a.NPI.toLowerCase() === b.NPI.toLowerCase()) return 0;
+                    return a.NPI.toLowerCase() < b.NPI.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'organization':
+                    return function(a, b) {
+                    if (a.organization.toLowerCase() === b.organization.toLowerCase()) return 0;
+                    return a.organization.toLowerCase() < b.organization.toLowerCase() ? -1 : 1;
+                    };
+                }
+             },
 
             editProvider: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));

@@ -38,20 +38,36 @@
         background-color: #395870;
         };
 
-
-
         table {
         border-collapse: separate;
         border-spacing: 0;
         };
 
+        .flex-item {
+        order: 0;
+        flex: 1 1 auto;
+        align-self: auto;
+        }
+
     </style>
     <template>
-        <div style="padding: 0 0.4em">
-            <input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
-            <paper-button raised on-tap="addOrganization" modalName="addOrganization" style="float:right;padding-top: 0.1em;">Add Organization</paper-button>
+        <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
+            <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
+            <!--
+            <div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
+                <label>Sort By:</label>
+                <select value="{{sortVal::change}}">
+                    <option>Select:</option>
+                    <option value="name">Name</option>
+                    <option value="address">Address</option>
+                </select>
+            </div>
+            -->
+            <div class="flex-item">
+                <paper-button raised on-tap="addOrganization" modalName="addOrganization" style="float:right;padding-top: 0.1em;">Add Organization</paper-button>
+            </div>
         </div>
-        <table class="sortable order-table table-rows" style="width: 100%; padding: 0 0.4em;">
+        <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
                 <col span="2" style="width:47%">
                 <col span="1" style="width:6%">
@@ -62,7 +78,7 @@
                 <th></th>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}">
+            <template is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.name}}</span></td>
                     <td><span>{{item.address}}</span></td>
@@ -103,6 +119,22 @@
                             (organization.address && ~organization.address.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
+
+            _sort: function(val) {
+                switch(val) {
+                case 'name':
+                    return function(a, b) {
+                    if (a.name.toLowerCase() === b.name.toLowerCase()) return 0;
+                    return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
+                    };
+
+                 case 'address':
+                    return function(a, b) {
+                    if (a.address.toLowerCase() === b.address.toLowerCase()) return 0;
+                    return a.address.toLowerCase() < b.address.toLowerCase() ? -1 : 1;
+                    };
+                }
+             },
 
             editOrganization: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
