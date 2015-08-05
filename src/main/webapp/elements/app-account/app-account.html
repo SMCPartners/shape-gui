@@ -11,11 +11,24 @@
     <template>
         <div class="pms">
             <paper-material elevation="1">
-                <h2 class="paper-font-display2">This is the account page</h2>
-
+                <paper-button id='username' on-tap="handleClick"> Edit Username </paper-button><br/>
+                <paper-button id='resetPassword' on-tap="handleClick"> Reset Password </paper-button><br/>
+                <paper-button id='email' on-tap="handleClick"> Edit eMail </paper-button><br/>
+                <paper-button id='securityQuestions' on-tap="handleClick"> Change Security Questions </paper-button> <br/>
             </paper-material>
         </div>
-
+        <paper-dialog id="editUsername">
+            <p>{{userName}}</p>
+        </paper-dialog>
+        <paper-dialog id="editSecurityQuestions">
+            <p>Change Security Questions</p>
+        </paper-dialog>
+        <paper-dialog id="changePassword">
+            <p>{{password}}</p>
+        </paper-dialog>
+        <paper-dialog id="editEmail">
+            <p>{{email}}</p>
+        </paper-dialog>
     </template>
 </dom-module>
 <script>
@@ -23,8 +36,36 @@
         Polymer({
             is: 'app-account',
             properties: {
+                userName: {
+                    type: String,
+                    value: "User Name"
+                },
+                password: {
+                    type: String,
+                    value: "Password"
+                },
+                email: {
+                    type: String,
+                    value: "email@email.com"
+                }
             },
             ready: function() {
+            },
+            handleClick: function (e) {
+                buttonClicked=e.target.parentElement.id
+                if (buttonClicked=='username') {
+                    this.$.editUsername.open();
+                 }
+                if (buttonClicked=='resetPassword'){
+                    this.$.changePassword.open();
+                }
+                if (buttonClicked=='email'){
+                    this.$.editEmail.open();
+
+                }
+                if (buttonClicked=='securityQuestions'){
+                    this.$.editSecurityQuestions.open();
+                }
             }
         });
     })();
