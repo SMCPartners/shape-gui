@@ -64,9 +64,9 @@
     <template>
         <div class="pms">
             <div class="parent">
-                <div class="child">
-                    <div style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <label style="font: inherit; margin-left:0.5em;"> Measure: </label>
+                <div class="child parent">
+                    <label class="child" style="font: inherit; margin-left:0.5em;"><b>Measure:</b> </label>
+                    <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
                         <select name="measure" style="font: inherit">
                             <template is="dom-repeat" items="{{measures}}">
                                 <option style="font: inherit" value="{{item._id}}">
@@ -82,9 +82,9 @@
                     </select>
                     -->
                 </div>
-                <div class="child">
-                    <div style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <label style="font: inherit; margin-left:0.5em;"> Year: </label>
+                <div class="child parent">
+                    <label class="child" style="font: inherit; margin-left:0.5em;"> <b>Year:</b> </label>
+                    <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
                         <select name="measure" style="font: inherit">
                             <template is="dom-repeat" items="{{years}}">
                                 <option style="font: inherit" value="{{item}}">
@@ -103,14 +103,27 @@
                     </select>
                     -->
                 </div>
+                <div class="child parent">
+                    <label class="child" style="font: inherit; margin-left:0.5em;"><b>Analytics:</b></label>
+                    <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
+                        <select value="{{selectedView::change}}" style="font: inherit;">
+                            <option>Choose view..</option>
+                            <option value="0">List</option>
+                            <option value="1">Measure Trend</option>
+                            <option value="2">Measure Demographics</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div>
+                <!--
                 <paper-tabs selected="{{selected}}">
                     <paper-tab>List</paper-tab>
                     <paper-tab>Measure Trend</paper-tab>
                     <paper-tab>Measure Demographics</paper-tab>
                 </paper-tabs>
-                <iron-pages selected="{{selected}}">
+                -->
+                <iron-pages selected="{{selectedView}}">
                     <app-history-list></app-history-list>
                     <app-history-graph></app-history-graph>
                     <app-history-demographics></app-history-demographics>
