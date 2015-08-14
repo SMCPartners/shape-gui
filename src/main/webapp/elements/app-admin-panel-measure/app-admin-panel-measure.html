@@ -27,6 +27,7 @@
         td {
         border-bottom: 1px solid #cecfd5;
         border-right: 1px solid #cecfd5;
+        border-left: 1px solid #cecfd5;
         };
 
         td: first-child {
@@ -35,50 +36,67 @@
 
         tr: nth-child(even) {
         background-color: #395870;
-
-        .addButton {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
-        align-content: stretch;
-        align-items: center;
         };
 
         table {
-        border-collapse: separate;
-        border-spacing: 0;
+            border-collapse: separate;
+            border-spacing: 0;
         };
+
+        .flex-item {
+        order: 0;
+        flex: 1 1 auto;
+        align-self: auto;
+        }
 
     </style>
     <template>
-        <input type="search" data-table="order-table" placeholder="Search">
-        <div class="addButton" align="right">
-            <paper-button raised on-tap="addMeasure" modalName="addMeasure">Add Measure</paper-button>
+
+        <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
+            <div class="flex-item"><input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
+            <!--
+            <div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
+                <label>Sort By:</label>
+                <select value="{{sortVal::change}}">
+                    <option>Select:</option>
+                    <option value="nqfID">NQF ID</option>
+                    <option value="cmsID">CMS ID</option>
+                    <option value="measureName">Name</option>
+                    <option value="measureDescription">Description</option>
+                </select>
+            </div>
+            -->
+            <div class='flex-item'>
+                <paper-button raised on-tap="addMeasure" modalName="addMeasure" style="float:right; padding-top: 0.1em;">Add Measure</paper-button>
+            </div>
         </div>
-        <table class="sortable order-table table-rows" style="width: 100%">
+        <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
-                <col span="4" style="width:22.5%">
-                <col span="2" style="width:10%">
+                <col span="3" style="width:15%">
+                <col span="1" style="width:50%">
+                <col span="1" style="width:5%">
             </colgroup>
             <thead>
                 <th>NQF ID</th>
                 <th>CMS ID</th>
                 <th>Name</th>
                 <th>Description</th>
+                <th></th>
             </thead>
             <tbody>
+            <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
             <tr>
-                <td>0018</td>
-                <td>165v2</td>
-                <td>Controlling Blood Pressure</td>
-                <td>Descriptionp ppppp pppppp pppppppp  pppppp pppp p pppp ppp ppp ppppppppppppp</td>
+                <td><span>{{item.nqfID}}</span></td>
+                <td><span>{{item.cmsID}}</span></td>
+                <td><span>{{item.measureName}}</span></td>
+                <td><span>{{item.measureDescription}}</span></td>
                 <td style="font-size: 12px">
                     <paper-button raised on-tap="editMeasure" modalName="editMeasure">Edit</paper-button>
                 </td>
             </tr>
-            <app-admin-add id="inputModal"></app-admin-add>
-            <app-admin-edit id="editModal"></app-admin-edit>
+            </template>
+                <app-admin-add id="inputModal"></app-admin-add>
+                <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
     </template>
@@ -88,6 +106,52 @@
     Polymer({
             is: 'app-admin-panel-measure',
             properties: {},
+
+            ready: function() {
+                this.measure=[
+                    {nqfID: '0018', cmsID: '165v3', measureName: 'Controlling Blood Pressure'},
+                    {nqfID: '0059', cmsID: '123v2', measureName: 'Diabetes: HbA1c Poor Control', measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'},
+                ];
+            },
+
+            _filter: function(val) {
+                return function(measure) {
+                    if (!val) return true;
+                    if (!measure) return false;
+                    return (measure.nqfID && ~measure.nqfID.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (measure.cmsID && ~measure.cmsID.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (measure.measureName && ~measure.measureName.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (measure.measureDescription && ~measure.measureDescription.toLowerCase().indexOf(val.toLowerCase()));
+               };
+            },
+
+            _sort: function(val) {
+                switch(val) {
+                case 'nqfID':
+                    return function(a, b) {
+                    if (a.nqfID.toLowerCase() === b.nqfID.toLowerCase()) return 0;
+                    return a.nqfID.toLowerCase() < b.nqfID.toLowerCase() ? -1 : 1;
+                    };
+
+                 case 'cmsID':
+                    return function(a, b) {
+                    if (a.cmsID.toLowerCase() === b.cmsID.toLowerCase()) return 0;
+                    return a.cmsID.toLowerCase() < b.cmsID.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'measureName':
+                    return function(a, b) {
+                    if (a.measureName.toLowerCase() === b.measureName.toLowerCase()) return 0;
+                    return a.measureName.toLowerCase() < b.measureName.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'measureDescription':
+                    return function(a, b) {
+                    if (a.measureDescription.toLowerCase() === b.measureDescription.toLowerCase()) return 0;
+                    return a.measureDescription.toLowerCase() < b.measureDescription.toLowerCase() ? -1 : 1;
+                    };
+                }
+             },
 
             editMeasure: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));

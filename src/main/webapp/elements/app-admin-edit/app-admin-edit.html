@@ -7,6 +7,7 @@
         .pms {
         @apply(--pm-style)
         }
+        
     </style>
     <template>
         <paper-dialog id="editProvider" class="size-position modalBox">
@@ -29,7 +30,7 @@
             </div>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logProvider">Save</paper-button>
-                <paper-button raised class="child">Cancel</paper-button>
+                <paper-button raised class="child" on-tap="closeModal" modalName="closeProviderModal">Cancel</paper-button>
             </div>
         </paper-dialog>
         <paper-dialog id="editOrganization" class="size-position modalBox">
@@ -46,7 +47,7 @@
             </div>
                 <div class="parenttwo">
                     <paper-button raised class="child" on-tap="logOrganization">Save</paper-button>
-                    <paper-button raised class="child">Cancel</paper-button>
+                    <paper-button raised class="child" on-tap="closeModal" modalName="closeOrgModal">Cancel</paper-button>
                 </div>
         </paper-dialog>
         <paper-dialog id="editUser" class="size-position modalBox">
@@ -55,7 +56,7 @@
             </div>
             <div class="childtwo">
                 <div>
-                    <paper-input label="Username" value="{{username}}"></paper-input>
+                    <paper-input label="Username" value="{{usernamee}}"></paper-input>
                 </div>
                 <div>
                     <paper-input label="Name" value="{{userFullName}}"></paper-input>
@@ -69,7 +70,7 @@
             </div>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logUser">Save</paper-button>
-                <paper-button raised class="child">Cancel</paper-button>
+                <paper-button raised class="child" on-tap="closeModal" modalName="closeUserModal">Cancel</paper-button>
             </div>
         </paper-dialog>
         <paper-dialog id="editMeasure" class="size-position modalBox">
@@ -89,7 +90,7 @@
             </div>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logMeasure">Save</paper-button>
-                <paper-button raised class="child">Cancel</paper-button>
+                <paper-button raised class="child" on-tap="closeModal" modalName="closeMeasureModal">Cancel</paper-button>
             </div>
         </paper-dialog>
     </template>
@@ -132,6 +133,26 @@
 
                 if (inputModalName == 'editUser') {
                 this.$.editUser.open();
+                };
+            },
+
+            closeModal: function(e) {
+                closeModalName = e.target.parentNode.getAttribute("modalName");
+
+                if (closeModalName == 'closeProviderModal') {
+                    this.$.editProvider.close();
+                };
+
+                if (closeModalName == 'closeOrgModal') {
+                    this.$.editOrganization.close();
+                };
+
+                if (closeModalName == 'closeMeasureModal') {
+                    this.$.editMeasure.close();
+                };
+
+                if (closeModalName == 'closeUserModal') {
+                    this.$.editUser.close();
                 };
             },
 

@@ -2,17 +2,17 @@
 <link rel="import" href="../elements/elements.html">
 <style>
     :host close{
-        width: 50%;
-        margin: 0 auto;
+    width: 50%;
+    margin: 0 auto;
     }
 
     #errorHTTP {
-        height: 50%;
-        margin: 0 auto;
+    height: 50%;
+    margin: 0 auto;
     }
 
 </style>
-<dom-module id="providers-ctrl">
+<dom-module id="measures-ctrl">
     <style></style>
     <template>
         <!--paper-dialog id='errorHTTP'>I got a 403</paper-dialog -->
@@ -25,7 +25,7 @@
 <script>
     (function () {
         Polymer({
-            is: 'providers-ctrl',
+            is: 'measures-ctrl',
 
             properties: {
                 errorText: {
@@ -53,7 +53,7 @@
             },
             show: function(){
                 if(id != null){
-                    this.$.ajaxHandler.url = "/providers/show/" + String(id);
+                    this.$.ajaxHandler.url = "/measures/show/" + String(id);
                     this.ajaxHandler.handleError = this.onError;
                     this.$.ajaxHandler.generateRequest();
                 } else {

@@ -7,33 +7,55 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<dom-module id="animated-dropdown">
+<dom-module id="app-dropdown">
 
     <style>
         :host {
-        display: none;
-        padding: 16px;
-        background: white;
-        color: black;
-        @apply(--shadow-elevation-2dp);
+            display: none;
+            padding: 16px;
+            background: white;
+            color: black;
+            @apply(--shadow-elevation-2dp);
         }
     </style>
-
     <template>
-
-        <content></content>
-
+        <span>
+            <label style="font-size: 1em"> {{label}} </label>
+            <select name="{{name}}">
+                <template is="dom-repeat" items="{{items}}" style="font-size: 1em;">
+                    <option style="font-size: 1em; height: 2em" value="{{item}}">{{text}}</option>
+                </template>
+            </select>
+        </span>
     </template>
-
 </dom-module>
 
 <script>
   Polymer({
-    is: 'animated-dropdown',
+    is: 'app-dropdown',
     behaviors: [
       Polymer.NeonAnimationRunnerBehavior
     ],
     properties: {
+      items: {
+        type: Object
+      },
+      label: {
+        type: String
+      },
+      name: {
+        type: String
+      },
+      itemValue: {
+        type: String
+      },
+      itemText: {
+        type: String
+      },
+      ready: {
+        this.itemValueString = "item." + this.itemValue;
+        this.itemNameString = "item." + this.itemName;
+      },
       animationConfig: {
         type: Object,
         value: function() {

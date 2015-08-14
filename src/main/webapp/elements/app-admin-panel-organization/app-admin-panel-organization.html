@@ -27,6 +27,7 @@
         td {
         border-bottom: 1px solid #cecfd5;
         border-right: 1px solid #cecfd5;
+        border-left: 1px solid #cecfd5;
         };
 
         td: first-child {
@@ -35,41 +36,61 @@
 
         tr: nth-child(even) {
         background-color: #395870;
-
-        .addButton {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
-        align-content: stretch;
-        align-items: center;
         };
+
+        table {
+        border-collapse: separate;
+        border-spacing: 0;
+        };
+
+        .flex-item {
+        order: 0;
+        flex: 1 1 auto;
+        align-self: auto;
+        }
 
     </style>
     <template>
-        <input type="search" data-table="order-table" placeholder="Search">
-        <div class="addButton" align="right">
-            <paper-button raised on-tap="addOrganization" modalName="addOrganization">Add Organization</paper-button>
+        <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
+            <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
+            <!--
+            <div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
+                <label>Sort By:</label>
+                <select value="{{sortVal::change}}">
+                    <option>Select:</option>
+                    <option value="name">Name</option>
+                    <option value="address">Address</option>
+                </select>
+            </div>
+            -->
+            <div class="flex-item">
+                <paper-button raised on-tap="addOrganization" modalName="addOrganization" style="float:right;padding-top: 0.1em;">Add Organization</paper-button>
+            </div>
         </div>
-        <table class="sortable order-table table-rows" style="width: 100%">
+        <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
-                <col span="4" style="width:22.5%">
-                <col span="2" style="width:10%">
+                <col span="2" style="width:47%">
+                <col span="1" style="width:6%">
             </colgroup>
             <thead>
                 <th>Name</th>
                 <th>Address</th>
+                <th></th>
             </thead>
             <tbody>
-            <tr>
-                <td>ProHealth Physicians</td>
-                <td>123 Hartford Rd.</td>
-                <td style="font-size: 12px">
-                    <paper-button raised on-tap="editOrganization" modalName="editOrganization">Edit</paper-button>
-                </td>
-            </tr>
-            <app-admin-add id="inputModal"></app-admin-add>
-            <app-admin-edit id="editModal"></app-admin-edit>
+            <template is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
+                <tr>
+                    <td><span>{{item.name}}</span></td>
+                    <td><span>{{item.address}}</span></td>
+                    <td style="font-size: 12px">
+                        <div class="editButton">
+                            <paper-button raised on-tap="editOrganization" modalName="editOrganization">Edit</paper-button>
+                        </div>
+                    </td>
+                </tr>
+            </template>
+                <app-admin-add id="inputModal"></app-admin-add>
+                <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
     </template>
@@ -78,10 +99,42 @@
     (function() {
     Polymer({
             is: 'app-admin-panel-organization',
-            properties: {},
+            properties: {
+            name: String,
+            address: String,
+            },
 
             ready: function() {
+            this.organization=[
+            {name: 'Prohealth', address: '1234 Hartford Rd'},
+            {name: 'Hartford', address: '9999 Columbus Blvd'},
+            ];
             },
+
+            _filter: function(val) {
+                return function(organization) {
+                    if (!val) return true;
+                    if (!organization) return false;
+                    return (organization.name && ~organization.name.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (organization.address && ~organization.address.toLowerCase().indexOf(val.toLowerCase()));
+               };
+            },
+
+            _sort: function(val) {
+                switch(val) {
+                case 'name':
+                    return function(a, b) {
+                    if (a.name.toLowerCase() === b.name.toLowerCase()) return 0;
+                    return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
+                    };
+
+                 case 'address':
+                    return function(a, b) {
+                    if (a.address.toLowerCase() === b.address.toLowerCase()) return 0;
+                    return a.address.toLowerCase() < b.address.toLowerCase() ? -1 : 1;
+                    };
+                }
+             },
 
             editOrganization: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
@@ -93,11 +146,11 @@
 
            logOrganization: function (e) {
                 var formSubmitEditOrganization = {
-                firstName: firstName.value,
-                lastName: lastName.value,
-                NPI: NPI.value,
-                organization: organization.value
-                };
+                    firstName: firstName.value,
+                    lastName: lastName.value,
+                    NPI: NPI.value,
+                    organization: organization.value
+                };gre
                 this.$.editOrganizationInfo.toggle();
             }
         });

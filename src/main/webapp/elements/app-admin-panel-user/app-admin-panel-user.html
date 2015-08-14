@@ -5,7 +5,7 @@
 <dom-module id="app-admin-panel-user">
     <style>
         .pms {
-        @apply(--pm-style)
+        @apply(--pm-style);
         };
 
         th {
@@ -28,6 +28,7 @@
         td {
         border-bottom: 1px solid #cecfd5;
         border-right: 1px solid #cecfd5;
+        border-left: 1px solid #cecfd5;
         };
 
         td: first-child {
@@ -36,49 +37,71 @@
 
         tr: nth-child(even) {
         background-color: #395870;
-
-        .addButton {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
-        align-content: stretch;
-        align-items: center;
         };
+
+        table {
+        border-collapse: separate;
+        border-spacing: 0;
+        };
+
+
+        option {
+            font-size:1em;
+        }
+
+        .flex-item {
+        order: 0;
+        flex: 1 1 auto;
+        align-self: auto;
+        }
 
     </style>
     <template>
-        <div style="display: inline">
-            <input type="search" data-table="order-table" placeholder="Search">
-            <div class="addButton" align="right">
-                <paper-button raised on-tap="addUser" modalName="addUser">Add User</paper-button>
+        <!-- top bar for search, sort, add -->
+        <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
+            <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
+            <!--
+            <div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
+                <label style="font-size:1em;">Sort By:</label>
+                <select value="{{sortVal::change}}" style="height: 2em; font-size: 1em;">
+                    <option>Select:</option>
+                    <option value="username">Username</option>
+                    <option value="userFullName">Name</option>
+                    <option value="userRole">Role</option>
+                    <option value="userOrganization">Organization</option>
+                </select>
+            </div>
+            -->
+            <div class="flex-item">
+                <paper-button raised on-tap="addUser" modalName="addUser" style="float:right; padding-top: 0.1em;">Add User</paper-button>
             </div>
         </div>
-        <table class="sortable order-table table-rows" style="width: 100%">
+        <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
-                <col span="4" style="width:22.5%">
-                <col span="2" style="width:10%">
+                <col span="4" style="width:23.5%">
+                <col style="width:6%">
             </colgroup>
             <thead>
                 <th>Username</th>
                 <th>Name</th>
                 <th>Role</th>
                 <th>Organization</th>
+                <th></th>
             </thead>
             <tbody>
-            <tr>
-                <td>{{username}}</td>
-                <td>{{userFullName}}</td>
-                <td>{{userRole}}</td>
-                <td>{{userOrganization}}</td>
-                <td style="font-size: 12px">
-                    <div class="editButton">
+            <template is="dom-repeat" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
+                <tr>
+                    <td><span>{{item.username}}</span></td>
+                    <td><span>{{item.userFullName}}</span></td>
+                    <td><span>{{item.userRole}}</span></td>
+                    <td><span>{{item.userOrganization}}</span></td>
+                    <td style="font-size: 1em;">
                         <paper-button raised on-tap="editUser" modalName="editUser">Edit</paper-button>
-                    </div>
-                </td>
-            </tr>
-            <app-admin-add id="inputModal"></app-admin-add>
-            <app-admin-edit id="editModal"></app-admin-edit>
+                    </td>
+                </tr>
+            </template>
+                <app-admin-add id="inputModal"></app-admin-add>
+                <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
     </template>
@@ -88,20 +111,61 @@
     Polymer({
             is: 'app-admin-panel-user',
             properties: {
-            firstName: String,
-            lastName: String,
-            NPI: String,
-            organization: String
+            username: String,
+            userFullName: String,
+            userRole: String,
+            userOrganization: String
             },
 
+            _filter: function(val) {
+                return function(user) {
+                    if (!val) return true;
+                    if (!user) return false;
+                    return (user.username && ~user.username.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (user.userFullName && ~user.userFullName.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (user.userRole && ~user.userRole.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (user.userOrganization && ~user.userOrganization.toLowerCase().indexOf(val.toLowerCase()));
+               };
+            },
+
+            _sort: function(val) {
+                switch(val) {
+                case 'username':
+                    return function(a, b) {
+                    if (a.username.toLowerCase() === b.username.toLowerCase()) return 0;
+                    return a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
+                    };
+
+                 case 'userFullName':
+                    return function(a, b) {
+                    if (a.userFullName.toLowerCase() === b.userFullName.toLowerCase()) return 0;
+                    return a.userFullName.toLowerCase() < b.userFullName.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'userRole':
+                    return function(a, b) {
+                    if (a.userRole.toLowerCase() === b.userRole.toLowerCase()) return 0;
+                    return a.userRole.toLowerCase() < b.userRole.toLowerCase() ? -1 : 1;
+                    };
+
+                  case 'userOrganization':
+                    return function(a, b) {
+                    if (a.userOrganization.toLowerCase() === b.userOrganization.toLowerCase()) return 0;
+                    return a.userOrganization.toLowerCase() < b.userOrganization.toLowerCase() ? -1 : 1;
+                    };
+                }
+             },
+
             ready: function() {
-            this.username = 'jsmith123';
-            this.userFullName= 'John Smith';
-            this.userRole = 'Org Administrator';
-            this.userOrganization='ProHealth';
+            this.users=[
+                {username: 'rsmith123', userFullName: 'John Smith', userRole: 'Org Administrator', userOrganization: 'ProHealth'},
+                {username: 'nmartinez', userFullName: 'Nick Martinez', userRole: 'Org User', userOrganization: 'SMC Partners'},
+                {username: 'tdoe', userFullName: 'allen Martinez', userRole: 'Org man', userOrganization: 'house'}
+            ];
             },
 
             editUser: function(e) {
+                console.log(e.target.parentNode.getAttribute("modalName")),
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
             },
 

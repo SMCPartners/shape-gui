@@ -6,10 +6,73 @@
         .pms {
         @apply(--pm-style)
         }
+
+        select[selected] {
+            border: none;
+        }
+        select {
+            height: 2.5em;
+            font-size: 1em;
+            background: transparent;
+            border: none;
+        }
+        select[focused] {
+            border: none;
+        }
+
+        .flex-child {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: center;
+        };
+        .flex-parent {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-between;
+            align-items: flex-start;
+        };
+
+        paper-tab[tabindex="0"] {
+            background-color: rgba(63, 81, 181, 0.9);
+            color: white;
+            font-weight: bold;
+        };
+
+        paper-tabs {
+            box-shadow: 0px 2px 2px 0px lightgray;
+            --paper-tabs-selection-bar-color: rgba(63, 81, 181);
+        }
     </style>
     <template>
-        <paper-button>Organization <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
+        <!--<paper-button>Organization <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
         <paper-button>Provider <iron-icon icon="arrow-drop-down"></iron-icon></paper-button>
+        -->
+        <div style="margin: 0.5em 0;" class="flex-parent">
+            <div class="flex-parent flex-child">
+                <label class="flex-child" style="font: inherit; margin-left:0.5em;"> <b>Organization: </b></label>
+                <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
+                    <select name="organization" style="font: inherit">
+                        <template is="dom-repeat" items="{{organizations}}">
+                            <option style="font: inherit" value="{{item._id}}">{{item.name}}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+            <div class="flex-parent flex-child">
+                <label class="flex-child" style="font: inherit; margin-left:0.5em;"><b>Provider:</b></label>
+                <div class='flex-child' style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
+                    <select name="organization" style="font: inherit;">
+                        <template is="dom-repeat" items="{{organizations}}">
+                            <option style="font: inherit" value="{{item._id}}">{{item.name}}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+            <!--  box-shadow: 1px 1px 1px 1px lightgray -->
+        </div>
+
         <paper-tabs selected="{{selected}}">
             <paper-tab>Measure Input</paper-tab>
             <paper-tab>Past Measure Reports</paper-tab>
@@ -31,6 +94,15 @@
             properties: {
             },
             ready: function() {
+                this.organizations = [
+                    {_id: "1", name: "Organization 1"},
+                    {_id: "2", name: "Organization 2"}
+                ];
+                this.providers = [
+                    {_id: "1", name: "Provider 1"},
+                    {_id: "2", name: "Provider 2"},
+                    {_id: "2", name: "Provider 3"}
+                ];
             }
         });
     })();
