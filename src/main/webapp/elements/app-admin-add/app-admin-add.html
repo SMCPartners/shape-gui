@@ -13,7 +13,7 @@
             <div>
                 <h2>Add New Provider</h2>
             </div>
-            <div class="childtwo">
+            <paper-dialog-scrollable class="childtwo">
                 <div>
                     <paper-input label="First Name" value="{{firstName}}"></paper-input>
                 </div>
@@ -26,34 +26,34 @@
                 <div>
                     <paper-input label="Organization" value="{{organization}}"></paper-input>
                 </div>
-            </div>
+            </paper-dialog-scrollable>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logProvider">Save</paper-button>
-                <paper-button raised class="child">Cancel</paper-button>
+                <paper-button raised class="child" on-tap="closeProvider">Cancel</paper-button>
             </div>
         </paper-dialog>
         <paper-dialog id="addOrganization" class="size-position modalBox">
             <div>
                 <h2>Add New Organization</h2>
             </div>
-            <div class="childtwo">
+            <paper-dialog-scrollable class="childtwo">
                 <div>
                     <paper-input label="Name" value="{{name}}"></paper-input>
                 </div>
                 <div>
                     <paper-input label="Address" value="{{address}}"></paper-input>
                 </div>
-            </div>
+            </paper-dialog-scrollable>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logOrganization">Save</paper-button>
-                <paper-button raised class="child">Cancel</paper-button>
+                <paper-button raised class="child" on-tap="closeOrganization">Cancel</paper-button>
             </div>
         </paper-dialog>
         <paper-dialog id="addUser" class="size-position modalBox">
             <div>
                 <h2>Add New User</h2>
             </div>
-            <div class="childtwo">
+            <paper-dialog-scrollable class="childtwo">
                 <div>
                     <paper-input label="User Name" value="{{username}}"></paper-input>
                 </div>
@@ -66,17 +66,17 @@
                 <div>
                     <paper-input label="Organization" value="{{userOrganization}}"></paper-input>
                 </div>
-            </div>
+            </paper-dialog-scrollable>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logUser">Save</paper-button>
-                <paper-button raised class="child">Cancel</paper-button>
+                <paper-button raised class="child" on-tap="closeUser">Cancel</paper-button>
             </div>
         </paper-dialog>
         <paper-dialog id="addMeasure" class="size-position modalBox">
             <div>
                 <h2>Add New Measure</h2>
             </div>
-            <div class="childtwo">
+            <paper-dialog-scrollable class="childtwo">
                 <div>
                     <paper-input label="NQF ID" value="{{nqfID}}"></paper-input>
                 </div>
@@ -86,10 +86,10 @@
                 <div>
                     <paper-input label="Name" value="{{measureName}}"></paper-input>
                 </div>
-            </div>
+            </paper-dialog-scrollable>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logMeasure">Save</paper-button>
-                <paper-button raised class="child">Cancel</paper-button>
+                <paper-button raised class="child" on-tap="closeMeasure">Cancel</paper-button>
             </div>
         </paper-dialog>
     </template>
@@ -146,6 +146,10 @@
                 console.log(formSubmitProvider)
             },
 
+            closeProvider: function(e) {
+                this.$.addProvider.toggle()
+            },
+
             logOrganization: function (e) {
                 var formSubmitOrganization = [
                 {'name': this.name,
@@ -153,6 +157,10 @@
                 }];
                 this.$.addOrganization.toggle(),
                 console.log(formSubmitOrganization)
+            },
+
+            closeOrganization: function(e) {
+                this.$.addOrganization.toggle()
             },
 
             logMeasure: function (e) {
@@ -165,6 +173,10 @@
                 console.log(formSubmitMeasure)
             },
 
+            closeMeasure: function(e) {
+                this.$.addMeasure.toggle()
+            },
+
             logUser: function (e) {
                 var formSubmitUser = [
                 {'username': this.username,
@@ -174,6 +186,10 @@
                 }];
                 this.$.addUser.toggle(),
                 console.log(formSubmitUser)
+            },
+
+            closeUser: function(e) {
+                this.$.addUser.toggle()
             },
 
             logMeasure: function () {

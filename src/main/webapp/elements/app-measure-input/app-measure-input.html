@@ -140,13 +140,13 @@
                     </div>
                 </div>
                 <div class="parent">
-                    <paper-material elevation="2" class="child">
-                        <div>Your Measure Results:</div>
-                        <div>56%</div>
+                    <paper-material elevation="0" class="child resultBox">
+                        <div class="resultForward">Your Measure Results:</div>
+                        <div class="results">{{computePercentage(item.numerator, item.denominator)}}</div>
                     </paper-material>
-                    <paper-material elevation="2" class="child">
-                        <div>Aggregate Measure Results:</div>
-                        <div>60%</div>
+                    <paper-material elevation="0" class="child resultBox">
+                        <div class="resultForward">Aggregate Measure Results:</div>
+                        <div class="results">{{computePercentage(item.aggregateNumerator, item.aggregateDenominator)}}</div>
                     </paper-material>
                 </div>
             </paper-material>
@@ -163,11 +163,11 @@
             },
             ready: function() {
                 this.measures = [
-                    {name: 'Controlling High Blood Pressure', NQF: 'NQF 0018', numerator: 3241, denominator: 4231,
+                    {name: 'Controlling High Blood Pressure', NQF: 'NQF 0018', numerator: 3241, denominator: 4231, aggregateNumerator: 18893, aggregateDenominator: 23184,
                     chart: [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]],
                     chartOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"},
                     description: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90mmHg) during the measurement period.'},
-                    {name: 'Diabetes: HbA1c Poor Control', NQF: 'NQF 0059', numerator: 2153, denominator: 3597,
+                    {name: 'Diabetes: HbA1c Poor Control', NQF: 'NQF 0059', numerator: 2153, denominator: 3597, aggregateNumerator: 12948, aggregateDenominator: 15034,
                     chart: [["Month", "Days"], ["Well Controlled", 1444], ["Poorly Controlled", 2153]],
                     chartOptions: {"title": "Diabetes: HbA1c Poor Control", "pieHole": ".6", "pieSliceText": "none"},
                     description: 'Percentage of patients 18-75 years of age with diabetes who had hemoglobin A1c > 9.0% during the measurement period.'}
@@ -182,6 +182,11 @@
                 appDemographicInput.nameOfMeasure=nMeasure;
                 demIn.open();
             },
+            computePercentage: function (numerator, denominator) {
+                var ratio = 100 * numerator / denominator;
+                var percent = Math.round(ratio * 10)/10
+                return percent + '%';
+            },
             measureDetail: function (e) {
                 var nInfo = e.currentTarget.id;
                 //console.log(nInfo);
@@ -192,7 +197,7 @@
                 infoMod.open();
             }
             //To be added to object to style graphs:
-            //"slices": {"0": {'color': #32cd32}, "1": {'color': 'transparent'}},
+            //"slices": ["0": {'color': #32cd32}, "1": {'color': 'transparent'}],
         });
     })();
 </script>

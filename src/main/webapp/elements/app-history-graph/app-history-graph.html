@@ -5,20 +5,41 @@
 <dom-module id="app-history-graph">
     <style>
         .pms {
-        @apply(--pm-style)
+            @apply(--pm-style)
+        };
+        .trendChart {
+            justify-content: center;
+            text-align: center;
+        };
+        .parenttwo {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-between;
+            align-items: flex-start;
+        };
+        .wrap {
+            word-wrap: break-word
         };
     </style>
     <template>
-        <div class="pms">
-            <div>
-                <google-chart
-                        type='line'
-                        options='{"title": "Aggregate Measure Performance",
-                                           "pieSliceText": "none"}'
-                        data='{{test1}}'>
-                </google-chart>
-            </div>
-        </div>
+        <template is="dom-repeat" items="{{trends}}" class="pms">
+            <paper-material elevation='2' class="trendChart">
+                <h2>{{item.measure}}</h2>
+                <div class="parenttwo">
+                    <div class="trendChart">
+                        <google-chart
+                                type='line'
+                                options='{{item.trendChartOptions}}'
+                                data='{{item.trendChart}}'
+                                class="trendChart">
+                        </google-chart>
+                    </div>
+                    <h4>Change in performance of <br><span>{{item.measure}}</span> over time.</h4>
+                </div>
+            </paper-material>
+        </template>
     </template>
 </dom-module>
 <script>
@@ -28,8 +49,16 @@
             properties: {
             },
             ready: function() {
-                this.test1=[["Criterion", "Numerator"], ["Well Controlled", 63], ["Poorly Controlled", 37],
-                ["Test 1", 45], ["Test 2", 56], ["Test 3", 79]];
+                this.trends=[
+                {measure: 'Controlling High Blood Pressure',
+                trendChart: [["Quarter", "Aggregate", "Org 1", "Org 2", "Org 3", "Org 4"], ["Q1", 71.25, 70, 89, 53, 73],
+                ["Q2", 74.25, 74, 91, 60, 72], ["Q3", 78, 76, 92, 65, 79], ["Q4", 78.5, 80, 90, 70, 74]],
+                trendChartOptions: {"title": "Controlling High Blood Pressure Performance"}},
+                {measure: 'Diabetes: HbA1c Poor Control',
+                trendChart: [["Quarter", "Aggregate", "Org 1", "Org 2", "Org 3", "Org 4"], ["Q1", 71.75, 60, 93, 61, 73],
+                ["Q2", 70.75, 61, 94, 68, 60], ["Q3", 70.75, 53, 94, 67, 69], ["Q4", 80.5, 70, 98, 69, 85]],
+                trendChartOptions: {"title": "Diabetes: HbA1c Poor Control Performance"}}
+                ]
             },
         });
     })();
