@@ -100,13 +100,28 @@
             left: 0;
             margin: 0px !important;
         };
+        .fab {
+            position: fixed;
+            z-index: 10;
+            bottom: 10%;
+            right: 5%;
+        };
         #measureChart {
             margin-top: 1em;
             height: 80%
         };
+        paper-dialog-scrollable {
+          height: auto;
+
+        }
     </style>
     <template>
-        <template is="dom-repeat" items="{{measures}}">
+      <div class="fab">
+        <paper-fab icon="add" elevation="5" on-tap="addMeasure" id="{{item.name}}"></paper-fab>
+      </div>
+
+      <paper-dialog-scrollable>
+      <template is="dom-repeat" items="{{measures}}">
             <paper-material class="pms">
                 <div class="parent">
                     <div class="child header">{{item.NQF}}</div>
@@ -137,6 +152,7 @@
                     </div>
                     <div class="child">
                         <paper-button raised on-tap="editMeasure" id="{{item.name}}">Edit</paper-button>
+
                     </div>
                 </div>
                 <div class="parent">
@@ -148,9 +164,10 @@
                         <div class="resultForward">Aggregate Measure Results:</div>
                         <div class="results">{{computePercentage(item.aggregateNumerator, item.aggregateDenominator)}}</div>
                     </paper-material>
-                </div>
-            </paper-material>
+                </paper-material>
         </template>
+      </paper-dialog-scrollable>
+
 
     </template>
 </dom-module>
@@ -162,24 +179,61 @@
                 currentMeasure: String,
             },
             ready: function() {
+                this.chartDefault = [
+                  ["Month", "Days"],
+                  ["Well Controlled", 1444],
+                  ["Poorly Controlled", 2153]
+                ],
                 this.measures = [
-                    {name: 'Controlling High Blood Pressure', NQF: 'NQF 0018', numerator: 3241, denominator: 4231, aggregateNumerator: 18893, aggregateDenominator: 23184,
-                    chart: [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]],
-                    chartOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"},
-                    description: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90mmHg) during the measurement period.'},
-                    {name: 'Diabetes: HbA1c Poor Control', NQF: 'NQF 0059', numerator: 2153, denominator: 3597, aggregateNumerator: 12948, aggregateDenominator: 15034,
-                    chart: [["Month", "Days"], ["Well Controlled", 1444], ["Poorly Controlled", 2153]],
-                    chartOptions: {"title": "Diabetes: HbA1c Poor Control", "pieHole": ".6", "pieSliceText": "none"},
-                    description: 'Percentage of patients 18-75 years of age with diabetes who had hemoglobin A1c > 9.0% during the measurement period.'}
+                    {
+                      name: 'Controlling High Blood Pressure',
+                      NQF: 'NQF 0018',
+                      numerator: 2535,
+                      denominator: 3555,
+                      aggregateNumerator: 18893,
+                      aggregateDenominator: 23184,
+                      chart: this.chartDefault,
+                      // chartOptions: {
+                      //   "title": "Controlling High Blood Pressure",
+                      //   "pieHole": ".6",
+                      //   "pieSliceText": "none"
+                      // },
+                      description: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90mmHg) during the measurement period.'
+                    },
+
+                      {
+                        name: 'Diabetes: HbA1c Poor Control',
+                        NQF: 'NQF 0059',
+                        numerator: 2153,
+                        denominator: 3597,
+                        aggregateNumerator: 12948,
+                        aggregateDenominator: 15034,
+                        chart: this.chartDefault,
+                        // chartOptions: {
+                        //   "title": this.name,
+                        //   "pieHole": ".6",
+                        //   "pieSliceText": "none"
+                        // },
+                          description: 'Percentage of patients 18-75 years of age with diabetes who had hemoglobin A1c > 9.0% during the measurement period.'
+                        }
                 ];
+
             },
             attached: function() {
 
             },
+
+            addMeasure: function (e) {
+                // var nMeasure = e.currentTarget.id;
+                // console.log(nMeasure);
+                // appDemographicAdd.nameOfMeasure=nMeasure;
+                testVar.open();
+            },
             editMeasure: function (e) {
-                var nMeasure = e.currentTarget.id;
-                console.log(nMeasure);
-                appDemographicInput.nameOfMeasure=nMeasure;
+                // var nMeasure = e.currentTarget.id;
+                // console.log(nMeasure);
+                // appDemographicInput.nameOfMeasure=nMeasure;
+                console.log(demIn);
                 demIn.open();
             },
             computePercentage: function (numerator, denominator) {
@@ -201,4 +255,3 @@
         });
     })();
 </script>
-

@@ -83,8 +83,7 @@
     </style>
     <template>
         <paper-material class="pms">
-            <paper-material elevation="1">
-                <div class="parenttwo">
+                <!--div class="parenttwo">
                     <h2>Organization Name</h2>
                 </div>
                 <div class="parent">
@@ -102,7 +101,7 @@
                         <h3>judysmith@test.com</h3>
                         <h3>860-666-6666</h3>
                     </div>
-                </div>
+                </div-->
                 <template is="dom-repeat" items="{{practiceGroups}}" as="group">
                     <paper-material class='demoCard' elevation="2">
                         <div class="parenttwo">
@@ -120,7 +119,6 @@
                     <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
                     <paper-button on-tap="cancelEdit" raised="2" class="childtwo" disabled=true>Cancel</paper-button>
                 </div>
-            </paper-material>
         </paper-material>
     </template>
 </dom-module>

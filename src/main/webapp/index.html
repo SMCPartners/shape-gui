@@ -60,7 +60,8 @@
     <neon-animated-pages attr-for-selected="data-route" selected="{{select}}" style="position: inherit !important;"
                          entry-animation="slide-from-right-animation" exit-animation="slide-left-animation">
         <neon-animatable data-route="login">
-            <app-login id="loginPage"></app-login>
+            <!--app-login id="loginPage"></app-login-->
+            <app-main id="loginPage"></app-main>
         </neon-animatable>
 
         <neon-animatable data-route="main">
@@ -78,7 +79,7 @@
 
 
     <app-demographic-input id="appDemographicInput"></app-demographic-input>
-
+    <app-demographic-add id="appDemographicAdd"></app-demographic-add>
     <app-info-modal id="appInformationModal"></app-info-modal>
 
 
@@ -94,4 +95,3 @@
 </body>
 
 </html>
-
