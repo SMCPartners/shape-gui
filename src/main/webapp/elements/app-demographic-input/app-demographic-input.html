@@ -2,209 +2,270 @@
 <link rel="import" href="../elements.html">
 
 <dom-module id="app-demographic-input">
-    <style>
-        .pms {
-            @apply(--pm-style)
-        };
-        .child {
-            order: 0;
-            flex: 0 1 auto;
-            align-self: center;
-        };
-        .parent {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-content: space-between;
-            align-items: flex-start;
-        };
-        .parenttwo {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-content: space-between;
-            align-items: flex-start;
-        };
-        .fraction {
-            display: inline-block;
-            position: relative;
-            vertical-align: middle;
-            letter-spacing: 0.001em;
-            text-align: center;
-            font-size: 36px;
-        };
-        .fraction > span {
-            display: block;
-            padding: 0.1em;
-        };
-        .fraction span.fdn {
-            border-top: thin solid black;
-        };
-        .fraction span.bar {
-            display: none;
-        };
-        .header {
-            font-size: 36px;
-        };
-        .modalHeader {
-            align: center;
-        };
-        .modalSection {
-            font-size: 20px;
-        };
-        .leader {
-            font-size: 20px;
-            font-color: #D6D6C2;
-            font-style: italic;
-            border-top: thick double black;
-            margin-top: 10px;
-            width: 100%;
-            text-align: center;
-        };
-        .double {
-            flex: 2 2;
-        };
-        .single {
-            flex: 1 1;
-        };
-        .modalBox {
-            width: 70%;
-            height: 70%;
-        };
-    </style>
-    <template>
-        <paper-dialog id="demIn" modal class="size-position">
-            <div class="parenttwo">
-                <h2 class="child">{{nameOfMeasure}}</h2>
+<style>
+
+    .size-position {
+      width: 95%;
+      height: 95%;
+    }
+
+    select[selected] {
+    border: none;
+    }
+    select {
+    height: 2.5em;
+    font-size: 1em;
+    background: transparent;
+    border: none;
+    }
+    select[focused] {
+    border: none;
+    }
+    paper-input-container {
+      /*margin: 20px;*/
+      margin-left: 20px;
+      margin-right: 20px;
+      margin-bottom: 25px;
+      width: 200px;
+      display: inline-block;
+    }
+
+    .dropdown_box {
+      display: inline-block;
+    }
+    /*.input-element {
+      display: block;
+    }*/
+    .input {
+      display: inline-block;
+    }
+    h3 {
+      font-size: 1.5em;
+      padding-top: 20px;
+      padding-left:20px;
+      padding-right: 20px;
+
+    }
+    h4 {
+      padding-top: 20px;
+      padding-left: 50px;
+      margin: 0;
+      font-size: 1em;
+    }
+    .headerTitle {
+      padding: 0px;
+      margin: 5px;
+    }
+    paper-dialog-scrollable {
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+      margin: 0px;
+      /*height: 70%;*/
+    }
+    .input-box {
+      margin-left: auto;
+      margin-right: auto;
+      width: 65%;
+    }
+
+</style>
+<template>
+  <paper-dialog id="demIn" modal class="size-position" style="background: white">
+      <h1>{{appDemographicInput.nameOfMeasure}}</h1>
+
+
+      <!--div class="dropdown_box">
+        <h3 class="headerTitle">Measure:</h3>
+          <div class="dropdown">
+              <select name="measure" style="font: inherit">
+                  <template is="dom-repeat" items="{{measures}}">
+                      <option style="font: inherit" value="{{item._id}}">
+                          NQF <span>{{item.nqf}}</span> <span>{{item.name}}</span>
+                      </option>
+                  </template>
+              </select>
+          </div>
+        </div>
+
+        <div class="dropdown_box">
+          <h3 class="headerTitle">Quarter:</h3>
+            <div class="dropdown">
+                <select name="measure" style="font: inherit">
+                    <template is="dom-repeat" items="{{quarterChoose}}">
+                        <option style="font: inherit" value="{{item._id}}">
+                          <span>{{item.quarter}}</span>
+                        </option>
+                    </template>
+                </select>
             </div>
-            <paper-dialog-scrollable  elevation="1">
-                <div>
-                    <div class="parenttwo">
-                        <div class="child">
-                            <paper-input-container>
+          </div>
+
+        <div class="dropdown_box">
+          <h3 class="headerTitle">Year:</h3>
+            <div class="dropdown">
+                <select name="quarter">
+                    <template is="dom-repeat" items="{{yearChoose}}">
+                        <option style="font: inherit" value="{{item._id}}">
+                            <span>{{item.year}}</span>
+                        </option>
+                    </template>
+                </select>
+            </div>
+          </div-->
+          <!--Dropdown-->
+
+
+
+        <paper-dialog-scrollable  elevation="3">
+            <!--paper-material elevation="5"-->
+              <div class="input-element">
+                <paper-material elevation="5">
+                  <h3>Total</h3>
+                  <paper-input-container>
+                        <label>Numerator</label>
+                        <input class='inputField' id=mainNum is="iron-input" prevent-invalid-input allowed-pattern="[0-9]">
+                  </paper-input-container>
+
+                  <paper-input-container>
+                        <label>Denominator</label>
+                        <input class='inputField' id=mainDen is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                  </paper-input-container>
+                </paper-material>
+              </div>
+            <!--/paper-material-->
+              <div class="input-element">
+                <template is="dom-repeat" items="{{stratifyGroups}}" as="group">
+                  <paper-material elevation="3">
+                    <h3>{{group.name}}</h3>
+                      <template is="dom-repeat" items="{{group.categories}}" as="category">
+                          <h4>{{category.strat}}</h4>
+                            <div class="input-box">
+                              <paper-input-container>
                                 <label>Numerator</label>
-                                <input class='inputField' id=mainNum is="iron-input" prevent-invalid-input allowed-pattern="[0-9]">
+                                <input class='inputField' id="{{category.num}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
                             </paper-input-container>
-                        </div>
-                        <div class="child">
                             <paper-input-container>
                                 <label>Denominator</label>
-                                <input class='inputField' id=mainDen is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                                <input class='inputField' id="{{category.den}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
                             </paper-input-container>
-                        </div>
-                    </div>
-                    <template is="dom-repeat" items="{{stratifyGroups}}" as="group">
-                        <div class="parenttwo">
-                            <div class="leader">{{group.name}}</div>
-                        </div>
-                        <template is="dom-repeat" items="{{group.categories}}" as="category">
-                            <div class="parent">
-                                <div class="child modalSection double">{{category.strat}}</div>
-                                <div class="child single">
-                                    <paper-input-container>
-                                        <label>Numerator</label>
-                                        <input class='inputField' id="{{category.num}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
-                                    </paper-input-container>
-                                </div>
-                                <div class="child single">
-                                    <paper-input-container>
-                                        <label>Denominator</label>
-                                        <input class='inputField' id="{{category.den}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
-                                    </paper-input-container>
-                                </div>
-                            </div>
-                        </template>
-                    </template>
-                </div>
-            </paper-dialog-scrollable>
-            <div class="parenttwo">
-                <paper-button raised class="child" on-tap="logNumbers">Submit</paper-button>
-                <paper-button raised class="child" on-tap="cancelLog">Cancel</paper-button>
-            </div>
-        </paper-dialog>
-    </template>
+                          </div>
+                      </template>
+                    </paper-material>
+                  </template>
+
+
+              </div>
+        </paper-dialog-scrollable>
+
+        <div class="buttons">
+            <paper-button raised class="child" on-tap="logNumbers" elevation="3">Submit</paper-button>
+            <paper-button raised class="child" on-tap="cancelLog" elevation="3">Cancel</paper-button>
+        </div>
+    </paper-dialog>
+</template>
 </dom-module>
 <script>
-    (function () {
-        Polymer({
-            is: 'app-demographic-input',
-            properties: {
-                nameOfMeasure: {
-                    type: String
+  (function () {
+      Polymer({
+          is: 'app-demographic-input',
+          properties: {
+              nameOfMeasure: {
+                  type: String
                 }
-            },
-            ready: function () {
-                this.stratifyGroups = [
-                {name: 'Gender', categories: [
-                    {strat: 'Male', num: 'maleNum', den: 'maleDen'},
-                    {strat: 'Female', num: 'femaleNum', den: 'femaleDen'} ]
-                },
-                {name: 'Age', categories: [
-                    {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
-                    {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
-                    {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'} ]
-                },
-                {name: 'Ethnicity', categories:[
-                    {strat: 'Hispanic/Latino', num: 'hispanicNum', den: 'hispanicDen'},
-                    {strat: 'Not Hispanic/Latino', num: 'notHispanicNum', den: 'notHispanicDen'} ]
-                },
-                {name: 'Race', categories: [
-                    {strat: 'African American/Black', num: 'blackNum', den: 'blackDen'},
-                    {strat: 'American Indian or Alaska Native', num: 'indianNum', den: 'indianDen'},
-                    {strat: 'Asian', num: 'asianNum', den: 'asianDen'},
-                    {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianNum', den: 'hawaiianDen'},
-                    {strat: 'White', num: 'whiteNum', den: 'whiteDen'},
-                    {strat: 'Other', num: 'otherNum', den: 'otherDen'} ]
-                }
+              },
+              ready: function () {
+
+                this.quarterChoose = [
+                  {_id: "1", quarter: "1st Quarter"},
+                  {_id: "2", quarter: "2nd Quarter"},
+                  {_id: "3", quarter: "3rd Quarter"},
+                  {_id: "4", quarter: "4th Quarter"}
+                ]
+                this.yearChoose = [
+                  {_id: "1", year: 2000},
+                  {_id: "2", year: 2001},
+                  {_id: "3", year: 2002},
+                  {_id: "4", year: 2003},
+                  {_id: "5", year: 2004},
+                  {_id: "6", year: 2005},
+                  {_id: "7", year: 2006},
+                  {_id: "8", year: 2007},
                 ];
+
+                this.measures = [
+                  {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
+                  {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
+                ];
+                this.stratifyGroups = [
+                  {name: 'Gender', categories: [
+                  {strat: 'Male', num: 'maleNum', den: 'maleDen'},
+                  {strat: 'Female', num: 'femaleNum', den: 'femaleDen'} ]
+                  },
+
+                  {name: 'Age', categories: [
+                  {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
+                  {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
+                  {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'} ]
+                },
+            {name: 'Ethnicity', categories:[
+                {strat: 'Hispanic/Latino', num: 'hispanicNum', den: 'hispanicDen'},
+                {strat: 'Not Hispanic/Latino', num: 'notHispanicNum', den: 'notHispanicDen'} ]
             },
-            logNumbers: function (e) {
-                var formSubmit = {
-                    mainNum: mainNum.value,
-                    mainDen: mainDen.value,
-                    maleNum: maleNum.value,
-                    maleDen: maleDen.value,
-                    femaleNum: femaleNum.value,
-                    femaleDen: femaleDen.value,
-                    blackNum: blackNum.value,
-                    blackDen: blackDen.value,
-                    indianNum: indianNum.value,
-                    indianDen: indianDen.value,
-                    asianNum: asianNum.value,
-                    asianDen: asianDen.value,
-                    hawaiianNum: hawaiianNum.value,
-                    hawaiianDen: hawaiianDen.value,
-                    whiteNum: whiteNum.value,
-                    whiteDen: whiteDen.value,
-                    otherNum: otherNum.value,
-                    otherDen: otherDen.value,
-                    hispanicNum: hispanicNum.value,
-                    hispanicDen: hispanicDen.value,
-                    notHispanicNum: notHispanicNum.value,
-                    notHispanicDen: notHispanicDen.value,
-                    eighteenNum: eighteenNum.value,
-                    eighteenDen: eighteenDen.value,
-                    fortyFiveNum: fortyFiveNum.value,
-                    fortyFiveDen: fortyFiveDen.value,
-                    sixtyFiveNum: sixtyFiveNum.value,
-                    sixtyFiveDen: sixtyFiveDen.value
-                };
-                //if we want to do field completion validation, we can start with below...phase 2?
-                /*for (var i in formSubmit)
-                    {
-                        if (formSubmit[i].length <= 0)
-                            {
-                                console.log(i)
-                            };
-                    };
-                console.log(formSubmit);*/
-                this.$.demIn.toggle();
-            },
-            cancelLog: function (e) {
-                this.$.demIn.toggle();
+            {name: 'Race', categories: [
+                {strat: 'African American/Black', num: 'blackNum', den: 'blackDen'},
+                {strat: 'American Indian or Alaska Native', num: 'indianNum', den: 'indianDen'},
+                {strat: 'Asian', num: 'asianNum', den: 'asianDen'},
+                {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianNum', den: 'hawaiianDen'},
+                {strat: 'White', num: 'whiteNum', den: 'whiteDen'},
+                {strat: 'Other', num: 'otherNum', den: 'otherDen'} ]
             }
-        });
-    })();
+            ];
+        },
+        logNumbers: function (e) {
+            var formSubmit = {
+                mainNum: mainNum.value,
+                mainDen: mainDen.value,
+                maleNum: maleNum.value,
+                maleDen: maleDen.value,
+                femaleNum: femaleNum.value,
+                femaleDen: femaleDen.value,
+                blackNum: blackNum.value,
+                blackDen: blackDen.value,
+                indianNum: indianNum.value,
+                indianDen: indianDen.value,
+                asianNum: asianNum.value,
+                asianDen: asianDen.value,
+                hawaiianNum: hawaiianNum.value,
+                hawaiianDen: hawaiianDen.value,
+                whiteNum: whiteNum.value,
+                whiteDen: whiteDen.value,
+                otherNum: otherNum.value,
+                otherDen: otherDen.value,
+                hispanicNum: hispanicNum.value,
+                hispanicDen: hispanicDen.value,
+                notHispanicNum: notHispanicNum.value,
+                notHispanicDen: notHispanicDen.value,
+                eighteenNum: eighteenNum.value,
+                eighteenDen: eighteenDen.value,
+                fortyFiveNum: fortyFiveNum.value,
+                fortyFiveDen: fortyFiveDen.value,
+                sixtyFiveNum: sixtyFiveNum.value,
+                sixtyFiveDen: sixtyFiveDen.value
+            };
+            //if we want to do field completion validation, we can start with below...phase 2?
+            /*for (var i in formSubmit)
+                {
+                    if (formSubmit[i].length <= 0)
+                        {
+                            console.log(i)
+                        };
+                };
+            console.log(formSubmit);*/
+            this.$.demIn.toggle();
+        },
+        cancelLog: function (e) {
+            this.$.demIn.toggle();
+        }
+    });
+})();
 </script>
