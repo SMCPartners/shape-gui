@@ -78,7 +78,6 @@
             </colgroup>
             <thead>
                 <th>NQF ID</th>
-                <th>CMS ID</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th></th>
@@ -87,7 +86,6 @@
             <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
             <tr>
                 <td><span>{{item.nqfID}}</span></td>
-                <td><span>{{item.cmsID}}</span></td>
                 <td><span>{{item.measureName}}</span></td>
                 <td><span>{{item.measureDescription}}</span></td>
                 <td style="font-size: 12px">
@@ -109,8 +107,13 @@
 
             ready: function() {
                 this.measure=[
-                    {nqfID: '0018', cmsID: '165v3', measureName: 'Controlling Blood Pressure'},
-                    {nqfID: '0059', cmsID: '123v2', measureName: 'Diabetes: HbA1c Poor Control', measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'},
+                              {
+                                nqfID: '0018',
+                                measureName: 'Controlling Blood Pressure',
+                                selected: true,
+                                measureDescription: 'blah blah blah'},
+
+                    {nqfID: '0059', measureName: 'Diabetes: HbA1c Poor Control', measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'},
                 ];
             },
 

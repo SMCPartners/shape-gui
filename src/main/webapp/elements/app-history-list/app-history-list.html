@@ -54,7 +54,22 @@
                                 options='{{item.chartAggOptions}}'
                                 data='{{item.chartAggregate}}'>
                         </google-chart>
+
                     </div>
+
+                    <!--Just added -->
+                    <div class="fraction1 child">
+                        <span class="fup">Numerator</span>
+                        <span class="bar">/</span>
+                        <span class="fdn">Denominator</span>
+                    </div>
+                    <div class="child header">=</div>
+                    <div class="fraction2 child">
+                        <span class="fup">{{item.numerator}}</span>
+                        <span class="bar">/</span>
+                        <span class="fdn">{{item.denominator}}</span>
+                    </div>
+
                 </div>
                 <div class="parent">
                     <paper-material elevation="0" class="child resultBox">
@@ -83,16 +98,19 @@
                     chartGroupOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"},
                     chartAggregate: [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]],
                     chartAggOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"}},
+
                     {period: 'April - June', year: '2014', numerator: 3241, denominator: 4231, aggregateNumerator: 18893, aggregateDenominator: 23184,
                     chartGroup: [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]],
                     chartGroupOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"},
                     chartAggregate: [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]],
                     chartAggOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"}},
+
                     {period: 'July - September', year: '2014', numerator: 3241, denominator: 4231, aggregateNumerator: 18893, aggregateDenominator: 23184,
                     chartGroup: [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]],
                     chartGroupOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"},
                     chartAggregate: [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]],
                     chartAggOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"}},
+
                     {period: 'October - December', year: '2014', numerator: 3241, denominator: 4231, aggregateNumerator: 18893, aggregateDenominator: 23184,
                     chartGroup: [["Month", "Days"], ["Well Controlled", 3241], ["Poorly Controlled", 990]],
                     chartGroupOptions: {"title": "Controlling High Blood Pressure", "pieHole": ".6", "pieSliceText": "none"},

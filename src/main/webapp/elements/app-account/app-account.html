@@ -11,15 +11,17 @@
     <template>
         <div class="pms">
             <paper-material elevation="1">
-                <paper-button id='username' on-tap="handleClick"> Edit Username </paper-button><br/>
+
+                <!--paper-button id='username' on-tap="handleClick"> Edit Username </paper-button><br/-->
+
                 <paper-button id='resetPassword' on-tap="handleClick"> Reset Password </paper-button><br/>
                 <paper-button id='email' on-tap="handleClick"> Edit eMail </paper-button><br/>
                 <paper-button id='securityQuestions' on-tap="handleClick"> Change Security Questions </paper-button> <br/>
             </paper-material>
         </div>
-        <paper-dialog id="editUsername">
+        <!--paper-dialog id="editUsername">
             <paper-input label="User Name" value="{{userName}}"></paper-input>
-        </paper-dialog>
+        </paper-dialog-->
         <paper-dialog id="editSecurityQuestions">
             <p>Change Security Questions</p>
         </paper-dialog>
