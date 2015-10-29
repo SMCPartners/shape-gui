@@ -16,7 +16,8 @@
         font-weight: bold;
         };
 
-        th, td {padding: 10px 15px;
+        th, td {
+          padding: 10px 15px;
         };
 
         thead {
@@ -49,6 +50,10 @@
         align-self: auto;
         }
 
+        .noWrap {
+          white-space: nowrap;
+        }
+
     </style>
     <template>
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
@@ -75,6 +80,10 @@
             <thead>
                 <th>Name</th>
                 <th>Address</th>
+                <th>Primary Contact Phone</th>
+                <th>Primary Contact Name</th>
+                <th>Primary Contact Email</th>
+                <th>Primary Contact Role</th>
                 <th></th>
             </thead>
             <tbody>
@@ -82,6 +91,10 @@
                 <tr>
                     <td><span>{{item.name}}</span></td>
                     <td><span>{{item.address}}</span></td>
+                    <td><span class="noWrap">{{item.primary_contact_phone}}</span></td>
+                    <td><span class="noWrap">{{item.primary_contact_name}}</span></td>
+                    <td><span>{{item.primary_contact_email}}</span></td>
+                    <td><span>{{item.primary_contact_role}}</span></td>
                     <td style="font-size: 12px">
                         <div class="editButton">
                             <paper-button raised on-tap="editOrganization" modalName="editOrganization">Edit</paper-button>
@@ -106,15 +119,22 @@
 
             ready: function() {
             this.organization=[
-                                {
-                                  name: 'Prohealth',
-                                  address: '1234 Hartford Rd',
-                                  primary_contact_phone: '999-999-9999',
-                                  primary_contact_name: 'John',
-                                  primary_contact_email: 'jburlette@gmail.com',
-                                  primary_contact_role: 'Director'
-                                },
-            {name: 'Hartford', address: '9999 Columbus Blvd'},
+              {
+                name: 'Prohealth',
+                address: '1234 Hartford Rd',
+                primary_contact_phone: '999-999-9999',
+                primary_contact_name: 'John',
+                primary_contact_email: 'jburlette@gmail.com',
+                primary_contact_role: 'Director'
+              },
+              {
+                name: 'Hartford',
+                address: '9999 Columbus Blvd',
+                primary_contact_phone: '888-888-8888',
+                primary_contact_name: 'Oliver',
+                primary_contact_email: 'ojonston@gmail.com',
+                primary_contact_role: 'Director'
+              }
             ];
             },
 
