@@ -3,76 +3,92 @@
 
 <dom-module id="app-login">
     <style>
-        .horizontal-section {
-            background-color: white;
-            padding: 24px;
-            min-width: 200px;
-        @apply(--shadow-elevation-2dp);
-        }
 
-        .vertical-section {
-            background-color: white;
-            padding: 24px;
-            margin: 0 24px 24px 24px;
-        @apply(--shadow-elevation-2dp);
-        }
+        paper-material {
+          max-width: 400px;
 
-        .centered {
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
         }
+        h1 {
+          left: 15px;
+          font-size: 15px;
+          padding-left: 10px;
+          padding-top: 10px;
+        }
+        paper-input {
+          margin: auto;
+          width: 50%;
+          padding: 10px;
+        }
+        #login {
+          margin-left: auto;
+          margin-right: 10px;
+          padding-left: 50px;
+        }
+        #forgotPasswordButton {
+          margin-left: 10px;
+          margin-right: auto;
 
-        .button-end {
-            display: flex;
-            justify-content: flex-end;
         }
+        paper-material {
+          margin-left: auto;
+          margin-right: auto;
+
+        }
+        paper-button {
+          padding: 20px;
+          margin-left: auto;
+          margin-right: auto;
+          display: inline-block;
+        }
+        /*.buttons {
+          margin-left: auto;
+          margin-right: auto;
+        }*/
+
     </style>
     <template>
-        <!-- div class="horizontal center-center layout">
-            <div>
-                <h4>Please Login</h4>
+      <paper-material id="loginScreen" elevation="2">
+        <h1>SHAPE Login</h1>
+          <paper-input id="userIdInput" label="User ID"></paper-input>
+            </br>
+          <paper-input label="Password" id="passwordInput" type="password"></paper-input>
+          <!--div class="buttons"-->
+            <paper-button id="login" on-tap="navigateHome" raised noink>Login</paper-button>
+          <paper-button id="forgotPasswordButton" raised noink>Forgot Password?</paper-button>
+          <!--/div-->
+      </paper-material>
 
-                <div class="horizontal-section">
-                    <form is="iron-form" id="formGet" method="get" action="/">
-                        <paper-input name="name" label="User Id" required>{{userId}}</paper-input>
-                        <br>
-                        <paper-input type="password" name="password" label="Password" required>{{password}}
-                        </paper-input>
-                        <br><br>
-
-                        <div class="button-end">
-                            <paper-button raised on-tap="handleLogin">Submit</paper-button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div -->
-        <div class="horizontal center-center layout">
-            <paper-button raised on-tap="handleLogin">Login</paper-button>
-        </div>
     </template>
 </dom-module>
 <script>
     (function () {
         Polymer({
             is: 'app-login',
+
             properties: {
+                route: {
+                  type: String
+                },
+
                 userId: {
                     type: String,
-                    value: '',
-                    notify: true
+                    value: 'test1'
                 },
                 password: {
                     type: String,
-                    value: '',
-                    notify: true
+                    value: 'test2',
                 }
             },
-            handleLogin: function (e) {
-                appAuth.login();
-                //mainPage.route = 'home';
-                //app.select = 'main';
+            // loginFunction: function (e) {
+            //     userId = userIdInput;
+            //     password = passwordInput;
+            //     console.log(userId);
+            //     console.log(password);
+            // },
+            navigateHome: function (e) {
+                //this.selected = 'main';
+                console.log("I'm home!");
+                window.location = '/src/main/webapp/jim.html';
             }
         });
     })();
