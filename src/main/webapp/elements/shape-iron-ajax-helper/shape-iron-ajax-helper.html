@@ -1,0 +1,53 @@
+<dom-module id="iron-ajax-helper">
+  <iron-ajax
+    id='{{callId}}'
+    handle-as="json"
+    ></iron-ajax>
+</dom-module>
+  <script>
+    (function () {
+      Polymer({
+        is: 'iron-ajax-helper',
+        properties: {
+          resource: {
+            type: String
+          },
+          baseUrl: {
+            type: String,
+            value: 'http://10.13.20.166/jump-service/jump'
+          },
+          callId: {
+            type: String,
+            value: 'testCall'
+          }
+        },
+        handleResponse: function(request) {
+
+        },
+        ready: function() {
+
+        },
+        login: function(){
+            resource='/auth/login/'; //set the resource location
+
+        },
+        getToken: function(){
+          //check if local storage is available on this browser
+          if(typeof(Storage) !== "undefined") {
+            if (localStorage.aToken){ //Check if the token is set
+              return localStorage.atoken // return the token that is stored
+            }else{
+              //Alert the user that they need to be logged in
+              alert("You are not logged in");
+            }
+          } else {
+              // Sorry! No Web Storage support..
+              alert("You must update your browser to use this application.");
+          }
+        }
+        });
+
+
+        });
+    })();
+  </script>
