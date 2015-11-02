@@ -60,7 +60,11 @@
           border-top: 1px solid black;
           border-bottom: 1px solid black;
           margin: 0px;
+          max-width: 750px;
           /*height: 70%;*/
+        }
+        paper-dialog {
+          max-width: 750px;
         }
         .input-box {
           margin-left: auto;
@@ -132,7 +136,7 @@
                 <!--/paper-material-->
                   <div class="input-element">
                     <template is="dom-repeat" items="{{stratifyGroups}}" as="group">
-                      <paper-material elevation="3">
+                      <paper-material elevation="5">
                         <h3>{{group.name}}</h3>
                           <template is="dom-repeat" items="{{group.categories}}" as="category">
                               <h4>{{category.strat}}</h4>
@@ -155,8 +159,8 @@
             </paper-dialog-scrollable>
 
             <div class="buttons">
-                <paper-button raised class="child" on-tap="logNumbers" elevation="3">Submit</paper-button>
-                <paper-button raised class="child" on-tap="cancelLog" elevation="3">Cancel</paper-button>
+                <paper-button raised class="child" on-tap="logNumbers" elevation="5">Submit</paper-button>
+                <paper-button raised class="child" on-tap="cancelLog" elevation="5">Cancel</paper-button>
             </div>
         </paper-dialog>
     </template>
