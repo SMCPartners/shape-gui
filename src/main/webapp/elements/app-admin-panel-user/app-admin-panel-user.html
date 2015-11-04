@@ -60,8 +60,8 @@
         <!-- top bar for search, sort, add -->
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
-            <!--
-            <div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
+
+            <!--div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
                 <label style="font-size:1em;">Sort By:</label>
                 <select value="{{sortVal::change}}" style="height: 2em; font-size: 1em;">
                     <option>Select:</option>
@@ -70,8 +70,8 @@
                     <option value="userRole">Role</option>
                     <option value="userOrganization">Organization</option>
                 </select>
-            </div>
-            -->
+            </div-->
+
             <div class="flex-item">
                 <paper-button raised on-tap="addUser" modalName="addUser" style="float:right; padding-top: 0.1em;">Add User</paper-button>
             </div>
@@ -82,14 +82,14 @@
                 <col style="width:6%">
             </colgroup>
             <thead>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Organization</th>
+                <th sortingGroup='username' on-tap="selectFunction">Username</th>
+                <th sortingGroup='userFullName' on-tap="selectFunction">Name</th>
+                <th sortingGroup='userRole' on-tap="selectFunction">Role</th>
+                <th sortingGroup='userOrganization' on-tap="selectFunction">Organization</th>
                 <th></th>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
+            <template is="dom-repeat" id="table" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.username}}</span></td>
                     <td><span>{{item.userFullName}}</span></td>
@@ -114,8 +114,21 @@
             username: String,
             userFullName: String,
             userRole: String,
-            userOrganization: String
+            userOrganization: String,
+            sortVal: {
+              type: String,
+              value: "defaultsort"
             },
+            lastSortVal: {
+              type: String,
+              value: "defaultlast"
+            },
+
+            sortJim: {
+              type: Boolean,
+              value: true
+            }
+          },
 
             _filter: function(val) {
                 return function(user) {
@@ -128,55 +141,114 @@
                };
             },
 
+            selectFunction: function(e) {
+              val = e.target.getAttribute('sortinggroup');
+              var uName = "username";
+              var uFName = "userFullName";
+              var uRole = "userRole";
+              var uOrg = "userOrganization";
+              console.log(val);
+
+              if (val.toLowerCase() === this.sortVal.toLowerCase()){
+
+                uName = uName.toUpperCase();
+                uFName = uFName.toUpperCase();
+                uRole = uRole.toUpperCase();
+                uOrg = uOrg.toUpperCase();
+              };
+
+                  if (val === 'username'){
+                      this.sortVal= uName;
+                  }
+                  else if (val ==='userFullName'){
+                      this.sortVal = uFName;
+                  }
+                  else if (val ==='userRole'){
+                      this.sortVal = uRole;
+                  }
+                  else if  (val === 'userOrganization'){
+                      this.sortVal = uOrg;
+                  }
+              },
+
             _sort: function(val) {
-                switch(val) {
-                case 'username':
-                    return function(a, b) {
-                    if (a.username.toLowerCase() === b.username.toLowerCase()) return 0;
-                    return a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
+
+
+                  switch(val) {
+                    case 'username':
+                      return function(a, b) {
+                          if (a.username.toLowerCase() === b.username.toLowerCase()) return 0;
+                          return a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
+
+                      };
+
+                    case 'USERNAME':
+                      return function(a, b) {
+                          if (a.username.toLowerCase() === b.username.toLowerCase()) return 0;
+                          return a.username.toLowerCase() < b.username.toLowerCase() ? 1 : -1;
+                      };
+
+                    case 'userFullName':
+                      return function(a, b) {
+                          if (a.userFullName.toLowerCase() === b.userFullName.toLowerCase()) return 0;
+                          return a.userFullName.toLowerCase() < b.userFullName.toLowerCase() ? -1 : 1;
+                      };
+
+                    case 'USERFULLNAME':
+                      return function(a, b) {
+                          if (a.userFullName.toLowerCase() === b.userFullName.toLowerCase()) return 0;
+                          return a.userFullName.toLowerCase() < b.userFullName.toLowerCase() ? 1 : -1;
+                      };
+
+                    case 'userRole':
+                      return function(a, b) {
+                        if (a.userRole.toLowerCase() === b.userRole.toLowerCase()) return 0;
+                        return a.userRole.toLowerCase() < b.userRole.toLowerCase() ? -1 : 1;
                     };
 
-                 case 'userFullName':
-                    return function(a, b) {
-                    if (a.userFullName.toLowerCase() === b.userFullName.toLowerCase()) return 0;
-                    return a.userFullName.toLowerCase() < b.userFullName.toLowerCase() ? -1 : 1;
+                    case 'USERROLE':
+                      return function(a, b) {
+                        if (a.userRole.toLowerCase() === b.userRole.toLowerCase()) return 0;
+                        return a.userRole.toLowerCase() < b.userRole.toLowerCase() ? 1 : -1;
                     };
 
-                  case 'userRole':
-                    return function(a, b) {
-                    if (a.userRole.toLowerCase() === b.userRole.toLowerCase()) return 0;
-                    return a.userRole.toLowerCase() < b.userRole.toLowerCase() ? -1 : 1;
+                    case 'userOrganization':
+                      return function(a, b) {
+                      if (a.userOrganization.toLowerCase() === b.userOrganization.toLowerCase()) return 0;
+                      return a.userOrganization.toLowerCase() < b.userOrganization.toLowerCase() ? -1 : 1;
+                    };
+                    case 'USERORGANIZATION':
+                      return function(a, b) {
+                      if (a.userOrganization.toLowerCase() === b.userOrganization.toLowerCase()) return 0;
+                      return a.userOrganization.toLowerCase() < b.userOrganization.toLowerCase() ? 1 : -1;
                     };
 
-                  case 'userOrganization':
-                    return function(a, b) {
-                    if (a.userOrganization.toLowerCase() === b.userOrganization.toLowerCase()) return 0;
-                    return a.userOrganization.toLowerCase() < b.userOrganization.toLowerCase() ? -1 : 1;
-                    };
+
                 }
              },
+
 
             ready: function() {
             this.users=[
                         {
-                          username: 'rsmith123',
-                          userFullName: 'John Smith',
+                          username: 'alpha',
+                          userFullName: 'Zoltan Mesko',
                           userRole: 'Org Administrator',
-                          userOrganization: 'ProHealth'
+                          userOrganization: 'Core Health'
                         },
 
                         {
-                          username: 'nmartinez',
-                          userFullName: 'Nick Martinez',
+                          username: 'beta',
+                          userFullName: 'Craig Jenny',
                           userRole: 'Org User',
-                          userOrganization: 'SMC Partners'
+                          userOrganization: 'Zebra Health'
                         },
 
                         {
-                          username: 'tdoe',
-                          userFullName: 'allen Martinez',
-                          userRole: 'Org man',
-                          userOrganization: 'house'
+                          username: 'charlie',
+                          userFullName: 'Sarah Lee',
+                          userRole: 'Provider',
+                          userOrganization: 'Johnson and Sons'
                         }
             ];
             },
