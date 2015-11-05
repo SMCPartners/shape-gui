@@ -127,6 +127,10 @@
             sortJim: {
               type: Boolean,
               value: true
+            },
+            sortInc: {
+              type: Number,
+              value: 1
             }
           },
 
@@ -147,16 +151,18 @@
               var uFName = "userFullName";
               var uRole = "userRole";
               var uOrg = "userOrganization";
-              console.log(val);
+              console.log(val + " " + this.sortVal + " " + this.sortJim);
 
-              if (val.toLowerCase() === this.sortVal.toLowerCase()){
-
+              if (val.toLowerCase() === this.sortVal.toLowerCase() && this.sortJim){
+                this.sortInc = this.sortInc + 1;
                 uName = uName.toUpperCase();
                 uFName = uFName.toUpperCase();
                 uRole = uRole.toUpperCase();
                 uOrg = uOrg.toUpperCase();
+                //this.sortJim = !this.sortJim;
               };
 
+                  this.sortJim = !this.sortJim;
                   if (val === 'username'){
                       this.sortVal= uName;
                   }
