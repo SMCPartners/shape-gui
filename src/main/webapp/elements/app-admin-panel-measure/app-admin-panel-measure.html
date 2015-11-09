@@ -16,7 +16,13 @@
         font-weight: bold;
         };
 
-        th, td {padding: 10px 15px;
+        th, td {
+          padding: 10px 15px;
+          -webkit-user-select: none;   /*these make it so that text is not selectable*/
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+          font-family: Roboto;
         };
 
         thead {
@@ -42,12 +48,17 @@
             border-collapse: separate;
             border-spacing: 0;
         };
+        a {
+          text-decoration: none;
+          color: white;
+          font-weight: bold;
+        }
 
-        .flex-item {
+        /*.flex-item {
         order: 0;
         flex: 1 1 auto;
         align-self: auto;
-        }
+        }*/
 
     </style>
     <template>
@@ -72,14 +83,14 @@
         </div>
         <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
-                <col span="3" style="width:15%">
-                <col span="1" style="width:50%">
                 <col span="1" style="width:5%">
+                <col span="1" style="width:25%">
+                <col span="1" style="width:70%">
             </colgroup>
             <thead>
-                <th>NQF ID</th>
-                <th>Name</th>
-                <th>Description</th>
+                <th><a sortingGroup='nqfID' on-tap="selectFunction">NQF ID</a></th>
+                <th><a sortingGroup='measureName' on-tap="selectFunction">Name</a></th>
+                <th><a sortingGroup='measureDescription' on-tap="selectFunction">Description</a></th>
                 <th></th>
             </thead>
             <tbody>
@@ -103,7 +114,16 @@
     (function() {
     Polymer({
             is: 'app-admin-panel-measure',
-            properties: {},
+            properties: {
+                nqfID: String,
+                measureName: String,
+                measureDescription: String,
+                sortVal: "defaultsort",
+                lastSortVal: "nqfID",
+                sortPass: String,
+                sortReverse: false
+
+            },
 
             ready: function() {
                 this.measure=[
@@ -111,12 +131,16 @@
                                 nqfID: '0018',
                                 measureName: 'Controlling Blood Pressure',
                                 selected: true,
-                                measureDescription: 'blah blah blah'},
+                                measureDescription: 'blah blah blah'
+                              },
 
-                    {nqfID: '0059', measureName: 'Diabetes: HbA1c Poor Control', measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'},
+                              {
+                                nqfID: '0059',
+                                measureName: 'Diabetes: HbA1c Poor Control',
+                                measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'
+                              }
                 ];
             },
-
             _filter: function(val) {
                 return function(measure) {
                     if (!val) return true;
@@ -128,32 +152,46 @@
                };
             },
 
+
+              selectFunction: function(e) {
+              val = e.target.getAttribute('sortinggroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
+              this.sortPass = val;
+              console.log("target click: " + val);
+              console.log("lastSortVal is " + this.lastSortVal);
+
+              if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
+                  this.sortReverse = true;
+                  this.sortVal = val.toUpperCase();
+                  this.lastSortVal = val.toUpperCase;
+                  }
+              else
+                {
+                  this.sortReverse = false;
+                  this.sortVal = val;
+                  this.lastSortVal = val;
+
+                };
+
+
+
+              },
+
             _sort: function(val) {
-                switch(val) {
-                case 'nqfID':
-                    return function(a, b) {
-                    if (a.nqfID.toLowerCase() === b.nqfID.toLowerCase()) return 0;
-                    return a.nqfID.toLowerCase() < b.nqfID.toLowerCase() ? -1 : 1;
-                    };
+                  var clicked = this.sortPass;
+                  console.log("sortReverse is " + this.sortReverse)
+                  if (this.sortReverse) {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? 1 : -1;
+                          }
+                      }
 
-                 case 'cmsID':
-                    return function(a, b) {
-                    if (a.cmsID.toLowerCase() === b.cmsID.toLowerCase()) return 0;
-                    return a.cmsID.toLowerCase() < b.cmsID.toLowerCase() ? -1 : 1;
-                    };
-
-                  case 'measureName':
-                    return function(a, b) {
-                    if (a.measureName.toLowerCase() === b.measureName.toLowerCase()) return 0;
-                    return a.measureName.toLowerCase() < b.measureName.toLowerCase() ? -1 : 1;
-                    };
-
-                  case 'measureDescription':
-                    return function(a, b) {
-                    if (a.measureDescription.toLowerCase() === b.measureDescription.toLowerCase()) return 0;
-                    return a.measureDescription.toLowerCase() < b.measureDescription.toLowerCase() ? -1 : 1;
-                    };
-                }
+                      else {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? -1 : 1;
+                      };
+                    }
              },
 
             editMeasure: function(e) {

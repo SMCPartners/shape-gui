@@ -111,27 +111,14 @@
     Polymer({
             is: 'app-admin-panel-user',
             properties: {
-            username: String,
-            userFullName: String,
-            userRole: String,
-            userOrganization: String,
-            sortVal: {
-              type: String,
-              value: "defaultsort"
-            },
-            lastSortVal: {
-              type: String,
-              value: "defaultlast"
-            },
-
-            sortJim: {
-              type: Boolean,
-              value: true
-            },
-            sortInc: {
-              type: Number,
-              value: 1
-            }
+              username: String,
+              userFullName: String,
+              userRole: String,
+              userOrganization: String,
+              sortVal: "defaultsort",
+              sortPass: String,
+              sortReverse: false,
+              lastSortVal: "username"
           },
 
             _filter: function(val) {
@@ -146,91 +133,44 @@
             },
 
             selectFunction: function(e) {
-              val = e.target.getAttribute('sortinggroup');
-              var uName = "username";
-              var uFName = "userFullName";
-              var uRole = "userRole";
-              var uOrg = "userOrganization";
-              console.log(val + " " + this.sortVal + " " + this.sortJim);
+              val = e.target.getAttribute('sortinggroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
+              this.sortPass = val;
+              console.log("target click: " + val);
+              console.log("lastSortVal is " + this.lastSortVal);
 
-              if (val.toLowerCase() === this.sortVal.toLowerCase() && this.sortJim){
-                this.sortInc = this.sortInc + 1;
-                uName = uName.toUpperCase();
-                uFName = uFName.toUpperCase();
-                uRole = uRole.toUpperCase();
-                uOrg = uOrg.toUpperCase();
-                //this.sortJim = !this.sortJim;
-              };
+              if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
+                  this.sortReverse = true;
+                  this.sortVal = val.toUpperCase();
+                  this.lastSortVal = val.toUpperCase;
+                  }
+              else
+                {
+                  this.sortReverse = false;
+                  this.sortVal = val;
+                  this.lastSortVal = val;
 
-                  this.sortJim = !this.sortJim;
-                  if (val === 'username'){
-                      this.sortVal= uName;
-                  }
-                  else if (val ==='userFullName'){
-                      this.sortVal = uFName;
-                  }
-                  else if (val ==='userRole'){
-                      this.sortVal = uRole;
-                  }
-                  else if  (val === 'userOrganization'){
-                      this.sortVal = uOrg;
-                  }
+                };
+
+
+
               },
 
             _sort: function(val) {
+                  var clicked = this.sortPass;
+                  console.log("sortReverse is " + this.sortReverse)
+                  if (this.sortReverse) {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? 1 : -1;
+                          }
+                      }
 
-
-                  switch(val) {
-                    case 'username':
-                      return function(a, b) {
-                          if (a.username.toLowerCase() === b.username.toLowerCase()) return 0;
-                          return a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
-
+                      else {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? -1 : 1;
                       };
-
-                    case 'USERNAME':
-                      return function(a, b) {
-                          if (a.username.toLowerCase() === b.username.toLowerCase()) return 0;
-                          return a.username.toLowerCase() < b.username.toLowerCase() ? 1 : -1;
-                      };
-
-                    case 'userFullName':
-                      return function(a, b) {
-                          if (a.userFullName.toLowerCase() === b.userFullName.toLowerCase()) return 0;
-                          return a.userFullName.toLowerCase() < b.userFullName.toLowerCase() ? -1 : 1;
-                      };
-
-                    case 'USERFULLNAME':
-                      return function(a, b) {
-                          if (a.userFullName.toLowerCase() === b.userFullName.toLowerCase()) return 0;
-                          return a.userFullName.toLowerCase() < b.userFullName.toLowerCase() ? 1 : -1;
-                      };
-
-                    case 'userRole':
-                      return function(a, b) {
-                        if (a.userRole.toLowerCase() === b.userRole.toLowerCase()) return 0;
-                        return a.userRole.toLowerCase() < b.userRole.toLowerCase() ? -1 : 1;
-                    };
-
-                    case 'USERROLE':
-                      return function(a, b) {
-                        if (a.userRole.toLowerCase() === b.userRole.toLowerCase()) return 0;
-                        return a.userRole.toLowerCase() < b.userRole.toLowerCase() ? 1 : -1;
-                    };
-
-                    case 'userOrganization':
-                      return function(a, b) {
-                      if (a.userOrganization.toLowerCase() === b.userOrganization.toLowerCase()) return 0;
-                      return a.userOrganization.toLowerCase() < b.userOrganization.toLowerCase() ? -1 : 1;
-                    };
-                    case 'USERORGANIZATION':
-                      return function(a, b) {
-                      if (a.userOrganization.toLowerCase() === b.userOrganization.toLowerCase()) return 0;
-                      return a.userOrganization.toLowerCase() < b.userOrganization.toLowerCase() ? 1 : -1;
-                    };
-
-
-                }
+                    }
              },
 
 

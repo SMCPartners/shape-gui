@@ -16,7 +16,13 @@
         font-weight: bold;
         };
 
-        th, td {padding: 10px 15px;
+        th, td {
+          padding: 10px 15px;
+          -webkit-user-select: none;   /*these make it so that text is not selectable*/
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+          font-family: Roboto;
         };
 
         thead {
