@@ -18,11 +18,13 @@
 
         th, td {
           padding: 10px 15px;
+
           -webkit-user-select: none;   /*these make it so that text is not selectable*/
           -khtml-user-select: none;
           -moz-user-select: none;
           user-select: none;
           font-family: Roboto;
+
         };
 
         thead {
@@ -35,14 +37,14 @@
         border-right: 1px solid #cecfd5;
         border-left: 1px solid #cecfd5;
         };
-
+/*
         td: first-child {
         border-left: 1px solid #cecfd5;
         };
 
         tr: nth-child(even) {
         background-color: #395870;
-        };
+        };*/
 
         table {
         border-collapse: separate;
@@ -53,6 +55,10 @@
         order: 0;
         flex: 1 1 auto;
         align-self: auto;
+        }
+
+        .noWrap {
+          white-space: nowrap;
         }
 
     </style>
@@ -74,13 +80,18 @@
             </div>
         </div>
         <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
-            <colgroup>
-                <col span="2" style="width:47%">
-                <col span="1" style="width:6%">
-            </colgroup>
+            <!-- <colgroup>
+                <col span="2" style="width:40%">
+                <col span="1" style="width:10%">
+                <col span="1" style="width:40%">
+            </colgroup> -->
             <thead>
-                <th>Name</th>
-                <th>Address</th>
+                <th sortingGroup="name" on-tap="selectFunction">Name</th>
+                <th sortingGroup="address" on-tap="selectFunction">Address</th>
+                <th sortingGroup="primaryContactPhone" on-tap="selectFunction">Primary Contact Phone</th>
+                <th sortingGroup="primaryContactName" on-tap="selectFunction">Primary Contact Name</th>
+                <th sortingGroup="primaryContactEmail" on-tap="selectFunction">Primary Contact Email</th>
+                <th sortingGroup= "primaryContactRole" on-tap="selectFunction">Primary Contact Role</th>
                 <th></th>
             </thead>
             <tbody>
@@ -88,6 +99,10 @@
                 <tr>
                     <td><span>{{item.name}}</span></td>
                     <td><span>{{item.address}}</span></td>
+                    <td><span class="noWrap">{{item.primaryContactPhone}}</span></td>
+                    <td><span class="noWrap">{{item.primaryContactName}}</span></td>
+                    <td><span>{{item.primaryContactEmail}}</span></td>
+                    <td><span>{{item.primaryContactRole}}</span></td>
                     <td style="font-size: 12px">
                         <div class="editButton">
                             <paper-button raised on-tap="editOrganization" modalName="editOrganization">Edit</paper-button>
@@ -112,15 +127,38 @@
 
             ready: function() {
             this.organization=[
-                                {
-                                  name: 'Prohealth',
-                                  address: '1234 Hartford Rd',
-                                  primary_contact_phone: '999-999-9999',
-                                  primary_contact_name: 'John',
-                                  primary_contact_email: 'jburlette@gmail.com',
-                                  primary_contact_role: 'Director'
-                                },
-            {name: 'Hartford', address: '9999 Columbus Blvd'},
+              {
+                name: 'Prohealth',
+                address: '1234 Hartford Rd',
+                primaryContactPhone: '860-216-5245',
+                primaryContactName: 'John Doe',
+                primaryContactEmail: 'jburlette@gmail.com',
+                primaryContactRole: 'Director'
+              },
+              {
+                name: 'Hartford',
+                address: '9999 Columbus Blvd Mexico City, Mexico',
+                primaryContactPhone: '860-659-4856',
+                primaryContactName: 'Oliver Twist',
+                primaryContactEmail: 'ojonston@gmail.com',
+                primaryContactRole: 'CEO'
+              },
+              {
+                name: 'EHealth Physicians',
+                address: '25 Oak Rd Hartford, CT 06116',
+                primaryContactPhone: '203-256-6344',
+                primaryContactName: 'Dr. Feelgood',
+                primaryContactEmail: 'drgood@gmail.com',
+                primaryContactRole: 'Head Administrator'
+              },
+              {
+                name: 'Physicians Anonymous',
+                address: '1234 Hartford Rd Middletown, CT 06457',
+                primaryContactPhone: '416-205-7894',
+                primaryContactName: 'Pablo Picasso',
+                primaryContactEmail: 'pPicaso84@gmail.com',
+                primaryContactRole: 'Head Artist'
+              }
             ];
             },
 
@@ -133,20 +171,45 @@
                };
             },
 
-            _sort: function(val) {
-                switch(val) {
-                case 'name':
-                    return function(a, b) {
-                    if (a.name.toLowerCase() === b.name.toLowerCase()) return 0;
-                    return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
-                    };
+            selectFunction: function(e) {
+              val = e.target.getAttribute('sortinggroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
+              this.sortPass = val;
+              console.log("target click: " + val);
+              console.log("lastSortVal is " + this.lastSortVal);
 
-                 case 'address':
-                    return function(a, b) {
-                    if (a.address.toLowerCase() === b.address.toLowerCase()) return 0;
-                    return a.address.toLowerCase() < b.address.toLowerCase() ? -1 : 1;
-                    };
-                }
+              if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
+                  this.sortReverse = true;
+                  this.sortVal = val.toUpperCase();
+                  this.lastSortVal = val.toUpperCase;
+                  }
+              else
+                {
+                  this.sortReverse = false;
+                  this.sortVal = val;
+                  this.lastSortVal = val;
+
+                };
+
+
+
+              },
+
+            _sort: function(val) {
+                  var clicked = this.sortPass;
+                  console.log("sortReverse is " + this.sortReverse)
+                  if (this.sortReverse) {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? 1 : -1;
+                          }
+                      }
+
+                      else {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? -1 : 1;
+                      };
+                    }
              },
 
             editOrganization: function(e) {

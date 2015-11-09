@@ -7,6 +7,28 @@
         .pms {
         @apply(--pm-style)
         }
+
+        paper-dialog {
+          min-height: 300px;
+        }
+
+        .securityQuestion {
+            height: 2.5em;
+            font-size: 1em;
+            background: #FAFAFA;
+            border: none;
+            box-shadow: 1px 1px 1px 1px #9C9C9C;
+            font-size: 16px;
+            padding: 0;
+            margin-right: 24px;
+        }
+
+        .okButton {
+          background-color: #3F51B5;
+          margin-left: 24px;
+          color: white;
+        }
+
     </style>
     <template>
         <div class="pms">
@@ -23,13 +45,28 @@
             <paper-input label="User Name" value="{{userName}}"></paper-input>
         </paper-dialog-->
         <paper-dialog id="editSecurityQuestions">
-            <p>Change Security Questions</p>
+          <h1>Change Security Questions</h1>
+          <label for="securityQuestion1">Question 1</label>
+          <select id="securityQuestion1" class="securityQuestion">
+            <option>Who was your second grade teacher?</option>
+            <option>What was the name of your first pet?</option>
+            <option>Where did you learn to swim?</option>
+            <option>What was your favorite high school class?</option>
+            <option>Where was your first date?</option>
+            <option>What was your favorite holiday gift?</option>
+          </select>
+          <paper-input placeholder="Answer"></paper-input>
+          <paper-button class="okButton" on-tap="closeDialog">OK</paper-button>
         </paper-dialog>
         <paper-dialog id="changePassword">
-            <p>{{password}}</p>
+            <h1>Reset Password</h1>
+            <paper-input type="password" value="{{password}}" placeholder="password"></paper-input>
+            <paper-button class="okButton" on-tap="closeDialog">OK</paper-button>
         </paper-dialog>
         <paper-dialog id="editEmail">
-            <p>{{email}}</p>
+          <h1>Edit Email</h1>
+          <paper-input value="{{email}}" placeholder="email"></paper-input>
+          <paper-button class="okButton" on-tap="closeDialog">OK</paper-button>
         </paper-dialog>
     </template>
 </dom-module>
@@ -40,21 +77,21 @@
             properties: {
                 userName: {
                     type: String,
-                    value: "User Name"
+                    value: ""
                 },
                 password: {
                     type: String,
-                    value: "Password"
+                    value: ""
                 },
                 email: {
                     type: String,
-                    value: "email@email.com"
+                    value: ""
                 }
             },
             ready: function() {
             },
             handleClick: function (e) {
-                buttonClicked=e.target.parentElement.id
+                var buttonClicked  =e.target.parentElement.id;
                 if (buttonClicked=='username') {
                     this.$.editUsername.open();
                  }
@@ -62,11 +99,14 @@
                     this.$.changePassword.open();
                 }
                 if (buttonClicked=='email'){
-                    this.$.editEmail.open
+                    this.$.editEmail.open();
                 }
                 if (buttonClicked=='securityQuestions'){
                     this.$.editSecurityQuestions.open();
                 }
+            },
+            closeDialog: function(e) {
+              e.target.parentElement.parentElement.close();
             }
         });
     })();
