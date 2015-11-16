@@ -60,8 +60,8 @@
         <!-- top bar for search, sort, add -->
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
-            <!--
-            <div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
+
+            <!--div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
                 <label style="font-size:1em;">Sort By:</label>
                 <select value="{{sortVal::change}}" style="height: 2em; font-size: 1em;">
                     <option>Select:</option>
@@ -70,26 +70,26 @@
                     <option value="userRole">Role</option>
                     <option value="userOrganization">Organization</option>
                 </select>
-            </div>
-            -->
+            </div-->
+
             <div class="flex-item">
                 <paper-button raised on-tap="addUser" modalName="addUser" style="float:right; padding-top: 0.1em;">Add User</paper-button>
             </div>
         </div>
         <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
-            <colgroup>
+            <!-- <colgroup>
                 <col span="4" style="width:23.5%">
                 <col style="width:6%">
-            </colgroup>
+            </colgroup> -->
             <thead>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Organization</th>
+                <th sortingGroup='username' on-tap="selectFunction">Username</th>
+                <th sortingGroup='userFullName' on-tap="selectFunction">Name</th>
+                <th sortingGroup='userRole' on-tap="selectFunction">Role</th>
+                <th sortingGroup='userOrganization' on-tap="selectFunction">Organization</th>
                 <th></th>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
+            <template is="dom-repeat" id="table" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.username}}</span></td>
                     <td><span>{{item.userFullName}}</span></td>
@@ -111,11 +111,15 @@
     Polymer({
             is: 'app-admin-panel-user',
             properties: {
-            username: String,
-            userFullName: String,
-            userRole: String,
-            userOrganization: String
-            },
+              username: String,
+              userFullName: String,
+              userRole: String,
+              userOrganization: String,
+              sortVal: "defaultsort",
+              sortPass: String,
+              sortReverse: false,
+              lastSortVal: "username"
+          },
 
             _filter: function(val) {
                 return function(user) {
@@ -128,55 +132,69 @@
                };
             },
 
+            selectFunction: function(e) {
+              val = e.target.getAttribute('sortinggroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
+              this.sortPass = val;
+              console.log("target click: " + val);
+              console.log("lastSortVal is " + this.lastSortVal);
+
+              if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
+                  this.sortReverse = true;
+                  this.sortVal = val.toUpperCase();
+                  this.lastSortVal = val.toUpperCase;
+                  }
+              else
+                {
+                  this.sortReverse = false;
+                  this.sortVal = val;
+                  this.lastSortVal = val;
+
+                };
+
+
+
+              },
+
             _sort: function(val) {
-                switch(val) {
-                case 'username':
-                    return function(a, b) {
-                    if (a.username.toLowerCase() === b.username.toLowerCase()) return 0;
-                    return a.username.toLowerCase() < b.username.toLowerCase() ? -1 : 1;
-                    };
+                  var clicked = this.sortPass;
+                  console.log("sortReverse is " + this.sortReverse)
+                  if (this.sortReverse) {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? 1 : -1;
+                          }
+                      }
 
-                 case 'userFullName':
-                    return function(a, b) {
-                    if (a.userFullName.toLowerCase() === b.userFullName.toLowerCase()) return 0;
-                    return a.userFullName.toLowerCase() < b.userFullName.toLowerCase() ? -1 : 1;
-                    };
-
-                  case 'userRole':
-                    return function(a, b) {
-                    if (a.userRole.toLowerCase() === b.userRole.toLowerCase()) return 0;
-                    return a.userRole.toLowerCase() < b.userRole.toLowerCase() ? -1 : 1;
-                    };
-
-                  case 'userOrganization':
-                    return function(a, b) {
-                    if (a.userOrganization.toLowerCase() === b.userOrganization.toLowerCase()) return 0;
-                    return a.userOrganization.toLowerCase() < b.userOrganization.toLowerCase() ? -1 : 1;
-                    };
-                }
+                      else {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? -1 : 1;
+                      };
+                    }
              },
+
 
             ready: function() {
             this.users=[
                         {
-                          username: 'rsmith123',
-                          userFullName: 'John Smith',
+                          username: 'alpha',
+                          userFullName: 'Zoltan Mesko',
                           userRole: 'Org Administrator',
-                          userOrganization: 'ProHealth'
+                          userOrganization: 'Core Health'
                         },
 
                         {
-                          username: 'nmartinez',
-                          userFullName: 'Nick Martinez',
+                          username: 'beta',
+                          userFullName: 'Craig Jenny',
                           userRole: 'Org User',
-                          userOrganization: 'SMC Partners'
+                          userOrganization: 'Zebra Health'
                         },
 
                         {
-                          username: 'tdoe',
-                          userFullName: 'allen Martinez',
-                          userRole: 'Org man',
-                          userOrganization: 'house'
+                          username: 'charlie',
+                          userFullName: 'Sarah Lee',
+                          userRole: 'Provider',
+                          userOrganization: 'Johnson and Sons'
                         }
             ];
             },

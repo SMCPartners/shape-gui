@@ -16,7 +16,13 @@
         font-weight: bold;
         };
 
-        th, td {padding: 10px 15px;
+        th, td {
+          padding: 10px 15px;
+          -webkit-user-select: none;   /*these make it so that text is not selectable*/
+          -khtml-user-select: none;
+          -moz-user-select: none;
+          user-select: none;
+          font-family: Roboto;
         };
 
         thead {
@@ -68,33 +74,22 @@
             <div class='flex-item'>
                 <input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
             </div>
-            <!--
-            <div class="flex-item">
-               <label>Sort By:</label>
-               <select value="{{sortVal::change}}">
-                   <option>Select:</option>
-                   <option value="firstName">First Name</option>
-                   <option value="lastName">Last Name</option>
-                   <option value="NPI">NPI</option>
-                   <option value="organization">Organization</option>
-               </select>
-            </div>
-            -->
+
             <div class="flex-item">
                 <paper-button raised on-tap="addProvider" modalName="addProvider" style="float:right; padding-top: 0.1em;">Add Provider</paper-button>
             </div>
         </div>
 
         <table class="order-table table-hover" style="width: 100%; padding: 0 0.4em;">
-            <colgroup>
+            <!-- <colgroup>
                 <col span="4" style="width:23.5%">
                 <col span="1" style="width:6%">
-            </colgroup>
+            </colgroup> -->
             <thead>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>NPI</th>
-                <th>Organization</th>
+                <th sortingGroup="firstName" on-tap="selectFunction">First Name</th>
+                <th sortingGroup="lastName" on-tap="selectFunction">Last Name</th>
+                <th sortingGroup="npiNum" on-tap="selectFunction">NPI</th>
+                <th sortingGroup="organization" on-tap="selectFunction">Organization</th>
                 <th></th>
             </thead>
             <tbody>
@@ -102,7 +97,7 @@
                 <tr>
                     <td><span>{{item.firstName}}</span></td>
                     <td><span>{{item.lastName}}</span></td>
-                    <td><span>{{item.NPI}}</span></td>
+                    <td><span>{{item.npiNum}}</span></td>
                     <td><span>{{item.organization}}</span></td>
                     <td style="font-size: 12px">
                         <div class="editButton">
@@ -124,8 +119,12 @@
             properties: {
             firstName: String,
             lastName: String,
-            NPI: String,
-            organization: String
+            npiNum: String,
+            organization: String,
+            sortVal: "defaultsort",
+            sortPass: String,
+            sortReverse: false,
+            lastSortVal: "firstName"
             },
 
             ready: function() {
@@ -133,15 +132,33 @@
                             {
                               firstName: 'Nick',
                               lastName: 'Martinez',
-                              NPI: '123456789',
+                              npiNum: '123456789',
                               organization: 'SMC Partners'
                             },
                             {
                               firstName: 'Gregory',
                               lastName: 'House',
-                              NPI: '999999999',
+                              npiNum: '565456879',
                               organization: 'Princeton'
                             },
+                            {
+                              firstName: 'Harrison',
+                              lastName: 'Ford',
+                              npiNum: '123456789',
+                              organization: 'StarWars'
+                            },
+                            {
+                              firstName: 'Xavier',
+                              lastName: 'Coleston',
+                              npiNum: '095809860',
+                              organization: 'Jesey Shore'
+                            },
+                            {
+                              firstName: 'Anrgry',
+                              lastName: 'Bird',
+                              npiNum: '234456753',
+                              organization: 'SMC Partners'
+                            }
             ];
             },
 
@@ -156,32 +173,45 @@
                };
             },
 
+            selectFunction: function(e) {
+              val = e.target.getAttribute('sortingGroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
+              this.sortPass = val;
+              console.log("target click: " + val);
+              console.log("lastSortVal is " + this.lastSortVal);
+
+              if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
+                  this.sortReverse = true;
+                  this.sortVal = val.toUpperCase();
+                  this.lastSortVal = val.toUpperCase;
+                  }
+              else
+                {
+                  this.sortReverse = false;
+                  this.sortVal = val;
+                  this.lastSortVal = val;
+
+                };
+
+
+
+              },
+
             _sort: function(val) {
-                switch(val) {
-                case 'firstName':
-                    return function(a, b) {
-                    if (a.firstName.toLowerCase() === b.firstName.toLowerCase()) return 0;
-                    return a.firstName.toLowerCase() < b.firstName.toLowerCase() ? -1 : 1;
-                    };
+                  var clicked = this.sortPass;
+                  console.log("sortReverse is " + this.sortReverse)
+                  if (this.sortReverse) {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? 1 : -1;
+                          }
+                      }
 
-                 case 'lastName':
-                    return function(a, b) {
-                    if (a.lastName.toLowerCase() === b.lastName.toLowerCase()) return 0;
-                    return a.lastName.toLowerCase() < b.lastName.toLowerCase() ? -1 : 1;
-                    };
-
-                  case 'NPI':
-                    return function(a, b) {
-                    if (a.NPI.toLowerCase() === b.NPI.toLowerCase()) return 0;
-                    return a.NPI.toLowerCase() < b.NPI.toLowerCase() ? -1 : 1;
-                    };
-
-                  case 'organization':
-                    return function(a, b) {
-                    if (a.organization.toLowerCase() === b.organization.toLowerCase()) return 0;
-                    return a.organization.toLowerCase() < b.organization.toLowerCase() ? -1 : 1;
-                    };
-                }
+                      else {
+                            return function(a, b) {
+                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
+                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? -1 : 1;
+                      };
+                    }
              },
 
             editProvider: function(e) {
