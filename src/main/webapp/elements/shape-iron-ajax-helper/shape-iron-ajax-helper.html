@@ -1,41 +1,92 @@
-<dom-module id="iron-ajax-helper">
-  <iron-ajax
-    id='{{callId}}'
-    handle-as="json"
-    ></iron-ajax>
+<dom-module id="shape-iron-ajax-helper">
+  <template>
+    <iron-ajax
+            id="loginCall"
+            url="{{computePath(baseURL, resource)}}"
+            method="{{method}}"
+            handle-as="json"
+            content-type="application/json"
+            on-response="handleResponse"
+    >
+    </iron-ajax>
+    <iron-ajax
+            id="secureCall"
+            url="{{computePath(baseURL, resource)}}"
+            on-response="handleResponse"
+            method="{{method}}"
+            content-type="{{contentType}}"
+            handle-as="json"
+    >
+    </iron-ajax>
+  </template>
 </dom-module>
   <script>
     (function () {
       Polymer({
-        is: 'iron-ajax-helper',
+        is: 'shape-iron-ajax-helper',
         properties: {
           resource: {
             type: String
           },
           baseUrl: {
             type: String,
-            value: 'http://10.13.20.166/jump-service/jump'
+            value: 'http://localhost:8080/jump-service/jump'
           },
           callId: {
             type: String,
             value: 'testCall'
+          },
+          method: {
+            type: String
+          },
+          contentType: {
+            type: String,
+            value: "application/JSON"
           }
         },
+        computePath: function(baseURL,resource) {
+          return baseURL+resource
+        },
         handleResponse: function(request) {
+          this.callBack();
+        },
+        generateRequest: function(){
+          //set header
+          this.$.secureCall.headers={
+            "Authorization": "Bearer "+this.getToken()
+          };
+          this.$.secureCall.url=this.computePath(this.baseUrl, this.resource)
+          //create request
+          this.$.secureCall.generateRequest()
 
         },
         ready: function() {
 
         },
-        login: function(){
-            resource='/auth/login/'; //set the resource location
-
+        login: function(userId, password){
+          resource='/auth/login/'; //set the resource location
+          this.method="POST"
+          this.$.loginCall.url=this.computePath(this.baseUrl, resource)
+          this.$.loginCall.body=JSON.stringify(
+                  {
+                    "userId": userId,
+                    "password": password
+                  })
+          this.callBack=this.storeToken;
+          this.$.loginCall.generateRequest()
+        },
+        storeToken: function(response){
+          if (event.detail.response.token) {
+            localStorage.token = event.detail.response.token
+          }else{
+            alert("No token came back")
+          }
         },
         getToken: function(){
           //check if local storage is available on this browser
           if(typeof(Storage) !== "undefined") {
-            if (localStorage.aToken){ //Check if the token is set
-              return localStorage.atoken // return the token that is stored
+            if (localStorage.token){ //Check if the token is set
+              return localStorage.token // return the token that is stored
             }else{
               //Alert the user that they need to be logged in
               alert("You are not logged in");
@@ -48,6 +99,6 @@
         });
 
 
-        });
+        //});
     })();
   </script>

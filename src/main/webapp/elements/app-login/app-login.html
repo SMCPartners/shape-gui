@@ -47,18 +47,42 @@
 
     </style>
     <template>
-      <paper-material id="loginScreen" elevation="2">
+      <paper-material elevation="2">
         <h1>SHAPE Login</h1>
           <paper-input id="userIdInput" label="User ID"></paper-input>
-            </br>
+            <br/>
           <paper-input label="Password" id="passwordInput" type="password"></paper-input>
-          <!--div class="buttons"-->
-            <paper-button id="login" on-tap="navigateHome" raised noink>Login</paper-button>
-          <paper-button id="forgotPasswordButton" raised noink>Forgot Password?</paper-button>
-          <!--/div-->
-      </paper-material>
-
+            <paper-button id="login" on-tap="logIn" raised noink>Login</paper-button>
+          <paper-button id="forgotPasswordButton" on-tap="setSecureCall" raised noink>Forgot Password?</paper-button>
+      </paper-material-->
+          <!--iron-ajax
+                  id="loginCall"
+                  url="http://localhost:8080/jump-service/jump/auth/login/"
+                  on-response="loginResponse"
+                  method="POST"
+                  handle-as="json"
+                  content-type="application/json"
+          >
+          </iron-ajax>
+          <iron-ajax
+                  id="secureCall"
+                  url="http://localhost:8080/jump-service/jump/user/get/mobile_exercise_scr/u2/11-10-2015"
+                  on-response="secureCallResponse"
+                  method="GET"
+                  handle-as="json"
+          >
+          </iron-ajax-->
+          <shape-iron-ajax-helper id="loginCall">
+          </shape-iron-ajax-helper>
+          <shape-iron-ajax-helper id="secureCall">
+          </shape-iron-ajax-helper>
     </template>
+
+    <!--shape-iron-ajax-helper
+      id='logInCall'
+      resource='/auth/login/'
+      callback='callBack'
+    ></shape-iron-ajax-helper-->
 </dom-module>
 <script>
     (function () {
@@ -71,24 +95,32 @@
                 },
 
                 userId: {
-                    type: String,
-                    value: 'test1'
+                    type: String
                 },
                 password: {
-                    type: String,
-                    value: 'test2',
+                    type: String
                 }
             },
-            // loginFunction: function (e) {
-            //     userId = userIdInput;
-            //     password = passwordInput;
-            //     console.log(userId);
-            //     console.log(password);
-            // },
+            loginResponse: function(response){
+                localStorage.token= event.detail.response.token;
+                this.setSecureCall()
+            },
+            logIn: function () {
+                this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
+
+            },
+            setSecureCall: function(){
+                var call = this.$.secureCall;
+                call.resource = "/user/get/mobile_exercise_scr/u2/11-16-2015";
+                call.method = "GET"
+                call.callBack = this.secureCallResponse;
+                call.generateRequest();
+            },
+            secureCallResponse: function(response){
+                console.log(event.detail.response)
+            },
             navigateHome: function (e) {
-                //this.selected = 'main';
-                console.log("I'm home!");
-                window.location = '/src/main/webapp/jim.html';
+                this.selected = 'main';
             }
         });
     })();
