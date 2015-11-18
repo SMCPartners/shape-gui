@@ -62,7 +62,13 @@
 
     </style>
     <template>
-
+      <shape-iron-ajax-helper
+          id="findMeasures"
+          resource="/common/measure/findAll"
+          handle-as="json"
+          on-response="callBack"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
             <!--
@@ -88,17 +94,17 @@
                 <col span="1" style="width:70%">
             </colgroup> -->
             <thead>
-                <th><a sortingGroup='nqfID' on-tap="selectFunction">NQF ID</a></th>
-                <th><a sortingGroup='measureName' on-tap="selectFunction">Name</a></th>
-                <th><a sortingGroup='measureDescription' on-tap="selectFunction">Description</a></th>
+                <th><a sortingGroup='nqfId' on-tap="selectFunction">NQF ID</a></th>
+                <th><a sortingGroup='name' on-tap="selectFunction">Name</a></th>
+                <th><a sortingGroup='description' on-tap="selectFunction">Description</a></th>
                 <th></th>
             </thead>
             <tbody>
             <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
             <tr>
-                <td><span>{{item.nqfID}}</span></td>
-                <td><span>{{item.measureName}}</span></td>
-                <td><span>{{item.measureDescription}}</span></td>
+                <td><span>{{item.nqfId}}</span></td>
+                <td><span>{{item.name}}</span></td>
+                <td><span>{{item.description}}</span></td>
                 <td style="font-size: 12px">
                     <paper-button raised on-tap="editMeasure" modalName="editMeasure">Edit</paper-button>
                 </td>
@@ -115,7 +121,7 @@
     Polymer({
             is: 'app-admin-panel-measure',
             properties: {
-                nqfID: String,
+                nqfId: String,
                 measureName: String,
                 measureDescription: String,
                 sortVal: "defaultsort",
@@ -126,29 +132,29 @@
             },
 
             ready: function() {
-                this.measure=[
-                              {
-                                nqfID: '0018',
-                                measureName: 'Controlling Blood Pressure',
-                                selected: true,
-                                measureDescription: 'blah blah blah'
-                              },
-
-                              {
-                                nqfID: '0059',
-                                measureName: 'Diabetes: HbA1c Poor Control',
-                                measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'
-                              }
-                ];
+                // this.measure=[
+                //               {
+                //                 nqfID: '0018',
+                //                 measureName: 'Controlling Blood Pressure',
+                //                 selected: true,
+                //                 measureDescription: 'blah blah blah'
+                //               },
+                //
+                //               {
+                //                 nqfID: '0059',
+                //                 measureName: 'Diabetes: HbA1c Poor Control',
+                //                 measureDescription: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90 mmHg) during the measurement period'
+                //               }
+                // ];
             },
             _filter: function(val) {
                 return function(measure) {
                     if (!val) return true;
                     if (!measure) return false;
-                    return (measure.nqfID && ~measure.nqfID.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (measure.cmsID && ~measure.cmsID.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (measure.measureName && ~measure.measureName.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (measure.measureDescription && ~measure.measureDescription.toLowerCase().indexOf(val.toLowerCase()));
+                    return (measure.nqfId && ~measure.nqfId.toLowerCase().indexOf(val.toLowerCase())) ||
+                            //(measure.cmsID && ~measure.cmsID.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (measure.name && ~measure.name.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (measure.description && ~measure.description.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
 
@@ -200,7 +206,16 @@
 
             addMeasure: function(e) {
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
-            }
+            },
+            setajax: function() {
+              this.$.findMeasures.callBack = this.callBack
+              this.$.findMeasures.generateRequest();
+            },
+
+           callBack: function(request) {
+             console.log(request.detail.response);
+             this.measure = request.detail.response;
+           }
         });
 })();
 </script>

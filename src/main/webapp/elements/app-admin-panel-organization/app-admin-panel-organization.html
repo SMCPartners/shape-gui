@@ -63,6 +63,13 @@
 
     </style>
     <template>
+      <shape-iron-ajax-helper
+          id="findOrganizations"
+          resource="/admin/organization/findAll"
+          handle-as="json"
+          on-response="callBack"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
             <!--
@@ -87,7 +94,7 @@
             </colgroup> -->
             <thead>
                 <th sortingGroup="name" on-tap="selectFunction">Name</th>
-                <th sortingGroup="address" on-tap="selectFunction">Address</th>
+                <th sortingGroup="addressState" on-tap="selectFunction">Address</th>
                 <th sortingGroup="primaryContactPhone" on-tap="selectFunction">Primary Contact Phone</th>
                 <th sortingGroup="primaryContactName" on-tap="selectFunction">Primary Contact Name</th>
                 <th sortingGroup="primaryContactEmail" on-tap="selectFunction">Primary Contact Email</th>
@@ -98,7 +105,7 @@
             <template is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.name}}</span></td>
-                    <td><span>{{item.address}}</span></td>
+                    <td><span>{{item.addressState}}</span></td>
                     <td><span class="noWrap">{{item.primaryContactPhone}}</span></td>
                     <td><span class="noWrap">{{item.primaryContactName}}</span></td>
                     <td><span>{{item.primaryContactEmail}}</span></td>
@@ -126,40 +133,40 @@
             },
 
             ready: function() {
-            this.organization=[
-              {
-                name: 'Prohealth',
-                address: '1234 Hartford Rd',
-                primaryContactPhone: '860-216-5245',
-                primaryContactName: 'John Doe',
-                primaryContactEmail: 'jburlette@gmail.com',
-                primaryContactRole: 'Director'
-              },
-              {
-                name: 'Hartford',
-                address: '9999 Columbus Blvd Mexico City, Mexico',
-                primaryContactPhone: '860-659-4856',
-                primaryContactName: 'Oliver Twist',
-                primaryContactEmail: 'ojonston@gmail.com',
-                primaryContactRole: 'CEO'
-              },
-              {
-                name: 'EHealth Physicians',
-                address: '25 Oak Rd Hartford, CT 06116',
-                primaryContactPhone: '203-256-6344',
-                primaryContactName: 'Dr. Feelgood',
-                primaryContactEmail: 'drgood@gmail.com',
-                primaryContactRole: 'Head Administrator'
-              },
-              {
-                name: 'Physicians Anonymous',
-                address: '1234 Hartford Rd Middletown, CT 06457',
-                primaryContactPhone: '416-205-7894',
-                primaryContactName: 'Pablo Picasso',
-                primaryContactEmail: 'pPicaso84@gmail.com',
-                primaryContactRole: 'Head Artist'
-              }
-            ];
+            // this.organization=[
+            //   {
+            //     name: 'Prohealth',
+            //     address: '1234 Hartford Rd',
+            //     primaryContactPhone: '860-216-5245',
+            //     primaryContactName: 'John Doe',
+            //     primaryContactEmail: 'jburlette@gmail.com',
+            //     primaryContactRole: 'Director'
+            //   },
+            //   {
+            //     name: 'Hartford',
+            //     address: '9999 Columbus Blvd Mexico City, Mexico',
+            //     primaryContactPhone: '860-659-4856',
+            //     primaryContactName: 'Oliver Twist',
+            //     primaryContactEmail: 'ojonston@gmail.com',
+            //     primaryContactRole: 'CEO'
+            //   },
+            //   {
+            //     name: 'EHealth Physicians',
+            //     address: '25 Oak Rd Hartford, CT 06116',
+            //     primaryContactPhone: '203-256-6344',
+            //     primaryContactName: 'Dr. Feelgood',
+            //     primaryContactEmail: 'drgood@gmail.com',
+            //     primaryContactRole: 'Head Administrator'
+            //   },
+            //   {
+            //     name: 'Physicians Anonymous',
+            //     address: '1234 Hartford Rd Middletown, CT 06457',
+            //     primaryContactPhone: '416-205-7894',
+            //     primaryContactName: 'Pablo Picasso',
+            //     primaryContactEmail: 'pPicaso84@gmail.com',
+            //     primaryContactRole: 'Head Artist'
+            //   }
+            // ];
             },
 
             _filter: function(val) {
@@ -226,9 +233,18 @@
                     lastName: lastName.value,
                     NPI: NPI.value,
                     organization: organization.value
-                };gre
+                };
                 this.$.editOrganizationInfo.toggle();
-            }
+            },
+            setajax: function() {
+              this.$.findOrganizations.callBack = this.callBack
+              this.$.findOrganizations.generateRequest();
+            },
+
+           callBack: function(request) {
+             console.log(request.detail.response);
+             this.organization = request.detail.response;
+           }
         });
 })();
 </script>

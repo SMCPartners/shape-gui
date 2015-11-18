@@ -103,9 +103,11 @@
             },
             loginResponse: function(response){
                 localStorage.token= event.detail.response.token;
-                this.setSecureCall()
+                this.setSecureCall();
+
             },
             logIn: function () {
+                app.select = "main";
                 this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
 
             },

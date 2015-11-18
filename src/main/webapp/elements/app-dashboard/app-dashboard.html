@@ -53,7 +53,7 @@
             <div class="flex-parent flex-child">
                 <label class="flex-child" style="font: inherit; margin-left:0.5em;"> <b>Organization: </b></label>
                 <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                    <select name="organization" style="font: inherit">
+                    <select value="{{selectedOrganization::change}}" name="organization" style="font: inherit">
                         <template is="dom-repeat" items="{{organizations}}">
                             <option style="font: inherit" value="{{item._id}}">{{item.name}}</option>
                         </template>
@@ -76,7 +76,7 @@
 
             <paper-tab>Measure Input</paper-tab>
             <paper-tab>Past Measure Reports</paper-tab>
-            <paper-tab>Organization Profile</paper-tab>
+            <paper-tab on-tap="orgStrat">Organization Profile</paper-tab>
         </paper-tabs>
         <iron-pages selected="{{selected}}">
             <app-measure-input></app-measure-input>
@@ -92,6 +92,12 @@
         Polymer({
             is: 'app-dashboard',
             properties: {
+              selectedOrganization: 1
+            },
+            orgStrat: function() {
+              console.log("go");
+              document.querySelector('app-profile').organizationID = this.selectedOrganization;
+              document.querySelector('app-profile').setajax();
             },
             ready: function() {
                 this.selected = 0;

@@ -70,6 +70,13 @@
         }
     </style>
     <template>
+      <shape-iron-ajax-helper
+          id="findProviders"
+          resource="/admin/provider/findAll"
+          handle-as="json"
+          on-response="callBack"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class='flex-item'>
                 <input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
@@ -213,6 +220,15 @@
                       };
                     }
              },
+             setajax: function() {
+               this.$.findProviders.callBack = this.callBack
+               this.$.findProviders.generateRequest();
+             },
+
+            callBack: function(request) {
+              console.log(request.detail.response);
+              this.provider = request.detail.response;
+            },
 
             editProvider: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));

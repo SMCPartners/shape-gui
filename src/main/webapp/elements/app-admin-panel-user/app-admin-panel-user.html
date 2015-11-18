@@ -57,6 +57,15 @@
 
     </style>
     <template>
+
+
+      <shape-iron-ajax-helper
+          id="findUsers"
+          resource="/admin/user/findAll"
+          handle-as="json"
+          on-response="callBack"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
         <!-- top bar for search, sort, add -->
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
@@ -82,19 +91,19 @@
                 <col style="width:6%">
             </colgroup> -->
             <thead>
-                <th sortingGroup='username' on-tap="selectFunction">Username</th>
-                <th sortingGroup='userFullName' on-tap="selectFunction">Name</th>
-                <th sortingGroup='userRole' on-tap="selectFunction">Role</th>
-                <th sortingGroup='userOrganization' on-tap="selectFunction">Organization</th>
+                <th sortingGroup='id' on-tap="selectFunction">Username</th>
+                <th sortingGroup='firstName' on-tap="selectFunction">Name</th>
+                <th sortingGroup='role' on-tap="selectFunction">Role</th>
+                <th sortingGroup='organizationName' on-tap="selectFunction">Organization</th>
                 <th></th>
             </thead>
             <tbody>
             <template is="dom-repeat" id="table" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
-                    <td><span>{{item.username}}</span></td>
-                    <td><span>{{item.userFullName}}</span></td>
-                    <td><span>{{item.userRole}}</span></td>
-                    <td><span>{{item.userOrganization}}</span></td>
+                    <td><span>{{item.id}}</span></td>
+                    <td><span>{{item.firstName}}</span></td>
+                    <td><span>{{item.role}}</span></td>
+                    <td><span>{{item.organizationName}}</span></td>
                     <td style="font-size: 1em;">
                         <paper-button raised on-tap="editUser" modalName="editUser">Edit</paper-button>
                     </td>
@@ -111,10 +120,10 @@
     Polymer({
             is: 'app-admin-panel-user',
             properties: {
-              username: String,
-              userFullName: String,
-              userRole: String,
-              userOrganization: String,
+              id: String,
+              firstName: String,
+              role: String,
+              organizationName: String,
               sortVal: "defaultsort",
               sortPass: String,
               sortReverse: false,
@@ -125,10 +134,10 @@
                 return function(user) {
                     if (!val) return true;
                     if (!user) return false;
-                    return (user.username && ~user.username.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (user.userFullName && ~user.userFullName.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (user.userRole && ~user.userRole.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (user.userOrganization && ~user.userOrganization.toLowerCase().indexOf(val.toLowerCase()));
+                    return (user.id && ~user.id.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (user.firstName && ~user.firstName.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (user.role && ~user.role.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (user.organizationName && ~user.organizationName.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
 
@@ -173,30 +182,44 @@
                     }
              },
 
+            //  handleResponse: function() {
+            //    //this.users = request.detail.response;
+             //
+            //  },
+             setajax: function() {
+               this.$.findUsers.callBack = this.callBack
+               this.$.findUsers.generateRequest();
+             },
 
+            callBack: function(request) {
+              console.log(request.detail.response);
+              this.users = request.detail.response;
+            },
             ready: function() {
-            this.users=[
-                        {
-                          username: 'alpha',
-                          userFullName: 'Zoltan Mesko',
-                          userRole: 'Org Administrator',
-                          userOrganization: 'Core Health'
-                        },
+              //this.setajax();
 
-                        {
-                          username: 'beta',
-                          userFullName: 'Craig Jenny',
-                          userRole: 'Org User',
-                          userOrganization: 'Zebra Health'
-                        },
-
-                        {
-                          username: 'charlie',
-                          userFullName: 'Sarah Lee',
-                          userRole: 'Provider',
-                          userOrganization: 'Johnson and Sons'
-                        }
-            ];
+            // this.users=[
+            //             {
+            //               username: 'alpha',
+            //               userFullName: 'Zoltan Mesko',
+            //               userRole: 'Org Administrator',
+            //               userOrganization: 'Core Health'
+            //             },
+            //
+            //             {
+            //               username: 'beta',
+            //               userFullName: 'Craig Jenny',
+            //               userRole: 'Org User',
+            //               userOrganization: 'Zebra Health'
+            //             },
+            //
+            //             {
+            //               username: 'charlie',
+            //               userFullName: 'Sarah Lee',
+            //               userRole: 'Provider',
+            //               userOrganization: 'Johnson and Sons'
+            //             }
+            // ];
             },
 
             editUser: function(e) {
@@ -207,6 +230,7 @@
             addUser: function(e){
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
             },
+
         });
 })();
 </script>

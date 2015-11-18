@@ -30,7 +30,7 @@
           },
           baseUrl: {
             type: String,
-            value: 'http://localhost:8080/jump-service/jump'
+            value: 'http://10.13.20.209:8080/shape-service/shape'
           },
           callId: {
             type: String,
@@ -48,7 +48,7 @@
           return baseURL+resource
         },
         handleResponse: function(request) {
-          this.callBack();
+          this.callBack(request);
         },
         generateRequest: function(){
           //set header
@@ -64,7 +64,7 @@
 
         },
         login: function(userId, password){
-          resource='/auth/login/'; //set the resource location
+          resource='/common/login/'; //set the resource location
           this.method="POST"
           this.$.loginCall.url=this.computePath(this.baseUrl, resource)
           this.$.loginCall.body=JSON.stringify(
