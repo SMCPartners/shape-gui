@@ -63,6 +63,7 @@
 
     </style>
     <template>
+
       <shape-iron-ajax-helper
           id="findOrganizations"
           resource="/admin/organization/findAll"
@@ -102,7 +103,7 @@
                 <th></th>
             </thead>
             <tbody>
-            <template is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
+            <template id="orgTable" is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.name}}</span></td>
                     <td><span>{{item.addressState}}</span></td>
@@ -112,7 +113,7 @@
                     <td><span>{{item.primaryContactRole}}</span></td>
                     <td style="font-size: 12px">
                         <div class="editButton">
-                            <paper-button raised on-tap="editOrganization" modalName="editOrganization">Edit</paper-button>
+                            <paper-button raised on-tap="editOrganization" modalName="editOrganization" id="{{item.id}}">Edit</paper-button>
                         </div>
                     </td>
                 </tr>
@@ -130,6 +131,7 @@
             properties: {
             name: String,
             address: String,
+            list: Object
             },
 
             ready: function() {
@@ -221,6 +223,11 @@
 
             editOrganization: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+                var orgNum = e.target.parentNode.getAttribute('id');
+                console.log(this.id);
+                // this.$.editModal.orgNum = e.target.parentNode.getAttribute('id');
+                this.$.editModal.organization = this.organization[orgNum - 1];
+                console.log(this.organization[orgNum - 1]);
             },
 
             addOrganization: function(e) {
@@ -237,13 +244,16 @@
                 this.$.editOrganizationInfo.toggle();
             },
             setajax: function() {
-              this.$.findOrganizations.callBack = this.callBack
+              //this.$.findOrganizations.callBack = this.callBack
               this.$.findOrganizations.generateRequest();
             },
 
            callBack: function(request) {
              console.log(request.detail.response);
              this.organization = request.detail.response;
+           },
+           storeValue: function() {
+
            }
         });
 })();

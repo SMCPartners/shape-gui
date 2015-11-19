@@ -16,7 +16,9 @@
             method="{{method}}"
             content-type="{{contentType}}"
             handle-as="json"
+            body="{{body}}"
     >
+
     </iron-ajax>
   </template>
 </dom-module>
@@ -28,9 +30,10 @@
           resource: {
             type: String
           },
+          body: String,
           baseUrl: {
             type: String,
-            value: 'http://10.13.20.209:8080/shape-service/shape'
+            value: 'http://192.168.0.91:8080/shape-service/shape'
           },
           callId: {
             type: String,

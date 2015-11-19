@@ -7,7 +7,13 @@
         .pms {
         @apply(--pm-style)
         }
-        
+        h2 {
+          padding: 0px 40px 0px 40px;
+        }
+        paper-input {
+          padding: 5px 20px 5px 20px;
+        }
+
     </style>
     <template>
         <paper-dialog id="editProvider" class="size-position modalBox">
@@ -34,15 +40,44 @@
             </div>
         </paper-dialog>
         <paper-dialog id="editOrganization" class="size-position modalBox">
+          <shape-iron-ajax-helper
+              id="ajaxEditOrganization"
+              resource="/admin/organization/edit"
+              handle-as="json"
+              method="POST"
+              on-response="callBack"
+              debounce-duration="300">
+          </shape-iron-ajax-helper>
             <div>
                 <h2>Edit Organization Information</h2>
             </div>
             <div class="childtwo">
                 <div>
-                    <paper-input label="Name" value="{{name}}"></paper-input>
+                    <paper-input label="Organization Name" value="{{organization.name}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Address" value="{{address}}"></paper-input>
+                    <paper-input label="Street Address" value="{{organization.addressStreet}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="City" value="{{organization.addressCity}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="State" value="{{organization.addressState}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Zip" value="{{organization.addressZip}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Primary Contact Name" value="{{organization.primaryContactName}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Primary Contact email" value="{{organization.primaryContactEmail}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Primary Contact Phone" value="{{organization.primaryContactPhone}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Primary Contact Role" value="{{organization.primaryContactRole}}"></paper-input>
                 </div>
             </div>
                 <div class="parenttwo">
@@ -102,19 +137,19 @@
             properties: {
             },
             ready: function() {
-            this.firstName='firstName';
-            this.lastName='lastName';
-            this.NPI='NPI';
-            this.organization='organization';
-            this.name='name';
-            this.address='address';
-            this.username='username';
-            this.userFullName='userFullName';
-            this.userRole='userRole';
-            this.userOrganization='userOrganization'
-            this.nqfID='nqfID';
-            this.cmsID='cmsID';
-            this.measureName='measureName';
+            // this.firstName='firstName';
+            // this.lastName='lastName';
+            // this.NPI='NPI';
+            // this.organization='organization';
+            // this.name='name';
+            // this.address='address';
+            // this.username='username';
+            // this.userFullName='userFullName';
+            // this.userRole='userRole';
+            // this.userOrganization='userOrganization'
+            // this.nqfID='nqfID';
+            // this.cmsID='cmsID';
+            // this.measureName='measureName';
             },
 
             editButton: function(inputModalName) {
@@ -166,14 +201,37 @@
                 this.$.editProvider.toggle(),
                 console.log(formSubmitProvider)
             },
-
+            // ajaxCall: function () {
+            //
+            // },
             logOrganization: function (e) {
-                var formSubmitOrganization = [
-                {'name': this.name,
-                'address': this.address
-                }];
-                this.$.editOrganization.toggle(),
-                console.log(formSubmitOrganization)
+                this.$.ajaxEditOrganization.body = JSON.stringify({
+                  "id" : this.organization.id,
+                  "name" : this.organization.name,
+                  "addressStreet" : this.organization.addressStreet,
+                  "addressCity" : this.organization.addressCity,
+                  "addressState" : this.organization.addressStreet,
+                  "addressZip" : this.organization.addressZip,
+                  "primaryContactName" : this.organization.primaryContactName,
+                  "primaryContactEmail" : this.organization.primaryContactEmail,
+                  "primaryContactPhone" : this.organization.primaryContactPhone,
+                  "primaryContactRole" : this.organization.primaryContactRole
+                });
+                this.$.ajaxEditOrganization.generateRequest();
+                console.log(this.$.ajaxEditOrganization.body);
+
+
+
+
+
+                //})
+
+                // var formSubmitOrganization = [
+                // {'name': this.name,
+                // 'address': this.address
+                // }];
+                // this.$.editOrganization.toggle(),
+                // console.log(formSubmitOrganization)
             },
 
              logMeasure: function (e) {
