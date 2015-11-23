@@ -9,56 +9,70 @@
         };
 
         th {
-        text-align: center;
-        background-color: #0066FF;
-        color: white;
-        border-right: 1px solid #808080;
-        border-bottom: 1px solid #808080;
-        font-weight: bold;
+          text-align: center;
+          background-color: #0066FF;
+          color: white;
+          border-right: 1px solid #808080;
+          border-bottom: 1px solid #808080;
+          font-weight: bold;
         };
 
-        th, td {padding: 10px 15px;
+        th, td {
+          padding: 10px 15px;
         };
 
         thead {
-        background: #395870;
-        color: #fff;
+          background: #395870;
+          color: #fff;
         };
 
         td {
-        border-bottom: 1px solid #cecfd5;
-        border-right: 1px solid #cecfd5;
-        border-left: 1px solid #cecfd5;
+          border-bottom: 1px solid #cecfd5;
+          border-right: 1px solid #cecfd5;
+          border-left: 1px solid #cecfd5;
         };
 
         td: first-child {
-        border-left: 1px solid #cecfd5;
+          border-left: 1px solid #cecfd5;
         };
 
         tr: nth-child(even) {
-        background-color: #395870;
+          background-color: #395870;
         };
 
         table {
-        border-collapse: separate;
-        border-spacing: 0;
+          border-collapse: separate;
+          border-spacing: 0;
         };
 
+        .green {
+          background-color: green;
+          color: white;
+          align-self: center;
+          width: 80%;
+          height: 90%;
+        };
+
+        .red {
+          background-color: red;
+          color: white;
+          align-self: center;
+          width: 80%;
+          margin: 2%;
+        };
 
         option {
             font-size:1em;
-        }
+        };
 
         .flex-item {
         order: 0;
         flex: 1 1 auto;
         align-self: auto;
-        }
+        };
 
     </style>
     <template>
-
-
       <shape-iron-ajax-helper
           id="findUsers"
           resource="/admin/user/findAll"
@@ -86,26 +100,39 @@
             </div>
         </div>
         <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
-            <!-- <colgroup>
-                <col span="4" style="width:23.5%">
-                <col style="width:6%">
-            </colgroup> -->
+            <colgroup>
+                <col span="4" style="width:20%">
+                <col span="2" style="width:10%">
+            </colgroup>
             <thead>
                 <th sortingGroup='id' on-tap="selectFunction">Username</th>
                 <th sortingGroup='firstName' on-tap="selectFunction">Name</th>
                 <th sortingGroup='role' on-tap="selectFunction">Role</th>
                 <th sortingGroup='organizationName' on-tap="selectFunction">Organization</th>
+                <th sortingGroup='userStatus' on-tap="selectFunction">Status</th>
                 <th></th>
             </thead>
             <tbody>
             <template is="dom-repeat" id="table" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.id}}</span></td>
-                    <td><span>{{item.firstName}}</span></td>
+                    <td><span>{{item.firstName}}</span><span><{{item.lastName}}</span></td>
                     <td><span>{{item.role}}</span></td>
                     <td><span>{{item.organizationName}}</span></td>
                     <td style="font-size: 1em;">
                         <paper-button raised on-tap="editUser" modalName="editUser">Edit</paper-button>
+                    </td>
+                    <td>
+                      <div align="center">
+                      <template restamp="true" is="dom-if" if="{{item.active}}">
+                        <paper-button align="center" class="green" participant={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
+                      </template>
+                    </div>
+                      <div align="center">
+                      <template restamp="true" is="dom-if" if="{{!item.active}}">
+                        <paper-button align="center" class="red" participant={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
+                      </template>
+                    </div>
                     </td>
                 </tr>
             </template>
@@ -113,6 +140,24 @@
                 <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
+        <shape-iron-ajax-helper
+            id="ajaxActivateUsers"
+            resource=""
+            body=""
+            method="PUT"
+            handle-as="json"
+            on-response="callBackActivate"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxInactivateUsers"
+            resource=""
+            body=""
+            method="PUT"
+            handle-as="json"
+            on-response="callBackInactivate"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -140,6 +185,44 @@
                             (user.organizationName && ~user.organizationName.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
+
+            setAjaxActivate: function(e) {
+              this.$.ajaxActivateUsers.resource="/admin/activate/" + e.currentTarget.participant.id;
+              this.$.ajaxActivateUsers.body = JSON.stringify ({"targetUserId": e.currentTarget.participant.id});
+              this.$.ajaxActivateUsers.method="PUT";
+              this.$.ajaxActivateUsers.callBack=this.callBackActivate
+              this.$.ajaxActivateUsers.generateRequest();
+              activeIndicator=e.currentTarget;
+            },
+
+            setAjaxInactivate: function(e) {
+              this.$.ajaxInactivateUsers.resource="/admin/inactivate/" + e.currentTarget.participant.id;
+              this.$.ajaxInactivateUsers.body = JSON.stringify ({"targetUserId": e.currentTarget.participant.id});
+              this.$.ajaxInactivateUsers.method="PUT";
+              this.$.ajaxInactivateUsers.callBack=this.callBackInactivate
+              this.$.ajaxInactivateUsers.generateRequest();
+              activeIndicator=e.currentTarget;
+            },
+
+            callBackActivate: function(request) {
+                console.log(request);
+                for(var i = 0; i<this.users.length; i++){
+                  if (this.users[i].id == activeIndicator.participant.id){
+                    stringPath= 'users.'+i+'.active';
+                    this.set(stringPath, true);
+                  };
+                };
+            },
+
+            callBackInactivate: function(request) {
+              console.log(request);
+               for(var i = 0; i<this.users.length; i++){
+                 if (this.users[i].id == activeIndicator.participant.id){
+                   stringPath= 'users.'+i+'.active';
+                   this.set(stringPath, false);
+                 };
+               };
+             },
 
             selectFunction: function(e) {
               val = e.target.getAttribute('sortinggroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
@@ -229,6 +312,7 @@
 
             addUser: function(e){
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
+                document.querySelector('app-admin-add').setajaxOrgs();
             },
 
         });

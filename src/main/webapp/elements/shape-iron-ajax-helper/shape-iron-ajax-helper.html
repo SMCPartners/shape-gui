@@ -33,7 +33,7 @@
           body: String,
           baseUrl: {
             type: String,
-            value: 'http://192.168.0.91:8080/shape-service/shape'
+            value: 'http://10.13.20.89:8080/shape-service/shape'
           },
           callId: {
             type: String,
@@ -50,9 +50,9 @@
         computePath: function(baseURL,resource) {
           return baseURL+resource
         },
-        handleResponse: function(request) {
-          this.callBack(request);
-        },
+        // handleResponse: function(request) {
+        //   this.callBack(request);
+        // },
         generateRequest: function(){
           //set header
           this.$.secureCall.headers={

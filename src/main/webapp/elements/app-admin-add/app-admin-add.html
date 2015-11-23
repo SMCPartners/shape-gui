@@ -58,17 +58,32 @@
                     <paper-input label="User Name" value="{{username}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Name" value="{{userFullName}}"></paper-input>
+                    <paper-input label="Password" value="{{userPassword}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="First Name" value="{{userFirstName}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Last Name" value="{{userLastName}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Email" value="{{userEmail}}"></paper-input>
                 </div>
                 <div>
                     <paper-input label="Role" value="{{userRole}}"></paper-input>
                 </div>
-                <div>
-                    <paper-input label="Organization" value="{{userOrganization}}"></paper-input>
-                </div>
+                <div class="flex-child">
+                <label class="flex-child" style="font: inherit"> <h>Select Organization :</h></label>
+                <select id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
+                  <option>Select User</option>
+                  <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
+                    <option>{{item.name}}</option>
+                  </template>
+                </select>
+              </div>
             </paper-dialog-scrollable>
             <div class="parenttwo">
-                <paper-button raised class="child" on-tap="logUser">Save</paper-button>
+                <paper-button raised class="child" on-tap="setAjaxAddUser">Save</paper-button>
                 <paper-button raised class="child" on-tap="closeUser">Cancel</paper-button>
             </div>
         </paper-dialog>
@@ -92,6 +107,23 @@
                 <paper-button raised class="child" on-tap="closeMeasure">Cancel</paper-button>
             </div>
         </paper-dialog>
+        <shape-iron-ajax-helper
+          id="ajaxAddUser"
+          resource=""
+          body=""
+          method="POST"
+          handle-as="json"
+          on-response="callBackAddUser"
+          debounce-duration="300">
+        <shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+          id="findOrgs"
+          resource=""
+          method="GET"
+          handle-as="json"
+          on-response="callBackOrgs"
+          debounce-duration="300">
+        </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -99,21 +131,68 @@
         Polymer({
             is: 'app-admin-add',
             properties: {
+            this.organization: {
+              type: arrayLength
+            };
             },
             ready: function() {
-            this.firstName='firstName';
-            this.lastName='lastName';
-            this.NPI='NPI';
-            this.organization='organization';
-            this.name='name';
-            this.address='address';
-            this.username='username';
-            this.userFullName='userFullName';
-            this.userRole='userRole';
-            this.userOrganization='userOrganization';
-            this.nqfID='nqfID';
-            this.cmsID='cmsID';
-            this.measureName='measureName';
+            // this.firstName='firstName';
+            // this.lastName='lastName';
+            // this.NPI='NPI';
+            // this.organization='organization';
+            // this.name='name';
+            // this.address='address';
+            // this.username='username';
+            // this.userFullName='userFullName';
+            // this.userRole='userRole';
+            // this.userOrganization='userOrganization';
+            // this.nqfID='nqfID';
+            // this.cmsID='cmsID';
+            // this.measureName='measureName';
+            },
+
+            setAjaxAddUser: function () {
+                this.$.ajaxAddUser.resource="/admin/create/user";
+                this.$.ajaxAddUser.body = JSON.stringify ({
+                      "id": this.username,
+                      "role": this.userRole,
+                      "password": this.userPassword,
+                      "organizationId": 0,
+                      "firstName": this.userFirstName,
+                      "lastName": this.userLastName,
+                      "email": this.userEmail
+              });
+                console.log(this.$.ajaxAddUser.userOrganizationId);
+                console.log(this);
+                this.$.ajaxAddUser.method="POST";
+                this.$.ajaxAddUser.callBack=this.callBackAddUser;
+                this.$.ajaxAddUser.generateRequest();
+                document.querySelector('app-admin-panel-user').setajax();
+                this.$.addUser.toggle();
+              },
+
+            callBackAddUser: function(request) {
+              console.log(request);
+            },
+
+            setajaxOrgs: function () {
+              this.$.findOrgs.resource = "/admin/organization/findAll";
+              this.$.findOrgs.callBack=this.callBackOrgs;
+              this.$.findOrgs.generateRequest();
+            },
+
+            callBackOrgs: function(request) {
+              console.log(this.organizations);
+              //console.log(this.organizations.length);
+              //console.log(this.organizations.length);
+              // var arrayLength= this.organizations.length;
+              // for(var i = 0; i<arrayLength; i++){
+              //    if (this.organizations[i].name == this.$.findUserOrganizationId.value){
+              //      userOrganizationId= 'organizations.'+i+'.id';
+              //    };
+              //  };
+              // console.log(userOrganizationId);
+              this.organizations=request.detail.response;
             },
 
             addButton: function(inputModalName) {
@@ -135,71 +214,71 @@
                 };
             },
 
-            logProvider: function (e) {
-                var formSubmitProvider = [
-                {'firstName': this.firstName,
-                'lastName': this.lastName,
-                'NPI': this.NPI,
-                'organization': this.organization
-                }];
-                this.$.addProvider.toggle(),
-                console.log(formSubmitProvider)
-            },
+            // logProvider: function (e) {
+            //     var formSubmitProvider = [
+            //     {'firstName': this.firstName,
+            //     'lastName': this.lastName,
+            //     'NPI': this.NPI,
+            //     'organization': this.organization
+            //     }];
+            //     this.$.addProvider.toggle(),
+            //     console.log(formSubmitProvider)
+            // },
 
             closeProvider: function(e) {
                 this.$.addProvider.toggle()
             },
 
-            logOrganization: function (e) {
-                var formSubmitOrganization = [
-                {'name': this.name,
-                'address': this.address,
-                }];
-                this.$.addOrganization.toggle(),
-                console.log(formSubmitOrganization)
-            },
+            // logOrganization: function (e) {
+            //     var formSubmitOrganization = [
+            //     {'name': this.name,
+            //     'address': this.address,
+            //     }];
+            //     this.$.addOrganization.toggle(),
+            //     console.log(formSubmitOrganization)
+            // },
 
             closeOrganization: function(e) {
                 this.$.addOrganization.toggle()
             },
 
-            logMeasure: function (e) {
-                var formSubmitMeasure = [
-                {'nqfID': this.nqfID,
-                'cmsID': this.cmsID,
-                'measureName': this.measureName
-                }];
-                this.$.addOrganization.toggle(),
-                console.log(formSubmitMeasure)
-            },
+            // logMeasure: function (e) {
+            //     var formSubmitMeasure = [
+            //     {'nqfID': this.nqfID,
+            //     'cmsID': this.cmsID,
+            //     'measureName': this.measureName
+            //     }];
+            //     this.$.addOrganization.toggle(),
+            //     console.log(formSubmitMeasure)
+            // },
 
             closeMeasure: function(e) {
                 this.$.addMeasure.toggle()
             },
 
-            logUser: function (e) {
-                var formSubmitUser = [
-                {'username': this.username,
-                'userFullName': this.userFullName,
-                'userRole': this.userRole,
-                'userOrganization': this.userOrganization
-                }];
-                this.$.addUser.toggle(),
-                console.log(formSubmitUser)
-            },
+            // logUser: function (e) {
+            //     var formSubmitUser = [
+            //     {'username': this.username,
+            //     'userFullName': this.userFullName,
+            //     'userRole': this.userRole,
+            //     'userOrganization': this.userOrganization
+            //     }];
+            //     this.$.addUser.toggle(),
+            //     console.log(formSubmitUser)
+            // },
 
             closeUser: function(e) {
                 this.$.addUser.toggle()
             },
 
-            logMeasure: function () {
-                var formSubmitMeasure = [
-                {'nqfID': this.nqfID.value,
-                'cmsID': this.cmsID.value,
-                }];
-                this.$.addMeasure.toggle(),
-                console.log(formSubmitMeasure)
-            },
+            // logMeasure: function () {
+            //     var formSubmitMeasure = [
+            //     {'nqfID': this.nqfID.value,
+            //     'cmsID': this.cmsID.value,
+            //     }];
+            //     this.$.addMeasure.toggle(),
+            //     console.log(formSubmitMeasure)
+            // },
         });
     })();
 </script>
