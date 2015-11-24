@@ -9,10 +9,10 @@
         }
         h2 {
           padding: 0px 40px 0px 40px;
-        }
+        },
         paper-input {
           padding: 5px 20px 5px 20px;
-        }
+        },
 
     </style>
     <template>
@@ -91,17 +91,22 @@
             </div>
             <div class="childtwo">
                 <div>
-                    <paper-input label="Username" value="{{usernamee}}"></paper-input>
+                    <paper-input label="Username" value="{{username}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Name" value="{{userFullName}}"></paper-input>
+                    <paper-input label="First Name" value="{{firstname}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Role" value="{{userRole}}"></paper-input>
+                    <paper-input label="Last Name" value="{{lastname}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Organization" value="{{userOrganization}}"></paper-input>
+                    <paper-input label="Role" value="{{userrole}}"></paper-input>
                 </div>
+                <select id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
+                  <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
+                    <option>{{item.name}}</option>
+                  </template>
+                </select>
             </div>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logUser">Save</paper-button>
@@ -135,6 +140,21 @@
         Polymer({
             is: 'app-admin-edit',
             properties: {
+              username:{
+                type: String
+              },
+              firstname:{
+                type: String
+              },
+              lastname:{
+                type: String
+              },
+              userrole:{
+                type: String
+              },
+              userorganization:{
+                type: String
+              },
             },
             ready: function() {
             // this.firstName='firstName';
@@ -201,9 +221,6 @@
                 this.$.editProvider.toggle(),
                 console.log(formSubmitProvider)
             },
-            // ajaxCall: function () {
-            //
-            // },
             logOrganization: function (e) {
                 this.$.ajaxEditOrganization.body = JSON.stringify({
                   "id" : this.organization.id,
@@ -234,26 +251,26 @@
                 // console.log(formSubmitOrganization)
             },
 
-             logMeasure: function (e) {
-                var formSubmitMeasure = [
-                {'nqfID': this.nqfID,
-                'cmsID': this.cmsID,
-                'measureName': this.measureName
-                }];
-                this.$.editMeasure.toggle(),
-                console.log(formSubmitMeasure)
-            },
+            //  logMeasure: function (e) {
+            //     var formSubmitMeasure = [
+            //     {'nqfID': this.nqfID,
+            //     'cmsID': this.cmsID,
+            //     'measureName': this.measureName
+            //     }];
+            //     this.$.editMeasure.toggle(),
+            //     console.log(formSubmitMeasure)
+            // },
 
-            logUser: function (e) {
-                var formSubmitUser = [
-                {'username': this.username,
-                'userFullName': this.userFullName,
-                'userRole': this.userRole,
-                'userOrganization': this.userOrganization
-                }];
-                this.$.editUser.toggle(),
-                console.log(formSubmitUser)
-            },
+            // logUser: function (e) {
+            //     var formSubmitUser = [
+            //     {'username': this.username,
+            //     'userFullName': this.userFullName,
+            //     'userRole': this.userRole,
+            //     'userOrganization': this.userOrganization
+            //     }];
+            //     this.$.editUser.toggle(),
+            //     console.log(formSubmitUser)
+            // },
         });
     })();
 </script>
