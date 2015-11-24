@@ -6,7 +6,7 @@
             method="{{method}}"
             handle-as="json"
             content-type="application/json"
-            on-response="handleResponse"
+            on-response="storeToken"
     >
     </iron-ajax>
     <iron-ajax
@@ -33,7 +33,7 @@
           body: String,
           baseUrl: {
             type: String,
-            value: 'http://10.13.20.89:8080/shape-service/shape'
+            value: 'http://localhost:8080/shape-service/shape'
           },
           callId: {
             type: String,
@@ -79,6 +79,7 @@
           this.$.loginCall.generateRequest()
         },
         storeToken: function(response){
+          console.log("here");
           if (event.detail.response.token) {
             localStorage.token = event.detail.response.token
           }else{
