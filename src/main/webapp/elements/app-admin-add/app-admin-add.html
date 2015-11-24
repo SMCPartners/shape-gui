@@ -70,7 +70,13 @@
                     <paper-input label="Email" value="{{userEmail}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Role" value="{{userRole}}"></paper-input>
+                    <label class="flex-child" style="font: inherit"> <h>Select Role :</h></label>
+                    <select id=findUserRole style="font: inherit; margin-left:0.5em;">
+                        <option>Select Role</option>
+                        <option value="ADMIN">Admin</option>
+                        <option value="ORG_ADMIN">Organization Admin</option>
+                        <option value="REGISTERED">Registered</option>
+                    </select>
                 </div>
                 <div class="flex-child">
                 <label class="flex-child" style="font: inherit"> <h>Select Organization :</h></label>
@@ -152,7 +158,7 @@
                 this.$.ajaxAddUser.resource="/admin/create/user";
                 this.$.ajaxAddUser.body = JSON.stringify ({
                       "id": this.username,
-                      "role": this.userRole,
+                      "role": this.$.findUserRole.value,
                       "password": this.userPassword,
                       "organizationId":this.$.findUserOrganizationId.value ,
                       "firstName": this.userFirstName,
@@ -169,7 +175,7 @@
               },
 
             callBackAddUser: function(request) {
-              console.log(request);
+              this.$.findOrgs.generateRequest()
             },
 
             setajaxOrgs: function () {
