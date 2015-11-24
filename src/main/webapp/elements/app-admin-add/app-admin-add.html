@@ -131,24 +131,8 @@
         Polymer({
             is: 'app-admin-add',
             properties: {
-            this.organization: {
-              type: arrayLength
-            };
             },
             ready: function() {
-            // this.firstName='firstName';
-            // this.lastName='lastName';
-            // this.NPI='NPI';
-            // this.organization='organization';
-            // this.name='name';
-            // this.address='address';
-            // this.username='username';
-            // this.userFullName='userFullName';
-            // this.userRole='userRole';
-            // this.userOrganization='userOrganization';
-            // this.nqfID='nqfID';
-            // this.cmsID='cmsID';
-            // this.measureName='measureName';
             },
 
             setAjaxAddUser: function () {
@@ -157,22 +141,20 @@
                       "id": this.username,
                       "role": this.userRole,
                       "password": this.userPassword,
-                      "organizationId": 0,
+                      "organizationId": 1,
                       "firstName": this.userFirstName,
                       "lastName": this.userLastName,
                       "email": this.userEmail
               });
-                console.log(this.$.ajaxAddUser.userOrganizationId);
-                console.log(this);
                 this.$.ajaxAddUser.method="POST";
                 this.$.ajaxAddUser.callBack=this.callBackAddUser;
                 this.$.ajaxAddUser.generateRequest();
-                document.querySelector('app-admin-panel-user').setajax();
                 this.$.addUser.toggle();
               },
 
             callBackAddUser: function(request) {
               console.log(request);
+              document.querySelector('app-admin-panel-user').setajax();
             },
 
             setajaxOrgs: function () {

@@ -6,7 +6,7 @@
             method="{{method}}"
             handle-as="json"
             content-type="application/json"
-            on-response="handleResponse"
+            on-response="storeToken"
     >
     </iron-ajax>
     <iron-ajax
@@ -33,7 +33,7 @@
           body: String,
           baseUrl: {
             type: String,
-            value: 'http://10.13.20.89:8080/shape-service/shape'
+            value: 'http://10.13.20.198:8080/shape-service/shape'
           },
           callId: {
             type: String,

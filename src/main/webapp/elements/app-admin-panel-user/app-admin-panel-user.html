@@ -73,28 +73,9 @@
 
     </style>
     <template>
-      <shape-iron-ajax-helper
-          id="findUsers"
-          resource="/admin/user/findAll"
-          handle-as="json"
-          on-response="callBack"
-          debounce-duration="300">
-      </shape-iron-ajax-helper>
         <!-- top bar for search, sort, add -->
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
-
-            <!--div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
-                <label style="font-size:1em;">Sort By:</label>
-                <select value="{{sortVal::change}}" style="height: 2em; font-size: 1em;">
-                    <option>Select:</option>
-                    <option value="username">Username</option>
-                    <option value="userFullName">Name</option>
-                    <option value="userRole">Role</option>
-                    <option value="userOrganization">Organization</option>
-                </select>
-            </div-->
-
             <div class="flex-item">
                 <paper-button raised on-tap="addUser" modalName="addUser" style="float:right; padding-top: 0.1em;">Add User</paper-button>
             </div>
@@ -116,11 +97,11 @@
             <template is="dom-repeat" id="table" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.id}}</span></td>
-                    <td><span>{{item.firstName}}</span><span><{{item.lastName}}</span></td>
+                    <td><span>{{item.firstName}}</span><span> </span><span>{{item.lastName}}</td>
                     <td><span>{{item.role}}</span></td>
                     <td><span>{{item.organizationName}}</span></td>
                     <td style="font-size: 1em;">
-                        <paper-button raised on-tap="editUser" modalName="editUser">Edit</paper-button>
+                        <paper-button raised on-tap="editUserModal" user={{item}} modalName="editUser">Edit</paper-button>
                     </td>
                     <td>
                       <div align="center">
@@ -137,7 +118,13 @@
                 </tr>
             </template>
                 <app-admin-add id="inputModal"></app-admin-add>
-                <app-admin-edit id="editModal"></app-admin-edit>
+                  <app-admin-edit id="editModal"
+                    username={{modalUserId}}
+                    firstname={{modalFirstName}}
+                    lastname={{modalLastName}}
+                    userrole={{modalUserRole}}
+                    userorganization={{modalOrganizationName}}>
+                </app-admin-edit>
             </tbody>
         </table>
         <shape-iron-ajax-helper
@@ -156,6 +143,13 @@
             method="PUT"
             handle-as="json"
             on-response="callBackInactivate"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="findUsers"
+            resource="/admin/user/findAll"
+            handle-as="json"
+            on-response="callBack"
             debounce-duration="300">
         </shape-iron-ajax-helper>
     </template>
@@ -305,9 +299,16 @@
             // ];
             },
 
-            editUser: function(e) {
+            editUserModal: function(e) {
                 console.log(e.target.parentNode.getAttribute("modalName")),
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+                // this.modalUserId=e.currentTarget.user.id;
+                // this.modalFirstName=e.currentTarget.user.firstName;
+                // this.modalLastName=e.currentTarget.user.lastName;
+                // this.modalUserRole=e.currentTarget.user.role;
+                console.log(this.$.editModal.$.findUserOrganizationId.value);
+                //this.modalUserOrganizationName=e.currentTarget.findUserOrganizationId.value;
+                console.log(e.currentTarget.user);
             },
 
             addUser: function(e){
