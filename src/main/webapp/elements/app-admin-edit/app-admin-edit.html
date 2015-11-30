@@ -45,9 +45,9 @@
               resource="/admin/organization/edit"
               handle-as="json"
               method="POST"
-              on-response="callBack"
               debounce-duration="300">
           </shape-iron-ajax-helper>
+          <!--on-response="jobins2"-->
             <div>
                 <h2>Edit Organization Information</h2>
             </div>
@@ -170,6 +170,13 @@
                 this.$.editUser.open();
                 };
             },
+            callback: function() {
+              //refreshTableName = e.target.parentNode.getAttribute("id");
+              // if (refreshTableName == ajaxEditOrganization){
+              //   document.querySelector('app-admin-panel-organization').setajax();
+              // }
+              console.log("helloWorld");
+            },
 
             closeModal: function(e) {
                 closeModalName = e.target.parentNode.getAttribute("modalName");
@@ -200,6 +207,7 @@
                 }];
                 this.$.editProvider.toggle(),
                 console.log(formSubmitProvider)
+
             },
             // ajaxCall: function () {
             //
@@ -210,7 +218,7 @@
                   "name" : this.organization.name,
                   "addressStreet" : this.organization.addressStreet,
                   "addressCity" : this.organization.addressCity,
-                  "addressState" : this.organization.addressStreet,
+                  "addressState" : this.organization.addressState,
                   "addressZip" : this.organization.addressZip,
                   "primaryContactName" : this.organization.primaryContactName,
                   "primaryContactEmail" : this.organization.primaryContactEmail,
@@ -219,11 +227,8 @@
                 });
                 this.$.ajaxEditOrganization.generateRequest();
                 console.log(this.$.ajaxEditOrganization.body);
-
-
-
-
-
+                this.$.editOrganization.close();
+                document.querySelector('app-admin-panel').loadOrgTable();
                 //})
 
                 // var formSubmitOrganization = [

@@ -33,8 +33,7 @@
           body: String,
           baseUrl: {
             type: String,
-            value: 'http://192.168.0.91:8080/shape-service/shape'
-          },
+            value: 'http://localhost:8080/shape-service/shape'          },
           callId: {
             type: String,
             value: 'testCall'
@@ -51,7 +50,8 @@
           return baseURL+resource
         },
         handleResponse: function(request) {
-          this.callBack(request);
+          //this.callBack(request);
+         console.log("handleResponse helper")
         },
         generateRequest: function(){
           //set header

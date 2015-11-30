@@ -1,0 +1,244 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+
+<dom-module id="app-profile">
+    <style>
+        .pms {
+            @apply(--pm-style);
+
+        };
+        .child {
+            order: 0;
+            flex: 1 1 auto;
+            align-self: center;
+        };
+        .childtwo {
+            max-width: 100%;
+            text-align: center;
+        };
+
+        .parent {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-content: space-between;
+            align-items: stretch;
+        };
+        .parenttwo {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-content: space-between;
+            align-items: stretch;
+        };
+        .parentthree {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: center;
+            align-content: space-between;
+            align-items: stretch;
+            margin-top: 1em;
+        };
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            align-items: stretch;
+        };
+        .flex-item {
+            order: 0;
+            flex: 1 1 auto;
+            align-self: auto;
+        };
+        .demoCard {
+            display: inline-block;
+            width: 23%;
+            height: 30em;
+            margin: auto;
+            vertical-align: middle;
+        };
+        .stratCards {
+            text-align: center
+        };
+        .double {
+            flex: 2 2;
+        };
+        .single {
+            flex: 1 1;
+        };
+        :host [disabled='true'] {
+            opacity: 0.95;
+        };
+        :host [--paper-input-container-color] {
+            background-color: red;
+        };
+
+
+    </style>
+    <template>
+      <shape-iron-ajax-helper
+          id="findStratByOrg"
+          method="GET"
+          resource="/common/organization_stratification/findAllByOrg/1"
+          handle-as="json"
+          on-response="callBack"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
+        <paper-material class="pms">
+                <!--div class="parenttwo">
+                    <h2>Organization Name</h2>
+                </div>
+                <div class="parent">
+                    <div class="child" style="text-align: center">
+                        <h3>Address:</h3>
+                        <h3>123 Main Street</h3>
+                        <h3>Suite 1A</h3>
+                        <h3><span>{{city}}</span>, <span>{{state}}</span> <span>{{zip}}</span></h3>
+                        <h3>860-555-5555</h3>
+                    </div>
+                    <div class="child" style="text-align: center">
+                        <h3>Primary Contact:</h3>
+                        <h3>Judy Smith</h3>
+                        <h3>Vice President</h3>
+                        <h3>judysmith@test.com</h3>
+                        <h3>860-666-6666</h3>
+                    </div>
+                </div-->
+                <template is="dom-repeat" items="{{this.practiceGroups}}" as="group">
+                    <paper-material class='demoCard' elevation="2">
+                        <div class="parenttwo">
+                            <h2>{{group.name}}</h2>
+                        </div>
+                        <template is="dom-repeat" items="{{group.categories}}" as="category">
+                            <paper-input-container>
+                                <label>{{category.strat}}</label>
+                                <input class='childtwo' disabled="true" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                            </paper-input-container>
+                        </template>
+                    </paper-material>
+                </template>
+                <div class="parentthree">
+                    <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
+                    <paper-button on-tap="cancelEdit" raised="2" class="childtwo" disabled=true>Cancel</paper-button>
+                </div>
+        </paper-material>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-profile',
+            properties: {
+              organizationID: String,
+              practiceGroups: [
+                  {name: 'Gender', categories: [
+                      {
+                        strat: 'Male',
+                        num: 'malePractice'},
+                      {
+                        strat: 'Female',
+                        num: 'femalePractice'},
+                      {
+                        strat: 'Other',
+                        num: 'otherGenPractice'}]
+                  },
+                  {
+                    name: 'Age', categories: [
+                      {
+                        strat: '17 & Under',
+                        num: 10},
+                      {
+                        strat: '18-44 Years',
+                        num: 'eighteenPractice'},
+                      {
+                        strat: '45-64 Years',
+                        num: 'fortyFivePractice'},
+                      {
+                        strat: '65 & Over',
+                        num: 'sixtyFivePractice'} ]
+                  },
+                  {
+                    name: 'Ethnicity', categories:[
+                                  {
+                                    strat: 'Hispanic/Latino',
+                                    num: 'hispanicPractice'},
+                                  {
+                                    strat: 'Not Hispanic/Latino',
+                                    num: 'notHispanicPractice'},
+                                  {
+                                    strat: 'Other',
+                                    num: 'otherEthPractice'}]
+                  },
+                  {
+                    name: 'Race',
+                    categories: [
+                                  {
+                                    strat: 'African American/Black',
+                                    num: 'blackPractice'},
+                                  {
+                                    strat: 'American Indian or Alaska Native',
+                                    num: 'indianPractice'},
+                                  {
+                                    strat: 'Asian',
+                                    num: 'asianPractice'},
+                                  {
+                                    strat: 'Native Hawaiian or Pacific Islander',
+                                    num: 'hawaiianPractice'},
+                                  {
+                                    strat: 'White',
+                                    num: 'whitePractice'},
+                                  {
+                                    strat: 'Other',
+                                    num: 'otherPractice'} ]
+                  }
+                  ]
+
+
+            },
+            ready: function() {
+                this.cityStateZip = 'Hartford, CT 06106';
+                this.city = 'Hartford';
+                this.state = 'CT';
+                this.zip = '06106';
+                this.profButton = 'Edit';
+
+            },
+            editProfile: function(e) {
+                if (this.profButton == 'Save') {
+                    console.log(this.profButton);
+                }
+                else {
+                    console.log(this.profButton);
+                };
+                var editInput = document.getElementsByClassName('childtwo');
+                for(var i = 0; i < editInput.length; i++) {
+                    editInput[i].disabled = false;
+                };
+                this.profButton = 'Save';
+            },
+            cancelEdit: function (e) {
+                var cancelInput = document.getElementsByClassName('childtwo');
+                for(var i = 0; i < cancelInput.length; i++) {
+                cancelInput[i].disabled = true;
+                };
+                this.profButton = 'Edit';
+            },
+            setajax: function() {
+              this.$.findStratByOrg.callBack = this.callBack
+              this.$.findStratByOrg.generateRequest();
+            },
+
+           callBack: function(request) {
+             console.log(request.detail.response);
+             this.profile = request.detail.response;
+           }
+        });
+    })();
+
+</script>

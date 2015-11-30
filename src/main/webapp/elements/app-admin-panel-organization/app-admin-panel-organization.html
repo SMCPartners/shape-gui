@@ -17,7 +17,7 @@
         };
 
         th, td {
-          padding: 10px 15px;
+          padding: 5px 7.5px;
 
           -webkit-user-select: none;   /*these make it so that text is not selectable*/
           -khtml-user-select: none;
@@ -106,7 +106,7 @@
             <template id="orgTable" is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr>
                     <td><span>{{item.name}}</span></td>
-                    <td><span>{{item.addressState}}</span></td>
+                    <td><span class="nowrap">{{item.addressStreet}}</span><br><span>{{item.addressCity}}</span>&nbsp<span>{{item.addressState}}</span>&nbsp<span>{{item.addressZip}}</span></td>
                     <td><span class="noWrap">{{item.primaryContactPhone}}</span></td>
                     <td><span class="noWrap">{{item.primaryContactName}}</span></td>
                     <td><span>{{item.primaryContactEmail}}</span></td>
