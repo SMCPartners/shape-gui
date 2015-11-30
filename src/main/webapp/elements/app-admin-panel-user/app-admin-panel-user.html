@@ -117,7 +117,7 @@
                     </td>
                 </tr>
             </template>
-                <app-admin-add id="inputModal"></app-admin-add>
+                  <app-admin-add id="inputModal"></app-admin-add>
                   <app-admin-edit id="editModal"
                     username={{modalUserId}}
                     firstname={{modalFirstName}}
@@ -300,15 +300,12 @@
             },
 
             editUserModal: function(e) {
-                console.log(e.target.parentNode.getAttribute("modalName")),
-                this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
-                 this.modalUserId=e.currentTarget.user.id;
-                 this.modalFirstName=e.currentTarget.user.firstName;
-                 this.modalLastName=e.currentTarget.user.lastName;
-                 this.modalUserRole=e.currentTarget.user.role;
-                console.log(this.$.editModal.$.findUserOrganizationId.value);
-                //this.modalUserOrganizationName=e.currentTarget.findUserOrganizationId.value;
-                console.log(e.currentTarget.user);
+                  console.log(e.target.parentNode.getAttribute("modalName")),
+                  this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+                  this.modalUserId=e.currentTarget.user.id;
+                  this.modalFirstName=e.currentTarget.user.firstName;
+                  this.modalLastName=e.currentTarget.user.lastName;
+                  this.modalUserRole=e.currentTarget.user.role;
             },
 
             addUser: function(e){

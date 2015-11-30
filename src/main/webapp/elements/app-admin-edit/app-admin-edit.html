@@ -129,10 +129,10 @@
                     <paper-input label="NQF ID" value="{{nqfID}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="CMS ID" value="{{cmsID}}"></paper-input>
+                    <paper-input label="Name" value="{{measureName}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Name" value="{{measureName}}"></paper-input>
+                    <paper-input label="Description" value="{{measureDescription}}"></paper-input>
                 </div>
             </div>
             <div class="parenttwo">
@@ -141,12 +141,20 @@
             </div>
         </paper-dialog>
         <shape-iron-ajax-helper
-                id="findOrgs"
-                resource="/admin/organization/findAll"
-                method="GET"
-                handle-as="json"
-                on-response="setAllOrgs"
-                debounce-duration="300">
+            id="findOrgs"
+            resource="/admin/organization/findAll"
+            method="GET"
+            handle-as="json"
+            on-response="setAllOrgs"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxEditMeasure"
+            resource="/admin/measure/edit"
+            handle-as="json"
+            method="POST"
+            on-response="measureCallBack"
+            debounce-duration="300">
         </shape-iron-ajax-helper>
     </template>
 </dom-module>
@@ -258,20 +266,30 @@
                   "primaryContactRole" : this.organization.primaryContactRole
                 });
                 this.$.ajaxEditOrganization.generateRequest();
-//                this.$.editOrganization.close();
             },
             organizationCallBack: function(){
                 this.$.editOrganization.close();
+                document.querySelector('app-admin-panel-organization').setajax();
             },
 
-            //  logMeasure: function (e) {
-            //     var formSubmitMeasure = [
-            //     {'nqfID': this.nqfID,
-            //     'cmsID': this.cmsID,
-            //     'measureName': this.measureName
-            //     }];
-            //     this.$.editMeasure.toggle(),
-            //     console.log(formSubmitMeasure)
+            // logMeasure: function (e) {
+            //   this.$.ajaxEditMeasure.body = JSON.stringify({
+            //     "id" : this.organization.id,
+            //     "name" : this.organization.name,
+            //     "addressStreet" : this.organization.addressStreet,
+            //     "addressCity" : this.organization.addressCity,
+            //     "addressState" : this.organization.addressStreet,
+            //     "addressZip" : this.organization.addressZip,
+            //     "primaryContactName" : this.organization.primaryContactName,
+            //     "primaryContactEmail" : this.organization.primaryContactEmail,
+            //     "primaryContactPhone" : this.organization.primaryContactPhone,
+            //     "primaryContactRole" : this.organization.primaryContactRole
+            //   });
+            //   this.$.ajaxEditOrganization.generateRequest();
+            // },
+            //
+            // measureCallBack: function(){
+            //     this.$.editMeasure.close();
             // },
 
              logUser: function (e) {

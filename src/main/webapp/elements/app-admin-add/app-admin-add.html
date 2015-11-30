@@ -142,6 +142,7 @@
             },
 
             setAjaxAddUser: function () {
+                console.log(this.$.findUserOrganizationId);
                 this.$.ajaxAddUser.resource="/admin/create/user";
                 this.$.ajaxAddUser.body = JSON.stringify ({
                       "id": this.username,
