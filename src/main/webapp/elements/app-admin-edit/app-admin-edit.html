@@ -221,6 +221,13 @@
                 };
 
             },
+            callback: function() {
+              //refreshTableName = e.target.parentNode.getAttribute("id");
+              // if (refreshTableName == ajaxEditOrganization){
+              //   document.querySelector('app-admin-panel-organization').setajax();
+              // }
+              console.log("helloWorld");
+            },
 
             closeModal: function(e) {
                 closeModalName = e.target.parentNode.getAttribute("modalName");
@@ -251,6 +258,7 @@
                 }];
                 this.$.editProvider.toggle(),
                 console.log(formSubmitProvider)
+
             },
             logOrganization: function (e) {
                 this.$.ajaxEditOrganization.body = JSON.stringify({
@@ -258,7 +266,7 @@
                   "name" : this.organization.name,
                   "addressStreet" : this.organization.addressStreet,
                   "addressCity" : this.organization.addressCity,
-                  "addressState" : this.organization.addressStreet,
+                  "addressState" : this.organization.addressState,
                   "addressZip" : this.organization.addressZip,
                   "primaryContactName" : this.organization.primaryContactName,
                   "primaryContactEmail" : this.organization.primaryContactEmail,
@@ -266,6 +274,17 @@
                   "primaryContactRole" : this.organization.primaryContactRole
                 });
                 this.$.ajaxEditOrganization.generateRequest();
+                console.log(this.$.ajaxEditOrganization.body);
+                this.$.editOrganization.close();
+                document.querySelector('app-admin-panel').loadOrgTable();
+                //})
+
+                // var formSubmitOrganization = [
+                // {'name': this.name,
+                // 'address': this.address
+                // }];
+                // this.$.editOrganization.toggle(),
+                // console.log(formSubmitOrganization)
             },
             organizationCallBack: function(){
                 this.$.editOrganization.close();
