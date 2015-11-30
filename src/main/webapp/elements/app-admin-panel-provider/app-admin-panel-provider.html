@@ -69,6 +69,24 @@
         align-self: auto;
         }
     </style>
+    <shape-iron-ajax-helper
+        id="ajaxActivateProvider"
+        resource=""
+        body=""
+        method=""
+        handle-as="json"
+        on-response="callBackActivate"
+        debounce-duration="300">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper
+        id="ajaxActivateProvider"
+        resource=""
+        body=""
+        method=""
+        handle-as="json"
+        on-response="callBackInactivate"
+        debounce-duration="300">
+    </shape-iron-ajax-helper>
     <template>
       <shape-iron-ajax-helper
           id="findProviders"
@@ -202,6 +220,44 @@
 
 
               },
+
+              setAjaxActivate: function(e) {
+                this.$.ajaxActivateOrg.resource="/admin/organization/activate/";
+                this.$.ajaxActivateOrg.body = JSON.stringify ({"entId": e.currentTarget.organizations.id});
+                this.$.ajaxActivateOrg.method="POST";
+                this.$.ajaxActivateOrg.callBack=this.callBackActivate
+                this.$.ajaxActivateOrg.generateRequest();
+                activeIndicator=e.currentTarget;
+              },
+
+              setAjaxInactivate: function(e) {
+                this.$.ajaxInactivateOrg.resource="/admin/organization/inactivate/";
+                this.$.ajaxInactivateOrg.body = JSON.stringify ({"entId": e.currentTarget.organizations.id});
+                this.$.ajaxInactivateOrg.method="POST";
+                this.$.ajaxInactivateOrg.callBack=this.callBackInactivate
+                this.$.ajaxInactivateOrg.generateRequest();
+                activeIndicator=e.currentTarget;
+              },
+
+              callBackActivate: function(request) {
+                  console.log(request);
+                  for(var i = 0; i<this.organization.length; i++){
+                    if (this.organization[i].id == activeIndicator.organizations.id){
+                      stringPath= 'organization.'+i+'.active';
+                      this.set(stringPath, true);
+                    };
+                  };
+              },
+
+              callBackInactivate: function(request) {
+                console.log(request);
+                 for(var i = 0; i<this.organization.length; i++){
+                   if (this.organization[i].id == activeIndicator.organizations.id){
+                     stringPath= 'organization.'+i+'.active';
+                     this.set(stringPath, false);
+                   };
+                 };
+               },
 
             _sort: function(val) {
                   var clicked = this.sortPass;

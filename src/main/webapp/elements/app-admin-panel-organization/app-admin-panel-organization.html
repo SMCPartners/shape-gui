@@ -51,6 +51,22 @@
         border-spacing: 0;
         };
 
+        .green {
+          background-color: green;
+          color: white;
+          align-self: center;
+          width: 80%;
+          height: 90%;
+        };
+
+        .red {
+          background-color: red;
+          color: white;
+          align-self: center;
+          width: 80%;
+          margin: 2%;
+        };
+
         .flex-item {
         order: 0;
         flex: 1 1 auto;
@@ -88,11 +104,12 @@
             </div>
         </div>
         <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
-            <!-- <colgroup>
-                <col span="2" style="width:40%">
+            <colgroup>
+                <col span="1" style="width:20%">
                 <col span="1" style="width:10%">
-                <col span="1" style="width:40%">
-            </colgroup> -->
+                <col span="3" style="width:15%">
+                <col span="3" style="width:8.33%">
+            </colgroup>
             <thead>
                 <th sortingGroup="name" on-tap="selectFunction">Name</th>
                 <th sortingGroup="addressState" on-tap="selectFunction">Address</th>
@@ -100,6 +117,7 @@
                 <th sortingGroup="primaryContactName" on-tap="selectFunction">Primary Contact Name</th>
                 <th sortingGroup="primaryContactEmail" on-tap="selectFunction">Primary Contact Email</th>
                 <th sortingGroup= "primaryContactRole" on-tap="selectFunction">Primary Contact Role</th>
+                <th sortingGroup= "organizationStatus" on-tap="selectFunction">Status</th>
                 <th></th>
             </thead>
             <tbody>
@@ -111,6 +129,18 @@
                     <td><span class="noWrap">{{item.primaryContactName}}</span></td>
                     <td><span>{{item.primaryContactEmail}}</span></td>
                     <td><span>{{item.primaryContactRole}}</span></td>
+                    <td>
+                      <div align="center">
+                      <template restamp="true" is="dom-if" if="{{item.active}}">
+                        <paper-button align="center" class="green" organizations={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
+                      </template>
+                    </div>
+                      <div align="center">
+                      <template restamp="true" is="dom-if" if="{{!item.active}}">
+                        <paper-button align="center" class="red" organizations={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
+                      </template>
+                    </div>
+                    </td>
                     <td style="font-size: 12px">
                         <div class="editButton">
                             <paper-button raised on-tap="editOrganization" modalName="editOrganization" id="{{item.id}}">Edit</paper-button>
@@ -122,6 +152,24 @@
                 <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
+        <shape-iron-ajax-helper
+            id="ajaxActivateOrg"
+            resource=""
+            body=""
+            method=""
+            handle-as="json"
+            on-response="callBackActivate"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxInactivateOrg"
+            resource=""
+            body=""
+            method=""
+            handle-as="json"
+            on-response="callBackInactivate"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -179,6 +227,44 @@
                             (organization.address && ~organization.address.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
+
+            setAjaxActivate: function(e) {
+              this.$.ajaxActivateOrg.resource="/admin/organization/activate/";
+              this.$.ajaxActivateOrg.body = JSON.stringify ({"entId": e.currentTarget.organizations.id});
+              this.$.ajaxActivateOrg.method="POST";
+              this.$.ajaxActivateOrg.callBack=this.callBackActivate
+              this.$.ajaxActivateOrg.generateRequest();
+              activeIndicator=e.currentTarget;
+            },
+
+            setAjaxInactivate: function(e) {
+              this.$.ajaxInactivateOrg.resource="/admin/organization/inactivate/";
+              this.$.ajaxInactivateOrg.body = JSON.stringify ({"entId": e.currentTarget.organizations.id});
+              this.$.ajaxInactivateOrg.method="POST";
+              this.$.ajaxInactivateOrg.callBack=this.callBackInactivate
+              this.$.ajaxInactivateOrg.generateRequest();
+              activeIndicator=e.currentTarget;
+            },
+
+            callBackActivate: function(request) {
+                console.log(request);
+                for(var i = 0; i<this.organization.length; i++){
+                  if (this.organization[i].id == activeIndicator.organizations.id){
+                    stringPath= 'organization.'+i+'.active';
+                    this.set(stringPath, true);
+                  };
+                };
+            },
+
+            callBackInactivate: function(request) {
+              console.log(request);
+               for(var i = 0; i<this.organization.length; i++){
+                 if (this.organization[i].id == activeIndicator.organizations.id){
+                   stringPath= 'organization.'+i+'.active';
+                   this.set(stringPath, false);
+                 };
+               };
+             },
 
             selectFunction: function(e) {
               val = e.target.getAttribute('sortinggroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
