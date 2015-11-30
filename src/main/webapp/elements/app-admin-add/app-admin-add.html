@@ -33,45 +33,17 @@
             </div>
         </paper-dialog>
         <paper-dialog id="addOrganization" class="size-position modalBox">
-          <shape-iron-ajax-helper
-              id="ajaxAddOrganization"
-              resource="/admin/organization/add"
-              handle-as="json"
-              method="POST"
-              debounce-duration="300">
-          </shape-iron-ajax-helper>
             <div>
                 <h2>Add New Organization</h2>
             </div>
-            <div class="childtwo">
+            <paper-dialog-scrollable class="childtwo">
                 <div>
-                    <paper-input label="Organization Name" value="{{name}}"></paper-input>
+                    <paper-input label="Name" value="{{name}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Street Address" value="{{addressStreet}}"></paper-input>
+                    <paper-input label="Address" value="{{address}}"></paper-input>
                 </div>
-                <div>
-                    <paper-input label="City" value="{{addressCity}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="State" value="{{addressState}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Zip" value="{{addressZip}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Primary Contact Name" value="{{primaryContactName}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Primary Contact email" value="{{primaryContactEmail}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Primary Contact Phone" value="{{primaryContactPhone}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Primary Contact Role" value="{{primaryContactRole}}"></paper-input>
-                </div>
-            </div>
+            </paper-dialog-scrollable>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logOrganization">Save</paper-button>
                 <paper-button raised class="child" on-tap="closeOrganization">Cancel</paper-button>
@@ -165,34 +137,8 @@
         Polymer({
             is: 'app-admin-add',
             properties: {
-
-                name: String,
-                id: Number,
-                active: Boolean,
-                addressStreet: String,
-                addressCity: String,
-                addressState: String,
-                addressZip: String,
-                primaryContactName: String,
-                primaryContactRole: String,
-                primaryContactEmail: String,
-                primaryContactPhone: String
-
             },
             ready: function() {
-            // this.firstName='firstName';
-            // this.lastName='lastName';
-            // this.NPI='NPI';
-            // this.organization='organization';
-            // this.name='name';
-            // this.address='address';
-            // this.username='username';
-            // this.userFullName='userFullName';
-            // this.userRole='userRole';
-            // this.userOrganization='userOrganization';
-            // this.nqfID='nqfID';
-            // this.cmsID='cmsID';
-            // this.measureName='measureName';
             },
 
             setAjaxAddUser: function () {
@@ -272,35 +218,6 @@
                 this.$.addProvider.toggle()
             },
 
-            logOrganization: function (e) {
-              this.$.ajaxAddOrganization.body = JSON.stringify({
-                "id" : 0,
-                "name" : this.name,
-                "addressStreet" : this.addressStreet,
-                "addressCity" : this.addressCity,
-                "addressState" : this.addressState,
-                "addressZip" : this.addressZip,
-                "primaryContactName" : this.primaryContactName,
-                "primaryContactEmail" : this.primaryContactEmail,
-                "primaryContactPhone" : this.primaryContactPhone,
-                "primaryContactRole" : this.primaryContactRole,
-                "active" : "true"
-              });
-              this.name = "";
-              this.addressStreet = "";
-              this.addressStreet = "";
-              this.addressCity = "";
-              this.addressState = "";
-              this.addressZip = "";
-              this.primaryContactName = "";
-              this.primaryContactEmail = "";
-              this.primaryContactPhone = "";
-              this.primaryContactRole = "";
-              this.$.ajaxAddOrganization.generateRequest();
-              console.log(this.$.ajaxAddOrganization.body);
-              this.$.addOrganization.close();
-              document.querySelector('app-admin-panel').loadOrgTable();
-            },
             // logOrganization: function (e) {
             //     var formSubmitOrganization = [
             //     {'name': this.name,

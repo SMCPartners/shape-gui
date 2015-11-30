@@ -67,14 +67,16 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"><b>Measure:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select name="measure" style="font: inherit">
-                            <template is="dom-repeat" items="{{measures}}">
+                        <select id=findMeasures name="measure" style="font: inherit">
+                          <option>Select Measure</option>
+                            <template is="dom-repeat" restamp="true" selectedMeasures={{item}} items="{{measures}}">
                                 <option style="font: inherit" value="{{item._id}}">
                                     NQF <span>{{item.nqf}}</span> <span>{{item.name}}</span>
                                 </option>
                             </template>
                         </select>
                     </div>
+
                     <!--
                     <select>
                         <option>NQF 0018 Controlling High Blood Pressure</option>
@@ -130,6 +132,14 @@
                 </iron-pages>
             </div>
         </div>
+        <shape-iron-ajax-helper
+          id="findMeasures"
+          resource=""
+          method="GET"
+          handle-as="json"
+          on-response="callBackMeasures"
+          debounce-duration="300">
+        </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -159,12 +169,24 @@
                 };*/
 
             },
+
+            setajaxMeasures: function () {
+              this.$.findMeasures.resource = "/common/measure/findAll";
+              this.$.findMeasures.callBack=this.callBackMeasures;
+              this.$.findMeasures.generateRequest();
+            },
+
+            callBackMeasures: function(request) {
+              console.log(this.measures);
+              this.measures=request.detail.response;
+            },
+
             ready: function() {
                 this.owner="it is here";
-                this.measures = [
-                    {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
-                    {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
-                ];
+                // this.measures = [
+                //     {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
+                //     {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
+                // ];
                 this.years = ["2015","2014", "2013", "2012", "2011"];
 
             },

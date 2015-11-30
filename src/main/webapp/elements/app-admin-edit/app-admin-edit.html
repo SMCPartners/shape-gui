@@ -156,6 +156,14 @@
             on-response="measureCallBack"
             debounce-duration="300">
         </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxEditUser"
+            resource="/admin/organization/edit"
+            handle-as="json"
+            method="POST"
+            on-response="organizationCallBack"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>

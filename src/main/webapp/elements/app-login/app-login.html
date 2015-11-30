@@ -109,7 +109,8 @@
             logIn: function () {
                 app.select = "main";
                 this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
-
+                document.querySelector('app-dashboard').setajaxOrgs();
+                document.querySelector('app-history').setajaxMeasures();
             },
             setSecureCall: function(){
                 var call = this.$.secureCall;
