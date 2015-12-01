@@ -9,19 +9,35 @@
         padding: 15px 5px 15px 5px;
         display: inline-block;
       }
+      h1 {
+        padding: 0px 0px 25px 50px;
+      }
+      paper-button {
+        padding: 10px;
+      }
 
 
 
     </style>
     <template>
+
       <shape-iron-ajax-helper
           id="findStratByOrg"
           method="GET"
-          resource="/common/organization_stratification/findAllByOrg/1"
+          resource=""
           handle-as="json"
           on-response="callBack"
           debounce-duration="300">
       </shape-iron-ajax-helper>
+      <shape-iron-ajax-helper
+          id="postOrgStrat"
+          method="POST"
+          resource="/common/organization_stratification/edit/"
+          handle-as="json"
+          on-response="callBack"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
+
 
         <paper-material elevation="5">
             <h1>Gender</h1>
@@ -71,7 +87,7 @@
 
         <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
 
-        <paper-button on-tap="cancelEdit" raised="2" class="childtwo" disabled=true>Cancel</paper-button>
+        <paper-button on-tap="cancelEdit" raised="2">Cancel</paper-button>
 
     </template>
 </dom-module>
@@ -89,7 +105,8 @@
                 this.city = 'Hartford';
                 this.state = 'CT';
                 this.zip = '06106';
-                this.profButton = 'Edit';
+                this.profButton = 'Edit'
+                this.disabled =true;
 
             },
             sortFunction: function (gender) {
@@ -98,26 +115,56 @@
             editProfile: function(e) {
                 if (this.profButton == 'Save') {
                     console.log(this.profButton);
+                    this.disabled = true;
+                    this.setAjaxEditStrat();
+                    this.profButton = 'Edit';
                 }
                 else {
                     console.log(this.profButton);
                 };
                 var editInput = document.getElementsByClassName('childtwo');
                 for(var i = 0; i < editInput.length; i++) {
-                    editInput[i].disabled = false;
+                    this.disabled = false;
                 };
                 this.profButton = 'Save';
             },
             cancelEdit: function (e) {
                 var cancelInput = document.getElementsByClassName('childtwo');
                 for(var i = 0; i < cancelInput.length; i++) {
-                cancelInput[i].disabled = true;
+              this.disabled = true;
                 };
                 this.profButton = 'Edit';
             },
             setajax: function() {
               this.$.findStratByOrg.callBack = this.callBack
+              this.$.findStratByOrg.resource = "/common/organization_stratification/findAllByOrg/"+ document.getElementById('findUserOrganizations').value;
+              console.log(this.$.findStratByOrg.resource);
               this.$.findStratByOrg.generateRequest();
+
+            },
+            setAjaxEditStrat: function() {
+              this.$.postOrgStrat.body = JSON.stringify({
+                "id" : this.profile.id,
+                "genderMale" : this.gender[0].num,
+                "genderFemale" : this.gender[1].num,
+                "genderOther" : this.gender[2].num,
+                "ageUnder17" : this.age[0].num,
+                "age1844" : this.age[1].num,
+                "age4564" : this.age[2].num,
+                "ageOver65" : this.age[3].num,
+                "ethnicityHispanicLatino" : this.ethnicity[0].num,
+                "ethnicityNotHispanicLatino" : this.ethnicity[1].num,
+                "raceAfricanAmerican" : this.race[0].num,
+                "raceAmericanIndian" : this.race[1].num,
+                "raceAsian" : this.race[2].num,
+                "raceNativeHawaiian" : this.race[3].num,
+                "raceWhite" : this.race[4].num,
+                "raceOther" : this.race[5].num,
+                "organizationId" : this.profile.organizationId,
+                "userId" : "jobins2",
+                 "rpDate" : "2015-12-01"
+               });
+              this.$.postOrgStrat.generateRequest();
             },
 
 
