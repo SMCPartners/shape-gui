@@ -123,6 +123,17 @@
         }
     </style>
     <template>
+
+      <!-- hardcoded orgId of 1 -->
+      <shape-iron-ajax-helper
+        id="findMeasureInput"
+        resource=""
+        handle-as="json"
+        on-response="callBack"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>
+
+
       <div class="fab">
         <paper-fab icon="add" elevation="5" on-tap="addMeasure" id="addFab"></paper-fab>
         <paper-tooltip for="addFab" offset="3">Add New Measure</paper-tooltip>
@@ -132,13 +143,13 @@
       <template is="dom-repeat" items="{{measures}}">
             <paper-material class="pms">
                 <div class="parent">
-                    <div class="child header">{{item.NQF}}</div>
-                    <div class="child header">{{item.name}}</div>
+                    <div class="child header">nqf placeholder</div>
+                    <div class="child header">name placeholder</div>
                     <div class="child">
                         <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item.description}}"></paper-icon-button>
                     </div>
                 </div>
-                <div class="child description">{{item.description}}</div>
+                <div class="child description">description placeholder</div>
                 <div class="parent">
                     <div class="fraction1 child">
                         <span class="fup">Numerator</span>
@@ -147,29 +158,31 @@
                     </div>
                     <div class="child header">=</div>
                     <div class="fraction2 child">
-                        <span class="fup">{{item.numerator}}</span>
+                        <span class="fup">{{item.numeratorValue}}</span>
                         <span class="bar">/</span>
-                        <span class="fdn">{{item.denominator}}</span>
+                        <span class="fdn">{{item.denominatorValue}}</span>
                     </div>
                     <div class="child">
-                        <google-chart id="measureChart"
-                               type='pie'
-                               options='{{item.chartOptions}}'
-                               data='{{item.chart}}'>
-                        </google-chart>
+                      <google-chart
+                        id="measureChart"
+                        type="pie"
+                        data="{{item.chartData}}"
+                        options="{{item.chartOptions}}">
+                      </google-chart>
                     </div>
                     <div class="child">
                         <paper-button raised on-tap="editMeasure" id="{{item.name}}">Edit</paper-button>
+                        <paper-button raised on-tap="editMeasure" id="{{name placeholder}}">Edit</paper-button>
                     </div>
                 </div>
                 <div class="parent">
                     <paper-material elevation="0" class="child resultBox">
                         <div class="resultForward">Your Measure Results:</div>
-                        <div class="results">{{computePercentage(item.numerator, item.denominator)}}</div>
+                        <div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}</div>
                     </paper-material>
                     <paper-material elevation="0" class="child resultBox">
                         <div class="resultForward">Aggregate Measure Results:</div>
-                        <div class="results">{{computePercentage(item.aggregateNumerator, item.aggregateDenominator)}}</div>
+                        <div class="results">placeholder<!--{{computePercentage(item.aggregateNumerator, item.aggregateDenominator)}}--></div>
                     </paper-material>
                 </paper-material>
         </template>
@@ -186,17 +199,13 @@
                 nMeasure: String
             },
             ready: function() {
-                this.chartDefault = [
-                  ["Month", "Days"],
-                  ["Well Controlled", 1444],
-                  ["Poorly Controlled", 2153]
-                ],
-                this.measures = [
+
+                /*this.measures = [
                     {
                       name: 'Controlling High Blood Pressure',
                       NQF: 'NQF 0018',
-                      numerator: 2535,
-                      denominator: 3555,
+                      //numerator: this.measureInput[0].numeratorValue,
+                      //denominator: this.measureInput.denominatorValue,
                       aggregateNumerator: 18893,
                       aggregateDenominator: 23184,
                       chart: this.chartDefault,
@@ -223,7 +232,7 @@
                         // },
                           description: 'Percentage of patients 18-75 years of age with diabetes who had hemoglobin A1c > 9.0% during the measurement period.'
                         }
-                ];
+                ];*/
 
             },
             attached: function() {
@@ -260,9 +269,32 @@
                 appInformationModal.nameOfMeasure=nInfo;
                 appInformationModal.detailedDescription=nDescription;
                 infoMod.open();
-            }
+            },
             //To be added to object to style graphs:
             //"slices": ["0": {'color': #32cd32}, "1": {'color': 'transparent'}],
+
+            callBack: function(request) {
+              var response = request.detail.response;
+              for (var measure in response) {
+                var currentMeasure = response[measure];
+                currentMeasure.chartData = [
+                  ['Month', 'Days'],
+                  ['Well Controlled', currentMeasure.numeratorValue],
+                  ['Poorly Controlled', currentMeasure.denominatorValue]
+                ];
+                currentMeasure.chartOptions = {
+                  "pieHole": ".6",
+                  "pieSliceText": "none"
+                };
+              }
+              this.measures = request.detail.response;
+            },
+
+            setAjaxMeasure: function() {
+              this.$.findMeasureInput.resource = '/common/organization_measure/findAllByOrg/' + document.getElementById('findUserOrganizations').value;
+              this.$.findMeasureInput.callBack = this.callBack;
+              this.$.findMeasureInput.generateRequest();
+            },
         });
     })();
 </script>
