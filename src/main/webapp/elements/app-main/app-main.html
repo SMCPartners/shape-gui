@@ -244,6 +244,7 @@
             navigateHome: function (e) {
                 this.route = 'home';
                 console.log("I'm home!");
+                document.querySelector("app-measure-input").setAjaxMeasure();
             }
         });
     })();
