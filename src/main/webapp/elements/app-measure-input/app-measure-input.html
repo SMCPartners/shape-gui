@@ -160,7 +160,6 @@
                     </div>
                     <div class="child">
                         <paper-button raised on-tap="editMeasure" id="{{item.name}}">Edit</paper-button>
-
                     </div>
                 </div>
                 <div class="parent">
@@ -176,7 +175,6 @@
         </template>
       </paper-dialog-scrollable>
 
-
     </template>
 </dom-module>
 <script>
@@ -185,6 +183,7 @@
             is: 'app-measure-input',
             properties: {
                 currentMeasure: String,
+                nMeasure: String
             },
             ready: function() {
                 this.chartDefault = [
@@ -238,10 +237,14 @@
                 testVar.open();
             },
             editMeasure: function (e) {
-                 var nMeasure = e.currentTarget.id;
-                 console.log(nMeasure);
-                 appDemographicInput.nameOfMeasure=nMeasure;
-                console.log(demIn);
+                appDemographicInput.modalMeasureId=e.currentTarget.id;
+                console.log(e.currentTarget.id);
+                console.log(appDemographicInput);
+                var nMeasure=e.currentTarget.id;
+                console.log(nMeasure);
+                appDemographicInput.measureName=nMeasure;
+                console.log(appDemographicInput);
+                document.querySelector('app-demographic-input').ajaxFindUsers();
                 demIn.open();
             },
             computePercentage: function (numerator, denominator) {

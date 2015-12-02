@@ -74,9 +74,9 @@
 </style>
 <template>
   <paper-dialog id="demIn" modal class="size-position" style="background: white">
-      <h1>testing</h1>
-      <div class="child header">{{item.NQF}}</div>
-      <div class="child header">{{item.name}}</div>
+      <h1>{{measureName}}</h1>
+      <!-- <div class="child header">{{item.NQF}}</div>
+      <div class="child header">{{item.name}}</div> -->
 
 
       <!--div class="dropdown_box">
@@ -157,16 +157,30 @@
                       </template>
                     </paper-material>
                   </template>
-
-
               </div>
         </paper-dialog-scrollable>
 
         <div class="buttons">
-            <paper-button raised class="child" on-tap="logNumbers" elevation="3">Submit</paper-button>
+            <paper-button raised class="child" on-tap="addMeasureDemographics" elevation="3">Submit</paper-button>
             <paper-button raised class="child" on-tap="cancelLog" elevation="3">Cancel</paper-button>
         </div>
     </paper-dialog>
+    <shape-iron-ajax-helper
+      id="ajaxAddMeasureDemographics"
+      resource=""
+      body=""
+      method="POST"
+      handle-as="json"
+      on-response="callBackMeasureDemographics"
+      debounce-duration="300">
+    <shape-iron-ajax-helper>
+    <shape-iron-ajax-helper
+      id="findUser"
+      resource=""
+      handle-as="json"
+      on-response="callBackUser"
+      debounce-duration="300">
+    </shape-iron-ajax-helper>
 </template>
 </dom-module>
 <script>
@@ -178,7 +192,7 @@
                   type: String
                 }
               },
-              ready: function () {
+              ready: function (e) {
 
                 this.quarterChoose = [
                   {_id: "1", quarter: "1st Quarter"},
@@ -201,6 +215,7 @@
                   {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
                   {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
                 ];
+
                 this.stratifyGroups = [
                   {name: 'Gender', categories: [
                   {strat: 'Male', num: 'maleNum', den: 'maleDen'},
@@ -208,6 +223,7 @@
                   },
 
                   {name: 'Age', categories: [
+                  {strat: 'Under 18', num: 'underEighteenNum', den: 'underEighteenDen'},
                   {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
                   {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
                   {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'} ]
@@ -226,6 +242,74 @@
             }
             ];
         },
+
+        addMeasureDemographics: function () {
+            userLoginId=document.getElementById('userIdInput').value;
+            this.$.ajaxAddMeasureDemographics.resource="/admin/organization_measure/edit";
+            this.$.ajaxAddMeasureDemographics.body = JSON.stringify ({
+                "numeratorValue": mainNum.value,
+                "denominatorValue": mainDen.value,
+                "rpDate": "",
+                "genderMaleNum": maleNum.value,
+                "genderMaleDen": maleDen.value,
+                "genderFemaleNum": femaleNum.value,
+                "genderFemaleDen": femaleDen.value,
+                "raceAfricanAmericanNum": blackNum.value,
+                "raceAfricanAmericanDen": blackDen.value,
+                "raceAmericanIndianNum": indianNum.value,
+                "raceAmericanIndianDen": indianDen.value,
+                "raceAsianNum": asianNum.value,
+                "raceAsianDen": asianDen.value,
+                "raceNativeHawaiianNum": hawaiianNum.value,
+                "raceNativeHawaiianDen": hawaiianDen.value,
+                "raceWhiteNum": whiteNum.value,
+                "raceWhiteDen": whiteDen.value,
+                "genderOtherNum": otherNum.value,
+                "genderOtherDen": otherDen.value,
+                "ethnicityHispanicLatinoNum": hispanicNum.value,
+                "ethnicityHispanicLatinoDen": hispanicDen.value,
+                "ethnicityNotHispanicLatinoNum": notHispanicNum.value,
+                "ethnicityNotHispanicLatinoDen": notHispanicDen.value,
+                "ageUnder17Num": underEighteenNum.value,
+                "ageUnder17Den": underEighteenNum.value,
+                "age1844Num": eighteenNum.value,
+                "age1844Den": eighteenDen.value,
+                "age4564Num": fortyFiveNum.value,
+                "age4564Den": fortyFiveDen.value,
+                "ageOver65Num": sixtyFiveNum.value,
+                "ageOver65Den": sixtyFiveDen.value,
+                "raceOtherNum": otherNum.value,
+                "raceOtherDen": otherDen.value,
+                "userId;": userLoginId,
+                "measureId;": "",
+                "organizationId;": userOrganizationId
+          });
+            this.$.ajaxAddMeasureDemographics.method="POST";
+            this.$.ajaxAddMeasureDemographics.callBack=this.callBackMeasureDemographics;
+            this.$.ajaxAddMeasureDemographics.generateRequest();
+            this.$.demIn.toggle();
+          },
+
+        callBackMeasureDemographics: function(request) {
+          console.log(request);
+        },
+
+        ajaxFindUsers: function() {
+          userLoginId=document.getElementById('userIdInput').value;
+          this.$.findUser.resource = "/admin/user/find/" + userLoginId;
+          console.log(this.$.findUser.resource);
+          this.$.findUser.callBack = this.callBackUser;
+          this.$.findUser.generateRequest();
+        },
+
+       callBackUser: function(request) {
+         console.log(request.detail.response);
+         console.log(request.detail.response.organizationId);
+         userOrganizationId=request.detail.response.organizationId;
+        //  this.measure = request.detail.response;
+        //  console.log(this.measure);
+      },
+
         logNumbers: function (e) {
             var formSubmit = {
                 mainNum: mainNum.value,
@@ -266,7 +350,6 @@
                         };
                 };
             console.log(formSubmit);*/
-            this.$.demIn.toggle();
         },
         cancelLog: function (e) {
             this.$.demIn.toggle();
