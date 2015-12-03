@@ -276,8 +276,6 @@
 
             callBack: function(request) {
               var response = request.detail.response;
-              console.log('first data:');
-              console.log(response);
 
               // get additional measure data
               this.$.findMeasureByOrg.body = JSON.stringify(response);
@@ -304,8 +302,6 @@
 
             secondCallBack: function(request) {
               var response = request.detail.response;
-              console.log('second data');
-              console.log(response);
 
               // for each measure
               for (var measure in this.measures) {
