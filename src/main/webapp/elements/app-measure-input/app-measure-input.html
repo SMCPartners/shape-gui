@@ -124,12 +124,21 @@
     </style>
     <template>
 
-      <!-- hardcoded orgId of 1 -->
       <shape-iron-ajax-helper
         id="findMeasureInput"
         resource=""
         handle-as="json"
         on-response="callBack"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>
+
+      <shape-iron-ajax-helper
+        id="findMeasureByOrg"
+        resource="/admin/find/measureById"
+        handle-as="json"
+        body=""
+        method="POST"
+        on-response="secondCallBack"
         debounce-duration="300">
       </shape-iron-ajax-helper>
 
@@ -143,13 +152,13 @@
       <template is="dom-repeat" items="{{measures}}">
             <paper-material class="pms">
                 <div class="parent">
-                    <div class="child header">nqf placeholder</div>
-                    <div class="child header">name placeholder</div>
+                    <div class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
+                    <div class="child header">{{item.name}}</div>
                     <div class="child">
                         <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item.description}}"></paper-icon-button>
                     </div>
                 </div>
-                <div class="child description">description placeholder</div>
+                <div class="child description">{{item.description}}</div>
                 <div class="parent">
                     <div class="fraction1 child">
                         <span class="fup">Numerator</span>
@@ -171,7 +180,7 @@
                       </google-chart>
                     </div>
                     <div class="child">
-                        <paper-button raised on-tap="editMeasure" id="{{name placeholder}}">Edit</paper-button>
+                        <paper-button raised on-tap="editMeasure" id="{{item.name}}">Edit</paper-button>
                     </div>
                 </div>
                 <div class="parent">
@@ -179,10 +188,7 @@
                         <div class="resultForward">Your Measure Results:</div>
                         <div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}</div>
                     </paper-material>
-                    <paper-material elevation="0" class="child resultBox">
-                        <div class="resultForward">Aggregate Measure Results:</div>
-                        <div class="results">placeholder<!--{{computePercentage(item.aggregateNumerator, item.aggregateDenominator)}}--></div>
-                    </paper-material>
+                    <!-- this is where aggregate measure results used to be -->
                 </paper-material>
         </template>
       </paper-dialog-scrollable>
@@ -270,19 +276,58 @@
 
             callBack: function(request) {
               var response = request.detail.response;
+              console.log('first data:');
+              console.log(response);
+
+              // get additional measure data
+              this.$.findMeasureByOrg.body = JSON.stringify(response);
+              this.$.findMeasureByOrg.generateRequest();
+
+              // display measure data we currently have
+              this.set('measures', response);
               for (var measure in response) {
                 var currentMeasure = response[measure];
-                currentMeasure.chartData = [
+                var chartData = [
                   ['Month', 'Days'],
                   ['Well Controlled', currentMeasure.numeratorValue],
                   ['Poorly Controlled', currentMeasure.denominatorValue]
                 ];
-                currentMeasure.chartOptions = {
+                var chartOptions = {
                   "pieHole": ".6",
                   "pieSliceText": "none"
                 };
+                this.set('measures.'+measure+'.chartData', chartData);
+                this.set('measures.'+measure+'.chartOptions', chartOptions);
               }
-              this.measures = request.detail.response;
+
+            },
+
+            secondCallBack: function(request) {
+              var response = request.detail.response;
+              console.log('second data');
+              console.log(response);
+
+              // for each measure
+              for (var measure in this.measures) {
+                var currentMeasure = this.measures[measure];
+
+                // find appropriate object of additional data
+                var done = false;
+                for (var object = 0; object < response.length && !done; object++) {
+                  var currentObject = response[object];
+                  if (currentObject.id == currentMeasure.measureId) {
+                    done = true;
+
+                    // and add that data to it
+                    for (var property in currentObject) {
+                      var polymerResource = 'measures.' + measure + '.' + property;
+                      this.set(polymerResource, currentObject[property]);
+                    }
+
+                  }
+                }
+
+              }
             },
 
             setAjaxMeasure: function() {
