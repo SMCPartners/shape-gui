@@ -306,6 +306,7 @@
                   this.modalFirstName=e.currentTarget.user.firstName;
                   this.modalLastName=e.currentTarget.user.lastName;
                   this.modalUserRole=e.currentTarget.user.role;
+                  document.querySelector('app-admin-edit').ajaxFindUsers();
             },
 
             addUser: function(e){

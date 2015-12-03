@@ -92,6 +92,9 @@
             </div>
             <div class="childtwo">
                 <div>
+                  <paper-input label="Username" value="{{username}}"></paper-input>
+                </div>
+                <div>
                     <paper-input label="First Name" value="{{firstname}}"></paper-input>
                 </div>
                 <div>
@@ -105,15 +108,15 @@
                         <option value="REGISTERED">Registered</option>
                     </select>
                 </div>
-                <select id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
+                <!-- <select id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
                     <option select>Select Organization</option>
                   <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
                     <option value="{{item.value}}">{{item.name}}</option>
                   </template>
-                </select>
+                </select> -->
             </div>
             <div class="parenttwo">
-                <paper-button raised class="child" on-tap="logUser">Save</paper-button>
+                <paper-button raised class="child" on-tap="ajaxEditUser">Save</paper-button>
                 <paper-button raised class="child" on-tap="closeModal" modalName="closeUserModal">Cancel</paper-button>
             </div>
         </paper-dialog>
@@ -155,10 +158,17 @@
         </shape-iron-ajax-helper>
         <shape-iron-ajax-helper
             id="ajaxEditUser"
-            resource="/admin/organization/edit"
+            resource="/admin/user/edit"
             handle-as="json"
             method="POST"
-            on-response="organizationCallBack"
+            on-response="userCallBack"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="findUser"
+            resource=""
+            handle-as="json"
+            on-response="callBackUser"
             debounce-duration="300">
         </shape-iron-ajax-helper>
     </template>
@@ -282,50 +292,54 @@
                 console.log(this.$.ajaxEditOrganization.body);
                 this.$.editOrganization.close();
                 document.querySelector('app-admin-panel').loadOrgTable();
-                //})
-
-                // var formSubmitOrganization = [
-                // {'name': this.name,
-                // 'address': this.address
-                // }];
-                // this.$.editOrganization.toggle(),
-                // console.log(formSubmitOrganization)
             },
             organizationCallBack: function(){
                 this.$.editOrganization.close();
                 document.querySelector('app-admin-panel-organization').setajax();
             },
 
-            // logMeasure: function (e) {
-            //   this.$.ajaxEditMeasure.body = JSON.stringify({
-            //     "id" : this.organization.id,
-            //     "name" : this.organization.name,
-            //     "addressStreet" : this.organization.addressStreet,
-            //     "addressCity" : this.organization.addressCity,
-            //     "addressState" : this.organization.addressStreet,
-            //     "addressZip" : this.organization.addressZip,
-            //     "primaryContactName" : this.organization.primaryContactName,
-            //     "primaryContactEmail" : this.organization.primaryContactEmail,
-            //     "primaryContactPhone" : this.organization.primaryContactPhone,
-            //     "primaryContactRole" : this.organization.primaryContactRole
-            //   });
-            //   this.$.ajaxEditOrganization.generateRequest();
-            // },
-            //
-            // measureCallBack: function(){
-            //     this.$.editMeasure.close();
-            // },
+            ajaxFindUsers: function() {
+              userLoginId=document.getElementById('userIdInput').value;
+              this.$.findUser.resource = "/admin/user/find/" + userLoginId;
+              this.$.findUser.callBack = this.callBackUser;
+              this.$.findUser.generateRequest();
+            },
 
-             logUser: function (e) {
-                 var formSubmitUser =
-                 {'username': this.username,
-                 'userFullName': this.userFullName,
-                 'userRole': this.userRole,
-                 'userOrganization': this.userOrganization
-                 };
-                 this.$.editUser.toggle(),
-                 console.log(formSubmitUser)
-             },
+           callBackUser: function(request) {
+             console.log(request.detail.response);
+             console.log(request.detail.response.organizationId);
+             userOrganizationId=request.detail.response.organizationId;
+             console.log(userOrganizationId);
+          },
+
+            ajaxEditUser: function (e) {
+                editUserPassword=document.getElementById('passwordInput').value;
+                this.$.ajaxEditUser.body = JSON.stringify({
+                  "id" : this.username,
+                  "admin" : true,
+                  "active" : true,
+                  "resetPwd" : true,
+                  "createDt" : "2015-11-10",
+                  "role" : this.$.findUserRole.value,
+                  "organizationId" : userOrganizationId,
+                  "firstName" : this.firstname,
+                  "lastName" : this.lastname,
+                  "email" : this.email
+                });
+                console.log(userOrganizationId);
+                console.log(this.$.ajaxEditUser.body);
+                console.log(this.$.findUserRole.value);
+                console.log(this.organization.id);
+                console.log(e.currentTarget);
+                this.$.ajaxEditUser.generateRequest();
+                console.log(this.$.ajaxEditUser.body);
+                this.$.editUser.close();
+                document.querySelector('app-admin-panel').loadOrgTable();
+            },
+            userCallBack: function(){
+                this.$.editOrganization.close();
+                document.querySelector('app-admin-panel').loadTable();
+            },
         });
     })();
 </script>

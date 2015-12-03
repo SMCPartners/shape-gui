@@ -147,11 +147,11 @@
                             <div class="input-box">
                               <paper-input-container>
                                 <label>Numerator</label>
-                                <input class='inputField' id="{{category.num}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                                <input class='inputField' id="{{category.num}}" is="iron-input">
                             </paper-input-container>
                             <paper-input-container>
                                 <label>Denominator</label>
-                                <input class='inputField' id="{{category.den}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                                <input class='inputField' id="{{category.den}}" is="iron-input">
                             </paper-input-container>
                           </div>
                       </template>
@@ -212,34 +212,34 @@
                 ];
 
                 this.measures = [
-                  {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
-                  {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
+                      {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
+                      {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
                 ];
 
                 this.stratifyGroups = [
-                  {name: 'Gender', categories: [
-                  {strat: 'Male', num: 'maleNum', den: 'maleDen'},
-                  {strat: 'Female', num: 'femaleNum', den: 'femaleDen'} ]
-                  },
-
-                  {name: 'Age', categories: [
-                  {strat: 'Under 18', num: 'underEighteenNum', den: 'underEighteenDen'},
-                  {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
-                  {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
-                  {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'} ]
+                    {name: 'Gender', categories: [
+                      {strat: 'Male', num: 'maleNum', den: 'maleDen'},
+                      {strat: 'Female', num: 'femaleNum', den: 'femaleDen'} ]
                 },
-            {name: 'Ethnicity', categories:[
-                {strat: 'Hispanic/Latino', num: 'hispanicNum', den: 'hispanicDen'},
-                {strat: 'Not Hispanic/Latino', num: 'notHispanicNum', den: 'notHispanicDen'} ]
-            },
-            {name: 'Race', categories: [
-                {strat: 'African American/Black', num: 'blackNum', den: 'blackDen'},
-                {strat: 'American Indian or Alaska Native', num: 'indianNum', den: 'indianDen'},
-                {strat: 'Asian', num: 'asianNum', den: 'asianDen'},
-                {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianNum', den: 'hawaiianDen'},
-                {strat: 'White', num: 'whiteNum', den: 'whiteDen'},
-                {strat: 'Other', num: 'otherNum', den: 'otherDen'} ]
-            }
+
+                    {name: 'Age', categories: [
+                      {strat: 'Under 18', num: 'underEighteenNum', den: 'underEighteenDen'},
+                      {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
+                      {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
+                      {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'} ]
+                },
+                    {name: 'Ethnicity', categories:[
+                      {strat: 'Hispanic/Latino', num: 'hispanicNum', den: 'hispanicDen'},
+                      {strat: 'Not Hispanic/Latino', num: 'notHispanicNum', den: 'notHispanicDen'} ]
+                },
+                    {name: 'Race', categories: [
+                      {strat: 'African American/Black', num: 'blackNum', den: 'blackDen'},
+                      {strat: 'American Indian or Alaska Native', num: 'indianNum', den: 'indianDen'},
+                      {strat: 'Asian', num: 'asianNum', den: 'asianDen'},
+                      {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianNum', den: 'hawaiianDen'},
+                      {strat: 'White', num: 'whiteNum', den: 'whiteDen'},
+                      {strat: 'Other', num: 'otherNum', den: 'otherDen'} ]
+                }
             ];
         },
 
@@ -247,43 +247,45 @@
             userLoginId=document.getElementById('userIdInput').value;
             this.$.ajaxAddMeasureDemographics.resource="/admin/organization_measure/edit";
             this.$.ajaxAddMeasureDemographics.body = JSON.stringify ({
-                "numeratorValue": mainNum.value,
-                "denominatorValue": mainDen.value,
-                "rpDate": "",
-                "genderMaleNum": maleNum.value,
+                "numeratorValue": this.$.mainNum.value,
+                "denominatorValue": this.$.mainDen.value,
+                // "rpDate": "",
+                "genderMaleNum": this.maleNum,
                 "genderMaleDen": maleDen.value,
                 "genderFemaleNum": femaleNum.value,
-                "genderFemaleDen": femaleDen.value,
-                "raceAfricanAmericanNum": blackNum.value,
-                "raceAfricanAmericanDen": blackDen.value,
-                "raceAmericanIndianNum": indianNum.value,
-                "raceAmericanIndianDen": indianDen.value,
-                "raceAsianNum": asianNum.value,
-                "raceAsianDen": asianDen.value,
-                "raceNativeHawaiianNum": hawaiianNum.value,
-                "raceNativeHawaiianDen": hawaiianDen.value,
-                "raceWhiteNum": whiteNum.value,
-                "raceWhiteDen": whiteDen.value,
-                "genderOtherNum": otherNum.value,
-                "genderOtherDen": otherDen.value,
-                "ethnicityHispanicLatinoNum": hispanicNum.value,
-                "ethnicityHispanicLatinoDen": hispanicDen.value,
-                "ethnicityNotHispanicLatinoNum": notHispanicNum.value,
-                "ethnicityNotHispanicLatinoDen": notHispanicDen.value,
+                // "genderFemaleDen": femaleDen.value,
+                // "raceAfricanAmericanNum": blackNum.value,
+                // "raceAfricanAmericanDen": blackDen.value,
+                // "raceAmericanIndianNum": indianNum.value,
+                // "raceAmericanIndianDen": indianDen.value,
+                // "raceAsianNum": asianNum.value,
+                // "raceAsianDen": asianDen.value,
+                // "raceNativeHawaiianNum": hawaiianNum.value,
+                // "raceNativeHawaiianDen": hawaiianDen.value,
+                // "raceWhiteNum": whiteNum.value,
+                // "raceWhiteDen": whiteDen.value,
+                // "genderOtherNum": otherNum.value,
+                // "genderOtherDen": otherDen.value,
+                // "ethnicityHispanicLatinoNum": hispanicNum.value,
+                // "ethnicityHispanicLatinoDen": hispanicDen.value,
+                // "ethnicityNotHispanicLatinoNum": notHispanicNum.value,
+                // "ethnicityNotHispanicLatinoDen": notHispanicDen.value,
                 "ageUnder17Num": underEighteenNum.value,
                 "ageUnder17Den": underEighteenNum.value,
-                "age1844Num": eighteenNum.value,
-                "age1844Den": eighteenDen.value,
-                "age4564Num": fortyFiveNum.value,
-                "age4564Den": fortyFiveDen.value,
-                "ageOver65Num": sixtyFiveNum.value,
-                "ageOver65Den": sixtyFiveDen.value,
-                "raceOtherNum": otherNum.value,
-                "raceOtherDen": otherDen.value,
-                "userId;": userLoginId,
-                "measureId;": "",
-                "organizationId;": userOrganizationId
+                // "age1844Num": eighteenNum.value,
+                // "age1844Den": eighteenDen.value,
+                // "age4564Num": fortyFiveNum.value,
+                // "age4564Den": fortyFiveDen.value,
+                // "ageOver65Num": sixtyFiveNum.value,
+                // "ageOver65Den": sixtyFiveDen.value,
+                // "raceOtherNum": otherNum.value,
+                // "raceOtherDen": otherDen.value,
+                // "id": 1,
+                // "measureId": "1",
+                // "organizationId": userOrganizationId,
+                "userId": userLoginId
           });
+            console.log(this.$.ajaxAddMeasureDemographics.body);
             this.$.ajaxAddMeasureDemographics.method="POST";
             this.$.ajaxAddMeasureDemographics.callBack=this.callBackMeasureDemographics;
             this.$.ajaxAddMeasureDemographics.generateRequest();
@@ -310,37 +312,37 @@
         //  console.log(this.measure);
       },
 
-        logNumbers: function (e) {
-            var formSubmit = {
-                mainNum: mainNum.value,
-                mainDen: mainDen.value,
-                maleNum: maleNum.value,
-                maleDen: maleDen.value,
-                femaleNum: femaleNum.value,
-                femaleDen: femaleDen.value,
-                blackNum: blackNum.value,
-                blackDen: blackDen.value,
-                indianNum: indianNum.value,
-                indianDen: indianDen.value,
-                asianNum: asianNum.value,
-                asianDen: asianDen.value,
-                hawaiianNum: hawaiianNum.value,
-                hawaiianDen: hawaiianDen.value,
-                whiteNum: whiteNum.value,
-                whiteDen: whiteDen.value,
-                otherNum: otherNum.value,
-                otherDen: otherDen.value,
-                hispanicNum: hispanicNum.value,
-                hispanicDen: hispanicDen.value,
-                notHispanicNum: notHispanicNum.value,
-                notHispanicDen: notHispanicDen.value,
-                eighteenNum: eighteenNum.value,
-                eighteenDen: eighteenDen.value,
-                fortyFiveNum: fortyFiveNum.value,
-                fortyFiveDen: fortyFiveDen.value,
-                sixtyFiveNum: sixtyFiveNum.value,
-                sixtyFiveDen: sixtyFiveDen.value
-            };
+        // logNumbers: function (e) {
+        //     var formSubmit = {
+        //         mainNum: mainNum.value,
+        //         mainDen: mainDen.value,
+        //         maleNum: maleNum.value,
+        //         maleDen: maleDen.value,
+        //         femaleNum: femaleNum.value,
+        //         femaleDen: femaleDen.value,
+        //         blackNum: blackNum.value,
+        //         blackDen: blackDen.value,
+        //         indianNum: indianNum.value,
+        //         indianDen: indianDen.value,
+        //         asianNum: asianNum.value,
+        //         asianDen: asianDen.value,
+        //         hawaiianNum: hawaiianNum.value,
+        //         hawaiianDen: hawaiianDen.value,
+        //         whiteNum: whiteNum.value,
+        //         whiteDen: whiteDen.value,
+        //         otherNum: otherNum.value,
+        //         otherDen: otherDen.value,
+        //         hispanicNum: hispanicNum.value,
+        //         hispanicDen: hispanicDen.value,
+        //         notHispanicNum: notHispanicNum.value,
+        //         notHispanicDen: notHispanicDen.value,
+        //         eighteenNum: eighteenNum.value,
+        //         eighteenDen: eighteenDen.value,
+        //         fortyFiveNum: fortyFiveNum.value,
+        //         fortyFiveDen: fortyFiveDen.value,
+        //         sixtyFiveNum: sixtyFiveNum.value,
+        //         sixtyFiveDen: sixtyFiveDen.value
+        //     };
             //if we want to do field completion validation, we can start with below...phase 2?
             /*for (var i in formSubmit)
                 {
@@ -350,7 +352,7 @@
                         };
                 };
             console.log(formSubmit);*/
-        },
+        // },
         cancelLog: function (e) {
             this.$.demIn.toggle();
         }
