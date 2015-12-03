@@ -33,17 +33,45 @@
             </div>
         </paper-dialog>
         <paper-dialog id="addOrganization" class="size-position modalBox">
+          <shape-iron-ajax-helper
+              id="ajaxAddOrganization"
+              resource="/admin/organization/add"
+              handle-as="json"
+              method="POST"
+              debounce-duration="300">
+          </shape-iron-ajax-helper>
             <div>
                 <h2>Add New Organization</h2>
             </div>
-            <paper-dialog-scrollable class="childtwo">
+            <div class="childtwo">
                 <div>
-                    <paper-input label="Name" value="{{name}}"></paper-input>
+                    <paper-input label="Organization Name" value="{{name}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Address" value="{{address}}"></paper-input>
+                    <paper-input label="Street Address" value="{{addressStreet}}"></paper-input>
                 </div>
-            </paper-dialog-scrollable>
+                <div>
+                    <paper-input label="City" value="{{addressCity}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="State" value="{{addressState}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Zip" value="{{addressZip}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Primary Contact Name" value="{{primaryContactName}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Primary Contact email" value="{{primaryContactEmail}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Primary Contact Phone" value="{{primaryContactPhone}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Primary Contact Role" value="{{primaryContactRole}}"></paper-input>
+                </div>
+            </div>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="logOrganization">Save</paper-button>
                 <paper-button raised class="child" on-tap="closeOrganization">Cancel</paper-button>
@@ -99,17 +127,26 @@
             </div>
             <paper-dialog-scrollable class="childtwo">
                 <div>
-                    <paper-input label="NQF ID" value="{{nqfID}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="CMS ID" value="{{cmsID}}"></paper-input>
+                    <paper-input required="true" label="NQF ID" value="{{nqfId}}"></paper-input>
                 </div>
                 <div>
                     <paper-input label="Name" value="{{measureName}}"></paper-input>
                 </div>
+                <div>
+                    <paper-input label="Description" value="{{measureDescription}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Numerator Description" value="{{numeratorDescription}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Denominator Description" value="{{denominatorDescription}}"></paper-input>
+                </div>
+                <div>
+                    <paper-input label="Exclusions Description" value="{{exclusionsDescription}}"></paper-input>
+                </div>
             </paper-dialog-scrollable>
             <div class="parenttwo">
-                <paper-button raised class="child" on-tap="logMeasure">Save</paper-button>
+                <paper-button raised class="child" on-tap="setAjaxAddMeasure">Save</paper-button>
                 <paper-button raised class="child" on-tap="closeMeasure">Cancel</paper-button>
             </div>
         </paper-dialog>
@@ -120,6 +157,15 @@
           method="POST"
           handle-as="json"
           on-response="callBackAddUser"
+          debounce-duration="300">
+        <shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+          id="ajaxAddMeasure"
+          resource=""
+          body=""
+          method="POST"
+          handle-as="json"
+          on-response="callBackAddMeasure"
           debounce-duration="300">
         <shape-iron-ajax-helper>
         <shape-iron-ajax-helper
@@ -137,8 +183,34 @@
         Polymer({
             is: 'app-admin-add',
             properties: {
+
+                name: String,
+                id: Number,
+                active: Boolean,
+                addressStreet: String,
+                addressCity: String,
+                addressState: String,
+                addressZip: String,
+                primaryContactName: String,
+                primaryContactRole: String,
+                primaryContactEmail: String,
+                primaryContactPhone: String
+
             },
             ready: function() {
+            // this.firstName='firstName';
+            // this.lastName='lastName';
+            // this.NPI='NPI';
+            // this.organization='organization';
+            // this.name='name';
+            // this.address='address';
+            // this.username='username';
+            // this.userFullName='userFullName';
+            // this.userRole='userRole';
+            // this.userOrganization='userOrganization';
+            // this.nqfID='nqfID';
+            // this.cmsID='cmsID';
+            // this.measureName='measureName';
             },
 
             setAjaxAddUser: function () {
@@ -162,6 +234,30 @@
             callBackAddUser: function(request) {
               console.log(request);
               document.querySelector('app-admin-panel-user').setajax();
+            },
+
+            setAjaxAddMeasure: function () {
+                this.$.ajaxAddMeasure.resource="/admin/measure/add";
+                this.$.ajaxAddMeasure.body = JSON.stringify ({
+                      "id": "",
+                      "name": this.measureName,
+                      "description": this.measureDescription,
+                      "nqfId":this.nqfId,
+                      "numeratorDescription": this.numeratorDescription,
+                      "denominatorDescription": this.denominatorDescription,
+                      "exclusionsDescription": this.exclusionsDescription,
+                      "wellControlledNumerator" : "",
+                      "selected": ""
+              });
+                this.$.ajaxAddMeasure.method="POST";
+                this.$.ajaxAddMeasure.callBack=this.callBackAddUser;
+                this.$.ajaxAddMeasure.generateRequest();
+                this.$.addMeasure.toggle();
+              },
+
+            callBackAddMeasure: function(request) {
+              console.log(request);
+              document.querySelector('app-admin-panel-measure').setajax();
             },
 
             setajaxOrgs: function () {
@@ -218,6 +314,35 @@
                 this.$.addProvider.toggle()
             },
 
+            logOrganization: function (e) {
+              this.$.ajaxAddOrganization.body = JSON.stringify({
+                "id" : 0,
+                "name" : this.name,
+                "addressStreet" : this.addressStreet,
+                "addressCity" : this.addressCity,
+                "addressState" : this.addressState,
+                "addressZip" : this.addressZip,
+                "primaryContactName" : this.primaryContactName,
+                "primaryContactEmail" : this.primaryContactEmail,
+                "primaryContactPhone" : this.primaryContactPhone,
+                "primaryContactRole" : this.primaryContactRole,
+                "active" : "true"
+              });
+              this.name = "";
+              this.addressStreet = "";
+              this.addressStreet = "";
+              this.addressCity = "";
+              this.addressState = "";
+              this.addressZip = "";
+              this.primaryContactName = "";
+              this.primaryContactEmail = "";
+              this.primaryContactPhone = "";
+              this.primaryContactRole = "";
+              this.$.ajaxAddOrganization.generateRequest();
+              console.log(this.$.ajaxAddOrganization.body);
+              this.$.addOrganization.close();
+              document.querySelector('app-admin-panel').loadOrgTable();
+            },
             // logOrganization: function (e) {
             //     var formSubmitOrganization = [
             //     {'name': this.name,
