@@ -253,6 +253,7 @@
                 appDemographicInput.measureName=nMeasure;
                 console.log(appDemographicInput);
                 document.querySelector('app-demographic-input').ajaxFindUsers();
+                document.querySelector('app-demographic-input').loadMeasureStratification();
                 demIn.open();
             },
             computePercentage: function (numerator, denominator) {

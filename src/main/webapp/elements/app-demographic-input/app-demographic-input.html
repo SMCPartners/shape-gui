@@ -190,57 +190,66 @@
           properties: {
               nameOfMeasure: {
                   type: String
+                },
+              maleNum : {
+                type: String
+                },
+              maleDen : {
+                type: String
                 }
               },
-              ready: function (e) {
+                ready: function () {
+              },
 
-                this.quarterChoose = [
-                  {_id: "1", quarter: "1st Quarter"},
-                  {_id: "2", quarter: "2nd Quarter"},
-                  {_id: "3", quarter: "3rd Quarter"},
-                  {_id: "4", quarter: "4th Quarter"}
-                ]
-                this.yearChoose = [
-                  {_id: "1", year: 2000},
-                  {_id: "2", year: 2001},
-                  {_id: "3", year: 2002},
-                  {_id: "4", year: 2003},
-                  {_id: "5", year: 2004},
-                  {_id: "6", year: 2005},
-                  {_id: "7", year: 2006},
-                  {_id: "8", year: 2007},
-                ];
+        loadMeasureStratification: function () {
 
-                this.measures = [
-                      {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
-                      {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
-                ];
+          this.quarterChoose = [
+            {_id: "1", quarter: "1st Quarter"},
+            {_id: "2", quarter: "2nd Quarter"},
+            {_id: "3", quarter: "3rd Quarter"},
+            {_id: "4", quarter: "4th Quarter"}
+          ]
+          this.yearChoose = [
+            {_id: "1", year: 2000},
+            {_id: "2", year: 2001},
+            {_id: "3", year: 2002},
+            {_id: "4", year: 2003},
+            {_id: "5", year: 2004},
+            {_id: "6", year: 2005},
+            {_id: "7", year: 2006},
+            {_id: "8", year: 2007},
+          ];
 
-                this.stratifyGroups = [
-                    {name: 'Gender', categories: [
-                      {strat: 'Male', num: 'maleNum', den: 'maleDen'},
-                      {strat: 'Female', num: 'femaleNum', den: 'femaleDen'} ]
-                },
+          this.measures = [
+                {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
+                {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
+          ];
 
-                    {name: 'Age', categories: [
-                      {strat: 'Under 18', num: 'underEighteenNum', den: 'underEighteenDen'},
-                      {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
-                      {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
-                      {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'} ]
-                },
-                    {name: 'Ethnicity', categories:[
-                      {strat: 'Hispanic/Latino', num: 'hispanicNum', den: 'hispanicDen'},
-                      {strat: 'Not Hispanic/Latino', num: 'notHispanicNum', den: 'notHispanicDen'} ]
-                },
-                    {name: 'Race', categories: [
-                      {strat: 'African American/Black', num: 'blackNum', den: 'blackDen'},
-                      {strat: 'American Indian or Alaska Native', num: 'indianNum', den: 'indianDen'},
-                      {strat: 'Asian', num: 'asianNum', den: 'asianDen'},
-                      {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianNum', den: 'hawaiianDen'},
-                      {strat: 'White', num: 'whiteNum', den: 'whiteDen'},
-                      {strat: 'Other', num: 'otherNum', den: 'otherDen'} ]
-                }
-            ];
+          this.stratifyGroups = [
+              {name: 'Gender', categories: [
+                {strat: 'Male', num: 'editMaleNum', den: 'editMaleDen'},
+                {strat: 'Female', num: 'editFemaleNum', den: 'editFemaleDen'} ]
+          },
+
+              {name: 'Age', categories: [
+                {strat: 'Under 18', num: 'editUnderEighteenNum', den: 'editUnderEighteenDen'},
+                {strat: '18-44 Years', num: 'editEighteenNum', den: 'editEighteenDen'},
+                {strat: '45-64 Years', num: 'editFortyFiveNum', den: 'editFortyFiveDen'},
+                {strat: '65-85 Years', num: 'editSixtyFiveNum', den: 'editSixtyFiveDen'} ]
+          },
+              {name: 'Ethnicity', categories:[
+                {strat: 'Hispanic/Latino', num: 'editHispanicNum', den: 'editHispanicDen'},
+                {strat: 'Not Hispanic/Latino', num: 'editNotHispanicNum', den: 'editNotHispanicDen'} ]
+          },
+              {name: 'Race', categories: [
+                {strat: 'African American/Black', num: 'editBlackNum', den: 'editBlackDen'},
+                {strat: 'American Indian or Alaska Native', num: 'editIndianNum', den: 'editIndianDen'},
+                {strat: 'Asian', num: 'editAsianNum', den: 'editAsianDen'},
+                {strat: 'Native Hawaiian or Pacific Islander', num: 'editHawaiianNum', den: 'editHawaiianDen'},
+                {strat: 'White', num: 'editWhiteNum', den: 'editWhiteDen'},
+                {strat: 'Other', num: 'editOtherNum', den: 'editOtherDen'} ]
+              }
+          ];
         },
 
         addMeasureDemographics: function () {
@@ -249,40 +258,40 @@
             this.$.ajaxAddMeasureDemographics.body = JSON.stringify ({
                 "numeratorValue": this.$.mainNum.value,
                 "denominatorValue": this.$.mainDen.value,
-                // "rpDate": "",
-                "genderMaleNum": this.maleNum,
-                "genderMaleDen": maleDen.value,
-                "genderFemaleNum": femaleNum.value,
-                // "genderFemaleDen": femaleDen.value,
-                // "raceAfricanAmericanNum": blackNum.value,
-                // "raceAfricanAmericanDen": blackDen.value,
-                // "raceAmericanIndianNum": indianNum.value,
-                // "raceAmericanIndianDen": indianDen.value,
-                // "raceAsianNum": asianNum.value,
-                // "raceAsianDen": asianDen.value,
-                // "raceNativeHawaiianNum": hawaiianNum.value,
-                // "raceNativeHawaiianDen": hawaiianDen.value,
-                // "raceWhiteNum": whiteNum.value,
-                // "raceWhiteDen": whiteDen.value,
-                // "genderOtherNum": otherNum.value,
-                // "genderOtherDen": otherDen.value,
-                // "ethnicityHispanicLatinoNum": hispanicNum.value,
-                // "ethnicityHispanicLatinoDen": hispanicDen.value,
-                // "ethnicityNotHispanicLatinoNum": notHispanicNum.value,
-                // "ethnicityNotHispanicLatinoDen": notHispanicDen.value,
-                "ageUnder17Num": underEighteenNum.value,
-                "ageUnder17Den": underEighteenNum.value,
-                // "age1844Num": eighteenNum.value,
-                // "age1844Den": eighteenDen.value,
-                // "age4564Num": fortyFiveNum.value,
-                // "age4564Den": fortyFiveDen.value,
-                // "ageOver65Num": sixtyFiveNum.value,
-                // "ageOver65Den": sixtyFiveDen.value,
-                // "raceOtherNum": otherNum.value,
-                // "raceOtherDen": otherDen.value,
-                // "id": 1,
-                // "measureId": "1",
-                // "organizationId": userOrganizationId,
+                "genderMaleNum": editMaleNum.value,
+                "rpDate": "2015-12-03",
+                "genderMaleDen": editMaleDen.value,
+                "genderFemaleNum": editFemaleNum.value,
+                "genderFemaleDen": editFemaleDen.value,
+                "raceAfricanAmericanNum": editBlackNum.value,
+                "raceAfricanAmericanDen": editBlackDen.value,
+                "raceAmericanIndianNum": editIndianNum.value,
+                "raceAmericanIndianDen": editIndianDen.value,
+                "raceAsianNum": editAsianNum.value,
+                "raceAsianDen": editAsianDen.value,
+                "raceNativeHawaiianNum": editHawaiianNum.value,
+                "raceNativeHawaiianDen": editHawaiianDen.value,
+                "raceWhiteNum": editWhiteNum.value,
+                "raceWhiteDen": editWhiteDen.value,
+                "genderOtherNum": editOtherNum.value,
+                "genderOtherDen": editOtherDen.value,
+                "ethnicityHispanicLatinoNum": editHispanicNum.value,
+                "ethnicityHispanicLatinoDen": editHispanicDen.value,
+                "ethnicityNotHispanicLatinoNum": editNotHispanicNum.value,
+                "ethnicityNotHispanicLatinoDen": editNotHispanicDen.value,
+                "ageUnder17Num": editUnderEighteenNum.value,
+                "ageUnder17Den": editUnderEighteenNum.value,
+                "age1844Num": editEighteenNum.value,
+                "age1844Den": editEighteenDen.value,
+                "age4564Num": editFortyFiveNum.value,
+                "age4564Den": editFortyFiveDen.value,
+                "ageOver65Num": editSixtyFiveNum.value,
+                "ageOver65Den": editSixtyFiveDen.value,
+                "raceOtherNum": editOtherNum.value,
+                "raceOtherDen": editOtherDen.value,
+                "id": "",
+                "measureId": "1",
+                "organizationId": userOrganizationId,
                 "userId": userLoginId
           });
             console.log(this.$.ajaxAddMeasureDemographics.body);
