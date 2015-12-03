@@ -75,52 +75,6 @@
 <template>
   <paper-dialog id="demIn" modal class="size-position" style="background: white">
       <h1>{{measureName}}</h1>
-      <!-- <div class="child header">{{item.NQF}}</div>
-      <div class="child header">{{item.name}}</div> -->
-
-
-      <!--div class="dropdown_box">
-        <h3 class="headerTitle">Measure:</h3>
-          <div class="dropdown">
-              <select name="measure" style="font: inherit">
-                  <template is="dom-repeat" items="{{measures}}">
-                      <option style="font: inherit" value="{{item._id}}">
-                          NQF <span>{{item.nqf}}</span> <span>{{item.name}}</span>
-                      </option>
-                  </template>
-              </select>
-          </div>
-        </div>
-
-        <div class="dropdown_box">
-          <h3 class="headerTitle">Quarter:</h3>
-            <div class="dropdown">
-                <select name="measure" style="font: inherit">
-                    <template is="dom-repeat" items="{{quarterChoose}}">
-                        <option style="font: inherit" value="{{item._id}}">
-                          <span>{{item.quarter}}</span>
-                        </option>
-                    </template>
-                </select>
-            </div>
-          </div>
-
-        <div class="dropdown_box">
-          <h3 class="headerTitle">Year:</h3>
-            <div class="dropdown">
-                <select name="quarter">
-                    <template is="dom-repeat" items="{{yearChoose}}">
-                        <option style="font: inherit" value="{{item._id}}">
-                            <span>{{item.year}}</span>
-                        </option>
-                    </template>
-                </select>
-            </div>
-          </div-->
-          <!--Dropdown-->
-
-
-
         <paper-dialog-scrollable  elevation="3">
             <!--paper-material elevation="5"-->
               <div class="input-element">
@@ -196,12 +150,15 @@
                 },
               maleDen : {
                 type: String
-                }
+              },
+              measureID :{
+                type: String
+              }
               },
                 ready: function () {
               },
 
-        loadMeasureStratification: function () {
+        loadMeasureStratification: function (e) {
 
           this.quarterChoose = [
             {_id: "1", quarter: "1st Quarter"},
@@ -254,6 +211,11 @@
 
         addMeasureDemographics: function () {
             userLoginId=document.getElementById('userIdInput').value;
+            measureId=appMeasureInput.inputMeasureID;
+            dbid=appMeasureInput.dbid;
+            console.log(appMeasureInput.reportPeriodQuarter);
+            rpquarter=appMeasureInput.reportPeriodQuarter;
+            rpyear=appMeasureInput.reportPeriodYear;
             this.$.ajaxAddMeasureDemographics.resource="/admin/organization_measure/edit";
             this.$.ajaxAddMeasureDemographics.body = JSON.stringify ({
                 "numeratorValue": this.$.mainNum.value,
@@ -289,12 +251,16 @@
                 "ageOver65Den": editSixtyFiveDen.value,
                 "raceOtherNum": editOtherNum.value,
                 "raceOtherDen": editOtherDen.value,
-                "id": "",
-                "measureId": "1",
+                "id": dbid,
+                "measureId": measureId,
                 "organizationId": userOrganizationId,
-                "userId": userLoginId
+                "userId": userLoginId,
+                "reportPeriodQuarter" : rpquarter,
+                "reportPeriodYear" : rpyear
           });
             console.log(this.$.ajaxAddMeasureDemographics.body);
+            console.log(rpquarter);
+            console.log(rpyear);
             this.$.ajaxAddMeasureDemographics.method="POST";
             this.$.ajaxAddMeasureDemographics.callBack=this.callBackMeasureDemographics;
             this.$.ajaxAddMeasureDemographics.generateRequest();
@@ -303,6 +269,7 @@
 
         callBackMeasureDemographics: function(request) {
           console.log(request);
+          document.querySelector("app-measure-input").setAjaxMeasure();
         },
 
         ajaxFindUsers: function() {

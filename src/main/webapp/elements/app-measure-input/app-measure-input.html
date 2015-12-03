@@ -149,7 +149,7 @@
       </div>
 
       <paper-dialog-scrollable>
-      <template is="dom-repeat" items="{{measures}}">
+      <template is="dom-repeat" items="{{measures}}" measure={{item}}>
             <paper-material class="pms">
                 <div class="parent">
                     <div class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
@@ -180,14 +180,15 @@
                       </google-chart>
                     </div>
                     <div class="child">
-                        <paper-button raised on-tap="editMeasure" id="{{item.name}}">Edit</paper-button>
+                        <paper-button raised on-tap="editMeasure" measure={{item}} id="{{item.name}}">Edit</paper-button>
                     </div>
                 </div>
                 <div class="parent">
                     <paper-material elevation="0" class="child resultBox">
                         <div class="resultForward">Your Measure Results:</div>
-                        <div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}</div>
+                        <div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}
                     </paper-material>
+                </div>
                     <!-- this is where aggregate measure results used to be -->
                 </paper-material>
         </template>
@@ -201,7 +202,10 @@
             is: 'app-measure-input',
             properties: {
                 currentMeasure: String,
-                nMeasure: String
+                nMeasure: String,
+                measureid: {
+                  type: String
+                }
             },
             ready: function() {
 
@@ -251,13 +255,21 @@
                 testVar.open();
             },
             editMeasure: function (e) {
-                appDemographicInput.modalMeasureId=e.currentTarget.id;
-                console.log(e.currentTarget.id);
-                console.log(appDemographicInput);
                 var nMeasure=e.currentTarget.id;
-                console.log(nMeasure);
+                console.log(e.currentTarget);
                 appDemographicInput.measureName=nMeasure;
-                console.log(appDemographicInput);
+                targetMeasure=e.currentTarget;
+                this.inputMeasureID=e.currentTarget.measure.measureId;
+                this.dbid=e.currentTarget.measure.id;
+                this.reportPeriodQuarter=e.currentTarget.measure.reportPeriodQuarter;
+                this.reportPeriodYear=e.currentTarget.measure.reportPeriodYear;
+                console.log(e.currentTarget.measure);
+                console.log(e.currentTarget.measure.raceWhiteNum);
+                console.log(e.currentTarget.measure.reportPeriodYear);
+                console.log(e.currentTarget.measure.reportPeriodQuarter);
+                console.log(this.rpquarter);
+                console.log(this.rpyear);
+                console.log(e.currentTarget.measure);
                 document.querySelector('app-demographic-input').ajaxFindUsers();
                 document.querySelector('app-demographic-input').loadMeasureStratification();
                 demIn.open();
@@ -272,6 +284,7 @@
                 //console.log(nInfo);
                 var nDescription = e.currentTarget.data;
                 console.log(nDescription);
+                measureEdit=e.currentTarget;
                 appInformationModal.nameOfMeasure=nInfo;
                 appInformationModal.detailedDescription=nDescription;
                 infoMod.open();
@@ -280,6 +293,9 @@
             //"slices": ["0": {'color': #32cd32}, "1": {'color': 'transparent'}],
 
             callBack: function(request) {
+              console.log(request.detail.response);
+              //targetMeasure
+              //this.modalreportPeriodYear=request.detail.response.
               var response = request.detail.response;
 
               // get additional measure data
@@ -327,7 +343,6 @@
 
                   }
                 }
-
               }
             },
 
