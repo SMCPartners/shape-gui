@@ -53,7 +53,7 @@
             <div class="flex-parent flex-child">
                 <label class="flex-child" style="font: inherit; margin-left:0.5em;"> <b>Organization: </b></label>
                 <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                    <select id=findUserOrganizations style="font: inherit; margin-left:0.5em;">
+                    <select id=findUserOrganizations style="font: inherit; margin-left:0.5em;" on-change="loadOrgData">
                       <option>Select Organization</option>
                         <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
                             <option style="font: inherit" value="{{item.id}}">{{item.name}}</option>
@@ -130,6 +130,10 @@
                     {_id: "2", name: "Provider 2"},
                     {_id: "2", name: "Provider 3"}
                 ];
+            },
+
+            loadOrgData: function() {
+              document.querySelector("app-measure-input").setAjaxMeasure();
             }
         });
     })();
