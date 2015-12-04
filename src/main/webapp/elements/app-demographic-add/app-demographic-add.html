@@ -74,13 +74,47 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
 
     </style>
     <template>
+
+      <shape-iron-ajax-helper
+        id="getIds"
+        resource="/common/organization_measure/add"
+        handle-as="json"
+        on-response="callBack"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>
+
+      <shape-iron-ajax-helper
+        id="postAppDemographic"
+        method="POST"
+        resource="/common/organization_measure/add"
+        handle-as="json"
+        on-response="callBack"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>\
+
+      <shape-iron-ajax-helper
+        id="getUserData"
+        resource=""
+        on-response="fetchOrgMeasures"
+        handle-as="json"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>
+
+      <shape-iron-ajax-helper
+        id="getOrgMeasures"
+        resource=""
+        on-response="setDropdowns"
+        handle-as="json"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>
+
       <paper-dialog id="testVar" modal class="size-position" style="background: white">
           <div class="dropdown_box">
             <h3 class="headerTitle">Measure:</h3>
               <div class="dropdown">
-                  <select name="measure" style="font: inherit">
+                  <select id="mid" name="measure" style="font: inherit">
                       <template is="dom-repeat" items="{{measures}}">
-                          <option style="font: inherit" value="{{item._id}}">
+                          <option style="font: inherit" value="{{item.id}}">
                               NQF <span>{{item.nqf}}</span> <span>{{item.name}}</span>
                           </option>
                       </template>
@@ -91,7 +125,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
             <div class="dropdown_box">
               <h3 class="headerTitle">Quarter:</h3>
                 <div class="dropdown">
-                    <select name="measure" style="font: inherit">
+                    <select name="measure" style="font: inherit"  id="reportPeriodQuarter">
                         <template is="dom-repeat" items="{{quarterChoose}}">
                             <option style="font: inherit" value="{{item._id}}">
                               <span>{{item.quarter}}</span>
@@ -104,7 +138,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
             <div class="dropdown_box">
               <h3 class="headerTitle">Year:</h3>
                 <div class="dropdown">
-                    <select name="quarter">
+                    <select name="quarter" id="reportPeriodYear">
                         <template is="dom-repeat" items="{{yearChoose}}">
                             <option style="font: inherit" value="{{item._id}}">
                                 <span>{{item.year}}</span>
@@ -139,15 +173,15 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                       <paper-material elevation="5">
                         <h3>{{group.name}}</h3>
                           <template is="dom-repeat" items="{{group.categories}}" as="category">
-                              <h4>{{category.strat}}</h4>
-                                <div class="input-box">
-                                  <paper-input-container>
-                                    <label>Numerator</label>
-                                    <input class='inputField' id="{{category.num}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                            <h4>{{category.strat}}</h4>
+                              <div class="input-box">
+                                <paper-input-container>
+                                  <label>Numerator</label>
+                                  <input class='inputField' id="{{category.num}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
                                 </paper-input-container>
                                 <paper-input-container>
-                                    <label>Denominator</label>
-                                    <input class='inputField' id="{{category.den}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                                  <label>Denominator</label>
+                                  <input class='inputField' id="{{category.den}}" is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
                                 </paper-input-container>
                               </div>
                           </template>
@@ -159,7 +193,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
             </paper-dialog-scrollable>
 
             <div class="buttons">
-                <paper-button raised class="child" on-tap="logNumbers" elevation="5">Submit</paper-button>
+                <paper-button raised class="child" on-tap="submitForm" elevation="5">Submit</paper-button>
                 <paper-button raised class="child" on-tap="cancelLog" elevation="5">Cancel</paper-button>
             </div>
         </paper-dialog>
@@ -194,15 +228,17 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
               ];
 
                 this.measures = [
-                  {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
-                  {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
+                  // {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
+                  // {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
               ];
                 this.stratifyGroups = [
                 {name: 'Gender', categories: [
                     {strat: 'Male', num: 'maleNum', den: 'maleDen'},
-                    {strat: 'Female', num: 'femaleNum', den: 'femaleDen'} ]
+                    {strat: 'Female', num: 'femaleNum', den: 'femaleDen'},
+                    {strat: 'Other', num: 'otherGenderNum', den: 'otherGenderDen'} ]
                 },
                 {name: 'Age', categories: [
+                    {strat: '0-17 Years', num: 'underSeventeenNum', den: 'underSeventeenDen'},
                     {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
                     {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
                     {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'} ]
@@ -217,11 +253,11 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                     {strat: 'Asian', num: 'asianNum', den: 'asianDen'},
                     {strat: 'Native Hawaiian or Pacific Islander', num: 'hawaiianNum', den: 'hawaiianDen'},
                     {strat: 'White', num: 'whiteNum', den: 'whiteDen'},
-                    {strat: 'Other', num: 'otherNum', den: 'otherDen'} ]
+                    {strat: 'Other', num: 'otherRaceNum', den: 'otherRaceDen'} ]
                 }
                 ];
             },
-            logNumbers: function (e) {
+            /*logNumbers: function (e) {
                 var formSubmit = {
                     mainNum: mainNum.value,
                     mainDen: mainDen.value,
@@ -260,11 +296,76 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                                 console.log(i)
                             };
                     };
-                console.log(formSubmit);*/
+                console.log(formSubmit);
                 this.$.testVar.toggle();
-            },
+            },*/
             cancelLog: function (e) {
                 this.$.testVar.toggle();
+            },
+            setAjax: function(formDataJson) {
+              this.$.postAppDemographic.body = formDataJson;
+              this.$.postAppDemographic.generateRequest();
+            },
+            callback: function() {
+              console.log('got response');
+            },
+            submitForm: function(request) {
+              var formData = {
+                id: 0,
+                numeratorValue: this.$$('#mainNum').value,
+                denominatorValue: this.$$('#mainDen').value,
+                genderMaleNum: this.$$('#maleNum').value,
+                genderMaleDen: this.$$('#maleDen').value,
+                genderFemaleNum: this.$$('#femaleNum').value,
+                genderFemaleDen: this.$$('#femaleDen').value,
+                genderOtherNum: this.$$('#otherGenderNum').value,
+                genderOtherDen: this.$$('#otherGenderDen').value,
+                ageUnder17Num: this.$$('#underSeventeenNum').value,
+                ageUnder17Den: this.$$('#underSeventeenDen').value,
+                age1844Num: this.$$('#eighteenNum').value,
+                age1844Den: this.$$('#eighteenDen').value,
+                age4564Num: this.$$('#fortyFiveNum').value,
+                age4564Den: this.$$('#fortyFiveDen').value,
+                ageOver65Num: this.$$('#sixtyFiveNum').value,
+                ageOver65Den: this.$$('#sixtyFiveDen').value,
+                ethnicityHispanicLatinoNum:this.$$('#hispanicNum').value,
+                ethnicityHispanicLatinoDen: this.$$('#hispanicDen').value,
+                ethnicityNotHispanicLatinoNum: this.$$('#notHispanicNum').value,
+                ethnicityNotHispanicLatinoDen: this.$$('#notHispanicDen').value,
+                raceAfricanAmericanNum: this.$$('#blackNum').value,
+                raceAfricanAmericanDen: this.$$('#blackDen').value,
+                raceAmericanIndianNum: this.$$('#indianNum').value,
+                raceAmericanIndianDen: this.$$('#indianDen').value,
+                raceAsianNum: this.$$('#asianNum').value,
+                raceAsianDen: this.$$('#asianDen').value,
+                raceNativeHawaiianNum: this.$$('#hawaiianNum').value,
+                raceNativeHawaiianDen: this.$$('#hawaiianDen').value,
+                raceWhiteNum: this.$$('#whiteNum').value,
+                raceWhiteDen: this.$$('#whiteDen').value,
+                raceOtherNum: this.$$('#otherRaceNum').value,
+                raceOtherDen: this.$$('#otherRaceDen').value,
+                reportPeriodQuarter: this.$$('#reportPeriodQuarter').value,
+                reportPeriodYear: this.$$('#reportPeriodYear').value,
+                organizationId: this.orgId,
+                measureId: this.$$('#mid').value,
+                userId: document.querySelector('app-login').$.userIdInput.value
+              };
+              this.setAjax(JSON.stringify(formData));
+              this.$.testVar.close();
+            },
+
+            setGetUserDataAjax: function() {
+              this.$.getUserData.resource = '/admin/user/find/' + document.querySelector('app-login').userId;
+              this.$.getUserData.generateRequest();
+            },
+            fetchOrgMeasures: function(request) {
+              this.orgId = request.detail.response.organizationId;
+              this.$.getOrgMeasures.resource = '/common/measure/findAll';
+              this.$.getOrgMeasures.generateRequest();
+            },
+            setDropdowns: function(request) {
+              var response = request.detail.response;
+              this.set('measures', response);
             }
         });
     })();
