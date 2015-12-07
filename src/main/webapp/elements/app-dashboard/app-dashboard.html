@@ -59,6 +59,16 @@
                 </div>
             </div>
 
+            <div class="flex-parent flex-child">
+                <label class="flex-child" style="font: inherit; margin-left:0.5em;"><b>Provider:</b></label>
+                <div class='flex-child' style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
+                    <select name="organization" style="font: inherit;">
+                        <template is="dom-repeat" items="{{providers}}">
+                            <option style="font: inherit" value="{{item.id}}">{{item.name}}</option>
+                          </template>
+                      </select>
+                  </div>
+              </div>
             <!--<div class="flex-parent flex-child">
                 <label class="flex-child" style="font: inherit; margin-left:0.5em;"> <b>Quarter: </b></label>
                 <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
@@ -97,14 +107,25 @@
             <app-history></app-history>
             <app-profile></app-profile>
         </iron-pages>
+
         <shape-iron-ajax-helper
           id="findOrgs"
-          resource=""
+          resource="/admin/organization/findAll"
           method="GET"
           handle-as="json"
           on-response="callBackOrgs"
           debounce-duration="300">
         </shape-iron-ajax-helper>
+
+        <shape-iron-ajax-helper
+          id="findProviders"
+          resource="/common/provider/findAll"
+          method="GET"
+          handle-as="json"
+          on-response="callBackProviders"
+          debounce-duration="300">
+        </shape-iron-ajax-helper>
+
     </template>
 </dom-module>
 <script>
@@ -120,15 +141,17 @@
             //   document.querySelector('app-profile').setajax();
             // },
 
-            setajaxOrgs: function () {
-              this.$.findOrgs.resource = "/admin/organization/findAll";
-              this.$.findOrgs.callBack=this.callBackOrgs;
+            setAjax: function () {
               this.$.findOrgs.generateRequest();
+              this.$.findProviders.generateRequest();
             },
 
             callBackOrgs: function(request) {
-              console.log(this.organizations);
-              this.organizations=request.detail.response;
+              this.organizations = request.detail.response;
+            },
+
+            callBackProviders: function(request) {
+              this.providers = request.detail.response;
             },
 
             ready: function() {
