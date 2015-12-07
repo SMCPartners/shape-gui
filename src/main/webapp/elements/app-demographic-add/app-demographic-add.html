@@ -76,19 +76,10 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
     <template>
 
       <shape-iron-ajax-helper
-        id="getIds"
-        resource="/common/organization_measure/add"
-        handle-as="json"
-        on-response="callBack"
-        debounce-duration="300">
-      </shape-iron-ajax-helper>
-
-      <shape-iron-ajax-helper
         id="postAppDemographic"
         method="POST"
         resource="/common/organization_measure/add"
         handle-as="json"
-        on-response="callBack"
         debounce-duration="300">
       </shape-iron-ajax-helper>\
 
@@ -306,9 +297,6 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
               this.$.postAppDemographic.body = formDataJson;
               this.$.postAppDemographic.generateRequest();
             },
-            callback: function() {
-              console.log('got response');
-            },
             submitForm: function(request) {
               var formData = {
                 id: 0,
@@ -355,7 +343,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
             },
 
             setGetUserDataAjax: function() {
-              this.$.getUserData.resource = '/admin/user/find/' + document.querySelector('app-login').userId;
+              this.$.getUserData.resource = '/admin/user/find/' + document.querySelector('app-login').$.userIdInput.value;
               this.$.getUserData.generateRequest();
             },
             fetchOrgMeasures: function(request) {
