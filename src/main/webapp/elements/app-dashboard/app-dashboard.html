@@ -85,7 +85,7 @@
 
             <paper-tab>Measure Input</paper-tab>
             <paper-tab>Past Measure Reports</paper-tab>
-            <paper-tab on-tap="orgStrat">Organization Profile</paper-tab>
+            <paper-tab>Organization Profile</paper-tab>
         </paper-tabs>
         <iron-pages selected="{{selected}}">
             <app-measure-input id=appMeasureInput
@@ -114,11 +114,11 @@
             properties: {
               selectedOrganization: 1
             },
-            orgStrat: function() {
-              console.log("go");
-              document.querySelector('app-profile').organizationID = this.selectedOrganization;
-              document.querySelector('app-profile').setajax();
-            },
+            // orgStrat: function() {
+            //   console.log("go");
+            //   document.querySelector('app-profile').organizationID = this.selectedOrganization;
+            //   document.querySelector('app-profile').setajax();
+            // },
 
             setajaxOrgs: function () {
               this.$.findOrgs.resource = "/admin/organization/findAll";
@@ -158,6 +158,9 @@
 
             loadOrgData: function() {
               document.querySelector('app-measure-input').setAjaxMeasure();
+              document.querySelector('app-profile').organizationID = this.selectedOrganization;
+              document.querySelector('app-profile').setajax();
+
             }
         });
     })();

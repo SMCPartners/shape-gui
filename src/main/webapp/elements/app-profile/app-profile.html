@@ -34,11 +34,10 @@
           method="POST"
           resource="/common/organization_stratification/edit/"
           handle-as="json"
-          on-response="callBack"
           debounce-duration="300">
       </shape-iron-ajax-helper>
 
-
+<!-- on-response="callBack" -->
         <paper-material elevation="5">
             <h1>Gender</h1>
                 <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
@@ -121,12 +120,13 @@
                 }
                 else {
                     console.log(this.profButton);
+                    this.profButton = 'Save';
                 };
                 var editInput = document.getElementsByClassName('childtwo');
                 for(var i = 0; i < editInput.length; i++) {
                     this.disabled = false;
                 };
-                this.profButton = 'Save';
+
             },
             cancelEdit: function (e) {
                 var cancelInput = document.getElementsByClassName('childtwo');
