@@ -88,7 +88,7 @@
                     <label class="child" style="font: inherit; margin-left:0.5em;"> <b>Year:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
                         <select name="measure" style="font: inherit">
-                            <template is="dom-repeat" items="{{years}}">
+                            <template is="dom-repeat" items="{{years}}" sort="{{sortFunction(sortVal)}}">
                                 <option style="font: inherit" value="{{item}}">
                                     <span>{{item}}</span>
                                 </option>
@@ -187,9 +187,12 @@
                 //     {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
                 //     {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
                 // ];
-                this.years = ["2015","2014", "2013", "2012", "2011"];
+                this.years = [];
 
             },
+            sortFunction: function() {
+              return a < b ? 1 : -1;
+            }
             /*buildStratify: function (e) {
 
                 console.log(stratify);

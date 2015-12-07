@@ -312,6 +312,8 @@
                   ['Well Controlled', currentMeasure.numeratorValue],
                   ['Poorly Controlled', currentMeasure.denominatorValue]
                 ];
+
+
                 var chartOptions = {
                   "pieHole": ".6",
                   "pieSliceText": "none"
@@ -319,6 +321,15 @@
                 this.set('measures.'+measure+'.chartData', chartData);
                 this.set('measures.'+measure+'.chartOptions', chartOptions);
               }
+              var yearArray = [];
+              for (var measure in response) {
+                if (yearArray.indexOf(response[measure].reportPeriodYear) === -1){
+                yearArray.push(response[measure].reportPeriodYear);
+                }
+
+              }
+              console.log(yearArray);
+              document.querySelector('app-history').set('years', yearArray);
 
             },
 
