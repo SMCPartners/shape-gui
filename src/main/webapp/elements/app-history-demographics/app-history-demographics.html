@@ -4,11 +4,13 @@
 
 <dom-module id="app-history-demographics">
     <style>
-        .pms {
-        @apply(--pm-style)
-        };
+        google-chart {
+          margin: 50
+
+        }
     </style>
-    <template is="dom-repeat">
+    <template>
+      <template is='dom-repeat' items="{{racePrevalence}}" as="measure">
         <div class="pms">
                 <!--div>
                     <app-diffpie-chart newData='{{newData}}' oldData='{{oldData}}'></app-diffpie-chart>
@@ -17,10 +19,13 @@
                     <google-chart
                             type='bar'
                             options='{"title": "Aggregate Measure Performance"}'
-                            data='{{racePrevalence}}'>
+                            data='{{measure}}'
+                            width='800'>
+                            
                     </google-chart>
                 </div>
         </div>
+      </template>
 
     </template>
 </dom-module>
@@ -32,15 +37,7 @@
             },
             ready: function() {
 
-            // this.racePrevalence= [
-            //                         ['Race','Occurrence','Poorly Controlled'],
-            //                         ['African American/Black', 25.02, 2.44],
-            //                         ['American Indian or Alaska Native', 15.54, .9],
-            //                         ['Asian', 11.14, .57],
-            //                         ['Native Hawaiian or Pacific Islander', 17.62, 1.9],
-            //                         ['White', 24.22, 1.41],
-            //                         ['Other', 14.16, 1.08]
-            //                       ];
+            this.racePrevalence = [];
 
             },
         });

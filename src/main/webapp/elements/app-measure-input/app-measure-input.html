@@ -330,7 +330,7 @@
               }
               console.log(yearArray);
               document.querySelector('app-history').set('years', yearArray);
-
+              this.setAppHistoryGraph(response);
             },
 
             secondCallBack: function(request) {
@@ -356,6 +356,7 @@
                   }
                 }
               }
+
             },
 
             setAjaxMeasure: function() {
@@ -363,6 +364,30 @@
               this.$.findMeasureInput.callBack = this.callBack;
               this.$.findMeasureInput.generateRequest();
             },
+
+            setAppHistoryGraph: function(response) {
+              //var response = request.detail.response;
+              console.log(response[0]);
+
+              for (var measure in response) {
+
+                console.log(response[measure].raceAfricanAmericaNum)
+                var raceArray =
+                  [
+                    ["test","test","test"],
+                    ["African American", response[measure].raceAfricanAmericanNum, response[measure].raceAfricanAmericanDen],
+                    ["Native American", response[measure].raceAmericanIndianNum, response[measure].raceAmericanIndianDen],
+                    ["Asian", response[measure].raceAsianNum, response[measure].raceAsianDen],
+                    ["Native Hawaiian", response[measure].raceNativeHawaiianNum, response[measure].raceNativeHawaiianDen],
+                    ["White", response[measure].raceWhiteNum, response[measure].raceWhiteDen],
+                    ["Other", response[measure].raceOtherNum, response[measure].raceOtherDen]
+                  ];
+                  document.querySelector('app-history-demographics').set('racePrevalence', raceArray);
+              };
+              //console.log(document.querySelector('app-history-demographics').racePrevalence);
+
+
+            }
         });
     })();
 </script>
