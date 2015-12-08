@@ -22,10 +22,7 @@
             </div>
             <div class="childtwo">
                 <div>
-                    <paper-input label="First Name" value="{{firstName}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Last Name" value="{{lastName}}"></paper-input>
+                    <paper-input label="Name" value="{{name}}"></paper-input>
                 </div>
                 <div>
                     <paper-input label="NPI" value="{{NPI}}"></paper-input>
@@ -171,6 +168,13 @@
             on-response="callBackUser"
             debounce-duration="300">
         </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxEditProvider"
+            resource="/admin/provider/edit"
+            handle-as="json"
+            method="POST"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -265,14 +269,13 @@
             },
 
             logProvider: function (e) {
-                var formSubmitProvider = [
-                {'firstName': this.firstName,
-                'lastName': this.lastName,
-                'NPI': this.NPI,
-                'organization': this.organization
-                }];
-                this.$.editProvider.toggle(),
-                console.log(formSubmitProvider)
+                console.log('e', e);
+                var newProviderData = {
+                  id: 1
+                };
+                this.$.ajaxEditProvider.body = JSON.stringify(formSubmitProvider);
+                this.$.ajaxEditProvider.generateRequest();
+                this.$.editProvider.toggle();
 
             },
             logOrganization: function (e) {
