@@ -190,9 +190,8 @@
                 return function(provider) {
                     if (!val) return true;
                     if (!provider) return false;
-                    return (provider.firstName && ~provider.firstName.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (provider.lastName && ~provider.lastName.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (provider.NPI && ~provider.NPI.toLowerCase().indexOf(val.toLowerCase())) ||
+                    return (provider.name && ~provider.name.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (provider.npi && ~provider.npi.toString().indexOf(val.toLowerCase())) ||
                             (provider.organization && ~provider.organization.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
