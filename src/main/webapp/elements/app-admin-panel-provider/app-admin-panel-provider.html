@@ -137,7 +137,7 @@
             <thead>
                 <!-- sorting not working on npi -->
                 <th sortingGroup="name" on-tap="selectFunction">Name</th>
-                <th>NPI</th>
+                <th sortingGroup="npi" on-tap="selectFunction">NPI</th>
                 <th sortingGroup="organization" on-tap="selectFunction">Organization</th>
                 <th>Status</th>
                 <th></th>
@@ -206,7 +206,7 @@
               if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
                   this.sortReverse = true;
                   this.sortVal = val.toUpperCase();
-                  this.lastSortVal = val.toUpperCase;
+                  this.lastSortVal = val.toUpperCase();
                   }
               else
                 {
@@ -264,15 +264,27 @@
                   console.log("sortReverse is " + this.sortReverse)
                   if (this.sortReverse) {
                             return function(a, b) {
-                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
-                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? 1 : -1;
+                            a = a[clicked];
+                            b = b[clicked];
+                            if (typeof a == 'string') {
+                              a = a.toLowerCase();
+                              b = b.toLowerCase();
+                            }
+                            if (a === b) return 0;
+                            return a < b ? 1 : -1;
                           }
                       }
 
                       else {
                             return function(a, b) {
-                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
-                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? -1 : 1;
+                            a = a[clicked];
+                            b = b[clicked];
+                            if (typeof a == 'string') {
+                              a = a.toLowerCase();
+                              b = b.toLowerCase();
+                            }
+                            if (a === b) return 0;
+                            return a < b ? -1 : 1;
                       };
                     }
              },
