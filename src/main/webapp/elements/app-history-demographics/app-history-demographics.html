@@ -8,7 +8,7 @@
         @apply(--pm-style)
         };
     </style>
-    <template>
+    <template is="dom-repeat">
         <div class="pms">
                 <!--div>
                     <app-diffpie-chart newData='{{newData}}' oldData='{{oldData}}'></app-diffpie-chart>
@@ -31,55 +31,17 @@
             properties: {
             },
             ready: function() {
-            //this.newData=[['Race', 'Occurrence'], ['African American/Black', 4.98], ['American Indian or Alaska Native', .15], ['Asian', 1.27],
-              //   ['Native Hawaiian or Pacific Islander', .15], ['White', 85.96], ['Other', 7.49]];
-            //this.oldData=[['Race', 'Occurrence'], ['African American/Black', 4.51], ['American Indian or Alaska Native', .21], ['Asian', 2.59],
-              //   ['Native Hawaiian or Pacific Islander', .19], ['White', 80.49], ['Other', 12.01]];
-            this.racePrevalence= [
-                                    ['Race','Occurrence','Poorly Controlled'],
-                                    ['African American/Black', 25.02, 2.44],
-                                    ['American Indian or Alaska Native', 15.54, .9],
-                                    ['Asian', 11.14, .57],
-                                    ['Native Hawaiian or Pacific Islander', 17.62, 1.9],
-                                    ['White', 24.22, 1.41],
-                                    ['Other', 14.16, 1.08]
-                                  ];
-           /*this.occurrence=[
-                {'measure': 'Controlling High Blood Pressure', 'condition': 'Hypertension',
-                'genderNewData': [['Gender', 'Occurrence'], ['Male', 50.9], ['Female', 48.9]],
-                 'genderOldData': [['Gender', 'Occurrence'], ['Male', 46.61], ['Female', 53.39]],
-                 'ageNewData': [['Age', 'Occurrence'], ['18-44 Years', 7.95], ['45-64 Years', 44.74], ['65-85 Years', 46.08]],
-                 'ageOldData': [['Age', 'Occurrence'], ['18-44 Years', 33.7], ['45-64 Years', 39.27], ['65-85 Years', 27.03]],
-                 'ethnicNewData': [['Ethnicity', 'Occurrence'], ['Hispanic/Latino', 3.8], ['Not Hispanic/Latino', 96.2], ['Other', 0]],
-                 'ethnicOldData': [['Ethnicity', 'Occurrence'], ['Hispanic/Latino', 6.19], ['Not Hispanic/Latino', 93.81], ['Other', 0]],
-                 'raceNewData': [['Race', 'Occurrence'], ['African American/Black', 4.98], ['American Indian or Alaska Native', .15], ['Asian', 1.27],
-                 ['Native Hawaiian or Pacific Islander', .15], ['White', 85.96], ['Other', 7.49]],
-                 'raceOldData': [['Race', 'Occurrence'], ['African American/Black', 4.51], ['American Indian or Alaska Native', .21], ['Asian', 2.59],
-                 ['Native Hawaiian or Pacific Islander', .19], ['White', 80.49], ['Other', 12.01]],
-                 'genderPrevalence': [['Gender', 'Occurrence', 'Poorly Controlled'], ['Male', 24.76, 1.72], ['Female', 20.85, 1.11]],
-                 'agePrevalence': [['Age', 'Occurrence', 'Poorly Controlled'], ['18-44 Years', 7.39, .8], ['45-64 Years', 35.67, 1.33], ['65-85 Years', 53.36, 4.16]],
-                 'ethnicPrevalence': [['Ethnicity', 'Occurrence', 'Poorly Controlled'], ['Hispanic/Latino', 13.92, .91], ['Not Hispanic/Latino', 23.25, 1.42], ['Other', 0]],
-                 'racePrevalence': [['Race', 'Occurrence', 'Poorly Controlled'], ['African American/Black', 25.02, 2.44], ['American Indian or Alaska Native', 15.54, .9], ['Asian', 11.14, .57],
-                 ['Native Hawaiian or Pacific Islander', 17.62, 1.9], ['White', 24.22, 1.41], ['Other', 14.16, 1.08]]
-                },
-                {'measure': 'Diabetes: HbA1c Poor Control', 'condition': 'Diabetes',
-                'genderNewData': [['Gender', 'Occurrence'], ['Male', 48.9], ['Female', 48.9]],
-                 'genderOldData': [['Gender', 'Occurrence'], ['Male', 46.61], ['Female', 53.39]],
-                 'ageNewData': [['Age', 'Occurrence'], ['18-44 Years', 7.95], ['45-64 Years', 44.74], ['65-85 Years', 46.08]],
-                 'ageOldData': [['Age', 'Occurrence'], ['18-44 Years', 33.7], ['45-64 Years', 39.27], ['65-85 Years', 27.03]],
-                 'ethnicNewData': [['Ethnicity', 'Occurrence'], ['Hispanic/Latino', 3.8], ['Not Hispanic/Latino', 96.2], ['Other', 0]],
-                 'ethnicOldData': [['Ethnicity', 'Occurrence'], ['Hispanic/Latino', 6.19], ['Not Hispanic/Latino', 93.81], ['Other', 0]],
-                 'raceNewData': [['Race', 'Occurrence'], ['African American/Black', 4.98], ['American Indian or Alaska Native', .15], ['Asian', 1.27],
-                 ['Native Hawaiian or Pacific Islander', .15], ['White', 85.96], ['Other', 7.49]],
-                 'raceOldData': [['Race', 'Occurrence'], ['African American/Black', 4.51], ['American Indian or Alaska Native', .21], ['Asian', 2.59],
-                 ['Native Hawaiian or Pacific Islander', .19], ['White', 80.49], ['Other', 12.01]],
-                 'genderPrevalence': [['Gender', 'Occurrence', 'Poorly Controlled'], ['Male', 24.76, 1.72], ['Female', 20.85, 1.11]],
-                 'agePrevalence': [['Age', 'Occurrence', 'Poorly Controlled'], ['18-44 Years', 7.39, .8], ['45-64 Years', 35.67, 1.33], ['65-85 Years', 53.36, 4.16]],
-                 'ethnicPrevalence': [['Ethnicity', 'Occurrence', 'Poorly Controlled'], ['Hispanic/Latino', 13.92, .91], ['Not Hispanic/Latino', 23.25, 1.42], ['Other', 0]],
-                 'racePrevalence': [['Race', 'Occurrence', 'Poorly Controlled'], ['African American/Black', 25.02, 2.44], ['American Indian or Alaska Native', 15.54, .9], ['Asian', 11.14, .57],
-                 ['Native Hawaiian or Pacific Islander', 17.62, 1.9], ['White', 24.22, 1.41], ['Other', 14.16, 1.08]]
-                }
-            ]*/
+
+            // this.racePrevalence= [
+            //                         ['Race','Occurrence','Poorly Controlled'],
+            //                         ['African American/Black', 25.02, 2.44],
+            //                         ['American Indian or Alaska Native', 15.54, .9],
+            //                         ['Asian', 11.14, .57],
+            //                         ['Native Hawaiian or Pacific Islander', 17.62, 1.9],
+            //                         ['White', 24.22, 1.41],
+            //                         ['Other', 14.16, 1.08]
+            //                       ];
+
             },
         });
     })();
