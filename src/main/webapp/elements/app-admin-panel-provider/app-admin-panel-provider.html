@@ -229,17 +229,15 @@
               },
 
               setAjaxInactivate: function(e) {
-                alert('\"/admin/provider/inactivate\" call not currently working');
-                /*this.$.ajaxInactivateProvider.resource="/admin/provider/inactivate";
+                this.$.ajaxInactivateProvider.resource="/admin/provider/inactivate";
                 this.$.ajaxInactivateProvider.body = JSON.stringify ({"entId": e.currentTarget.providers.id});
                 this.$.ajaxInactivateProvider.method="POST";
                 this.$.ajaxInactivateProvider.callBack=this.callBackInactivate;
                 this.$.ajaxInactivateProvider.generateRequest();
-                activeIndicator=e.currentTarget;*/
+                activeIndicator=e.currentTarget;
               },
 
               callBackActivate: function(request) {
-                  console.log(request);
                   for(var i = 0; i<this.providers.length; i++){
                     if (this.providers[i].id == activeIndicator.providers.id){
                       var stringPath= 'providers.'+i+'.active';
@@ -249,7 +247,6 @@
               },
 
               callBackInactivate: function(request) {
-                console.log(request);
                  for(var i = 0; i<this.providers.length; i++){
                    if (this.providers[i].id == activeIndicator.providers.id){
                      var stringPath= 'providers.'+i+'.active';
