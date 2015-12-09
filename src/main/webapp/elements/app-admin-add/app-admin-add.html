@@ -7,6 +7,20 @@
         .pms {
         @apply(--pm-style)
         }
+
+        select[selected] {
+            border: none;
+        }
+        select {
+            height: 2.5em;
+            font-size: 1em;
+            background: white;
+            border: none;
+        }
+        select[focused] {
+            border: none;
+        }
+
     </style>
     <template>
         <paper-dialog id="addProvider" class="size-position modalBox">
@@ -15,16 +29,17 @@
             </div>
             <paper-dialog-scrollable class="childtwo">
                 <div>
-                    <paper-input label="First Name" value="{{firstName}}"></paper-input>
+                    <paper-input label="Name" value="{{providerData.name}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Last Name" value="{{lastName}}"></paper-input>
+                    <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="NPI" value="{{NPI}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Organization" value="{{organization}}"></paper-input>
+                  <select id="providerOrgSelect">
+                    <template is="dom-repeat" items="{{organizations}}">
+                      <option>{{item.name}}</option>
+                    </template>
+                  </select>
                 </div>
             </paper-dialog-scrollable>
             <div class="parenttwo">
@@ -36,6 +51,13 @@
           <shape-iron-ajax-helper
               id="ajaxAddOrganization"
               resource="/admin/organization/add"
+              handle-as="json"
+              method="POST"
+              debounce-duration="300">
+          </shape-iron-ajax-helper>
+          <shape-iron-ajax-helper
+              id="ajaxAddProvider"
+              resource="/admin/provider/add"
               handle-as="json"
               method="POST"
               debounce-duration="300">
@@ -198,6 +220,7 @@
 
             },
             ready: function() {
+              this.providerData = {};
             // this.firstName='firstName';
             // this.lastName='lastName';
             // this.NPI='NPI';
@@ -281,6 +304,7 @@
             },
 
             addButton: function(inputModalName) {
+                this.setajaxOrgs();
 
                 if (inputModalName == 'addProvider') {
                 this.$.addProvider.open();
@@ -299,16 +323,31 @@
                 };
             },
 
-            // logProvider: function (e) {
-            //     var formSubmitProvider = [
-            //     {'firstName': this.firstName,
-            //     'lastName': this.lastName,
-            //     'NPI': this.NPI,
-            //     'organization': this.organization
-            //     }];
-            //     this.$.addProvider.toggle(),
-            //     console.log(formSubmitProvider)
-            // },
+            logProvider: function (e) {
+                var selectChoice = this.$.providerOrgSelect.value;
+                for (var org in this.organizations) {
+                  if (this.organizations[org].name == selectChoice) {
+                    var orgId = this.organizations[org].id;
+                    break;
+                  }
+                }
+                var newProviderData = {
+                  name: this.providerData.name,
+                  active: true,
+                  npi: this.providerData.npi,
+                  organizationId: orgId
+                }
+                this.$.ajaxAddProvider.body = JSON.stringify(newProviderData);
+                this.$.ajaxAddProvider.generateRequest();
+
+                newProviderData.organization = selectChoice;
+
+                var providerPanel = document.querySelector('app-admin-panel-provider');
+                providerPanel.providers.push(newProviderData);
+                providerPanel.providers = providerPanel.providers.splice(0);
+
+                this.$.addProvider.toggle();
+            },
 
             closeProvider: function(e) {
                 this.$.addProvider.toggle()
