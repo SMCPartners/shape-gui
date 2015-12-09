@@ -144,7 +144,7 @@
             </thead>
             <tbody>
             <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
-                <tr>
+                <tr data-id$="{{item.id}}">
                     <td><span>{{item.name}}</span></td>
                     <td><span>{{item.npi}}</span></td>
                     <td><span>{{item.organization}}</span></td>
@@ -313,12 +313,31 @@
             },
 
             editProvider: function(e) {
-                this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+              var providerId = this.findAncestor(e.target, 'tr').dataset.id;
+              for (var provider in this.providers) {
+                if (this.providers[provider].id == providerId) {
+                  var providerData = this.providers[provider];
+                }
+              }
+              this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"), providerData);
             },
 
             addProvider: function(e){
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
             },
+            findAncestor: function(element, query) {
+              do {
+                element = element.parentElement;
+              } while (element && !this.elementMatches(element, query))
+              return element;
+            },
+            elementMatches: function(element, query) {
+              var siblingMatches = element.parentElement.querySelectorAll(query)
+              for (var match = 0; match < siblingMatches.length; match++) {
+                if (siblingMatches[match] == element) return true;
+              }
+              return false;
+            }
         });
 })();
 </script>

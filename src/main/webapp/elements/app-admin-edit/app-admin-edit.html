@@ -14,6 +14,19 @@
           padding: 5px 20px 5px 20px;
         },
 
+        select[selected] {
+            border: none;
+        }
+        select {
+            height: 2.5em;
+            font-size: 1em;
+            background: white;
+            border: none;
+        }
+        select[focused] {
+            border: none;
+        }
+
     </style>
     <template>
         <paper-dialog id="editProvider" class="size-position modalBox">
@@ -22,13 +35,19 @@
             </div>
             <div class="childtwo">
                 <div>
-                    <paper-input label="Name" value="{{name}}"></paper-input>
+                    <paper-input label="Name" value="{{providerData.name}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="NPI" value="{{npi}}"></paper-input>
+                    <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Organization" value="{{organization}}"></paper-input>
+                  <label><strong>Organization</strong>:
+                    <select id="providerOrgSelect">
+                      <template is="dom-repeat" items="{{organizations}}">
+                          <option>{{item.name}}</option>
+                      </template>
+                    </select>
+                  </label>
                 </div>
             </div>
             <div class="parenttwo">
@@ -221,23 +240,24 @@
                 this.organizations=request.detail.response;
             },
 
-            editButton: function(inputModalName) {
+            editButton: function(inputModalName, data) {
                 this.getData();
                 if (inputModalName == 'editProvider') {
-                this.$.editProvider.open();
-                };
+                  this.set('providerData', data);
+                  this.$.editProvider.open();
+                }
 
                 if (inputModalName == 'editOrganization') {
-                this.$.editOrganization.open();
-                };
+                  this.$.editOrganization.open();
+                }
 
                 if (inputModalName == 'editMeasure') {
-                this.$.editMeasure.open();
-                };
+                  this.$.editMeasure.open();
+                }
 
                 if (inputModalName == 'editUser') {
-                this.$.editUser.open();
-                };
+                  this.$.editUser.open();
+                }
 
             },
             callback: function() {
@@ -269,13 +289,33 @@
             },
 
             logProvider: function (e) {
-                console.log('e', e);
-                var newProviderData = {
-                  id: 1
-                };
-                this.$.ajaxEditProvider.body = JSON.stringify(formSubmitProvider);
-                this.$.ajaxEditProvider.generateRequest();
-                this.$.editProvider.toggle();
+              var selectChoice = this.$.providerOrgSelect.value;
+              for (var org in this.organizations) {
+                if (this.organizations[org].name == selectChoice) {
+                  var orgId = this.organizations[org].id;
+                  break;
+                }
+              }
+              this.providerData.organizationId = orgId;
+              this.providerData.organization = selectChoice;
+              this.$.ajaxEditProvider.body = JSON.stringify({
+                id: this.providerData.id,
+                name: this.providerData.name,
+                active: this.providerData.active,
+                npi: this.providerData.npi,
+                organizationId: this.providerData.organizationId
+              });
+              this.$.ajaxEditProvider.generateRequest();
+
+              var providerPanel = document.querySelector('app-admin-panel-provider');
+              for (var providerIndex in providerPanel.providers) {
+                if (providerPanel.providers[providerIndex].id == this.providerData.id) {
+                  break;
+                }
+              }
+              providerPanel.set('providers.' + providerIndex, Object.create(this.providerData));
+
+              this.$.editProvider.toggle();
 
             },
             logOrganization: function (e) {
