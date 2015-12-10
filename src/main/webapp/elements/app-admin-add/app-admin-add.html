@@ -60,7 +60,8 @@
               resource="/admin/provider/add"
               handle-as="json"
               method="POST"
-              debounce-duration="300">
+              debounce-duration="300"
+              on-response="addProviderCallback">
           </shape-iron-ajax-helper>
             <div>
                 <h2>Add New Organization</h2>
@@ -340,12 +341,6 @@
                 this.$.ajaxAddProvider.body = JSON.stringify(newProviderData);
                 this.$.ajaxAddProvider.generateRequest();
 
-                newProviderData.organization = selectChoice;
-
-                var providerPanel = document.querySelector('app-admin-panel-provider');
-                providerPanel.providers.push(newProviderData);
-                providerPanel.providers = providerPanel.providers.splice(0);
-
                 this.$.addProvider.toggle();
             },
 
@@ -432,6 +427,11 @@
             //     this.$.addMeasure.toggle(),
             //     console.log(formSubmitMeasure)
             // },
+
+            addProviderCallback: function() {
+              document.querySelector('app-admin-panel-provider').$.findProviders.generateRequest();
+            }
+
         });
     })();
 </script>

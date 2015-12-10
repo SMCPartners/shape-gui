@@ -192,7 +192,8 @@
             resource="/admin/provider/edit"
             handle-as="json"
             method="POST"
-            debounce-duration="300">
+            debounce-duration="300"
+            on-response="editProviderCallback">
         </shape-iron-ajax-helper>
     </template>
 </dom-module>
@@ -383,6 +384,9 @@
                 this.$.editOrganization.close();
                 document.querySelector('app-admin-panel').loadTable();
             },
+            editProviderCallback: function() {
+              document.querySelector('app-admin-panel-provider').$.findProviders.generateRequest();
+            }
         });
     })();
 </script>
