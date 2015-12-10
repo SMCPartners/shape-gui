@@ -139,7 +139,7 @@
                 <th sortingGroup="name" on-tap="selectFunction">Name</th>
                 <th sortingGroup="npi" on-tap="selectFunction">NPI</th>
                 <th sortingGroup="organization" on-tap="selectFunction">Organization</th>
-                <th sortingGroup="status" on-tap="selectFunction">Status</th>
+                <th sortingGroup="active" on-tap="selectFunction">Status</th>
                 <th></th>
             </thead>
             <tbody>
@@ -151,10 +151,10 @@
                     <td>
 
                       <template restamp="true" is="dom-if" if="{{item.active}}">
-                        <paper-button align="center" class="green" providers={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
+                        <paper-button align="center" class="green activeButton" providers={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
                       </template>
                       <template restamp="true" is="dom-if" if="{{!item.active}}">
-                        <paper-button align="center" class="red" providers={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
+                        <paper-button align="center" class="red activeButton" providers={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
                       </template>
 
                     </td>
@@ -260,7 +260,6 @@
                   console.log("sortReverse is " + this.sortReverse)
                   if (this.sortReverse) {
                             return function(a, b) {
-                            console.log('a', a);
                             a = a[clicked];
                             b = b[clicked];
                             if (typeof a == 'string') {
