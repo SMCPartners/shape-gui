@@ -135,7 +135,7 @@
                 <iron-pages selected="{{selectedView}}">
                     <app-history-list-view></app-history-list-view>
                     <app-history-graph></app-history-graph>
-                    <app-history-demographics></app-history-demographics>
+                    <app-history-demographics id="histographic"></app-history-demographics>
                 </iron-pages>
             </div>
         </div>
@@ -198,6 +198,7 @@
                 //     {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
                 // ];
                 this.years = [];
+
 
             },
             loadMeasureData: function() {

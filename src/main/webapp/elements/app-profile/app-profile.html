@@ -138,7 +138,7 @@
             setajax: function() {
               this.$.findStratByOrg.callBack = this.callBack
               this.$.findStratByOrg.resource = "/common/organization_stratification/findAllByOrg/"+ document.getElementById('findUserOrganizations').value;
-              console.log(this.$.findStratByOrg.resource);
+              //console.log(this.$.findStratByOrg.resource);
               this.$.findStratByOrg.generateRequest();
 
             },
@@ -169,7 +169,7 @@
 
 
            callBack: function(request) {
-             console.log(request.detail.response[0]);
+             //console.log(request.detail.response[0]);
              this.profile = request.detail.response[0];
 
              this.set('gender',
