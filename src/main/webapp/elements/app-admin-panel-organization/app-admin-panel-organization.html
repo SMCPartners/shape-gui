@@ -93,7 +93,7 @@
             <div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
                 <label>Sort By:</label>
                 <select value="{{sortVal::change}}">
-                    <option>Select:</option>
+                    <option>Select:</option>-
                     <option value="name">Name</option>
                     <option value="address">Address</option>
                 </select>
@@ -143,7 +143,7 @@
                     </td>
                     <td style="font-size: 12px">
                         <div class="editButton">
-                            <paper-button raised on-tap="editOrganization" modalName="editOrganization" id="{{item.id}}">Edit</paper-button>
+                            <paper-button raised on-tap="editOrganization" modalName="editOrganization" id="{{item.index}}">Edit</paper-button>
                         </div>
                     </td>
                 </tr>
@@ -310,9 +310,9 @@
             editOrganization: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
                 var orgNum = e.target.parentNode.getAttribute('id');
-                console.log(this.id);
-                // this.$.editModal.orgNum = e.target.parentNode.getAttribute('id');
-                this.$.editModal.organization = this.organization[orgNum - 1];
+                console.log(orgNum);
+                //this.$.editModal.orgNum = e.target.parentNode.getAttribute('id');
+                this.$.editModal.organization = Object.create(this.organization[orgNum]);
                 console.log(this.organization[orgNum - 1]);
             },
 
@@ -337,6 +337,10 @@
            callBack: function(request) {
              console.log(request.detail.response);
              this.organization = request.detail.response;
+             for (i = 0; i < this.organization.length; i ++){
+               this.organization[i].index = i;
+               console.log(this.organization[i].index);
+             };
            },
            storeValue: function() {
 

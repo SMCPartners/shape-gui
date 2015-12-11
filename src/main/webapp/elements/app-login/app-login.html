@@ -76,6 +76,13 @@
           </shape-iron-ajax-helper>
           <shape-iron-ajax-helper id="secureCall">
           </shape-iron-ajax-helper>
+          <shape-iron-ajax-helper
+              id="findUsers"
+              resource=""
+              handle-as="json"
+              on-response="callBackfindUsers"
+              debounce-duration="300">
+          </shape-iron-ajax-helper>
     </template>
 
     <!--shape-iron-ajax-helper
@@ -107,12 +114,27 @@
                 this.setSecureCall();
 
             },
+
             logIn: function () {
+              this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
+              this.$.findUsers.callBack=this.callBackfindUsers;
+              this.$.findUsers.generateRequest();
+            },
+
+            callBackfindUsers: function(request) {
+              console.log(request.detail.response);
+              callBackUser=request.detail.response;
+              if (callBackUser.resetPwd == true) {
+                app.select = "setupAccount";
+              } else {
                 app.select = "main";
                 this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
+                document.querySelector('app-account-setup').ajaxFindUsers();
                 document.querySelector('app-dashboard').setAjax();
                 document.querySelector('app-history').setajaxMeasures();
+              };
             },
+
             setSecureCall: function(){
                 var call = this.$.secureCall;
                 call.resource = "/user/get/mobile_exercise_scr/u2/11-16-2015";

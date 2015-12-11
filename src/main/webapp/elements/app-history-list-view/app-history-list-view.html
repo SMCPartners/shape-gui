@@ -2,7 +2,7 @@
 <link rel="import" href="../elements.html">
 
 
-<dom-module id="app-measure-input">
+<dom-module id="app-history-list-view">
     <style>
         .pms {
             @apply(--pm-style)
@@ -141,18 +141,12 @@
         on-response="secondCallBack"
         debounce-duration="300">
       </shape-iron-ajax-helper>
-
-
-      <div class="fab">
-        <paper-fab icon="add" elevation="5" on-tap="addMeasure" id="addFab"></paper-fab>
-        <paper-tooltip for="addFab" offset="3">Add New Measure</paper-tooltip>
-      </div>
-
       <paper-dialog-scrollable>
       <template is="dom-repeat" items="{{measures}}" measure={{item}}>
-            <paper-material id=2 class="pms">
-                <div id=3 class="parent">
-                    <div id=4 value="{{item.nqfId}}" class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
+            <paper-material class="pms">
+                <div class="parent">
+                    <div class="child header" value="{{nqfid}}">NQF ID: <span>{{item.nqfId}}</span></div>
+                    <div class="child header">RP Quarter: <span>{{item.reportPeriodQuarter}}</span></div>
                     <div class="child header">{{item.name}}</div>
                     <div class="child">
                         <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item.description}}"></paper-icon-button>
@@ -195,54 +189,26 @@
       </paper-dialog-scrollable>
 
     </template>
-</dom-module>
+</dom-module> -->
 <script>
     (function () {
         Polymer({
-            is: 'app-measure-input',
+            is: 'app-history-list-view',
             properties: {
                 currentMeasure: String,
                 nMeasure: String,
                 measureid: {
                   type: String
-                }
+                },
+                measure: {
+                  type: String
+                },
+                measurenqfid: {
+                  type: String
+                },
+
             },
             ready: function() {
-
-                /*this.measures = [
-                    {
-                      name: 'Controlling High Blood Pressure',
-                      NQF: 'NQF 0018',
-                      //numerator: this.measureInput[0].numeratorValue,
-                      //denominator: this.measureInput.denominatorValue,
-                      aggregateNumerator: 18893,
-                      aggregateDenominator: 23184,
-                      chart: this.chartDefault,
-                      // chartOptions: {
-                      //   "title": "Controlling High Blood Pressure",
-                      //   "pieHole": ".6",
-                      //   "pieSliceText": "none"
-                      // },
-                      description: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90mmHg) during the measurement period.'
-                    },
-
-                      {
-                        name: 'Diabetes: HbA1c Poor Control',
-                        NQF: 'NQF 0059',
-                        numerator: 2153,
-                        denominator: 3597,
-                        aggregateNumerator: 12948,
-                        aggregateDenominator: 15034,
-                        chart: this.chartDefault,
-                        // chartOptions: {
-                        //   "title": this.name,
-                        //   "pieHole": ".6",
-                        //   "pieSliceText": "none"
-                        // },
-                          description: 'Percentage of patients 18-75 years of age with diabetes who had hemoglobin A1c > 9.0% during the measurement period.'
-                        }
-                ];*/
-
             },
             attached: function() {
 
@@ -254,19 +220,6 @@
                 // appDemographicAdd.nameOfMeasure=nMeasure;
                 document.querySelector('app-demographic-add').setGetUserDataAjax();
                 testVar.open();
-            },
-            editMeasure: function (e) {
-                var nMeasure=e.currentTarget.id;
-                console.log(e.currentTarget);
-                appDemographicInput.measureName=nMeasure;
-                targetMeasure=e.currentTarget;
-                this.inputMeasureID=e.currentTarget.measure.measureId;
-                this.dbid=e.currentTarget.measure.id;
-                this.reportPeriodQuarter=e.currentTarget.measure.reportPeriodQuarter;
-                this.reportPeriodYear=e.currentTarget.measure.reportPeriodYear;
-                document.querySelector('app-demographic-input').ajaxFindUsers();
-                document.querySelector('app-demographic-input').loadMeasureStratification();
-                demIn.open();
             },
             computePercentage: function (numerator, denominator) {
                 var ratio = 100 * numerator / denominator;
@@ -287,25 +240,37 @@
             //"slices": ["0": {'color': #32cd32}, "1": {'color': 'transparent'}],
 
             callBack: function(request) {
+              console.log(request.detail.response);
+              console.log(this.measures);
               //targetMeasure
               //this.modalreportPeriodYear=request.detail.response.
-              var response = request.detail.response;
+              var firstResponse = request.detail.response;
+
+              var done = false;
+              selectedMeasure=document.getElementById('selectMeasure');
+              selectedYear=document.getElementById('selectYear');
+              for (var object = 0; object < firstResponse.length && !done; object++) {
+                var firstCurrentObject = firstResponse[object];
+                  if (selectedMeasure.value == firstCurrentObject.nqfId
+                      ) {
+                    done = true;
+              }};
+              console.log(firstCurrentObject);
+              console.log(firstCurrentObject.isShown);
 
               // get additional measure data
-              this.$.findMeasureByOrg.body = JSON.stringify(response);
+              this.$.findMeasureByOrg.body = JSON.stringify(firstResponse);
               this.$.findMeasureByOrg.generateRequest();
 
               // display measure data we currently have
-              this.set('measures', response);
-              for (var measure in response) {
-                var currentMeasure = response[measure];
+              this.set('measures', firstResponse);
+              for (var measure in firstResponse) {
+                var currentMeasure = firstResponse[measure];
                 var chartData = [
                   ['Month', 'Days'],
                   ['Well Controlled', currentMeasure.numeratorValue],
                   ['Poorly Controlled', currentMeasure.denominatorValue]
                 ];
-
-
                 var chartOptions = {
                   "pieHole": ".6",
                   "pieSliceText": "none"
@@ -313,15 +278,6 @@
                 this.set('measures.'+measure+'.chartData', chartData);
                 this.set('measures.'+measure+'.chartOptions', chartOptions);
               }
-              var yearArray = [];
-              for (var measure in response) {
-                if (yearArray.indexOf(response[measure].reportPeriodYear) === -1){
-                yearArray.push(response[measure].reportPeriodYear);
-                }
-
-              }
-              console.log(yearArray);
-              document.querySelector('app-history').set('years', yearArray);
 
             },
 
@@ -334,93 +290,38 @@
 
                 // find appropriate object of additional data
                 var done = false;
+                selectedMeasure=document.getElementById('selectMeasure');
+                //console.log(selectMeasure.value);
                 for (var object = 0; object < response.length && !done; object++) {
-                  var currentObject = response[object];
-                  if (currentObject.id == currentMeasure.measureId) {
+                var currentObject = response[object];
+                console.log(currentObject.nqfId);
+                  if (currentObject.id == currentMeasure.measureId
+                      &&
+                      currentObject.nqfId == selectMeasure.value
+                    ) {
                     done = true;
 
-                    // and add that data to it
+                    //and add that data to it
                     for (var property in currentObject) {
                       var polymerResource = 'measures.' + measure + '.' + property;
                       this.set(polymerResource, currentObject[property]);
                     }
-
                   }
                 }
               }
-              this.setAppHistoryGraph();
-
             },
 
-            setAjaxMeasure: function() {
+            modalMeasuresFunction : function () {
+              modalMeasures=this.measures;
+              selectedMeasure=document.getElementById('selectMeasure').value;
+              console.log(selectedMeasure);
+            },
+
+            loadMeasureList: function() {
               this.$.findMeasureInput.resource = '/common/organization_measure/findAllByOrg/' + document.getElementById('findUserOrganizations').value;
               this.$.findMeasureInput.callBack = this.callBack;
               this.$.findMeasureInput.generateRequest();
             },
-
-            setAppHistoryGraph: function() {
-
-              var orgMeasures = [];
-              for (var measure in this.measures) {
-                var currentMeasure = this.measures[measure];
-                orgMeasures.push(
-                  {
-                    measureName: currentMeasure.name,
-                    measureNQF: currentMeasure.nqfId,
-                    measureDesc: currentMeasure.description,
-                    reportYear: currentMeasure.reportPeriodYear,
-                    reportQuart: currentMeasure.reportPeriodQuarter,
-
-                    raceData:
-                      [
-                        ["test", "Numerator", "Denominator"],
-                        ["African American", currentMeasure.raceAfricanAmericanNum, currentMeasure.raceAfricanAmericanDen],
-                        ["Native American", currentMeasure.raceAmericanIndianNum, currentMeasure.raceAmericanIndianDen],
-                        ["Asian", currentMeasure.raceAsianNum, currentMeasure.raceAsianDen],
-                        ["Native Hawaiian", currentMeasure.raceNativeHawaiianNum, currentMeasure.raceNativeHawaiianDen],
-                        ["White", currentMeasure.raceWhiteNum, currentMeasure.raceWhiteDen],
-                        ["Other", currentMeasure.raceOtherNum, currentMeasure.raceOtherDen]
-                      ],
-
-                    ageData:
-                    [
-                      ["test", "Numerator", "Denominator"],
-                      ["Under 17", currentMeasure.ageUnder17Num, currentMeasure.ageUnder17Den],
-                      ["18-44", currentMeasure.age1844Num, currentMeasure.age1844Den],
-                      ["45-64", currentMeasure.age4564Num, currentMeasure.age4564Den],
-                      ["65+", currentMeasure.ageOver65Num, currentMeasure.ageOver65Den]
-                    ],
-                    genderData:
-                    [
-                      ["test", "Numerator", "Denominator"],
-                      ["Female", currentMeasure.genderFemaleNum, currentMeasure.genderFemaleDen],
-                      ["Male", currentMeasure.genderMaleNum, currentMeasure.genderMaleDen],
-                      ["Other", currentMeasure.genderOtherNum, currentMeasure.genderOtherDen]
-                    ],
-                    ethniData:
-                    [
-                      ["test", "Numerator", "Denominator"],
-                      ["Hispanic", currentMeasure.ethnicityHispanicLatinoNum, currentMeasure.ethnicityHispanicLatinoDen],
-                      ["Not Hispanic", currentMeasure.ethnicityNotHispanicLatinoNum, currentMeasure.ethnicityNotHispanicLatinoDen]
-                    ]
-                  });
-
-                //this.set('raceArray',
-                  // [ ["test", "test", "test"],
-                  //     ["African American", response[measure].raceAfricanAmericanNum, response[measure].raceAfricanAmericanDen],
-                  //     ["Native American", response[measure].raceAmericanIndianNum, response[measure].raceAmericanIndianDen],
-                  //     ["Asian", response[measure].raceAsianNum, response[measure].raceAsianDen],
-                  //     ["Native Hawaiian", response[measure].raceNativeHawaiianNum,response[measure].raceNativeHawaiianDen],
-                  //     ["White", response[measure].raceWhiteNum, response[measure].raceWhiteDen],
-                  //     ["Other", response[measure].raceOtherNum, response[measure].raceOtherDen] ]);
-                };
-                  document.querySelector('app-history-demographics').set('orgMeasCharts', orgMeasures);
-
-
-              console.log(orgMeasures);
-
-
-            }
         });
     })();
 </script>

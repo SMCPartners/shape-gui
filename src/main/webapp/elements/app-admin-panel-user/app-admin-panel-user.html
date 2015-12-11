@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+  <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
 
 
@@ -104,12 +104,12 @@
                         <paper-button raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}">Edit</paper-button>
                     </td>
                     <td>
-                      <div align="center">
+                    <div align="center">
                       <template restamp="true" is="dom-if" if="{{item.active}}">
                         <paper-button align="center" class="green" participant={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
                       </template>
                     </div>
-                      <div align="center">
+                    <div align="center">
                       <template restamp="true" is="dom-if" if="{{!item.active}}">
                         <paper-button align="center" class="red" participant={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
                       </template>
@@ -119,11 +119,13 @@
             </template>
                   <app-admin-add id="inputModal"></app-admin-add>
                   <app-admin-edit id="editModal">
+
                    <!-- username={{modalUserId}}
                     firstname={{modalFirstName}}
                     lastname={{modalLastName}}
                     userrole={{modalUserRole}}
                     userorganization={{modalOrganizationName}} -->
+
                 </app-admin-edit>
             </tbody>
         </table>
@@ -182,6 +184,8 @@
 
             setAjaxActivate: function(e) {
               this.$.ajaxActivateUsers.resource="/admin/activate/" + e.currentTarget.participant.id;
+              console.log(e.currentTarget.participant.id);
+              console.log(this.$.ajaxActivateUsers.resource);
               this.$.ajaxActivateUsers.body = JSON.stringify ({"targetUserId": e.currentTarget.participant.id});
               this.$.ajaxActivateUsers.method="PUT";
               this.$.ajaxActivateUsers.callBack=this.callBackActivate
@@ -308,8 +312,6 @@
             editUserModal: function(e) {
                 //  console.log(e.target.parentNode.getAttribute("modalName")),
                   this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
-
-
                   var userNum = e.target.parentNode.getAttribute('id');
                   this.$.editModal.users = Object.create(this.users[userNum]);
 
@@ -318,6 +320,7 @@
                     //this.modalLastName=e.currentTarget.user.lastName;
                     //this.modalUserRole=e.currentTarget.user.role;
                   //document.querySelector('app-admin-edit').ajaxFindUsers();
+
             },
 
             addUser: function(e){
