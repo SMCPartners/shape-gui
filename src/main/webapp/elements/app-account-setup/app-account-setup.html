@@ -1,0 +1,153 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+
+<dom-module id="app-account-setup">
+    <style>
+        .pms {
+        @apply(--pm-style)
+        }
+
+        paper-dialog {
+          min-height: 300px;
+        }
+
+        .securityQuestion {
+            height: 2.5em;
+            font-size: 1em;
+            background: #FAFAFA;
+            border: none;
+            box-shadow: 1px 1px 1px 1px #9C9C9C;
+            font-size: 16px;
+            padding: 0;
+            margin-right: 24px;
+        }
+
+        .okButton {
+          background-color: #3F51B5;
+          margin-left: 24px;
+          color: white;
+        }
+
+    </style>
+    <template>
+      <paper-input type="oldPassword" value="{{oldPassword}}" placeholder="Old Password"></paper-input>
+      <paper-input type="newPassword" value="{{newPassword}}" placeholder="New Password"></paper-input>
+        <h1>Add Security Questions</h1>
+          <label for="securityQuestion1">Question 1</label>
+          <select id="securityQuestion1" class="securityQuestion">
+            <option id=question1>Who was your second grade teacher?</option>
+            <option id=question2>What was the name of your first pet?</option>
+            <option id=question3>Where did you learn to swim?</option>
+            <option id=question4>What was your favorite high school class?</option>
+            <option id=question5>Where was your first date?</option>
+            <option id=question6>What was your favorite holiday gift?</option>
+          </select>
+          <paper-input placeholder="Answer" value="{{answer1}}"></paper-input>
+          <label for="securityQuestion2">Question 1</label>
+          <select id="securityQuestion2" class="securityQuestion">
+            <option>Who was your second grade teacher?</option>
+            <option>What was the name of your first pet?</option>
+            <option>Where did you learn to swim?</option>
+            <option>What was your favorite high school class?</option>
+            <option>Where was your first date?</option>
+            <option>What was your favorite holiday gift?</option>
+          </select>
+          <paper-input placeholder="Answer" value="{{answer2}}"></paper-input>
+        <paper-button class="submitButton" on-tap="setupAccount">Submit</paper-button>
+        <shape-iron-ajax-helper
+            id="ajaxSetupAccount"
+            resource=""
+            handle-as="json"
+            method="POST"
+            on-response="callBackSetupAccount"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="findUsers"
+            resource="/admin/user/findAll"
+            handle-as="json"
+            on-response="callBackfindUsers"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+    </template>
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-account-setup',
+            properties: {
+                userName: {
+                    type: String,
+                    value: ""
+                },
+                password: {
+                    type: String,
+                    value: ""
+                },
+                email: {
+                    type: String,
+                    value: ""
+                }
+            },
+            ready: function() {
+            },
+
+            ajaxFindUsers: function () {
+                this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
+                this.$.findUsers.callBack=this.callBackfindUsers;
+                this.$.findUsers.generateRequest();
+              },
+
+            callBackfindUsers: function(request) {
+              console.log(request.detail.response);
+              callBackUser=request.detail.response;
+            },
+
+            setupAccount: function (request) {
+                this.$.ajaxSetupAccount.resource="/common/changepassword";
+                this.$.ajaxSetupAccount.body = JSON.stringify ({
+                      "id": document.querySelector('app-login').$.userIdInput.value,
+                      "role": callBackUser.role,
+                      "password": this.oldPassword,
+                      "newPassword" : this.newPassword,
+                      "organizationId": callBackUser.organizationId,
+                      "firstName": callBackUser.firstName,
+                      "lastName": callBackUser.lastName,
+                      "email": callBackUser.email,
+                      "questionOne": callBackUser.questionOne,
+                      "questionTwo": callBackUser.questionTwo,
+                      "answerOne": this.answer1,
+                      "answerTwo" : this.answer2
+              });
+                this.$.ajaxSetupAccount.method="POST";
+                this.$.ajaxSetupAccount.callBack=this.callBackSetupAccount;
+                this.$.ajaxSetupAccount.generateRequest();
+              },
+
+            callBackSetupAccount: function(request) {
+                console.log(request.detail.errMsg);
+                app.select = "main";
+            },
+
+            handleClick: function (e) {
+                var buttonClicked  =e.target.parentElement.id;
+                if (buttonClicked=='username') {
+                    this.$.editUsername.open();
+                 }
+                if (buttonClicked=='resetPassword'){
+                    this.$.changePassword.open();
+                }
+                if (buttonClicked=='email'){
+                    this.$.editEmail.open();
+                }
+                if (buttonClicked=='securityQuestions'){
+                    this.$.editSecurityQuestions.open();
+                }
+            },
+            // closeDialog: function(e) {
+            //   e.target.parentElement.parentElement.close();
+            // }
+        });
+    })();
+</script>

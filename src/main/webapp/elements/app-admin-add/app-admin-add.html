@@ -86,9 +86,6 @@
                     <paper-input label="User Name" value="{{username}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Password" value="{{userPassword}}"></paper-input>
-                </div>
-                <div>
                     <paper-input label="First Name" value="{{userFirstName}}"></paper-input>
                 </div>
                 <div>
@@ -219,7 +216,7 @@
                 this.$.ajaxAddUser.body = JSON.stringify ({
                       "id": this.username,
                       "role": this.$.findUserRole.value,
-                      "password": this.userPassword,
+                      "password": "",
                       "organizationId":this.$.findUserOrganizationId.value,
                       "firstName": this.userFirstName,
                       "lastName": this.userLastName,

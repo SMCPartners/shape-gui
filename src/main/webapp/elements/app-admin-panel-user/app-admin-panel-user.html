@@ -104,12 +104,12 @@
                         <paper-button raised on-tap="editUserModal" user={{item}} modalName="editUser">Edit</paper-button>
                     </td>
                     <td>
-                      <div align="center">
+                    <div align="center">
                       <template restamp="true" is="dom-if" if="{{item.active}}">
                         <paper-button align="center" class="green" participant={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
                       </template>
                     </div>
-                      <div align="center">
+                    <div align="center">
                       <template restamp="true" is="dom-if" if="{{!item.active}}">
                         <paper-button align="center" class="red" participant={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
                       </template>
@@ -182,6 +182,8 @@
 
             setAjaxActivate: function(e) {
               this.$.ajaxActivateUsers.resource="/admin/activate/" + e.currentTarget.participant.id;
+              console.log(e.currentTarget.participant.id);
+              console.log(this.$.ajaxActivateUsers.resource);
               this.$.ajaxActivateUsers.body = JSON.stringify ({"targetUserId": e.currentTarget.participant.id});
               this.$.ajaxActivateUsers.method="PUT";
               this.$.ajaxActivateUsers.callBack=this.callBackActivate

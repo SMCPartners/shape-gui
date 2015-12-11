@@ -161,9 +161,9 @@
                 //     {_id: "2", name: "Organization 2"}
                 // ];
                 this.providers = [
-                    {_id: "1", name: "Provider 1"},
-                    {_id: "2", name: "Provider 2"},
-                    {_id: "2", name: "Provider 3"}
+                  {_id: "1", name: "Provider 1"},
+                  {_id: "2", name: "Provider 2"},
+                  {_id: "2", name: "Provider 3"}
                 ];
                 this.quarters = [
                   {quarter: '1'},
@@ -181,6 +181,7 @@
 
             loadOrgData: function() {
               document.querySelector('app-measure-input').setAjaxMeasure();
+              console.log(document.querySelector('app-history-list-view'));
               document.querySelector('app-profile').organizationID = this.selectedOrganization;
               document.querySelector('app-profile').setajax();
 

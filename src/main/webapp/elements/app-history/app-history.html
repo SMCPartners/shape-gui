@@ -67,15 +67,22 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"><b>Measure:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select id=findMeasures name="measure" style="font: inherit">
+                        <select id="selectMeasure" name="measure" style="font: inherit" on-change="loadMeasureData">
                           <option>Select Measure</option>
                             <template is="dom-repeat" restamp="true" selectedMeasures={{item}} items="{{measures}}">
-                                <option style="font: inherit" value="{{item._id}}">
-                                    NQF <span>{{item.nqf}}</span> <span>{{item.name}}</span>
+                                <option style="font: inherit" value={{item.nqfId}}>
+                                    NQF <span>{{item.id}}</span> <span>{{item.nqfId}}</span> <span>{{item.name}}</span>
                                 </option>
                             </template>
                         </select>
                     </div>
+
+                    <select id=findUserRole style="font: inherit; margin-left:0.5em;">
+                        <option>Select Role</option>
+                        <option value="ADMIN">Admin</option>
+                        <option value="ORG_ADMIN">Organization Admin</option>
+                        <option value="REGISTERED">Registered</option>
+                    </select>
 
                     <!--
                     <select>
@@ -87,7 +94,7 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"> <b>Year:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select name="measure" style="font: inherit">
+                        <select id="selectYear" name="measure" style="font: inherit">
                             <template is="dom-repeat" items="{{years}}">
                                 <option style="font: inherit" value="{{item}}">
                                     <span>{{item}}</span>
@@ -126,7 +133,7 @@
                 </paper-tabs>
                 -->
                 <iron-pages selected="{{selectedView}}">
-                    <app-history-list></app-history-list>
+                    <app-history-list-view></app-history-list-view>
                     <app-history-graph></app-history-graph>
                     <app-history-demographics></app-history-demographics>
                 </iron-pages>
@@ -151,7 +158,10 @@
                     type: String,
                     value: 'Daniel',
                     notify: true
-                }
+                },
+              selectMeasure : {
+                Array
+              }
                 /*stratify: {
                     gender1: "Male",
                     gender2: "Female",
@@ -188,6 +198,27 @@
                 //     {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
                 // ];
                 this.years = ["2015","2014", "2013", "2012", "2011"];
+
+            },
+
+            loadMeasureData: function() {
+              console.log(this.$.appHistoryList);
+              console.log(document.querySelector('app-history-list-view'));
+              console.log(document.querySelector('app-measure-input'));
+
+              document.querySelector('app-history-list-view').loadMeasureList();
+              //var loadMeasureList;
+              // for(var i = 0; i<modalMeasures.length; i++){
+              //   if (modalMeasures[i].id == selectedMeasure){
+              //     loadMeasureList = i;
+              //   };
+              // };
+              // console.log(loadMeasureList);
+              // console.log(i);
+              document.querySelector('app-measure-input').setAjaxMeasure();
+              document.querySelector('app-history-list-view').loadMeasureList();
+              document.querySelector('app-profile').organizationID = this.selectedOrganization;
+              document.querySelector('app-profile').setajax();
 
             },
             /*buildStratify: function (e) {
