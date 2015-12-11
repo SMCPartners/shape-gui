@@ -33,21 +33,29 @@
     <template>
         <div class="pms">
             <paper-material elevation="1">
-
-                <!--paper-button id='username' on-tap="handleClick"> Edit Username </paper-button><br/-->
-
                 <paper-button id='resetPassword' on-tap="handleClick"> Reset Password </paper-button><br/>
-                <paper-button id='email' on-tap="handleClick"> Edit eMail </paper-button><br/>
+                <paper-button id='editEmail' on-tap="handleClick"> Edit eMail</paper-button><br/>
                 <paper-button id='securityQuestions' on-tap="handleClick"> Change Security Questions </paper-button> <br/>
             </paper-material>
         </div>
-        <!--paper-dialog id="editUsername">
-            <paper-input label="User Name" value="{{userName}}"></paper-input>
-        </paper-dialog-->
-        <paper-dialog id="editSecurityQuestions">
+        <paper-dialog id="changePassword">
+            <h1>Reset Password</h1>
+            <paper-input type="password" value="{{oldPassword}}" placeholder="Old password"></paper-input>
+            <paper-input type="password" value="{{newPassword}}" placeholder="New password"></paper-input>
+            <paper-button class="okButton" on-tap="setAjaxChangePassword">OK</paper-button>
+            <paper-button class="okButton" on-tap="closePasswordModal">Close</paper-button>
+        </paper-dialog>
+        <paper-dialog id="editEmailOpen">
+          <h1>Edit Email</h1>
+            <paper-input value="{{email}}" placeholder="email"></paper-input>
+            <paper-button class="okButton" on-tap="setAjaxEditEmail">OK</paper-button>
+            <paper-button class="okButton" on-tap="closeEditEmail">Close</paper-button>
+        </paper-dialog>
+        <paper-dialog id="editQuestionsOpen">
           <h1>Change Security Questions</h1>
           <label for="securityQuestion1">Question 1</label>
           <select id="securityQuestion1" class="securityQuestion">
+            <option selected>{{questionOne}}</option>
             <option>Who was your second grade teacher?</option>
             <option>What was the name of your first pet?</option>
             <option>Where did you learn to swim?</option>
@@ -55,19 +63,52 @@
             <option>Where was your first date?</option>
             <option>What was your favorite holiday gift?</option>
           </select>
-          <paper-input placeholder="Answer"></paper-input>
-          <paper-button class="okButton" on-tap="closeDialog">OK</paper-button>
+          <paper-input placeholder="Answer" value="{{answer1}}"></paper-input>
+          <label for="securityQuestion2">Question 2</label>
+          <select id="securityQuestion2" class="securityQuestion">
+            <option selected>{{questionTwo}}</option>
+            <option>Who was your second grade teacher?</option>
+            <option>What was the name of your first pet?</option>
+            <option>Where did you learn to swim?</option>
+            <option>What was your favorite high school class?</option>
+            <option>Where was your first date?</option>
+            <option>What was your favorite holiday gift?</option>
+          </select>
+          <paper-input placeholder="Answer" value="{{answer2}}"></paper-input>
+          <paper-button class="okButton" on-tap="setAjaxEditQuestions">OK</paper-button>
+          <paper-button class="okButton" on-tap="closeQuestionsModal">Close</paper-button>
         </paper-dialog>
-        <paper-dialog id="changePassword">
-            <h1>Reset Password</h1>
-            <paper-input type="password" value="{{password}}" placeholder="password"></paper-input>
-            <paper-button class="okButton" on-tap="closeDialog">OK</paper-button>
-        </paper-dialog>
-        <paper-dialog id="editEmail">
-          <h1>Edit Email</h1>
-          <paper-input value="{{email}}" placeholder="email"></paper-input>
-          <paper-button class="okButton" on-tap="closeDialog">OK</paper-button>
-        </paper-dialog>
+        <shape-iron-ajax-helper
+            id="ajaxChangePassword"
+            resource=""
+            handle-as="json"
+            method="POST"
+            on-response="callBackChangePassword"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxEditQuestions"
+            resource=""
+            handle-as="json"
+            method="POST"
+            on-response="callBackEditQuestions"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxEditEmail"
+            resource=""
+            handle-as="json"
+            method="POST"
+            on-response="callBackEditEmail"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="findUsers"
+            resource="/admin/user/findAll"
+            handle-as="json"
+            on-response="callBackfindUsers"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -90,24 +131,123 @@
             },
             ready: function() {
             },
+
+            setAjaxChangePassword: function () {
+                this.$.ajaxChangePassword.resource="/common/changepassword";
+                this.$.ajaxChangePassword.body = JSON.stringify ({
+                      "id": document.querySelector('app-login').$.userIdInput.value,
+                      "role": callBackUser.role,
+                      "password": this.oldPassword,
+                      "newPassword" : this.newPassword,
+                      "organizationId": callBackUser.organizationId,
+                      "firstName": callBackUser.firstName,
+                      "lastName": callBackUser.lastName,
+                      "email": callBackUser.email,
+                      "questionOne": callBackUser.questionOne,
+                      "questionTwo": callBackUser.questionTwo,
+                      "answerOne": callBackUser.answerOne,
+                      "answerTwo" : callBackUser.answerTwo
+              });
+                this.$.ajaxChangePassword.method="POST";
+                this.$.ajaxChangePassword.callBack=this.callBackChangePassword;
+                this.$.ajaxChangePassword.generateRequest();
+                this.$.changePassword.toggle();
+              },
+
+            callBackChangePassword: function(request) {
+              console.log(request.detail.response);
+            },
+
+            setAjaxEditEmail: function () {
+                this.$.ajaxEditEmail.resource="/common/account/edit";
+                this.$.ajaxEditEmail.body = JSON.stringify ({
+                      "id": document.querySelector('app-login').$.userIdInput.value,
+                      "role": callBackUser.role,
+                      "password": callBackUser.password,
+                      "organizationId": callBackUser.organizationId,
+                      "firstName": callBackUser.firstName,
+                      "lastName": callBackUser.lastName,
+                      "email": this.email,
+                      "questionOne": callBackUser.questionOne,
+                      "questionTwo": callBackUser.questionTwo,
+                      "answerOne": callBackUser.answerOne,
+                      "answerTwo" : callBackUser.answerTwo,
+                      "active" : true
+              });
+                this.$.ajaxEditEmail.method="POST";
+                this.$.ajaxEditEmail.callBack=this.callBackEditEmail;
+                this.$.ajaxEditEmail.generateRequest();
+                this.$.editEmailOpen.toggle();
+              },
+
+            callBackEditEmail: function(request) {
+              console.log(request.detail.response);
+              },
+
+            callBackEditQuestions: function(request) {
+              console.log(request.detail.response);
+            },
+
+            setAjaxEditQuestions: function () {
+                this.$.ajaxEditQuestions.resource="/common/account/edit";
+                this.$.ajaxEditQuestions.body = JSON.stringify ({
+                      "id": document.querySelector('app-login').$.userIdInput.value,
+                      "role": callBackUser.role,
+                      "password": callBackUser.password,
+                      "organizationId": callBackUser.organizationId,
+                      "firstName": callBackUser.firstName,
+                      "lastName": callBackUser.lastName,
+                      "email": callBackUser.email,
+                      "questionOne": this.$.securityQuestion1.value,
+                      "questionTwo": this.$.securityQuestion2.value,
+                      "answerOne": this.answer1,
+                      "answerTwo" : this.answer2,
+                      "active" : true
+              });
+                this.$.ajaxEditQuestions.method="POST";
+                this.$.ajaxEditQuestions.callBack=this.callBackEditQuestions;
+                this.$.ajaxEditQuestions.generateRequest();
+                this.$.editQuestionsOpen.toggle();
+              },
+
+            closePasswordModal : function () {
+              this.$.changePassword.toggle();
+            },
+
+            closeEditEmail : function () {
+              this.$.editEmailOpen.toggle();
+            },
+
+            closeQuestionsModal : function () {
+              this.$.editQuestionsOpen.toggle();
+            },
+
+            callBackfindUsers: function(request) {
+              callBackUser=request.detail.response;
+            },
+
             handleClick: function (e) {
+                this.email = callBackUser.email;
+                this.questionOne = callBackUser.questionOne;
+                this.questionTwo = callBackUser.questionTwo;
+                this.answer1 = callBackUser.answerOne;
+                this.answer2 = callBackUser.answerTwo;
+                this.email = callBackUser.email;
+                this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
+                this.$.findUsers.callBack=this.callBackfindUsers;
+                console.log(callBackUser);
+                this.$.findUsers.generateRequest();
                 var buttonClicked  =e.target.parentElement.id;
-                if (buttonClicked=='username') {
-                    this.$.editUsername.open();
+                if (buttonClicked=='securityQuestions') {
+                    this.$.editQuestionsOpen.open();
                  }
                 if (buttonClicked=='resetPassword'){
                     this.$.changePassword.open();
                 }
-                if (buttonClicked=='email'){
-                    this.$.editEmail.open();
-                }
-                if (buttonClicked=='securityQuestions'){
-                    this.$.editSecurityQuestions.open();
+                if (buttonClicked=='editEmail'){
+                    this.$.editEmailOpen.open();
                 }
             },
-            closeDialog: function(e) {
-              e.target.parentElement.parentElement.close();
-            }
         });
     })();
 </script>
