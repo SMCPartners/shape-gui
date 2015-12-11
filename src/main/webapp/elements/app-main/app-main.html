@@ -107,7 +107,7 @@
                         <iron-icon icon="menu" paper-drawer-toggle></iron-icon>
                     </button>
                     -->
-                    <span class="title" style="margin-left: 0px;">Hello, Nick</span>
+                    <span class="title" style="margin-left: 0px;">Hello,<span>{{loginName}}</span></span>
                     <!--MUST ADD BACK DATA BINDING FOR USERNAME IN PREVIOUS SPAN TAG-->
                     <paper-icon-button icon="home" on-tap="navigateHome"></paper-icon-button>
 
@@ -208,7 +208,15 @@
             properties: {
                 route: {
                     type: String
+                },
+                loginName: {
+                  type: String,
+                  computed: 'getloginName()'
                 }
+            },
+            getloginName: function (){
+              var loginName =  app.$.loginPage.$.userIdInput.value;
+              return loginName;
             },
             attached: function () {
                 /* Ensures panel hidden on desktop and table */
@@ -234,16 +242,16 @@
             },
             handleAccount: function (e) {
                 this.route = 'account';
-                console.log("It worked for Account!");
+                console.log("");
             },
             handleAdminPanel: function (e) {
                 this.route = 'adminpanel';
-                console.log("It worked for Admin!");
+                console.log("");
                 document.querySelector('app-admin-add').setajaxOrgs();
             },
             navigateHome: function (e) {
                 this.route = 'home';
-                console.log("I'm home!");
+                console.log("");
             }
         });
     })();

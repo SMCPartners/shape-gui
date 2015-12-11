@@ -9,10 +9,14 @@
         }
         h2 {
           padding: 0px 40px 0px 40px;
-        },
+        };
         paper-input {
           padding: 5px 20px 5px 20px;
-        },
+        };
+        .Username{
+          font-weight: bold;
+          color:grey;
+        }
 
     </style>
     <template>
@@ -92,13 +96,14 @@
             </div>
             <div class="childtwo">
                 <div>
-                  <paper-input label="Username" value="{{username}}"></paper-input>
+                <!--  <paper-input label="Username" value="{{username}}" disabled="true"></paper-input>-->
+                <p class="Username">Username: <span>{{users.id}}</span></p>
                 </div>
                 <div>
-                    <paper-input label="First Name" value="{{firstname}}"></paper-input>
+                    <paper-input label="First Name" value="{{users.firstName}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Last Name" value="{{lastname}}"></paper-input>
+                    <paper-input label="Last Name" value="{{users.lastName}}"></paper-input>
                 </div>
                 <div>
                     <select id=findUserRole style="font: inherit; margin-left:0.5em;">
@@ -233,7 +238,7 @@
 
                 if (inputModalName == 'editUser') {
                 this.$.editUser.open();
-                };
+            };
 
             },
             callback: function() {
@@ -315,27 +320,27 @@
             ajaxEditUser: function (e) {
                 editUserPassword=document.getElementById('passwordInput').value;
                 this.$.ajaxEditUser.body = JSON.stringify({
-                  "id" : this.username,
-                  "admin" : true,
-                  "active" : true,
-                  "resetPwd" : true,
-                  "createDt" : "2015-11-10",
+                  "id" : this.users.id,
+                  "admin" : this.users.admin,
+                  "active" : this.users.active,
+                  "resetPwd" : this.users.resetPwd,
+                  "modifiedDt" : "",
+                  "modifiedBy" : app.$.loginPage.$.userIdInput.value,
                   "role" : this.$.findUserRole.value,
-                  "organizationId" : userOrganizationId,
-                  "firstName" : this.firstname,
-                  "lastName" : this.lastname,
-                  "email" : this.email
+                  "organizationId" : this.users.organizationId,
+                  "firstName" : this.users.firstName,
+                  "lastName" : this.users.lastName,
+                  "email" : this.users.email
                 });
-                console.log(userOrganizationId);
-                console.log(this.$.ajaxEditUser.body);
-                console.log(this.$.findUserRole.value);
-                console.log(this.organization.id);
-                console.log(e.currentTarget);
+                 console.log(this.users.organizationId);
+                 console.log(this.$.ajaxEditUser.body);
+                 console.log(this.$.findUserRole.value);
+              // console.log(e.currentTarget);
                 this.$.ajaxEditUser.generateRequest();
-                console.log(this.$.ajaxEditUser.body);
+                // app.$.
+                document.querySelector('app-admin-panel').loadTable();
                 this.$.editUser.close();
-                document.querySelector('app-admin-panel').loadOrgTable();
-            },
+              },
             userCallBack: function(){
                 this.$.editOrganization.close();
                 document.querySelector('app-admin-panel').loadTable();
