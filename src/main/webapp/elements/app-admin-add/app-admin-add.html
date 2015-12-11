@@ -305,6 +305,10 @@
             },
 
             addButton: function(inputModalName) {
+                for (var i in this.providerData) {
+                  this.set('providerData.' + i, '');
+                }
+
                 this.setajaxOrgs();
 
                 if (inputModalName == 'addProvider') {
