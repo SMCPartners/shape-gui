@@ -119,6 +119,7 @@
               this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
               this.$.findUsers.callBack=this.callBackfindUsers;
               this.$.findUsers.generateRequest();
+              app.$.mainPage.getloginName();
             },
 
             callBackfindUsers: function(request) {
