@@ -4,28 +4,56 @@
 
 <dom-module id="app-history-demographics">
     <style>
-        google-chart {
-          margin: 50
+      google-chart {
+        display: inline-block;
+        margin: auto;
+        height: auto;
+        width:  auto;
+        padding: 40px 100px 150px 100px;
 
-        }
+
+      }
+
     </style>
     <template>
-      <template is='dom-repeat' items="{{racePrevalence}}" as="measure">
-        <div class="pms">
-                <!--div>
-                    <app-diffpie-chart newData='{{newData}}' oldData='{{oldData}}'></app-diffpie-chart>
-                </div-->
-                <div>
-                    <google-chart
-                            type='bar'
-                            options='{"title": "Aggregate Measure Performance"}'
-                            data='{{measure}}'
-                            width='800'>
-                            
+      <template is='dom-repeat' items='{{orgMeasCharts}}' filter="{{_filter(filterVal)}}">
+
+        <paper-material>
+          <h1>NQF ID: <span>{{item.measureNQF}}</span><br><span>{{item.measureName}}</span></h1>
+                    <h2>Race</h2>
+                      <google-chart
+                      type='column'
+                      data='{{item.raceData}}'>
                     </google-chart>
-                </div>
-        </div>
-      </template>
+
+                    <h2>Age</h2>
+                    <google-chart
+                      type='column'
+                      data='{{item.ageData}}'>
+                    </google-chart>
+                    <h2>Ethnicity</h2>
+                    <google-chart
+                      type='column'
+                      data='{{item.ethniData}}'>
+                    </google-chart>
+                    <h2>Gender</h2>
+                    <google-chart
+                      type='column'
+                      data='{{item.genderData}}'>
+                    </google-chart>
+        </paper-material>
+
+                    <!-- <google-chart
+                        type='column'
+                        options='{"title": "Inventory"}'
+                        data='[
+                              [ ["Year", "Things", "Stuff"],
+                               ["2004", 1000, 400],
+                               ["2005", 1170, 460],
+                               ["2006", 660, 1120],
+                               ["2007", 1030, 540] ]'>
+                    </google-chart> -->
+     </template>
 
     </template>
 </dom-module>
@@ -34,12 +62,23 @@
         Polymer({
             is: 'app-history-demographics',
             properties: {
+              filterVal: "defaultFilter"
             },
             ready: function() {
 
-            this.racePrevalence = [];
+            this.orgMeasCharts = [];
 
             },
+            // _filter: function(val) {
+            //     return function(orgMeasCharts) {
+            //         // if (!val) return true;
+            //         // if (!orgMeasCharts) return false;
+            //         // return(orgMeasCharts.reportYear && ~orgMeasCharts.reportYear.indexOf(val));
+            //         console.log(orgMeasCharts.reportYear === app.$.mainPage.$.dashboard.$.history.$.yearSelect.value && orgMeasCharts.measureNQF === app.$.mainPage.$.dashboard.$.history.$.measureSelect.value);
+            //         return (orgMeasCharts.reportYear === app.$.mainPage.$.dashboard.$.history.$.yearSelect.value && orgMeasCharts.measureNQF === app.$.mainPage.$.dashboard.$.history.$.measureSelect.value)
+            //         // return true;
+            //    };
+            //  }
         });
     })();
 

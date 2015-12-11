@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/polymer/polymer.html"> -->
 <link rel="import" href="../elements.html">
 
 
@@ -86,13 +86,15 @@
                     <paper-button raised class="child" on-tap="closeModal" modalName="closeOrgModal">Cancel</paper-button>
                 </div>
         </paper-dialog>
+
+
         <paper-dialog id="editUser" class="size-position modalBox">
             <div>
                 <h2>Edit User Information</h2>
             </div>
             <div class="childtwo">
                 <div>
-                  <paper-input label="Username" value="{{username}}"></paper-input>
+                  <paper-input label="Username" value="{{users.username}}"></paper-input>
                 </div>
                 <div>
                     <paper-input label="First Name" value="{{firstname}}"></paper-input>
@@ -120,6 +122,9 @@
                 <paper-button raised class="child" on-tap="closeModal" modalName="closeUserModal">Cancel</paper-button>
             </div>
         </paper-dialog>
+
+
+
         <paper-dialog id="editMeasure" class="size-position modalBox">
             <div>
                 <h2>Edit Measure Information</h2>
@@ -252,7 +257,10 @@
                 };
 
                 if (closeModalName == 'closeOrgModal') {
+                    //document.querySelector('app-admin-panel').loadOrgTable();
+                    this.organization = {};
                     this.$.editOrganization.close();
+
                 };
 
                 if (closeModalName == 'closeMeasureModal') {
@@ -290,8 +298,9 @@
                 });
                 this.$.ajaxEditOrganization.generateRequest();
                 console.log(this.$.ajaxEditOrganization.body);
-                this.$.editOrganization.close();
                 document.querySelector('app-admin-panel').loadOrgTable();
+                this.$.editOrganization.close();
+
             },
             organizationCallBack: function(){
                 this.$.editOrganization.close();

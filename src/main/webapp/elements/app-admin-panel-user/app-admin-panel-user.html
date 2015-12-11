@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+  <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
 
 
@@ -118,12 +118,12 @@
                 </tr>
             </template>
                   <app-admin-add id="inputModal"></app-admin-add>
-                  <app-admin-edit id="editModal"
-                    username={{modalUserId}}
+                  <app-admin-edit id="editModal">
+                    <!-- username={{modalUserId}}
                     firstname={{modalFirstName}}
                     lastname={{modalLastName}}
                     userrole={{modalUserRole}}
-                    userorganization={{modalOrganizationName}}>
+                    userorganization={{modalOrganizationName}}> -->
                 </app-admin-edit>
             </tbody>
         </table>
@@ -302,10 +302,10 @@
             editUserModal: function(e) {
                   console.log(e.target.parentNode.getAttribute("modalName")),
                   this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
-                  this.modalUserId=e.currentTarget.user.id;
-                  this.modalFirstName=e.currentTarget.user.firstName;
-                  this.modalLastName=e.currentTarget.user.lastName;
-                  this.modalUserRole=e.currentTarget.user.role;
+                  var userNum = e.target.parentnode.getAttribute('id');// this.modalUserId=e.currentTarget.user.id;
+                  // this.modalFirstName=e.currentTarget.user.firstName;
+                  // this.modalLastName=e.currentTarget.user.lastName;
+                  // this.modalUserRole=e.currentTarget.user.role;
                   document.querySelector('app-admin-edit').ajaxFindUsers();
             },
 

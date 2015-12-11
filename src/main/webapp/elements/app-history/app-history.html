@@ -67,10 +67,10 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"><b>Measure:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select id=findMeasures name="measure" style="font: inherit">
+                        <select id="measureSelect" name="measure" style="font: inherit"  value="{{this.$.histographic.measureFilter::change}}">
                           <option>Select Measure</option>
                             <template is="dom-repeat" restamp="true" selectedMeasures={{item}} items="{{measures}}">
-                                <option style="font: inherit" value="{{item._id}}">
+                                <option style="font: inherit" value="{{item.nqfId}}">
                                     NQF <span>{{item.nqf}}</span> <span>{{item.name}}</span>
                                 </option>
                             </template>
@@ -87,8 +87,9 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"> <b>Year:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select name="measure" style="font: inherit">
-                            <template is="dom-repeat" items="{{years}}" sort="{{sortFunction(sortVal)}}">
+                        <!--select name="measure" style="font: inherit"-->
+                        <select id="yearSelect" value="{{this.$.histographic.yearFilter::change}}">
+                            <template is="dom-repeat" items="{{years}}">
                                 <option style="font: inherit" value="{{item}}">
                                     <span>{{item}}</span>
                                 </option>
@@ -128,7 +129,7 @@
                 <iron-pages selected="{{selectedView}}">
                     <app-history-list></app-history-list>
                     <app-history-graph></app-history-graph>
-                    <app-history-demographics></app-history-demographics>
+                    <app-history-demographics id="histographic"></app-history-demographics>
                 </iron-pages>
             </div>
         </div>
@@ -189,9 +190,13 @@
                 // ];
                 this.years = [];
 
+
             },
             sortFunction: function(sortVal) {
               return [a] < [b] ? 1 : -1;
+            },
+            computeFilter: function () {
+
             }
             /*buildStratify: function (e) {
 
