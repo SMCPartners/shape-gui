@@ -68,33 +68,57 @@
         flex: 1 1 auto;
         align-self: auto;
         }
+
+        .green, .red {
+          color: white;
+          align-self: center;
+          width: 85px;
+          margin: 2%;
+        }
+
+        .green {
+          background-color: green;
+        };
+
+        .red {
+          background-color: red;
+        };
     </style>
-    <shape-iron-ajax-helper
-        id="ajaxActivateProvider"
-        resource=""
-        body=""
-        method=""
-        handle-as="json"
-        on-response="callBackActivate"
-        debounce-duration="300">
-    </shape-iron-ajax-helper>
-    <shape-iron-ajax-helper
-        id="ajaxActivateProvider"
-        resource=""
-        body=""
-        method=""
-        handle-as="json"
-        on-response="callBackInactivate"
-        debounce-duration="300">
     </shape-iron-ajax-helper>
     <template>
       <shape-iron-ajax-helper
           id="findProviders"
-          resource="/admin/provider/findAll"
+          resource="/common/provider/findAll"
           handle-as="json"
           on-response="callBack"
           debounce-duration="300">
       </shape-iron-ajax-helper>
+      <shape-iron-ajax-helper
+          id="ajaxActivateProvider"
+          resource=""
+          body=""
+          method=""
+          handle-as="json"
+          on-response="callBackActivate"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
+      <shape-iron-ajax-helper
+          id="ajaxInactivateProvider"
+          resource=""
+          body=""
+          method=""
+          handle-as="json"
+          on-response="callBackInactivate"
+          debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="getOrgNames"
+            resource="/admin/organization/findAll"
+            on-response="getOrgNamesCallBack"
+            handle-as="json"
+            debounce-duration="300">
+          </shape-iron-ajax-helper>
+
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class='flex-item'>
                 <input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
@@ -111,19 +135,29 @@
                 <col span="1" style="width:6%">
             </colgroup> -->
             <thead>
-                <th sortingGroup="firstName" on-tap="selectFunction">First Name</th>
-                <th sortingGroup="lastName" on-tap="selectFunction">Last Name</th>
-                <th sortingGroup="npiNum" on-tap="selectFunction">NPI</th>
+                <!-- sorting not working on npi -->
+                <th sortingGroup="name" on-tap="selectFunction">Name</th>
+                <th sortingGroup="npi" on-tap="selectFunction">NPI</th>
                 <th sortingGroup="organization" on-tap="selectFunction">Organization</th>
+                <th sortingGroup="active" on-tap="selectFunction">Status</th>
                 <th></th>
             </thead>
             <tbody>
             <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
-                <tr>
-                    <td><span>{{item.firstName}}</span></td>
-                    <td><span>{{item.lastName}}</span></td>
-                    <td><span>{{item.npiNum}}</span></td>
+                <tr data-id$="{{item.id}}">
+                    <td><span>{{item.name}}</span></td>
+                    <td><span>{{item.npi}}</span></td>
                     <td><span>{{item.organization}}</span></td>
+                    <td>
+
+                      <template restamp="true" is="dom-if" if="{{item.active}}">
+                        <paper-button align="center" class="green activeButton" providers={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
+                      </template>
+                      <template restamp="true" is="dom-if" if="{{!item.active}}">
+                        <paper-button align="center" class="red activeButton" providers={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
+                      </template>
+
+                    </td>
                     <td style="font-size: 12px">
                         <div class="editButton">
                             <paper-button raised on-tap="editProvider" modalName="editProvider">Edit</paper-button>
@@ -152,48 +186,12 @@
             lastSortVal: "firstName"
             },
 
-            ready: function() {
-            this.providers=[
-                            {
-                              firstName: 'Nick',
-                              lastName: 'Martinez',
-                              npiNum: '123456789',
-                              organization: 'SMC Partners'
-                            },
-                            {
-                              firstName: 'Gregory',
-                              lastName: 'House',
-                              npiNum: '565456879',
-                              organization: 'Princeton'
-                            },
-                            {
-                              firstName: 'Harrison',
-                              lastName: 'Ford',
-                              npiNum: '123456789',
-                              organization: 'StarWars'
-                            },
-                            {
-                              firstName: 'Xavier',
-                              lastName: 'Coleston',
-                              npiNum: '095809860',
-                              organization: 'Jesey Shore'
-                            },
-                            {
-                              firstName: 'Anrgry',
-                              lastName: 'Bird',
-                              npiNum: '234456753',
-                              organization: 'SMC Partners'
-                            }
-            ];
-            },
-
             _filter: function(val) {
                 return function(provider) {
                     if (!val) return true;
                     if (!provider) return false;
-                    return (provider.firstName && ~provider.firstName.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (provider.lastName && ~provider.lastName.toLowerCase().indexOf(val.toLowerCase())) ||
-                            (provider.NPI && ~provider.NPI.toLowerCase().indexOf(val.toLowerCase())) ||
+                    return (provider.name && ~provider.name.toLowerCase().indexOf(val.toLowerCase())) ||
+                            (provider.npi && ~provider.npi.toString().indexOf(val.toLowerCase())) ||
                             (provider.organization && ~provider.organization.toLowerCase().indexOf(val.toLowerCase()));
                };
             },
@@ -207,7 +205,7 @@
               if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
                   this.sortReverse = true;
                   this.sortVal = val.toUpperCase();
-                  this.lastSortVal = val.toUpperCase;
+                  this.lastSortVal = val.toUpperCase();
                   }
               else
                 {
@@ -222,38 +220,36 @@
               },
 
               setAjaxActivate: function(e) {
-                this.$.ajaxActivateOrg.resource="/admin/organization/activate/";
-                this.$.ajaxActivateOrg.body = JSON.stringify ({"entId": e.currentTarget.organizations.id});
-                this.$.ajaxActivateOrg.method="POST";
-                this.$.ajaxActivateOrg.callBack=this.callBackActivate
-                this.$.ajaxActivateOrg.generateRequest();
+                this.$.ajaxActivateProvider.resource="/admin/provider/activate";
+                this.$.ajaxActivateProvider.body = JSON.stringify ({"entId": e.currentTarget.providers.id});
+                this.$.ajaxActivateProvider.method="POST";
+                this.$.ajaxActivateProvider.callBack=this.callBackActivate;
+                this.$.ajaxActivateProvider.generateRequest();
                 activeIndicator=e.currentTarget;
               },
 
               setAjaxInactivate: function(e) {
-                this.$.ajaxInactivateOrg.resource="/admin/organization/inactivate/";
-                this.$.ajaxInactivateOrg.body = JSON.stringify ({"entId": e.currentTarget.organizations.id});
-                this.$.ajaxInactivateOrg.method="POST";
-                this.$.ajaxInactivateOrg.callBack=this.callBackInactivate
-                this.$.ajaxInactivateOrg.generateRequest();
+                this.$.ajaxInactivateProvider.resource="/admin/provider/inactivate";
+                this.$.ajaxInactivateProvider.body = JSON.stringify ({"entId": e.currentTarget.providers.id});
+                this.$.ajaxInactivateProvider.method="POST";
+                this.$.ajaxInactivateProvider.callBack=this.callBackInactivate;
+                this.$.ajaxInactivateProvider.generateRequest();
                 activeIndicator=e.currentTarget;
               },
 
               callBackActivate: function(request) {
-                  console.log(request);
-                  for(var i = 0; i<this.organization.length; i++){
-                    if (this.organization[i].id == activeIndicator.organizations.id){
-                      stringPath= 'organization.'+i+'.active';
+                  for(var i = 0; i<this.providers.length; i++){
+                    if (this.providers[i].id == activeIndicator.providers.id){
+                      var stringPath= 'providers.'+i+'.active';
                       this.set(stringPath, true);
                     };
                   };
               },
 
               callBackInactivate: function(request) {
-                console.log(request);
-                 for(var i = 0; i<this.organization.length; i++){
-                   if (this.organization[i].id == activeIndicator.organizations.id){
-                     stringPath= 'organization.'+i+'.active';
+                 for(var i = 0; i<this.providers.length; i++){
+                   if (this.providers[i].id == activeIndicator.providers.id){
+                     var stringPath= 'providers.'+i+'.active';
                      this.set(stringPath, false);
                    };
                  };
@@ -264,15 +260,27 @@
                   console.log("sortReverse is " + this.sortReverse)
                   if (this.sortReverse) {
                             return function(a, b) {
-                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
-                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? 1 : -1;
+                            a = a[clicked];
+                            b = b[clicked];
+                            if (typeof a == 'string') {
+                              a = a.toLowerCase();
+                              b = b.toLowerCase();
+                            }
+                            if (a === b) return 0;
+                            return a < b ? 1 : -1;
                           }
                       }
 
                       else {
                             return function(a, b) {
-                            if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
-                            return a[clicked].toLowerCase() < b[clicked].toLowerCase() ? -1 : 1;
+                            a = a[clicked];
+                            b = b[clicked];
+                            if (typeof a == 'string') {
+                              a = a.toLowerCase();
+                              b = b.toLowerCase();
+                            }
+                            if (a === b) return 0;
+                            return a < b ? -1 : 1;
                       };
                     }
              },
@@ -282,17 +290,51 @@
              },
 
             callBack: function(request) {
-              console.log(request.detail.response);
-              this.provider = request.detail.response;
+              this.set('providers', request.detail.response);
+              this.$.getOrgNames.generateRequest();
+            },
+
+            getOrgNamesCallBack: function(request) {
+              var response = request.detail.response;
+              for (var provider in this.providers) {
+                var currentProvider = this.providers[provider];
+                var done = false;
+                for (var org = 0; org < response.length && !done; org ++) {
+                  var currentOrg = response[org];
+                  if (currentProvider.organizationId == currentOrg.id) {
+                    done = true;
+                    this.set('providers.'+provider+'.organization', currentOrg.name);
+                  }
+                }
+              }
             },
 
             editProvider: function(e) {
-                this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+              var providerId = this.findAncestor(e.target, 'tr').dataset.id;
+              for (var provider in this.providers) {
+                if (this.providers[provider].id == providerId) {
+                  var providerData = this.providers[provider];
+                }
+              }
+              this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"), providerData);
             },
 
             addProvider: function(e){
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
             },
+            findAncestor: function(element, query) {
+              do {
+                element = element.parentElement;
+              } while (element && !this.elementMatches(element, query))
+              return element;
+            },
+            elementMatches: function(element, query) {
+              var siblingMatches = element.parentElement.querySelectorAll(query)
+              for (var match = 0; match < siblingMatches.length; match++) {
+                if (siblingMatches[match] == element) return true;
+              }
+              return false;
+            }
         });
 })();
 </script>

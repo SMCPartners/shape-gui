@@ -94,7 +94,7 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"> <b>Year:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select id="selectYear" name="measure" style="font: inherit">
+                        <select id="selectYear" style="font: inherit">
                             <template is="dom-repeat" items="{{years}}">
                                 <option style="font: inherit" value="{{item}}">
                                     <span>{{item}}</span>
@@ -135,7 +135,7 @@
                 <iron-pages selected="{{selectedView}}">
                     <app-history-list-view></app-history-list-view>
                     <app-history-graph></app-history-graph>
-                    <app-history-demographics></app-history-demographics>
+                    <app-history-demographics id="histographic"></app-history-demographics>
                 </iron-pages>
             </div>
         </div>
@@ -197,10 +197,10 @@
                 //     {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
                 //     {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
                 // ];
-                this.years = ["2015","2014", "2013", "2012", "2011"];
+                this.years = [];
+
 
             },
-
             loadMeasureData: function() {
               console.log(this.$.appHistoryList);
               console.log(document.querySelector('app-history-list-view'));

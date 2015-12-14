@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+<!-- <link rel="import" href="../../bower_components/polymer/polymer.html"> -->
 <link rel="import" href="../elements.html">
 
 
@@ -9,10 +9,27 @@
         }
         h2 {
           padding: 0px 40px 0px 40px;
-        },
+        };
         paper-input {
           padding: 5px 20px 5px 20px;
-        },
+        };
+        .Username{
+          font-weight: bold;
+          color:grey;
+        }
+
+        select[selected] {
+            border: none;
+        }
+        select {
+            height: 2.5em;
+            font-size: 1em;
+            background: white;
+            border: none;
+        }
+        select[focused] {
+            border: none;
+        }
 
     </style>
     <template>
@@ -22,16 +39,19 @@
             </div>
             <div class="childtwo">
                 <div>
-                    <paper-input label="First Name" value="{{firstName}}"></paper-input>
+                    <paper-input label="Name" value="{{providerData.name}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Last Name" value="{{lastName}}"></paper-input>
+                    <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="NPI" value="{{NPI}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Organization" value="{{organization}}"></paper-input>
+                  <label><strong>Organization</strong>:
+                    <select id="providerOrgSelect">
+                      <template is="dom-repeat" items="{{organizations}}">
+                          <option>{{item.name}}</option>
+                      </template>
+                    </select>
+                  </label>
                 </div>
             </div>
             <div class="parenttwo">
@@ -86,19 +106,21 @@
                     <paper-button raised class="child" on-tap="closeModal" modalName="closeOrgModal">Cancel</paper-button>
                 </div>
         </paper-dialog>
+
+
         <paper-dialog id="editUser" class="size-position modalBox">
             <div>
                 <h2>Edit User Information</h2>
             </div>
             <div class="childtwo">
                 <div>
-                  <paper-input label="Username" value="{{username}}"></paper-input>
+                <p class="Username">Username: <span>{{users.id}}</span></p>
                 </div>
                 <div>
-                    <paper-input label="First Name" value="{{firstname}}"></paper-input>
+                    <paper-input label="First Name" value="{{users.firstName}}"></paper-input>
                 </div>
                 <div>
-                    <paper-input label="Last Name" value="{{lastname}}"></paper-input>
+                    <paper-input label="Last Name" value="{{users.lastName}}"></paper-input>
                 </div>
                 <div>
                     <select id=findUserRole style="font: inherit; margin-left:0.5em;">
@@ -120,6 +142,9 @@
                 <paper-button raised class="child" on-tap="closeModal" modalName="closeUserModal">Cancel</paper-button>
             </div>
         </paper-dialog>
+
+
+
         <paper-dialog id="editMeasure" class="size-position modalBox">
             <div>
                 <h2>Edit Measure Information</h2>
@@ -171,6 +196,14 @@
             on-response="callBackUser"
             debounce-duration="300">
         </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxEditProvider"
+            resource="/admin/provider/edit"
+            handle-as="json"
+            method="POST"
+            debounce-duration="300"
+            on-response="editProviderCallback">
+        </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -217,24 +250,31 @@
                 this.organizations=request.detail.response;
             },
 
-            editButton: function(inputModalName) {
+            editButton: function(inputModalName, data) {
                 this.getData();
                 if (inputModalName == 'editProvider') {
-                this.$.editProvider.open();
-                };
+                  this.set('providerData', {});
+                  for (var i in data) {
+                    this.set('providerData.' + i, data[i]);
+                  }
+                  this.$.providerOrgSelect.value = data.organization;
+                  console.log('providerData', this.providerData);
+
+                  this.$.editProvider.open();
+                }
 
                 if (inputModalName == 'editOrganization') {
-                this.$.editOrganization.open();
-                };
+                  this.$.editOrganization.open();
+                }
 
                 if (inputModalName == 'editMeasure') {
-                this.$.editMeasure.open();
-                };
+                  this.$.editMeasure.open();
+                }
 
                 if (inputModalName == 'editUser') {
-                this.$.editUser.open();
-                };
 
+                  this.$.editUser.open();
+                };
             },
             callback: function() {
               //refreshTableName = e.target.parentNode.getAttribute("id");
@@ -252,7 +292,10 @@
                 };
 
                 if (closeModalName == 'closeOrgModal') {
+                    //document.querySelector('app-admin-panel').loadOrgTable();
+                    this.organization = {};
                     this.$.editOrganization.close();
+
                 };
 
                 if (closeModalName == 'closeMeasureModal') {
@@ -265,14 +308,33 @@
             },
 
             logProvider: function (e) {
-                var formSubmitProvider = [
-                {'firstName': this.firstName,
-                'lastName': this.lastName,
-                'NPI': this.NPI,
-                'organization': this.organization
-                }];
-                this.$.editProvider.toggle(),
-                console.log(formSubmitProvider)
+              var selectChoice = this.$.providerOrgSelect.value;
+              for (var org in this.organizations) {
+                if (this.organizations[org].name == selectChoice) {
+                  var orgId = this.organizations[org].id;
+                  break;
+                }
+              }
+              this.providerData.organizationId = orgId;
+              this.providerData.organization = selectChoice;
+              this.$.ajaxEditProvider.body = JSON.stringify({
+                id: this.providerData.id,
+                name: this.providerData.name,
+                active: this.providerData.active,
+                npi: this.providerData.npi,
+                organizationId: this.providerData.organizationId
+              });
+              this.$.ajaxEditProvider.generateRequest();
+
+              var providerPanel = document.querySelector('app-admin-panel-provider');
+              for (var providerIndex in providerPanel.providers) {
+                if (providerPanel.providers[providerIndex].id == this.providerData.id) {
+                  break;
+                }
+              }
+              providerPanel.set('providers.' + providerIndex, Object.create(this.providerData));
+
+              this.$.editProvider.toggle();
 
             },
             logOrganization: function (e) {
@@ -290,8 +352,9 @@
                 });
                 this.$.ajaxEditOrganization.generateRequest();
                 console.log(this.$.ajaxEditOrganization.body);
-                this.$.editOrganization.close();
                 document.querySelector('app-admin-panel').loadOrgTable();
+                this.$.editOrganization.close();
+
             },
             organizationCallBack: function(){
                 this.$.editOrganization.close();
@@ -315,31 +378,34 @@
             ajaxEditUser: function (e) {
                 editUserPassword=document.getElementById('passwordInput').value;
                 this.$.ajaxEditUser.body = JSON.stringify({
-                  "id" : this.username,
-                  "admin" : true,
-                  "active" : true,
-                  "resetPwd" : true,
-                  "createDt" : "2015-11-10",
+                  "id" : this.users.id,
+                  "admin" : this.users.admin,
+                  "active" : this.users.active,
+                  "resetPwd" : this.users.resetPwd,
+                  "modifiedDt" : "",
+                  "modifiedBy" : app.$.loginPage.$.userIdInput.value,
                   "role" : this.$.findUserRole.value,
-                  "organizationId" : userOrganizationId,
-                  "firstName" : this.firstname,
-                  "lastName" : this.lastname,
-                  "email" : this.email
+                  "organizationId" : this.users.organizationId,
+                  "firstName" : this.users.firstName,
+                  "lastName" : this.users.lastName,
+                  "email" : this.users.email
                 });
-                console.log(userOrganizationId);
-                console.log(this.$.ajaxEditUser.body);
-                console.log(this.$.findUserRole.value);
-                console.log(this.organization.id);
-                console.log(e.currentTarget);
+                 console.log(this.users.organizationId);
+                 console.log(this.$.ajaxEditUser.body);
+                 console.log(this.$.findUserRole.value);
+              // console.log(e.currentTarget);
                 this.$.ajaxEditUser.generateRequest();
-                console.log(this.$.ajaxEditUser.body);
+                // app.$.
+                document.querySelector('app-admin-panel').loadTable();
                 this.$.editUser.close();
-                document.querySelector('app-admin-panel').loadOrgTable();
-            },
+              },
             userCallBack: function(){
                 this.$.editOrganization.close();
                 document.querySelector('app-admin-panel').loadTable();
             },
+            editProviderCallback: function() {
+              document.querySelector('app-admin-panel-provider').$.findProviders.generateRequest();
+            }
         });
     })();
 </script>

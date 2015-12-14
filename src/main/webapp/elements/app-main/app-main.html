@@ -107,7 +107,7 @@
                         <iron-icon icon="menu" paper-drawer-toggle></iron-icon>
                     </button>
                     -->
-                    <span class="title" style="margin-left: 0px;">Hello, Nick</span>
+                    <span class="title" style="margin-left: 0px;">Hello,&nbsp;<span>{{loginName}}</span></span>
                     <!--MUST ADD BACK DATA BINDING FOR USERNAME IN PREVIOUS SPAN TAG-->
                     <paper-icon-button icon="home" on-tap="navigateHome"></paper-icon-button>
 
@@ -143,7 +143,7 @@
                 <iron-pages attr-for-selected="data-route" selected="{{route}}">
                     <section data-route="home">
                         <paper-materials>
-                            <app-dashboard></app-dashboard>
+                            <app-dashboard id="dashboard"></app-dashboard>
                         </paper-material>
                     </section>
 
@@ -210,6 +210,9 @@
                     type: String
                 }
             },
+            getloginName: function (){
+              this.loginName = app.$.loginPage.$.userIdInput.value;
+            },
             attached: function () {
                 /* Ensures panel hidden on desktop and table */
                 //this.$.paperDrawerPanel.forceNarrow = true;
@@ -234,16 +237,16 @@
             },
             handleAccount: function (e) {
                 this.route = 'account';
-                console.log("It worked for Account!");
+                console.log("");
             },
             handleAdminPanel: function (e) {
                 this.route = 'adminpanel';
-                console.log("It worked for Admin!");
+                console.log("");
                 document.querySelector('app-admin-add').setajaxOrgs();
             },
             navigateHome: function (e) {
                 this.route = 'home';
-                console.log("I'm home!");
+                console.log("");
             }
         });
     })();

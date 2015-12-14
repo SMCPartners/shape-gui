@@ -1,4 +1,4 @@
-<link rel="import" href="../../bower_components/polymer/polymer.html">
+  <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
 
 
@@ -101,7 +101,7 @@
                     <td><span>{{item.role}}</span></td>
                     <td><span>{{item.organizationName}}</span></td>
                     <td style="font-size: 1em;">
-                        <paper-button raised on-tap="editUserModal" user={{item}} modalName="editUser">Edit</paper-button>
+                        <paper-button raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}">Edit</paper-button>
                     </td>
                     <td>
                     <div align="center">
@@ -118,12 +118,14 @@
                 </tr>
             </template>
                   <app-admin-add id="inputModal"></app-admin-add>
-                  <app-admin-edit id="editModal"
-                    username={{modalUserId}}
+                  <app-admin-edit id="editModal">
+
+                   <!-- username={{modalUserId}}
                     firstname={{modalFirstName}}
                     lastname={{modalLastName}}
                     userrole={{modalUserRole}}
-                    userorganization={{modalOrganizationName}}>
+                    userorganization={{modalOrganizationName}} -->
+
                 </app-admin-edit>
             </tbody>
         </table>
@@ -273,6 +275,12 @@
             callBack: function(request) {
               console.log(request.detail.response);
               this.users = request.detail.response;
+              //loop to add an inde value to each object in the this.Users.Array
+              for (i = 0 ; i < this.users.length; i ++)
+              {
+                this.users[i].index = i;
+                console.log(this.users[i].index);
+              };
             },
             ready: function() {
               //this.setajax();
@@ -302,13 +310,17 @@
             },
 
             editUserModal: function(e) {
-                  console.log(e.target.parentNode.getAttribute("modalName")),
+                //  console.log(e.target.parentNode.getAttribute("modalName")),
                   this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
-                  this.modalUserId=e.currentTarget.user.id;
-                  this.modalFirstName=e.currentTarget.user.firstName;
-                  this.modalLastName=e.currentTarget.user.lastName;
-                  this.modalUserRole=e.currentTarget.user.role;
-                  document.querySelector('app-admin-edit').ajaxFindUsers();
+                  var userNum = e.target.parentNode.getAttribute('id');
+                  this.$.editModal.users = Object.create(this.users[userNum]);
+
+                    //this.modalUserId=e.currentTarget.user.id;
+                    //this.modalFirstName=e.currentTarget.user.firstName;
+                    //this.modalLastName=e.currentTarget.user.lastName;
+                    //this.modalUserRole=e.currentTarget.user.role;
+                  //document.querySelector('app-admin-edit').ajaxFindUsers();
+
             },
 
             addUser: function(e){
