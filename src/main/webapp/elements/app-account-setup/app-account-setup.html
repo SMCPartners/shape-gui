@@ -8,9 +8,18 @@
         @apply(--pm-style)
         }
 
+        password {
+        align-self: center;
+        margin : 50%;
+        };
+
+        passwordInput {
+          text-align: center;
+        };
+
         paper-dialog {
           min-height: 300px;
-        }
+        };
 
         .securityQuestion {
             height: 2.5em;
@@ -21,18 +30,21 @@
             font-size: 16px;
             padding: 0;
             margin-right: 24px;
-        }
+        };
 
         .okButton {
           background-color: #3F51B5;
           margin-left: 24px;
           color: white;
-        }
+        };
 
     </style>
     <template>
-      <paper-input type="oldPassword" value="{{oldPassword}}" placeholder="Old Password"></paper-input>
-      <paper-input type="newPassword" value="{{newPassword}}" placeholder="New Password"></paper-input>
+      <header><b>Reset Password</b></header>
+      <p>Select your new password and add security questions below</p>
+
+      <paper-input class="passwordInput" type="oldPassword" value="{{oldPassword}}" placeholder="Old Password"></paper-input>
+      <paper-input class="password" type="newPassword" value="{{newPassword}}" placeholder="New Password"></paper-input>
         <h1>Add Security Questions</h1>
           <label for="securityQuestion1">Question 1</label>
           <select id="securityQuestion1" class="securityQuestion">

@@ -6,7 +6,7 @@
             method="{{method}}"
             handle-as="json"
             content-type="application/json"
-            on-response="storeToken"
+            on-response="loginCallBack"
     >
     </iron-ajax>
     <iron-ajax
@@ -77,12 +77,15 @@
                     "userId": userId,
                     "password": password
                   })
-          this.callBack=this.storeToken;
+          //this.callBack=this.loginCallBack;
           this.$.loginCall.generateRequest()
         },
-        storeToken: function(response){
+        loginCallBack: function(response){
           if (event.detail.response.token) {
             localStorage.token = event.detail.response.token
+            if (this.callBack) {
+              this.callBack()
+            }
           }else{
             alert("No token came back")
           }

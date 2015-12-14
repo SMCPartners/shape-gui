@@ -110,8 +110,11 @@
                 }
             },
             loginResponse: function(response){
-                localStorage.token= event.detail.response.token;
-                this.setSecureCall();
+              app.$.loginPage.$.findUsers.resource="/admin/user/find/" + app.$.loginPage.$.userIdInput.value;
+              app.$.loginPage.$.findUsers.callBack=this.callBackfindUsers;
+              app.$.loginPage.$.findUsers.generateRequest();
+              //localStorage.token= event.detail.response.token;
+              app.$.loginPage.setSecureCall();
 
             },
 
@@ -120,16 +123,18 @@
               this.$.findUsers.callBack=this.callBackfindUsers;
               this.$.findUsers.generateRequest();
               app.$.mainPage.getloginName();
+              this.$.loginCall.callBack = this.loginResponse;
+              this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
             },
 
             callBackfindUsers: function(request) {
               console.log(request.detail.response);
               callBackUser=request.detail.response;
-              if (callBackUser.resetPwd == true) {
-                app.select = "setupAccount";
-              } else {
+              if  (callBackUser.resetPwd == true) {
+                    app.select = "setupAccount";
+              }   else {
                 app.select = "main";
-                this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
+                //this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
                 document.querySelector('app-account-setup').ajaxFindUsers();
                 document.querySelector('app-dashboard').setAjax();
                 document.querySelector('app-history').setajaxMeasures();
@@ -137,11 +142,11 @@
             },
 
             setSecureCall: function(){
-                var call = this.$.secureCall;
-                call.resource = "/user/get/mobile_exercise_scr/u2/11-16-2015";
-                call.method = "GET"
-                call.callBack = this.secureCallResponse;
-                call.generateRequest();
+                // var call = this.$.secureCall;
+                //call.resource = "/user/get/mobile_exercise_scr/u2/11-16-2015";
+                // call.method = "GET"
+                // call.callBack = this.secureCallResponse;
+                // call.generateRequest();
             },
             secureCallResponse: function(response){
                 console.log(event.detail.response)

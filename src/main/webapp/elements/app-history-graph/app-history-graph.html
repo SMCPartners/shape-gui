@@ -35,7 +35,7 @@
                                 class="trendChart">
                         </google-chart>
                     </div>
-                    <h4>Change in performance of <br><span>{{item.measure}}</span> over time.</h4>
+                    <h4>Change in performance of <br><span>{{item.name}}</span> over time.</h4>
                 </div>
             </paper-material>
         </template>
@@ -50,7 +50,7 @@
             ready: function() {
                 this.trends=[
                 {
-                  measure: 'Controlling High Blood Pressure',
+                  name: 'Controlling High Blood Pressure',
                   trendChart: [
                     ["Quarter", "Aggregate", "Org 1", "Org 2", "Org 3"],
                     ["Q1", 71.25, 70, 89, 53],
@@ -62,7 +62,7 @@
                     {"title": "Controlling High Blood Pressure Performance"}
                   },
                 {
-                  measure: 'Diabetes: HbA1c Poor Control',
+                  name: 'Diabetes: HbA1c Poor Control',
                   trendChart: [
                     ["Quarter", "Aggregate", "Org 1", "Org 2", "Org 3", "Org 4"],
                     ["Q1", 71.75, 60, 93, 61, 73],
