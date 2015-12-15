@@ -348,7 +348,10 @@
                   "primaryContactName" : this.organization.primaryContactName,
                   "primaryContactEmail" : this.organization.primaryContactEmail,
                   "primaryContactPhone" : this.organization.primaryContactPhone,
-                  "primaryContactRole" : this.organization.primaryContactRole
+                  "primaryContactRole" : this.organization.primaryContactRole,
+                  "modifiedDt" : "",
+                  "modifiedBy" : app.$.loginPage.$.userIdInput.value,
+                  "createdBy"  : this.organization.createdBy
                 });
                 this.$.ajaxEditOrganization.generateRequest();
                 console.log(this.$.ajaxEditOrganization.body);

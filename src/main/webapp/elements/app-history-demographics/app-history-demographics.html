@@ -5,12 +5,6 @@
 <dom-module id="app-history-demographics">
     <style>
       google-chart {
-        display: inline-block;
-        margin: auto;
-        height: auto;
-        width:  auto;
-        padding: 40px 100px 150px 100px;
-
 
       }
 
@@ -19,7 +13,9 @@
       <template is='dom-repeat' items='{{orgMeasCharts}}' filter="{{_filter(filterVal)}}">
 
         <paper-material>
-          <h1>NQF ID: <span>{{item.measureNQF}}</span><br><span>{{item.measureName}}</span></h1>
+          <h2>NQF ID: <span>{{item.measureNQF}}</span><br><span>{{item.measureName}}</span></h2>
+          <br>
+          <h3>Reported:<span>{{item.reportQuart}}</span>of<span>{{item.reportYear}}</span></h3>
                     <h2>Race</h2>
                       <google-chart
                       type='column'

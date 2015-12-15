@@ -1,0 +1,32 @@
+private int id;
+  private String name;
+  private boolean active;
+  private String addressStreet;
+  private String addressState;
+  private String addressCity;
+  private String addressZip;
+  private String phone;
+  private String primaryContactName;
+  private String primaryContactEmail;
+  private String primaryContactRole;
+  private String primaryContactPhone;
+  private String createdBy;
+  private Date modifiedDt;
+  private String modifiedBy;
+
+  {
+      "id":0,
+      "name":"Jims Org",
+      "addressStreet":"12 Circle Cir.",
+      "addressCity":"Hartford",
+      "addressState":"CT",
+      "addressZip":"06114",
+      "primaryContactName":"Jim B",
+      "primaryContactEmail":"jburlette@test.com",
+      "primaryContactPhone":"456-456-4561",
+      "primaryContactRole":"Director",
+      "active":"true",
+      "modifiedDt":"",
+      "modifiedBy":"jobins2",
+      "createdBy":"jobins2"
+  }
