@@ -119,10 +119,6 @@
             },
 
             logIn: function () {
-              this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
-              this.$.findUsers.callBack=this.callBackfindUsers;
-              this.$.findUsers.generateRequest();
-              app.$.mainPage.getloginName();
               this.$.loginCall.callBack = this.loginResponse;
               this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
             },
