@@ -50,7 +50,7 @@
         <paper-dialog id="addOrganization" class="size-position modalBox">
           <shape-iron-ajax-helper
               id="ajaxAddOrganization"
-              resource="/admin/organization/add"
+              resource="/common/organization/add"
               handle-as="json"
               method="POST"
               debounce-duration="300">
@@ -269,6 +269,7 @@
                       "exclusionsDescription": this.exclusionsDescription,
                       "wellControlledNumerator" : "",
                       "selected": ""
+
               });
                 this.$.ajaxAddMeasure.method="POST";
                 this.$.ajaxAddMeasure.callBack=this.callBackAddUser;
@@ -351,7 +352,7 @@
 
             logOrganization: function (e) {
               this.$.ajaxAddOrganization.body = JSON.stringify({
-                "id" : 0,
+                "id" : "0",
                 "name" : this.name,
                 "addressStreet" : this.addressStreet,
                 "addressCity" : this.addressCity,
@@ -361,8 +362,12 @@
                 "primaryContactEmail" : this.primaryContactEmail,
                 "primaryContactPhone" : this.primaryContactPhone,
                 "primaryContactRole" : this.primaryContactRole,
-                "active" : "true"
+                "active" : "true",
+                "modifiedDt" : "",
+                "modifiedBy" : app.$.loginPage.$.userIdInput.value,
+                "createdBy" : app.$.loginPage.$.userIdInput.value
               });
+              console.log(this.$.ajaxAddOrganization.body);
               this.name = "";
               this.addressStreet = "";
               this.addressStreet = "";
