@@ -241,6 +241,7 @@
                 "userId" : app.$.loginPage.$.userIdInput.value
                });
               this.$.addOrgStrat.generateRequest();
+              this.isDemographicData = true;
             },
             setAjaxEditStrat: function() {
               this.$.postOrgStrat.body = JSON.stringify({
