@@ -77,9 +77,28 @@
     <template>
         <paper-dialog id="infoMod" modal class="size-position">
             <div class="parenttwo">
-                <h2 class="child">{{nameOfMeasure}}</h2>
+                <h2 class="child">NQF Measure:&nbsp<span>{{NQFnumber}}</span><span>&nbsp</span><span>{{measNQF}}</span></h2>
             </div>
-            <div>{{detailedDescription}}</div>
+            <div>
+              <h3>Measure Description:</h3>
+              <br>
+              <h4>{{measDesc}}</h4>
+            </div>
+            <div>
+              <h3>Numerator Description:</h3>
+              <br>
+              <h4>{{numDesc}}</h4>
+            </div>
+            <div>
+              <h3>Denominator Description:</h3>
+              <br>
+              <h4>{{denomDesc}}</h4>
+            </div>
+            <div>
+              <h3>Exclusions Description:</h3>
+              <br>
+              <h4>{{exclDesc}}</h4>
+            </div>
             <div class="parenttwo">
                 <paper-button raised class="child" on-tap="exitInfo">Exit</paper-button>
             </div>

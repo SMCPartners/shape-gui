@@ -155,7 +155,7 @@
                     <div id=4 value="{{item.nqfId}}" class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
                     <div class="child header">{{item.name}}</div>
                     <div class="child">
-                        <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item.description}}"></paper-icon-button>
+                        <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item}}"></paper-icon-button>
                     </div>
                 </div>
                 <div class="child description">{{item.description}}</div>
@@ -275,12 +275,17 @@
             },
             measureDetail: function (e) {
                 var nInfo = e.currentTarget.id;
-                //console.log(nInfo);
-                var nDescription = e.currentTarget.data;
-                console.log(nDescription);
-                measureEdit=e.currentTarget;
-                appInformationModal.nameOfMeasure=nInfo;
-                appInformationModal.detailedDescription=nDescription;
+                console.log(e.currentTarget.data);
+                appInformationModal.measNQF = e.currentTarget.data.name;
+                appInformationModal.measDesc = e.currentTarget.data.description;
+                appInformationModal.numDesc = e.currentTarget.data.numeratorDescription;
+                appInformationModal.denomDesc = e.currentTarget.data.denominatorDescription;
+                appInformationModal.exclDesc = e.currentTarget.data.exclusionsDescription;
+                appInformationModal.NQFnumber = e.currentTarget.data.nqfId;
+                // console.log(nDescription);
+                // measureEdit=e.currentTarget;
+                // appInformationModal.nameOfMeasure=nInfo;
+                // appInformationModal.detailedDescription=nDescription;
                 infoMod.open();
             },
             //To be added to object to style graphs:
