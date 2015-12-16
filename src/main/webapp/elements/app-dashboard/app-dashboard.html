@@ -133,7 +133,8 @@
         Polymer({
             is: 'app-dashboard',
             properties: {
-              selectedOrganization: 1
+              selectedOrganization: 1,
+              counter: 0
             },
             // orgStrat: function() {
             //   console.log("go");
@@ -239,6 +240,9 @@
             },
 
             loadOrgData: function() {
+              if (this.counter > 0){
+                this.loadEmptyAppProfile();
+              };
               document.querySelector('app-measure-input').setAjaxMeasure();
               console.log(document.querySelector('app-history-list-view'));
               document.querySelector('app-profile').organizationID = this.selectedOrganization;
