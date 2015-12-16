@@ -171,6 +171,21 @@
             </div>
         </paper-dialog>
         <shape-iron-ajax-helper
+            id="ajaxAddOrganization"
+            resource="/common/organization/add"
+            handle-as="json"
+            method="POST"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxAddProvider"
+            resource="/admin/provider/add"
+            handle-as="json"
+            method="POST"
+            debounce-duration="300"
+            on-response="addProviderCallback">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
           id="ajaxAddUser"
           resource=""
           body=""
@@ -289,7 +304,7 @@
             },
 
             callBackOrgs: function(request) {
-              console.log(this.organizations);
+              console.log(request.detail.response);
               //console.log(this.organizations.length);
               //console.log(this.organizations.length);
               // var arrayLength= this.organizations.length;
@@ -352,7 +367,7 @@
 
             logOrganization: function (e) {
               this.$.ajaxAddOrganization.body = JSON.stringify({
-                "id" : "0",
+                "id" : "",
                 "name" : this.name,
                 "addressStreet" : this.addressStreet,
                 "addressCity" : this.addressCity,
@@ -368,6 +383,7 @@
                 "createdBy" : app.$.loginPage.$.userIdInput.value
               });
               console.log(this.$.ajaxAddOrganization.body);
+              });
               this.name = "";
               this.addressStreet = "";
               this.addressStreet = "";
