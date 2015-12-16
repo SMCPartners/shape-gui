@@ -57,6 +57,8 @@
       </div> -->
 
 <!-- on-response="callBack" -->
+
+      <template is="dom-if" if="{{isDemographicData}}">
         <paper-material elevation="5">
             <h1>Gender</h1>
                 <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
@@ -108,6 +110,57 @@
         <paper-button on-tap="cancelEdit" raised="2">Cancel</paper-button>
 
     </template>
+
+    <template is="dom-if" if="{{!isDemographicData}}">
+      <paper-material elevation="5">
+          <h1>Gender</h1>
+              <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
+
+                    <paper-input label="{{gender.strat}}" value="{{gender.num}}"></paper-input>
+
+              </template>
+
+
+
+      </paper-material>
+
+      <paper-material elevation="5">
+          <h1>Age</h1>
+              <template id="agelist" is="dom-repeat" items="{{age}}" as="age">
+
+                    <paper-input label="{{age.strat}}" value="{{age.num}}"></paper-input>
+
+              </template>
+
+
+
+      </paper-material>
+      <paper-material elevation="5">
+          <h1>Ethnicity</h1>
+              <template id="ethnicitylist" is="dom-repeat" items="{{ethnicity}}" as="ethnicity">
+
+                    <paper-input label="{{ethnicity.strat}}" value="{{ethnicity.num}}" ></paper-input>
+
+              </template>
+
+
+
+      </paper-material>
+      <paper-material elevation="5">
+          <h1>Race</h1>
+              <template id="racelist" is="dom-repeat" items="{{race}}" as="race">
+
+                    <paper-input label="{{race.strat}}" value="{{race.num}}"></paper-input>
+
+              </template>
+        <paper-button on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
+
+
+      </paper-material>
+
+    </template>
+    </template>
+
 </dom-module>
 <script>
     (function () {
@@ -115,7 +168,8 @@
             is: 'app-profile',
             properties: {
               organizationID: String,
-              profile: Object
+              profile: Object,
+              isDemographicData: Boolean
             },
             ready: function() {
                 this.cityStateZip = 'Hartford, CT 06106';
@@ -167,7 +221,7 @@
             },
             setAjaxAddStrat: function() {
               this.$.addOrgStrat.body = JSON.stringify({
-                "id" : "",
+                "id" : 0,
                 "genderMale" : this.gender[0].num,
                 "genderFemale" : this.gender[1].num,
                 "genderOther" : this.gender[2].num,
@@ -184,8 +238,7 @@
                 "raceWhite" : this.race[4].num,
                 "raceOther" : this.race[5].num,
                 "organizationId" : app.$.mainPage.$.dashboard.$.findUserOrganizations.value,
-                "userId" : app.$.loginPage.$.userIdInput.value,
-                 "rpDate" : ""
+                "userId" : app.$.loginPage.$.userIdInput.value
                });
               this.$.addOrgStrat.generateRequest();
             },
@@ -226,6 +279,69 @@
              //console.log(request.detail.response[0]);
 
              this.profile = request.detail.response[0];
+
+             if(this.profile){
+               this.isDemographicData = true;
+             }else{
+               this.isDemographicData = false;
+               this.set('gender',
+               [{
+                   strat: 'Male',
+                   num: 0},
+                 {
+                   strat: 'Female',
+                   num: 'Female', num: 0},
+                 {
+                   strat: 'Other',
+                   num: 0 }
+
+               ]);
+               this.set('age',
+               [{
+                  strat: '17 & Under',
+                  num: 0},
+               {
+                  strat: '18-44 Years',
+                  num: 0},
+               {
+                  strat: '45-64 Years',
+                  num: 0},
+               {
+                  strat: '65 & Over',
+                  num: 0}
+              ]);
+              this.set('ethnicity',
+              [{
+                strat: 'Hispanic/Latino',
+                num: 0},
+              {
+                strat: 'Not Hispanic/Latino',
+                num: 0},
+              {
+                strat: 'Other',
+                num: 0}
+              ]);
+              this.set('race',
+              [{
+                strat: 'African American/Black',
+                num: 0},
+              {
+                strat: 'American Indian or Alaska Native',
+                num: 0},
+              {
+                strat: 'Asian',
+                num: 0},
+              {
+                strat: 'Native Hawaiian or Pacific Islander',
+                num: 0},
+              {
+                strat: 'White',
+                num: 0},
+              {
+                strat: 'Other',
+                num: 0}
+              ]);
+             }
 
              this.set('gender',
              [{
