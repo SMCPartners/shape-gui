@@ -7,6 +7,7 @@
             handle-as="json"
             content-type="application/json"
             on-response="loginCallBack"
+            on-error="handleError"
     >
     </iron-ajax>
     <iron-ajax
@@ -17,9 +18,11 @@
             content-type="{{contentType}}"
             handle-as="json"
             body="{{body}}"
+            on-error="handleError"
     >
-
     </iron-ajax>
+
+
   </template>
 </dom-module>
   <script>
@@ -46,6 +49,9 @@
           contentType: {
             type: String,
             value: "application/JSON"
+          },
+          errorMessage:{
+            type: String
           }
         },
         computePath: function(baseURL,resource) {
@@ -67,6 +73,11 @@
         },
         ready: function() {
 
+        },
+        handleError: function(evt){
+          errorMessage = evt.detail.error;
+          app.$.errorDialogBox.openError(errorMessage);
+          // document.querySelector('app-error-dialog').openError;
         },
         login: function(userId, password){
           resource='/common/login/'; //set the resource location
@@ -90,6 +101,10 @@
             alert("No token came back")
           }
         },
+        // closeError: function(){
+        //   app.select='login'
+        //   app.$.errorDialog.toggle()
+        // },
         getToken: function(){
           //check if local storage is available on this browser
           if(typeof(Storage) !== "undefined") {

@@ -1,0 +1,46 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+<dom-module id="app-error-message">
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+  <template>
+    <paper-dialog id="errorDialog">
+      <h2>Uh-oh</h2>
+      <p>{{errorText}}</p>
+      <paper-button on-tap="closeError"> Close </paper-button>
+    </paper-dialog>
+  </template>
+
+</dom-module>
+  <script>
+    (function () {
+      Polymer({
+        is: 'app-error-message',
+        properties: {
+          providers: {
+            type: Array,
+            notify: true
+          },
+          errorText: {
+            type:String,
+            value: "Error"
+          }
+        },
+        openError: function(){
+          if(errorMessage){
+            this.errorText=errorMessage;
+          }
+          this.$.errorDialog.open()
+        },
+        closeError: function(){
+            app.select='login';
+            this.$.errorDialog.toggle()
+        }
+
+        });
+    })();
+  </script>
