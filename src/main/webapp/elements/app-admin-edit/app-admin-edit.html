@@ -150,18 +150,27 @@
                 <h2>Edit Measure Information</h2>
             </div>
             <div class="childtwo">
-                <div>
-                    <paper-input label="NQF ID" value="{{nqfID}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Name" value="{{measureName}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Description" value="{{measureDescription}}"></paper-input>
-                </div>
+              <div>
+                  <paper-input required="true" label="NQF ID" value="{{measure.nqfId}}"></paper-input>
+              </div>
+              <div>
+                  <paper-input label="Name" value="{{measure.name}}"></paper-input>
+              </div>
+              <div>
+                  <paper-input label="Description" value="{{measure.description}}"></paper-input>
+              </div>
+              <div>
+                  <paper-input label="Numerator Description" value="{{measure.numeratorDescription}}"></paper-input>
+              </div>
+              <div>
+                  <paper-input label="Denominator Description" value="{{measure.denominatorDescription}}"></paper-input>
+              </div>
+              <div>
+                  <paper-input label="Exclusions Description" value="{{measure.exclusionsDescription}}"></paper-input>
+              </div>
             </div>
             <div class="parenttwo">
-                <paper-button raised class="child" on-tap="logMeasure">Save</paper-button>
+                <paper-button raised class="child" on-tap="ajaxEditMeasure">Save</paper-button>
                 <paper-button raised class="child" on-tap="closeModal" modalName="closeMeasureModal">Cancel</paper-button>
             </div>
         </paper-dialog>
@@ -229,19 +238,6 @@
               },
             },
             ready: function() {
-            // this.firstName='firstName';
-            // this.lastName='lastName';
-            // this.NPI='NPI';
-            // this.organization='organization';
-            // this.name='name';
-            // this.address='address';
-            // this.username='username';
-            // this.userFullName='userFullName';
-            // this.userRole='userRole';
-            // this.userOrganization='userOrganization'
-            // this.nqfID='nqfID';
-            // this.cmsID='cmsID';
-            // this.measureName='measureName';
             },
             getData: function(){
                 this.$.findOrgs.generateRequest()
@@ -292,10 +288,8 @@
                 };
 
                 if (closeModalName == 'closeOrgModal') {
-                    //document.querySelector('app-admin-panel').loadOrgTable();
                     this.organization = {};
                     this.$.editOrganization.close();
-
                 };
 
                 if (closeModalName == 'closeMeasureModal') {
@@ -393,18 +387,32 @@
                   "lastName" : this.users.lastName,
                   "email" : this.users.email
                 });
-                 console.log(this.users.organizationId);
-                 console.log(this.$.ajaxEditUser.body);
-                 console.log(this.$.findUserRole.value);
-              // console.log(e.currentTarget);
                 this.$.ajaxEditUser.generateRequest();
-                // app.$.
                 document.querySelector('app-admin-panel').loadTable();
                 this.$.editUser.close();
               },
             userCallBack: function(){
-                this.$.editOrganization.close();
+                //this.$.editOrganization.close();
                 document.querySelector('app-admin-panel').loadTable();
+            },
+
+            ajaxEditMeasure: function (e) {
+                this.$.ajaxEditMeasure.body = JSON.stringify({
+                  "id": this.measure.id,
+                  "name": this.measure.name,
+                  "description": this.measure.description,
+                  "nqfId":this.measure.nqfId,
+                  "numeratorDescription": this.measure.numeratorDescription,
+                  "denominatorDescription": this.measure.denominatorDescription,
+                  "exclusionsDescription": this.measure.exclusionsDescription,
+                  "wellControlledNumerator" : "",
+                  "selected": ""
+                });
+                this.$.ajaxEditMeasure.generateRequest();
+                this.$.editMeasure.close();
+              },
+            measureCallBack: function(){
+              document.querySelector('app-admin-panel').loadMeasureTable();
             },
             editProviderCallback: function() {
               document.querySelector('app-admin-panel-provider').$.findProviders.generateRequest();

@@ -39,6 +39,13 @@
                 </div>
             </paper-material>
         </template>
+        <shape-iron-ajax-helper
+            id="findMeasureTrend"
+            resource=""
+            handle-as="json"
+            on-response="callBack"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -74,6 +81,21 @@
                   }
                 ]
             },
+            // setajaxTrend: function() {
+            //   listViewOrg=document.querySelector('app-dashboard').$.findUserOrganizations.value;
+            //   listViewMeasure=document.querySelector('app-history').$.selectMeasure.value;
+            //   listViewYear=document.querySelector('app-history').$.selectYear.value;
+            //   console.log(document.querySelector('app-dashboard').$.findUserOrganizations.value);
+            //   console.log(document.querySelector('app-history').$.selectMeasure.value);
+            //   console.log(document.querySelector('app-history').$.selectYear.value);
+            //   this.$.findListView.resource= "/common/show/listView/" + listViewOrg + '/' + listViewMeasure + '/' + listViewYear;
+            //   console.log(this.$.findListView.resource);
+            //   this.$.findListView.callBack = this.callBack;
+            //   this.$.findListView.generateRequest();
+            // },
+            // callBackTrends: function(request) {
+            //   console.log(request.detail.response);
+            //   this.trends=request.detail.response;
         });
     })();
 

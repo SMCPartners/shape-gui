@@ -183,40 +183,6 @@
             },
 
             ready: function() {
-            // this.organization=[
-            //   {
-            //     name: 'Prohealth',
-            //     address: '1234 Hartford Rd',
-            //     primaryContactPhone: '860-216-5245',
-            //     primaryContactName: 'John Doe',
-            //     primaryContactEmail: 'jburlette@gmail.com',
-            //     primaryContactRole: 'Director'
-            //   },
-            //   {
-            //     name: 'Hartford',
-            //     address: '9999 Columbus Blvd Mexico City, Mexico',
-            //     primaryContactPhone: '860-659-4856',
-            //     primaryContactName: 'Oliver Twist',
-            //     primaryContactEmail: 'ojonston@gmail.com',
-            //     primaryContactRole: 'CEO'
-            //   },
-            //   {
-            //     name: 'EHealth Physicians',
-            //     address: '25 Oak Rd Hartford, CT 06116',
-            //     primaryContactPhone: '203-256-6344',
-            //     primaryContactName: 'Dr. Feelgood',
-            //     primaryContactEmail: 'drgood@gmail.com',
-            //     primaryContactRole: 'Head Administrator'
-            //   },
-            //   {
-            //     name: 'Physicians Anonymous',
-            //     address: '1234 Hartford Rd Middletown, CT 06457',
-            //     primaryContactPhone: '416-205-7894',
-            //     primaryContactName: 'Pablo Picasso',
-            //     primaryContactEmail: 'pPicaso84@gmail.com',
-            //     primaryContactRole: 'Head Artist'
-            //   }
-            // ];
             },
 
             _filter: function(val) {
@@ -311,7 +277,6 @@
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
                 var orgNum = e.target.parentNode.getAttribute('id');
                 console.log(orgNum);
-                //this.$.editModal.orgNum = e.target.parentNode.getAttribute('id');
                 this.$.editModal.organization = Object.create(this.organization[orgNum]);
                 console.log(this.organization[orgNum - 1]);
             },
