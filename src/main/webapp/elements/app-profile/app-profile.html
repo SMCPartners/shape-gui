@@ -32,7 +32,8 @@
           method="GET"
           resource=""
           handle-as="json"
-          on-response="callBackTest"
+          on-response="callBack"
+          on-error="addNewStrat"
           debounce-duration="300">
       </shape-iron-ajax-helper>
       <shape-iron-ajax-helper
@@ -42,11 +43,18 @@
           handle-as="json"
           debounce-duration="300">
       </shape-iron-ajax-helper>
+      <shape-iron-ajax-helper
+          id="addOrgStrat"
+          method="POST"
+          resource="/common/organization_stratification/add/"
+          handle-as="json"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
 
-      <div class="fab">
+      <!-- <div class="fab">
         <paper-fab icon="add" elevation="5" on-tap="addProfile" id="addFab"></paper-fab>
         <paper-tooltip for="addProfile" offset="3">Add New Demographic Profile</paper-tooltip>
-      </div>
+      </div> -->
 
 <!-- on-response="callBack" -->
         <paper-material elevation="5">
@@ -116,6 +124,63 @@
                 this.zip = '06106';
                 this.profButton = 'Edit'
                 this.disabled =true;
+                this.set('gender',
+                [{
+                    strat: 'Male',
+                    num:""},
+                  {
+                    strat: 'Female',
+                    num: 'Female', num: ""},
+                  {
+                    strat: 'Other',
+                    num: ""}
+
+                ]);
+                this.set('age',
+                [{
+                   strat: '17 & Under',
+                   num: ""},
+                {
+                   strat: '18-44 Years',
+                   num: ""},
+                {
+                   strat: '45-64 Years',
+                   num: ""},
+                {
+                   strat: '65 & Over',
+                   num: ""}
+               ]);
+               this.set('ethnicity',
+               [{
+                 strat: 'Hispanic/Latino',
+                 num: ""},
+               {
+                 strat: 'Not Hispanic/Latino',
+                 num: ""},
+               {
+                 strat: 'Other',
+                 num: ""}
+               ]);
+               this.set('race',
+               [{
+                 strat: 'African American/Black',
+                 num: ""},
+               {
+                 strat: 'American Indian or Alaska Native',
+                 num: ""},
+               {
+                 strat: 'Asian',
+                 num: ""},
+               {
+                 strat: 'Native Hawaiian or Pacific Islander',
+                 num: ""},
+               {
+                 strat: 'White',
+                 num: ""},
+               {
+                 strat: 'Other',
+                 num: ""}
+               ]);
 
 
             },
@@ -128,6 +193,11 @@
                     this.disabled = true;
                     this.setAjaxEditStrat();
                     this.profButton = 'Edit';
+                }
+                else if (this.profbutton === "Add New Profile Data") {
+                  console.log(this.profButton);
+                  this.setAjaxAddStrat();
+                  this.disabled = true;
                 }
                 else {
                     console.log(this.profButton);
@@ -153,9 +223,9 @@
               this.$.findStratByOrg.generateRequest();
 
             },
-            setAjaxEditStrat: function() {
-              this.$.postOrgStrat.body = JSON.stringify({
-                "id" : this.profile.id,
+            setAjaxAddStrat: function() {
+              this.$.addOrgStrat.body = JSON.stringify({
+                "id" : "",
                 "genderMale" : this.gender[0].num,
                 "genderFemale" : this.gender[1].num,
                 "genderOther" : this.gender[2].num,
@@ -171,23 +241,47 @@
                 "raceNativeHawaiian" : this.race[3].num,
                 "raceWhite" : this.race[4].num,
                 "raceOther" : this.race[5].num,
-                "organizationId" : this.profile.organizationId,
-                "userId" : "jobins2",
-                 "rpDate" : "2015-12-01"
+                "organizationId" : app.$.mainPage.$.dashboard.$.findUserOrganizations.value,
+                "userId" : "app.$.loginPage.$.userIdInput.value",
+                 "rpDate" : ""
+               });
+              this.$.addOrgStrat.generateRequest();
+            },
+            setAjaxEditStrat: function() {
+              this.$.postOrgStrat.body = JSON.stringify({
+                "id" : "",
+                "genderMale" : this.gender[0].num,
+                "genderFemale" : this.gender[1].num,
+                "genderOther" : this.gender[2].num,
+                "ageUnder17" : this.age[0].num,
+                "age1844" : this.age[1].num,
+                "age4564" : this.age[2].num,
+                "ageOver65" : this.age[3].num,
+                "ethnicityHispanicLatino" : this.ethnicity[0].num,
+                "ethnicityNotHispanicLatino" : this.ethnicity[1].num,
+                "raceAfricanAmerican" : this.race[0].num,
+                "raceAmericanIndian" : this.race[1].num,
+                "raceAsian" : this.race[2].num,
+                "raceNativeHawaiian" : this.race[3].num,
+                "raceWhite" : this.race[4].num,
+                "raceOther" : this.race[5].num,
+                "organizationId" : app.$.mainPage.$.dashboard.$.findUserOrganizations.value,
+                "userId" : "app.$.loginPage.$.userIdInput.value",
+                 "rpDate" : ""
                });
               this.$.postOrgStrat.generateRequest();
             },
 
-          callBackTest: function (){
-            if (typeof request === 'undefined'){
-              this.addProfile();
-            }
-            else {
-              this.callback();
-            }
-          },
+          // callBackTest: function (){
+          //   if (typeof request === 'undefined'){
+          //     this.addProfile();
+          //   }
+          //   else {
+          //     this.callback();
+          //   }
+          // },
 
-           callBack: function() {
+           callBack: function(request) {
              //console.log(request.detail.response[0]);
 
              this.profile = request.detail.response[0];
@@ -249,68 +343,13 @@
               strat: 'Other',
               num: this.profile.raceOther}
             ]);
-
-
           },
-          addProfile: function () {
-            this.set('gender',
-            [{
-                strat: 'Male',
-                num:""},
-              {
-                strat: 'Female',
-                num: 'Female', num: ""},
-              {
-                strat: 'Other',
-                num: ""}
-
-            ]);
-            this.set('age',
-            [{
-               strat: '17 & Under',
-               num: ""},
-            {
-               strat: '18-44 Years',
-               num: ""},
-            {
-               strat: '45-64 Years',
-               num: ""},
-            {
-               strat: '65 & Over',
-               num: ""}
-           ]);
-           this.set('ethnicity',
-           [{
-             strat: 'Hispanic/Latino',
-             num: ""},
-           {
-             strat: 'Not Hispanic/Latino',
-             num: ""},
-           {
-             strat: 'Other',
-             num: ""}
-           ]);
-           this.set('race',
-           [{
-             strat: 'African American/Black',
-             num: ""},
-           {
-             strat: 'American Indian or Alaska Native',
-             num: ""},
-           {
-             strat: 'Asian',
-             num: ""},
-           {
-             strat: 'Native Hawaiian or Pacific Islander',
-             num: ""},
-           {
-             strat: 'White',
-             num: ""},
-           {
-             strat: 'Other',
-             num: ""}
-           ]);
+          addNewStrat: function() {
+              this.profbutton = "Add New Profile Data";
           }
+          // addProfile: function () {
+          //
+          // }
 
         });
     })();

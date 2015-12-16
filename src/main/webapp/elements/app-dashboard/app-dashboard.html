@@ -145,6 +145,65 @@
               this.$.findOrgs.generateRequest();
               this.$.findProviders.generateRequest();
             },
+            loadEmptyAppProfile: function () {
+              this.$.history.$.histographic.set('gender',
+              [{
+                  strat: 'Male',
+                  num:""},
+                {
+                  strat: 'Female',
+                  num: 'Female', num: ""},
+                {
+                  strat: 'Other',
+                  num: ""}
+
+              ]);
+              this.$.history.$.histographic.set('age',
+              [{
+                 strat: '17 & Under',
+                 num: ""},
+              {
+                 strat: '18-44 Years',
+                 num: ""},
+              {
+                 strat: '45-64 Years',
+                 num: ""},
+              {
+                 strat: '65 & Over',
+                 num: ""}
+             ]);
+             this.$.history.$.histographic.set('ethnicity',
+             [{
+               strat: 'Hispanic/Latino',
+               num: ""},
+             {
+               strat: 'Not Hispanic/Latino',
+               num: ""},
+             {
+               strat: 'Other',
+               num: ""}
+             ]);
+             this.$.history.$.histographic.set('race',
+             [{
+               strat: 'African American/Black',
+               num: ""},
+             {
+               strat: 'American Indian or Alaska Native',
+               num: ""},
+             {
+               strat: 'Asian',
+               num: ""},
+             {
+               strat: 'Native Hawaiian or Pacific Islander',
+               num: ""},
+             {
+               strat: 'White',
+               num: ""},
+             {
+               strat: 'Other',
+               num: ""}
+             ]);
+            },
 
             callBackOrgs: function(request) {
               this.organizations = request.detail.response;
