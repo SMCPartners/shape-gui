@@ -301,15 +301,7 @@
 
             callBackOrgs: function(request) {
               console.log(request.detail.response);
-              //console.log(this.organizations.length);
-              //console.log(this.organizations.length);
-              // var arrayLength= this.organizations.length;
-              // for(var i = 0; i<arrayLength; i++){
-              //    if (this.organizations[i].name == this.$.findUserOrganizationId.value){
-              //      userOrganizationId= 'organizations.'+i+'.id';
-              //    };
-              //  };
-              // console.log(userOrganizationId);
+              document.querySelector('app-admin-panel-organization').setajax();
               this.organizations=request.detail.response;
             },
 
@@ -352,6 +344,7 @@
                   organizationId: orgId
                 }
                 this.$.ajaxAddProvider.body = JSON.stringify(newProviderData);
+                console.log(this.$.ajaxAddProvider.body);
                 this.$.ajaxAddProvider.generateRequest();
                 this.providerData.npi="";
                 this.providerData.name="";
@@ -427,7 +420,7 @@
               this.$.addUser.toggle()
             },
             addProviderCallback: function() {
-              document.querySelector('app-admin-panel-provider').$.findProviders.generateRequest();
+              document.querySelector('app-admin-panel-provider').setajax();
             }
 
         });

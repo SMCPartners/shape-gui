@@ -71,18 +71,6 @@
       </shape-iron-ajax-helper>
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
-            <!--
-            <div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
-                <label>Sort By:</label>
-                <select value="{{sortVal::change}}">
-                    <option>Select:</option>
-                    <option value="nqfID">NQF ID</option>
-                    <option value="cmsID">CMS ID</option>
-                    <option value="measureName">Name</option>
-                    <option value="measureDescription">Description</option>
-                </select>
-            </div>
-            -->
             <div class='flex-item'>
                 <paper-button raised on-tap="addMeasure" modalName="addMeasure" style="float:right; padding-top: 0.1em;">Add Measure</paper-button>
             </div>
@@ -91,13 +79,15 @@
             <colgroup>
                 <col span="2" style="width:10%">
                 <col span="1" style="width:20%">
-                <col span="1" style="width:70%">
+                <col span="1" style="width:60%">
+                <col span="1" style="width:10%">
             </colgroup>
             <thead>
                 <th>Selection</th>
                 <th><a sortingGroup='nqfId' on-tap="selectFunction">NQF ID</a></th>
                 <th><a sortingGroup='name' on-tap="selectFunction">Name</a></th>
                 <th><a sortingGroup='description' on-tap="selectFunction">Description</a></th>
+                <th></th>
             </thead>
             <tbody>
             <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
@@ -121,6 +111,11 @@
                 <td><span>{{item.nqfId}}</span></td>
                 <td><span>{{item.name}}</span></td>
                 <td><span>{{item.description}}</span></td>
+                <td style="font-size: 12px">
+                    <div class="editButton">
+                        <paper-button raised on-tap="editMeasure" modalName="editMeasure" id="{{item.index}}">Edit</paper-button>
+                    </div>
+                </td>
             </tr>
             </template>
                 <app-admin-add id="inputModal"></app-admin-add>
@@ -218,6 +213,11 @@
 
             editMeasure: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+                console.log(e.target.parentNode);
+                var measureNum = e.target.parentNode.getAttribute('id');
+                console.log(measureNum);
+                this.$.editModal.measure = Object.create(this.measure[measureNum]);
+                console.log(this.measure[measureNum - 1]);
             },
 
             selectMeasure: function (e) {
@@ -252,10 +252,22 @@
               this.$.findMeasures.generateRequest();
             },
 
+            callBack: function(request) {
+              console.log(request.detail.response);
+              this.organization = request.detail.response;
+              for (i = 0; i < this.organization.length; i ++){
+                this.organization[i].index = i;
+                console.log(this.organization[i].index);
+              };
+            },
+
            callBack: function(request) {
              console.log(request.detail.response);
              this.measure = request.detail.response;
-             console.log(this.measure);
+             for (i = 0; i < this.measure.length; i ++){
+               this.measure[i].index = i;
+               console.log(this.measure[i].index);
+             };
            }
         });
 })();
