@@ -12,28 +12,4 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>shape-gui</web-resource-name>
-            <url-pattern>/shape-gui</url-pattern>
-        </web-resource-collection>
-        <!-- <user-data-constraint>
-                    <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-                </user-data-constraint>  -->
-        <auth-constraint>
-            <role-name>user</role-name>
-        </auth-constraint>
-    </security-constraint>
-
-    <login-config>
-        <auth-method>KEYCLOAK</auth-method>
-        <realm-name>shape</realm-name>
-    </login-config>
-
-    <security-role>
-        <role-name>user</role-name>
-    </security-role>
-    <security-role>
-        <role-name>admin</role-name>
-    </security-role>
 </web-app>

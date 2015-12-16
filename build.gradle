@@ -1,13 +1,13 @@
 group 'com.smcpartners.shape'
 version '1.0-SNAPSHOT'
 
-def deployDir = '/home/shapedev/shape_dev/keycloak/keycloak/standalone/deployments'
+def deployDir = '/Users/johndestefano/Downloads'
 
 apply plugin: 'java'
 apply plugin: 'war'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
