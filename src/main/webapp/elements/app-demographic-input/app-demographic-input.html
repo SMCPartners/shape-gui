@@ -216,7 +216,7 @@
             console.log(appMeasureInput.reportPeriodQuarter);
             rpquarter=appMeasureInput.reportPeriodQuarter;
             rpyear=appMeasureInput.reportPeriodYear;
-            this.$.ajaxAddMeasureDemographics.resource="/admin/organization_measure/edit";
+            this.$.ajaxAddMeasureDemographics.resource="/common/organization_measure/edit";
             this.$.ajaxAddMeasureDemographics.body = JSON.stringify ({
                 "numeratorValue": this.$.mainNum.value,
                 "denominatorValue": this.$.mainDen.value,
@@ -257,14 +257,11 @@
                 "userId": userLoginId,
                 "reportPeriodQuarter" : rpquarter,
                 "reportPeriodYear" : rpyear
-          });
-            console.log(this.$.ajaxAddMeasureDemographics.body);
-            console.log(rpquarter);
-            console.log(rpyear);
-            this.$.ajaxAddMeasureDemographics.method="POST";
-            this.$.ajaxAddMeasureDemographics.callBack=this.callBackMeasureDemographics;
-            this.$.ajaxAddMeasureDemographics.generateRequest();
-            this.$.demIn.toggle();
+              });
+                this.$.ajaxAddMeasureDemographics.method="POST";
+                this.$.ajaxAddMeasureDemographics.callBack=this.callBackMeasureDemographics;
+                this.$.ajaxAddMeasureDemographics.generateRequest();
+                this.$.demIn.toggle();
           },
 
         callBackMeasureDemographics: function(request) {

@@ -100,9 +100,6 @@
                     <td><span>{{item.firstName}}</span><span> </span><span>{{item.lastName}}</td>
                     <td><span>{{item.role}}</span></td>
                     <td><span>{{item.organizationName}}</span></td>
-                    <td style="font-size: 1em;">
-                        <paper-button raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}">Edit</paper-button>
-                    </td>
                     <td>
                     <div align="center">
                       <template restamp="true" is="dom-if" if="{{item.active}}">
@@ -114,6 +111,9 @@
                         <paper-button align="center" class="red" participant={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
                       </template>
                     </div>
+                    </td>
+                    <td style="font-size: 1em;">
+                        <paper-button raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}">Edit</paper-button>
                     </td>
                 </tr>
             </template>

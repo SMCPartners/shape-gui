@@ -177,12 +177,12 @@
                 this.$.ajaxEditEmail.method="POST";
                 this.$.ajaxEditEmail.callBack=this.callBackEditEmail;
                 this.$.ajaxEditEmail.generateRequest();
-                this.$.editEmailOpen.toggle();
+                this.$.editEmailOpen.close();
               },
 
             callBackEditEmail: function(request) {
               console.log(request.detail.response);
-              },
+            },
 
             callBackEditQuestions: function(request) {
               console.log(request.detail.response);
@@ -204,6 +204,8 @@
                       "answerTwo" : this.answer2,
                       "active" : true
               });
+                this.answer1 = "";
+                this.answer2 = "";
                 this.$.ajaxEditQuestions.method="POST";
                 this.$.ajaxEditQuestions.callBack=this.callBackEditQuestions;
                 this.$.ajaxEditQuestions.generateRequest();
@@ -224,20 +226,20 @@
 
             callBackfindUsers: function(request) {
               callBackUser=request.detail.response;
+              this.email = callBackUser.email;
+              this.questionOne = callBackUser.questionOne;
+              this.questionTwo = callBackUser.questionTwo;
+              this.answer1 = callBackUser.answerOne;
+              this.answer2 = callBackUser.answerTwo;
+              this.email = callBackUser.email;
             },
 
             handleClick: function (e) {
-                this.email = callBackUser.email;
-                this.questionOne = callBackUser.questionOne;
-                this.questionTwo = callBackUser.questionTwo;
-                this.answer1 = callBackUser.answerOne;
-                this.answer2 = callBackUser.answerTwo;
-                this.email = callBackUser.email;
+                console.log(callBackUser.email);
                 this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
                 this.$.findUsers.callBack=this.callBackfindUsers;
-                console.log(callBackUser);
                 this.$.findUsers.generateRequest();
-                var buttonClicked  =e.target.parentElement.id;
+                var buttonClicked  = e.target.parentElement.id;
                 if (buttonClicked=='securityQuestions') {
                     this.$.editQuestionsOpen.open();
                  }

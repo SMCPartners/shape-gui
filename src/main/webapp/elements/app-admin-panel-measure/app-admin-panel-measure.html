@@ -54,11 +54,11 @@
           font-weight: bold;
         }
 
-        /*.flex-item {
+        .flex-item {
         order: 0;
         flex: 1 1 auto;
         align-self: auto;
-        }*/
+        };
 
     </style>
     <template>
@@ -71,7 +71,7 @@
       </shape-iron-ajax-helper>
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
-            <div class='flex-item'>
+            <div class="flex-item">
                 <paper-button raised on-tap="addMeasure" modalName="addMeasure" style="float:right; padding-top: 0.1em;">Add Measure</paper-button>
             </div>
         </div>
