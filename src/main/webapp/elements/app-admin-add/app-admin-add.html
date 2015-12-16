@@ -48,21 +48,6 @@
             </div>
         </paper-dialog>
         <paper-dialog id="addOrganization" class="size-position modalBox">
-          <shape-iron-ajax-helper
-              id="ajaxAddOrganization"
-              resource="/admin/organization/add"
-              handle-as="json"
-              method="POST"
-              debounce-duration="300">
-          </shape-iron-ajax-helper>
-          <shape-iron-ajax-helper
-              id="ajaxAddProvider"
-              resource="/admin/provider/add"
-              handle-as="json"
-              method="POST"
-              debounce-duration="300"
-              on-response="addProviderCallback">
-          </shape-iron-ajax-helper>
             <div>
                 <h2>Add New Organization</h2>
             </div>
@@ -170,6 +155,21 @@
                 <paper-button raised class="child" on-tap="closeMeasure">Cancel</paper-button>
             </div>
         </paper-dialog>
+        <shape-iron-ajax-helper
+            id="ajaxAddOrganization"
+            resource="/common/organization/add"
+            handle-as="json"
+            method="POST"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxAddProvider"
+            resource="/admin/provider/add"
+            handle-as="json"
+            method="POST"
+            debounce-duration="300"
+            on-response="addProviderCallback">
+        </shape-iron-ajax-helper>
         <shape-iron-ajax-helper
           id="ajaxAddUser"
           resource=""
@@ -288,7 +288,7 @@
             },
 
             callBackOrgs: function(request) {
-              console.log(this.organizations);
+              console.log(request.detail.response);
               //console.log(this.organizations.length);
               //console.log(this.organizations.length);
               // var arrayLength= this.organizations.length;
@@ -351,7 +351,7 @@
 
             logOrganization: function (e) {
               this.$.ajaxAddOrganization.body = JSON.stringify({
-                "id" : 0,
+                "id" : "",
                 "name" : this.name,
                 "addressStreet" : this.addressStreet,
                 "addressCity" : this.addressCity,
@@ -361,8 +361,10 @@
                 "primaryContactEmail" : this.primaryContactEmail,
                 "primaryContactPhone" : this.primaryContactPhone,
                 "primaryContactRole" : this.primaryContactRole,
-                "active" : "true"
+                "active" : "false"
               });
+
+
               this.name = "";
               this.addressStreet = "";
               this.addressStreet = "";

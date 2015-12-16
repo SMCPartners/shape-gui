@@ -70,19 +70,19 @@
                         <select id="selectMeasure" name="measure" style="font: inherit" on-change="loadMeasureData">
                           <option>Select Measure</option>
                             <template is="dom-repeat" restamp="true" selectedMeasures={{item}} items="{{measures}}">
-                                <option style="font: inherit" value={{item.nqfId}}>
+                                <option style="font: inherit" value={{item.id}}>
                                     NQF <span>{{item.id}}</span> <span>{{item.nqfId}}</span> <span>{{item.name}}</span>
                                 </option>
                             </template>
                         </select>
                     </div>
 
-                    <select id=findUserRole style="font: inherit; margin-left:0.5em;">
+                    <!-- <select id=findUserRole style="font: inherit; margin-left:0.5em;">
                         <option>Select Role</option>
                         <option value="ADMIN">Admin</option>
                         <option value="ORG_ADMIN">Organization Admin</option>
                         <option value="REGISTERED">Registered</option>
-                    </select>
+                    </select> -->
 
                     <!--
                     <select>
@@ -94,7 +94,7 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"> <b>Year:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select id="selectYear" style="font: inherit">
+                        <select id="selectYear" style="font: inherit" on-change="loadMeasureData">
                             <template is="dom-repeat" items="{{years}}">
                                 <option style="font: inherit" value="{{item}}">
                                     <span>{{item}}</span>
@@ -115,7 +115,7 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"><b>Analytics:</b></label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select value="{{selectedView::change}}" style="font: inherit;">
+                        <select value="{{selectedView::change}}" style="font: inherit;" on-change="loadMeasureData">
                             <option>Choose view..</option>
                             <option value="0">List View</option>
                             <option value="1">Measure Trend</option>
@@ -187,36 +187,19 @@
             },
 
             callBackMeasures: function(request) {
-              console.log(this.measures);
               this.measures=request.detail.response;
             },
 
             ready: function() {
                 this.owner="it is here";
-                // this.measures = [
-                //     {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
-                //     {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
-                // ];
                 this.years = [];
 
 
             },
             loadMeasureData: function() {
-              console.log(this.$.appHistoryList);
-              console.log(document.querySelector('app-history-list-view'));
+              document.querySelector('app-history-list-view').setajax();
               console.log(document.querySelector('app-measure-input'));
-
-              document.querySelector('app-history-list-view').loadMeasureList();
-              //var loadMeasureList;
-              // for(var i = 0; i<modalMeasures.length; i++){
-              //   if (modalMeasures[i].id == selectedMeasure){
-              //     loadMeasureList = i;
-              //   };
-              // };
-              // console.log(loadMeasureList);
-              // console.log(i);
               document.querySelector('app-measure-input').setAjaxMeasure();
-              document.querySelector('app-history-list-view').loadMeasureList();
               document.querySelector('app-profile').organizationID = this.selectedOrganization;
               document.querySelector('app-profile').setajax();
 

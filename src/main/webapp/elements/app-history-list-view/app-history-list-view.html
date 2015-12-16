@@ -124,15 +124,23 @@
     </style>
     <template>
 
-      <shape-iron-ajax-helper
+      <!-- <shape-iron-ajax-helper
         id="findMeasureInput"
         resource=""
         handle-as="json"
         on-response="callBack"
         debounce-duration="300">
-      </shape-iron-ajax-helper>
+      </shape-iron-ajax-helper> -->
 
       <shape-iron-ajax-helper
+          id="findListView"
+          resource=""
+          handle-as="json"
+          on-response="callBack"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
+
+      <!-- <shape-iron-ajax-helper
         id="findMeasureByOrg"
         resource="/admin/find/measureById"
         handle-as="json"
@@ -140,7 +148,7 @@
         method="POST"
         on-response="secondCallBack"
         debounce-duration="300">
-      </shape-iron-ajax-helper>
+      </shape-iron-ajax-helper> -->
       <paper-dialog-scrollable>
       <template is="dom-repeat" items="{{measures}}" measure={{item}}>
             <paper-material class="pms">
@@ -236,91 +244,26 @@
                 appInformationModal.detailedDescription=nDescription;
                 infoMod.open();
             },
-            //To be added to object to style graphs:
-            //"slices": ["0": {'color': #32cd32}, "1": {'color': 'transparent'}],
+
+            setajax: function() {
+              listViewOrg=document.querySelector('app-dashboard').$.findUserOrganizations.value;
+              listViewMeasure=document.querySelector('app-history').$.selectMeasure.value;
+              listViewYear=document.querySelector('app-history').$.selectYear.value;
+              this.$.findListView.resource= "/common/show/listView/" + listViewOrg + '/' + listViewMeasure + '/' + listViewYear;
+              this.$.findListView.callBack = this.callBack;
+              this.$.findListView.generateRequest();
+            },
 
             callBack: function(request) {
-              console.log(request.detail.response);
-              console.log(this.measures);
-              //targetMeasure
-              //this.modalreportPeriodYear=request.detail.response.
-              var firstResponse = request.detail.response;
-
-              var done = false;
-              selectedMeasure=document.getElementById('selectMeasure');
-              selectedYear=document.getElementById('selectYear');
-              for (var object = 0; object < firstResponse.length && !done; object++) {
-                var firstCurrentObject = firstResponse[object];
-                  if (selectedMeasure.value == firstCurrentObject.nqfId
-                      ) {
-                    done = true;
-              }};
-              console.log(firstCurrentObject);
-              console.log(firstCurrentObject.isShown);
-
-              // get additional measure data
-              this.$.findMeasureByOrg.body = JSON.stringify(firstResponse);
-              this.$.findMeasureByOrg.generateRequest();
-
-              // display measure data we currently have
-              this.set('measures', firstResponse);
-              for (var measure in firstResponse) {
-                var currentMeasure = firstResponse[measure];
-                var chartData = [
-                  ['Month', 'Days'],
-                  ['Well Controlled', currentMeasure.numeratorValue],
-                  ['Poorly Controlled', currentMeasure.denominatorValue]
-                ];
-                var chartOptions = {
-                  "pieHole": ".6",
-                  "pieSliceText": "none"
-                };
-                this.set('measures.'+measure+'.chartData', chartData);
-                this.set('measures.'+measure+'.chartOptions', chartOptions);
-              }
-
+              this.measures=request.detail.response;
             },
 
-            secondCallBack: function(request) {
-              var response = request.detail.response;
-
-              // for each measure
-              for (var measure in this.measures) {
-                var currentMeasure = this.measures[measure];
-
-                // find appropriate object of additional data
-                var done = false;
-                selectedMeasure=document.getElementById('selectMeasure');
-                //console.log(selectMeasure.value);
-                for (var object = 0; object < response.length && !done; object++) {
-                var currentObject = response[object];
-                console.log(currentObject.nqfId);
-                  if (currentObject.id == currentMeasure.measureId
-                      &&
-                      currentObject.nqfId == selectMeasure.value
-                    ) {
-                    done = true;
-
-                    //and add that data to it
-                    for (var property in currentObject) {
-                      var polymerResource = 'measures.' + measure + '.' + property;
-                      this.set(polymerResource, currentObject[property]);
-                    }
-                  }
-                }
-              }
-            },
+            //To be added to object to style graphs:
+            //"slices": ["0": {'color': #32cd32}, "1": {'color': 'transparent'}],
 
             modalMeasuresFunction : function () {
               modalMeasures=this.measures;
               selectedMeasure=document.getElementById('selectMeasure').value;
-              console.log(selectedMeasure);
-            },
-
-            loadMeasureList: function() {
-              this.$.findMeasureInput.resource = '/common/organization_measure/findAllByOrg/' + document.getElementById('findUserOrganizations').value;
-              this.$.findMeasureInput.callBack = this.callBack;
-              this.$.findMeasureInput.generateRequest();
             },
         });
     })();
