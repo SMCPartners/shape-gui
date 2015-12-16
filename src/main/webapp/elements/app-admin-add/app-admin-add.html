@@ -234,19 +234,6 @@
             },
             ready: function() {
               this.providerData = {};
-            // this.firstName='firstName';
-            // this.lastName='lastName';
-            // this.NPI='NPI';
-            // this.organization='organization';
-            // this.name='name';
-            // this.address='address';
-            // this.username='username';
-            // this.userFullName='userFullName';
-            // this.userRole='userRole';
-            // this.userOrganization='userOrganization';
-            // this.nqfID='nqfID';
-            // this.cmsID='cmsID';
-            // this.measureName='measureName';
             },
 
             setAjaxAddUser: function () {
@@ -261,6 +248,10 @@
                       "lastName": this.userLastName,
                       "email": this.userEmail
               });
+                this.username="";
+                this.userFirstName="";
+                this.userLastName="";
+                this.userEmail="";
                 this.$.ajaxAddUser.method="POST";
                 this.$.ajaxAddUser.callBack=this.callBackAddUser;
                 this.$.ajaxAddUser.generateRequest();
@@ -286,6 +277,12 @@
                       "selected": ""
 
               });
+                this.measureName = "";
+                this.measureDescription = "";
+                this.nqfId = "";
+                this.numeratorDescription = "";
+                this.denominatorDescription = "";
+                this.exclusionsDescription = "";
                 this.$.ajaxAddMeasure.method="POST";
                 this.$.ajaxAddMeasure.callBack=this.callBackAddUser;
                 this.$.ajaxAddMeasure.generateRequest();
@@ -293,7 +290,6 @@
               },
 
             callBackAddMeasure: function(request) {
-              console.log(request);
               document.querySelector('app-admin-panel-measure').setajax();
             },
 
@@ -357,6 +353,8 @@
                 }
                 this.$.ajaxAddProvider.body = JSON.stringify(newProviderData);
                 this.$.ajaxAddProvider.generateRequest();
+                this.providerData.npi="";
+                this.providerData.name="";
 
                 this.$.addProvider.toggle();
             },
@@ -383,7 +381,6 @@
                 "createdBy" : app.$.loginPage.$.userIdInput.value
               });
               console.log(this.$.ajaxAddOrganization.body);
-              });
               this.name = "";
               this.addressStreet = "";
               this.addressStreet = "";
@@ -395,61 +392,40 @@
               this.primaryContactPhone = "";
               this.primaryContactRole = "";
               this.$.ajaxAddOrganization.generateRequest();
-              console.log(this.$.ajaxAddOrganization.body);
               this.$.addOrganization.close();
               document.querySelector('app-admin-panel').loadOrgTable();
             },
-            // logOrganization: function (e) {
-            //     var formSubmitOrganization = [
-            //     {'name': this.name,
-            //     'address': this.address,
-            //     }];
-            //     this.$.addOrganization.toggle(),
-            //     console.log(formSubmitOrganization)
-            // },
-
             closeOrganization: function(e) {
-                this.$.addOrganization.toggle()
+              this.name = "";
+              this.addressStreet = "";
+              this.addressStreet = "";
+              this.addressCity = "";
+              this.addressState = "";
+              this.addressZip = "";
+              this.primaryContactName = "";
+              this.primaryContactEmail = "";
+              this.primaryContactPhone = "";
+              this.primaryContactRole = "";
+              this.$.addOrganization.toggle()
             },
-
-            // logMeasure: function (e) {
-            //     var formSubmitMeasure = [
-            //     {'nqfID': this.nqfID,
-            //     'cmsID': this.cmsID,
-            //     'measureName': this.measureName
-            //     }];
-            //     this.$.addOrganization.toggle(),
-            //     console.log(formSubmitMeasure)
-            // },
 
             closeMeasure: function(e) {
-                this.$.addMeasure.toggle()
+              this.measureName = "";
+              this.measureDescription = "";
+              this.nqfId = "";
+              this.numeratorDescription = "";
+              this.denominatorDescription = "";
+              this.exclusionsDescription = "";
+              this.$.addMeasure.toggle()
             },
-
-            // logUser: function (e) {
-            //     var formSubmitUser = [
-            //     {'username': this.username,
-            //     'userFullName': this.userFullName,
-            //     'userRole': this.userRole,
-            //     'userOrganization': this.userOrganization
-            //     }];
-            //     this.$.addUser.toggle(),
-            //     console.log(formSubmitUser)
-            // },
 
             closeUser: function(e) {
-                this.$.addUser.toggle()
+              this.username="";
+              this.userFirstName="";
+              this.userLastName="";
+              this.userEmail="";
+              this.$.addUser.toggle()
             },
-
-            // logMeasure: function () {
-            //     var formSubmitMeasure = [
-            //     {'nqfID': this.nqfID.value,
-            //     'cmsID': this.cmsID.value,
-            //     }];
-            //     this.$.addMeasure.toggle(),
-            //     console.log(formSubmitMeasure)
-            // },
-
             addProviderCallback: function() {
               document.querySelector('app-admin-panel-provider').$.findProviders.generateRequest();
             }
