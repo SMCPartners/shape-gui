@@ -44,6 +44,15 @@
           border-collapse: separate;
           border-spacing: 0;
         };
+        option {
+          font-size:1em;
+        };
+
+        .flex-item {
+          order: 0;
+          flex: 1 1 auto;
+          align-self: auto;
+        };
 
         .green {
           background-color: green;
@@ -53,22 +62,19 @@
           height: 90%;
         };
 
+        .editButton {
+          background-color: #E6E6FA;
+          margin: 2%;
+          width: 80%;
+          height: 90%;
+        };
+
         .red {
           background-color: red;
           color: white;
           align-self: center;
           width: 80%;
-          margin: 2%;
-        };
-
-        option {
-            font-size:1em;
-        };
-
-        .flex-item {
-        order: 0;
-        flex: 1 1 auto;
-        align-self: auto;
+          height: 90%;
         };
 
     </style>
@@ -112,9 +118,11 @@
                       </template>
                     </div>
                     </td>
+                    <div align="center">
                     <td style="font-size: 1em;">
-                        <paper-button raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}">Edit</paper-button>
+                        <paper-button class="editButton" raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}"><b>Edit</b></paper-button>
                     </td>
+                    <div>
                 </tr>
             </template>
                   <app-admin-add id="inputModal"></app-admin-add>

@@ -6,45 +6,83 @@
     <style>
         .pms {
         @apply(--pm-style)
-        }
+        };
+
+        .modalPositionProvider {
+          width: 30%;
+          height: 60%;
+        };
+
+        .selectBox {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        };
+
+        .modalPositionUser {
+          width: 30%;
+          height: 80%;
+        };
+
+        .alignRight {
+          float: right
+        };
+
+        .button {
+          width: 95%;
+          background-color: #FFFAF0;
+          margin: 10px;
+        };
+
+        .marginClass {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        };
+
+        .alignRight {
+          float: right
+        };
 
         select[selected] {
             border: none;
-        }
+        };
         select {
             height: 2.5em;
             font-size: 1em;
             background: white;
             border: none;
-        }
+        };
         select[focused] {
             border: none;
-        }
+        };
 
     </style>
     <template>
-        <paper-dialog id="addProvider" class="size-position modalBox">
-            <div>
+        <paper-dialog id="addProvider" class="modalPositionProvider">
+            <div style="text-align:center">
                 <h2>Add New Provider</h2>
             </div>
-            <paper-dialog-scrollable class="childtwo">
+            <paper-dialog-scrollable>
                 <div>
                     <paper-input label="Name" value="{{providerData.name}}"></paper-input>
                 </div>
                 <div>
                     <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
                 </div>
-                <div>
-                  <select id="providerOrgSelect">
+                <div class="marginClass">
+                  <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Organization :</b></h></label>
+                  <select class="alignRight" id="providerOrgSelect" style="font: inherit">
                     <template is="dom-repeat" items="{{organizations}}">
-                      <option>{{item.name}}</option>
+                      <option style="font: inherit margin-right:0.9em;">{{item.name}}</option>
                     </template>
                   </select>
                 </div>
             </paper-dialog-scrollable>
             <div class="parenttwo">
-                <paper-button raised class="child" on-tap="logProvider">Save</paper-button>
-                <paper-button raised class="child" on-tap="closeProvider">Cancel</paper-button>
+                <paper-button raised class="button" on-tap="logProvider"><b>Save</b></paper-button>
+                <paper-button raised class="button" on-tap="closeProvider"><b>Cancel</b></paper-button>
             </div>
         </paper-dialog>
         <paper-dialog id="addOrganization" class="size-position modalBox">
@@ -100,26 +138,18 @@
                 <paper-button raised class="child" on-tap="closeOrganization">Cancel</paper-button>
             </div>
         </paper-dialog>
-        <paper-dialog id="addUser" class="size-position modalBox">
-            <div>
+        <paper-dialog id="addUser" class="modalPositionUser">
+            <div style="text-align:center">
                 <h2>Add New User</h2>
             </div>
             <paper-dialog-scrollable class="childtwo">
-                <div>
                     <paper-input label="User Name" value="{{username}}"></paper-input>
-                </div>
-                <div>
                     <paper-input label="First Name" value="{{userFirstName}}"></paper-input>
-                </div>
-                <div>
                     <paper-input label="Last Name" value="{{userLastName}}"></paper-input>
-                </div>
-                <div>
                     <paper-input label="Email" value="{{userEmail}}"></paper-input>
-                </div>
                 <div>
-                    <label class="flex-child" style="font: inherit"> <h>Select Role :</h></label>
-                    <select id=findUserRole style="font: inherit; margin-left:0.5em;">
+                <label class="selectBox" style="font: inherit"> <h>Select Role :</h></label>
+                <select class="alignRight" id=findUserRole style="font: inherit; margin-left:0.5em;">
                         <option>Select Role</option>
                         <option value="ADMIN">Admin</option>
                         <option value="ORG_ADMIN">Organization Admin</option>
@@ -128,7 +158,7 @@
                 </div>
                 <div class="flex-child">
                 <label class="flex-child" style="font: inherit"> <h>Select Organization :</h></label>
-                <select id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
+                <select class="alignRight" id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
                   <option>Select User</option>
                   <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
                     <option value="{{item.id}}">{{item.name}}</option>
