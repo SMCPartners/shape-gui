@@ -71,11 +71,6 @@
       width: 65%;
     }
 
-    .inputField {
-      width: 200px;
-      padding: 0 20px 25px 20px;
-    }
-
 </style>
 <template>
   <paper-dialog id="demIn" modal class="size-position" style="background: white">
@@ -85,12 +80,15 @@
               <div class="input-element">
                 <paper-material elevation="5">
                   <h3>Total</h3>
-                  <div class="input-box">
-                    <paper-input label="Numerator" class="inputField" value="{{demographic.numeratorValue}}" id="mainNum" prevent-invalid-input allowed-pattern="[0-9]"></paper-input>
-                  </div>
-                  <div class="input-box">
-                    <paper-input label="Denominator" class="inputField" value="{{demographic.denominatorValue}}" id="mainDen" prevent-invalid-input allowed-pattern="[0-9]"></paper-input>
-                  </div>
+                  <paper-input-container>
+                        <label>Numerator</label>
+                        <input class='inputField' id=mainNum is="iron-input" prevent-invalid-input allowed-pattern="[0-9]">
+                  </paper-input-container>
+
+                  <paper-input-container>
+                        <label>Denominator</label>
+                        <input class='inputField' id=mainDen is="iron-input" prevent-invalid-input=true allowed-pattern="[0-9]">
+                  </paper-input-container>
                 </paper-material>
               </div>
             <!--/paper-material-->
@@ -101,11 +99,14 @@
                       <template is="dom-repeat" items="{{group.categories}}" as="category">
                           <h4>{{category.strat}}</h4>
                             <div class="input-box">
-                              <paper-input label="Numerator" class="inputField" value="{{ getDemographicProperty(demographic, category.num) }}" id="category.num" prevent-invalid-input allowed-pattern="[0-9]"></paper-input>
-                            </div>
-                            <div class="input-box">
-                              <paper-input label="Denominator" class="inputField" value="{{ getDemographicProperty(demographic, category.den) }}" id="category.den" prevent-invalid-input allowed-pattern="[0-9]"></paper-input>
-                            </div>
+                              <paper-input-container>
+                                <label>Numerator</label>
+                                <input class='inputField' id="{{category.num}}" is="iron-input">
+                            </paper-input-container>
+                            <paper-input-container>
+                                <label>Denominator</label>
+                                <input class='inputField' id="{{category.den}}" is="iron-input">
+                            </paper-input-container>
                           </div>
                       </template>
                     </paper-material>
@@ -183,27 +184,27 @@
 
           this.stratifyGroups = [
               {name: 'Gender', categories: [
-                {strat: 'Male', num: 'genderMaleNum', den: 'genderMaleDen'},
-                {strat: 'Female', num: 'genderFemaleNum', den: 'genderFemaleDen'} ]
+                {strat: 'Male', num: 'editMaleNum', den: 'editMaleDen'},
+                {strat: 'Female', num: 'editFemaleNum', den: 'editFemaleDen'} ]
           },
 
               {name: 'Age', categories: [
-                {strat: 'Under 18', num: 'ageUnder17Num', den: 'ageUnder17Den'},
-                {strat: '18-44 Years', num: 'age1844Num', den: 'age1844Den'},
-                {strat: '45-64 Years', num: 'age4564Num', den: 'age4564Den'},
-                {strat: '65-85 Years', num: 'ageOver65Num', den: 'ageOver65Den'} ]
+                {strat: 'Under 18', num: 'editUnderEighteenNum', den: 'editUnderEighteenDen'},
+                {strat: '18-44 Years', num: 'editEighteenNum', den: 'editEighteenDen'},
+                {strat: '45-64 Years', num: 'editFortyFiveNum', den: 'editFortyFiveDen'},
+                {strat: '65-85 Years', num: 'editSixtyFiveNum', den: 'editSixtyFiveDen'} ]
           },
               {name: 'Ethnicity', categories:[
-                {strat: 'Hispanic/Latino', num: 'ethnicityHispanicLatinoNum', den: 'ethnicityHispanicLatinoDen'},
-                {strat: 'Not Hispanic/Latino', num: 'ethnicityNotHispanicLatinoNum', den: 'ethnicityNotHispanicLatinoDen'} ]
+                {strat: 'Hispanic/Latino', num: 'editHispanicNum', den: 'editHispanicDen'},
+                {strat: 'Not Hispanic/Latino', num: 'editNotHispanicNum', den: 'editNotHispanicDen'} ]
           },
               {name: 'Race', categories: [
-                {strat: 'African American/Black', num: 'raceAfricanAmericanNum', den: 'raceAfricanAmericanDen'},
-                {strat: 'American Indian or Alaska Native', num: 'raceAmericanIndianNum', den: 'raceAmericanIndianDen'},
-                {strat: 'Asian', num: 'raceAsianNum', den: 'raceAsianDen'},
-                {strat: 'Native Hawaiian or Pacific Islander', num: 'raceNativeHawaiianNum', den: 'raceNativeHawaiianDen'},
-                {strat: 'White', num: 'raceWhiteNum', den: 'raceWhiteDen'},
-                {strat: 'Other', num: 'raceOtherNum', den: 'raceOtherDen'} ]
+                {strat: 'African American/Black', num: 'editBlackNum', den: 'editBlackDen'},
+                {strat: 'American Indian or Alaska Native', num: 'editIndianNum', den: 'editIndianDen'},
+                {strat: 'Asian', num: 'editAsianNum', den: 'editAsianDen'},
+                {strat: 'Native Hawaiian or Pacific Islander', num: 'editHawaiianNum', den: 'editHawaiianDen'},
+                {strat: 'White', num: 'editWhiteNum', den: 'editWhiteDen'},
+                {strat: 'Other', num: 'editOtherNum', den: 'editOtherDen'} ]
               }
           ];
         },
@@ -216,35 +217,51 @@
             rpquarter=appMeasureInput.reportPeriodQuarter;
             rpyear=appMeasureInput.reportPeriodYear;
             this.$.ajaxAddMeasureDemographics.resource="/common/organization_measure/edit";
-
-            var orgMeasureProperties = ['id', 'numeratorValue',
-              'denominatorValue', 'rpDate', 'genderMaleNum',
-              'genderMaleDen', 'genderFemaleNum', 'genderFemaleDen',
-              'genderOtherNum', 'genderOtherDen', 'ageUnder17Num',
-              'ageUnder17Den', 'age1844Num', 'age1844Den', 'age4564Num',
-              'age4564Den', 'ageOver65Num', 'ageOver65Den',
-              'ethnicityHispanicLatinoNum', 'ethnicityHispanicLatinoDen',
-              'ethnicityNotHispanicLatinoDen', 'raceAfricanAmericanNum',
-              'raceAfricanAmericanDen', 'raceAmericanIndianNum',
-              'raceAmericanIndianDen', 'raceAsianNum', 'raceAsianDen',
-              'raceNativeHawaiianNum', 'raceNativeHawaiianDen',
-              'raceWhiteNum', 'raceWhiteDen', 'raceOtherNum',
-              'raceOtherDen', 'reportPeriodQuarter', 'reportPeriodYear',
-              'organizationId', 'measureId', 'userId'];
-            var newDemographicData = {};
-            for (var property in orgMeasureProperties) {
-              var currentProperty = orgMeasureProperties[property]
-              newDemographicData[currentProperty] = this.demographic[currentProperty];
-            }
-            this.$.ajaxAddMeasureDemographics.body = JSON.stringify(newDemographicData);
-
-            console.log(this.$.ajaxAddMeasureDemographics.body);
-            console.log(rpquarter);
-            console.log(rpyear);
-            this.$.ajaxAddMeasureDemographics.method="POST";
-            this.$.ajaxAddMeasureDemographics.callBack=this.callBackMeasureDemographics;
-            this.$.ajaxAddMeasureDemographics.generateRequest();
-            this.$.demIn.toggle();
+            this.$.ajaxAddMeasureDemographics.body = JSON.stringify ({
+                "numeratorValue": this.$.mainNum.value,
+                "denominatorValue": this.$.mainDen.value,
+                "genderMaleNum": editMaleNum.value,
+                "rpDate": "2015-12-03",
+                "genderMaleDen": editMaleDen.value,
+                "genderFemaleNum": editFemaleNum.value,
+                "genderFemaleDen": editFemaleDen.value,
+                "raceAfricanAmericanNum": editBlackNum.value,
+                "raceAfricanAmericanDen": editBlackDen.value,
+                "raceAmericanIndianNum": editIndianNum.value,
+                "raceAmericanIndianDen": editIndianDen.value,
+                "raceAsianNum": editAsianNum.value,
+                "raceAsianDen": editAsianDen.value,
+                "raceNativeHawaiianNum": editHawaiianNum.value,
+                "raceNativeHawaiianDen": editHawaiianDen.value,
+                "raceWhiteNum": editWhiteNum.value,
+                "raceWhiteDen": editWhiteDen.value,
+                "genderOtherNum": editOtherNum.value,
+                "genderOtherDen": editOtherDen.value,
+                "ethnicityHispanicLatinoNum": editHispanicNum.value,
+                "ethnicityHispanicLatinoDen": editHispanicDen.value,
+                "ethnicityNotHispanicLatinoNum": editNotHispanicNum.value,
+                "ethnicityNotHispanicLatinoDen": editNotHispanicDen.value,
+                "ageUnder17Num": editUnderEighteenNum.value,
+                "ageUnder17Den": editUnderEighteenNum.value,
+                "age1844Num": editEighteenNum.value,
+                "age1844Den": editEighteenDen.value,
+                "age4564Num": editFortyFiveNum.value,
+                "age4564Den": editFortyFiveDen.value,
+                "ageOver65Num": editSixtyFiveNum.value,
+                "ageOver65Den": editSixtyFiveDen.value,
+                "raceOtherNum": editOtherNum.value,
+                "raceOtherDen": editOtherDen.value,
+                "id": dbid,
+                "measureId": measureId,
+                "organizationId": userOrganizationId,
+                "userId": userLoginId,
+                "reportPeriodQuarter" : rpquarter,
+                "reportPeriodYear" : rpyear
+              });
+                this.$.ajaxAddMeasureDemographics.method="POST";
+                this.$.ajaxAddMeasureDemographics.callBack=this.callBackMeasureDemographics;
+                this.$.ajaxAddMeasureDemographics.generateRequest();
+                this.$.demIn.toggle();
           },
 
         callBackMeasureDemographics: function(request) {
@@ -311,9 +328,6 @@
         // },
         cancelLog: function (e) {
             this.$.demIn.toggle();
-        },
-        getDemographicProperty: function(demographic, property) {
-          return demographic[property];
         }
     });
 })();
