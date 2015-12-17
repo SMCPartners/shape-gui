@@ -150,12 +150,12 @@
 
       <paper-dialog-scrollable>
       <template is="dom-repeat" items="{{measures}}" measure={{item}}>
-            <paper-material class="pms">
-                <div class="parent">
-                    <div value="{{item.nqfId}}" class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
+            <paper-material id=2 class="pms">
+                <div id=3 class="parent">
+                    <div id=4 value="{{item.nqfId}}" class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
                     <div class="child header">{{item.name}}</div>
                     <div class="child">
-                        <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item}}"></paper-icon-button>
+                        <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item.description}}"></paper-icon-button>
                     </div>
                 </div>
                 <div class="child description">{{item.description}}</div>
@@ -180,7 +180,7 @@
                       </google-chart>
                     </div>
                     <div class="child">
-                        <paper-button raised on-tap="editMeasure" measure={{item}} id="{{item.name}}">Edit</paper-button>
+                        <paper-button raised on-tap="editMeasure" data-index$="{{index}}" measure={{item}} id="{{item.name}}">Edit</paper-button>
                     </div>
                 </div>
                 <div class="parent">
@@ -257,7 +257,6 @@
             },
             editMeasure: function (e) {
                 var nMeasure=e.currentTarget.id;
-                console.log(e.currentTarget);
                 appDemographicInput.measureName=nMeasure;
                 targetMeasure=e.currentTarget;
                 this.inputMeasureID=e.currentTarget.measure.measureId;
@@ -266,6 +265,15 @@
                 this.reportPeriodYear=e.currentTarget.measure.reportPeriodYear;
                 document.querySelector('app-demographic-input').ajaxFindUsers();
                 document.querySelector('app-demographic-input').loadMeasureStratification();
+
+                measureEditLoop:
+                for (var measure in this.measures) {
+                  if (measure == e.currentTarget.dataset.index) {
+                    document.querySelector('app-demographic-input').set('demographic', this.measures[measure]);
+                    break measureEditLoop;
+                  }
+                }
+
                 demIn.open();
             },
             computePercentage: function (numerator, denominator) {
@@ -275,17 +283,12 @@
             },
             measureDetail: function (e) {
                 var nInfo = e.currentTarget.id;
-                console.log(e.currentTarget.data);
-                appInformationModal.measNQF = e.currentTarget.data.name;
-                appInformationModal.measDesc = e.currentTarget.data.description;
-                appInformationModal.numDesc = e.currentTarget.data.numeratorDescription;
-                appInformationModal.denomDesc = e.currentTarget.data.denominatorDescription;
-                appInformationModal.exclDesc = e.currentTarget.data.exclusionsDescription;
-                appInformationModal.NQFnumber = e.currentTarget.data.nqfId;
-                // console.log(nDescription);
-                // measureEdit=e.currentTarget;
-                // appInformationModal.nameOfMeasure=nInfo;
-                // appInformationModal.detailedDescription=nDescription;
+                //console.log(nInfo);
+                var nDescription = e.currentTarget.data;
+                console.log(nDescription);
+                measureEdit=e.currentTarget;
+                appInformationModal.nameOfMeasure=nInfo;
+                appInformationModal.detailedDescription=nDescription;
                 infoMod.open();
             },
             //To be added to object to style graphs:
@@ -420,7 +423,11 @@
                   //     ["Other", response[measure].raceOtherNum, response[measure].raceOtherDen] ]);
                 };
                   document.querySelector('app-history-demographics').set('orgMeasCharts', orgMeasures);
-                  console.log(orgMeasures);
+
+
+              console.log(orgMeasures);
+
+
             }
         });
     })();
