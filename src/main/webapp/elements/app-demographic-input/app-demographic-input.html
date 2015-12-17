@@ -210,6 +210,7 @@
         },
 
         addMeasureDemographics: function () {
+            userOrganizationId=document.querySelector('app-dashboard').$.findUserOrganizations.value;
             userLoginId=document.getElementById('userIdInput').value;
             measureId=appMeasureInput.inputMeasureID;
             dbid=appMeasureInput.dbid;
@@ -258,6 +259,7 @@
                 "reportPeriodQuarter" : rpquarter,
                 "reportPeriodYear" : rpyear
               });
+                console.log(this.$.ajaxAddMeasureDemographics.body);
                 this.$.ajaxAddMeasureDemographics.method="POST";
                 this.$.ajaxAddMeasureDemographics.callBack=this.callBackMeasureDemographics;
                 this.$.ajaxAddMeasureDemographics.generateRequest();
@@ -281,8 +283,8 @@
          console.log(request.detail.response);
          console.log(request.detail.response.organizationId);
          userOrganizationId=request.detail.response.organizationId;
-        //  this.measure = request.detail.response;
-        //  console.log(this.measure);
+         this.measure = request.detail.response;
+         console.log(this.measure);
       },
 
         // logNumbers: function (e) {

@@ -264,6 +264,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
               this.$.postAppDemographic.generateRequest();
             },
             submitForm: function(request) {
+                userOrganizationId=document.querySelector('app-dashboard').$.findUserOrganizations.value;
               var formData = {
                 id: 0,
                 numeratorValue: this.$$('#mainNum').value,
@@ -300,7 +301,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 raceOtherDen: this.$$('#otherRaceDen').value,
                 reportPeriodQuarter: this.$$('#reportPeriodQuarter').value,
                 reportPeriodYear: this.$$('#reportPeriodYear').value,
-                organizationId: this.orgId,
+                organizationId: userOrganizationId,
                 measureId: this.$$('#mid').value,
                 userId: document.querySelector('app-login').$.userIdInput.value
               };
