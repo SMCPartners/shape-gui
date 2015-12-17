@@ -6,57 +6,84 @@
     <style>
         .pms {
         @apply(--pm-style)
-        }
+        };
+
+        .alignRight {
+          float: right
+        };
+
+        .dialog_position {
+          width: 30%;
+          height: 65%;
+        };
+
+        .flex-child {
+            order: 0;
+            flex: 0 1 auto;
+            align-self: center;
+        };
+
+        .button {
+          width: 95%;
+          background-color: #FFFAF0;
+          margin: 10px;
+        };
+
+        .marginClass {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        };
+
         h2 {
           padding: 0px 40px 0px 40px;
         };
         paper-input {
           padding: 5px 20px 5px 20px;
         };
+
         .Username{
           font-weight: bold;
           color:grey;
-        }
+        };
 
         select[selected] {
             border: none;
-        }
+        };
         select {
             height: 2.5em;
             font-size: 1em;
             background: white;
             border: none;
-        }
+        };
         select[focused] {
             border: none;
-        }
+        };
 
     </style>
     <template>
-        <paper-dialog id="editProvider" class="size-position modalBox">
-            <div>
+        <paper-dialog id="editProvider" class="dialog_position">
+            <div style="text-align:center">
                 <h2>Edit Provider Information</h2>
             </div>
-            <div class="childtwo">
+            <paper-dialog-scrollable>
                 <div>
                     <paper-input label="Name" value="{{providerData.name}}"></paper-input>
                 </div>
                 <div>
                     <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
                 </div>
-                <div>
-                  <label><strong>Organization</strong>:
-                    <select id="providerOrgSelect">
-                      <template is="dom-repeat" items="{{organizations}}">
-                          <option>{{item.name}}</option>
-                      </template>
-                    </select>
-                  </label>
+                <div class="marginClass">
+                  <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Organization :</b></h></label>
+                  <select class="alignRight" id="providerOrgSelect" style="font: inherit">
+                    <template is="dom-repeat" items="{{organizations}}">
+                      <option style="font: inherit margin-right:0.9em;">{{item.name}}</option>
+                    </template>
+                  </select>
                 </div>
-            </div>
+            </paper-dialog-scrollable>
             <div class="parenttwo">
-                <paper-button raised class="child" on-tap="logProvider">Save</paper-button>
-                <paper-button raised class="child" on-tap="closeModal" modalName="closeProviderModal">Cancel</paper-button>
+                <paper-button raised class="button" on-tap="logProvider">Save</paper-button>
+                <paper-button raised class="button" on-tap="closeModal" modalName="closeProviderModal">Cancel</paper-button>
             </div>
         </paper-dialog>
         <paper-dialog id="editOrganization" class="size-position modalBox">

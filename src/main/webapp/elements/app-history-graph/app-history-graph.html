@@ -7,6 +7,11 @@
         .pms {
             @apply(--pm-style)
         };
+
+        google-chart {
+          width: 50em;
+        };
+
         .trendChart {
             justify-content: center;
             text-align: center;
@@ -43,7 +48,7 @@
             id="findMeasureTrend"
             resource=""
             handle-as="json"
-            on-response="callBack"
+            on-response="callBackTrendChart"
             debounce-duration="300">
         </shape-iron-ajax-helper>
     </template>
@@ -55,47 +60,43 @@
             properties: {
             },
             ready: function() {
-                this.trends=[
-                {
-                  name: 'Controlling High Blood Pressure',
-                  trendChart: [
-                    ["Quarter", "Aggregate", "Org 1", "Org 2", "Org 3"],
-                    ["Q1", 71.25, 70, 89, 53],
-                    ["Q2", 74.25, 74, 91, 60],
-                    ["Q3", 78, 76, 92, 65],
-                    ["Q4", 78.5, 80, 90, 70]
-                  ],
-                  trendChartOptions:
-                    {"title": "Controlling High Blood Pressure Performance"}
-                  },
-                {
-                  name: 'Diabetes: HbA1c Poor Control',
-                  trendChart: [
-                    ["Quarter", "Aggregate", "Org 1", "Org 2", "Org 3", "Org 4"],
-                    ["Q1", 71.75, 60, 93, 61, 73],
-                    ["Q2", 70.75, 61, 94, 68, 60],
-                    ["Q3", 70.75, 53, 94, 67, 69],
-                    ["Q4", 80.5, 70, 98, 69, 85]],
-                  trendChartOptions: {
-                    "title": "Diabetes: HbA1c Poor Control Performance"}
-                  }
-                ]
+                // this.trends=[
+                // {
+                //   name: 'Controlling High Blood Pressure',
+                //   trendChart: [
+                //     ["Quarter", "Aggregate", "Org 1", "Org 2", "Org 3"],
+                //     ["Q1", 71.25, 70, 89, 53],
+                //     ["Q2", 74.25, 0, 91, 60],
+                //     ["Q3", 78, 76, 92, 65]
+                //   ],
+                //   trendChartOptions:
+                //     {"title": "Controlling High Blood Pressure Performance"}
+                //   },
+                // {
+                //   name: 'Diabetes: HbA1c Poor Control',
+                //   trendChart: [
+                //     ["Quarter", "Aggregate", "Org 1", "Org 2", "Org 3", "Org 4"],
+                //     ["Q1", 71.75, 60, 93, 61, 73],
+                //     ["Q2", 70.75, 61, 94, 68, 60],
+                //     ["Q3", 70.75, 53, 94, 67, 69],
+                //     ["Q4", 80.5, 70, 98, 69, 85]],
+                //   trendChartOptions: {
+                //     "title": "Diabetes: HbA1c Poor Control Performance"}
+                //   }
+                // ]
             },
-            // setajaxTrend: function() {
-            //   listViewOrg=document.querySelector('app-dashboard').$.findUserOrganizations.value;
-            //   listViewMeasure=document.querySelector('app-history').$.selectMeasure.value;
-            //   listViewYear=document.querySelector('app-history').$.selectYear.value;
-            //   console.log(document.querySelector('app-dashboard').$.findUserOrganizations.value);
-            //   console.log(document.querySelector('app-history').$.selectMeasure.value);
-            //   console.log(document.querySelector('app-history').$.selectYear.value);
-            //   this.$.findListView.resource= "/common/show/listView/" + listViewOrg + '/' + listViewMeasure + '/' + listViewYear;
-            //   console.log(this.$.findListView.resource);
-            //   this.$.findListView.callBack = this.callBack;
-            //   this.$.findListView.generateRequest();
-            // },
-            // callBackTrends: function(request) {
-            //   console.log(request.detail.response);
-            //   this.trends=request.detail.response;
+            loadTrendChart: function() {
+              listViewMeasure=document.querySelector('app-history').$.selectMeasure.value;
+              listViewYear=document.querySelector('app-history').$.selectYear.value;
+              this.$.findMeasureTrend.resource= "/common/show/trendChart/" + listViewMeasure + '/' + listViewYear;
+              this.$.findMeasureTrend.callBack = this.callBack;
+              this.$.findMeasureTrend.generateRequest();
+            },
+
+            callBackTrendChart: function(request) {
+              console.log(request.detail.response);
+              this.trends=request.detail.response;
+            },
         });
     })();
 

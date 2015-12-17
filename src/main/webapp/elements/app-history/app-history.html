@@ -198,7 +198,7 @@
             },
             loadMeasureData: function() {
               document.querySelector('app-history-list-view').setajax();
-              console.log(document.querySelector('app-measure-input'));
+              document.querySelector('app-history-graph').loadTrendChart();
               document.querySelector('app-measure-input').setAjaxMeasure();
               document.querySelector('app-profile').organizationID = this.selectedOrganization;
               document.querySelector('app-profile').setajax();

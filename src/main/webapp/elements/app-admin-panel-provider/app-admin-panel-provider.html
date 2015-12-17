@@ -26,62 +26,66 @@
         };
 
         thead {
-        background: #395870;
-        color: #fff;
+          background: #395870;
+          color: #fff;
         };
 
         td {
-        border-bottom: 1px solid #cecfd5;
-        border-right: 1px solid #cecfd5;
-        border-left: 1px solid #cecfd5;
+          border-bottom: 1px solid #cecfd5;
+          border-right: 1px solid #cecfd5;
+          border-left: 1px solid #cecfd5;
         };
 
         td: first-child {
-        border-left: 1px solid #cecfd5;
+          border-left: 1px solid #cecfd5;
         };
 
         tr: nth-child(even) {
-        background-color: #395870;
+          background-color: #395870;
         };
 
 
 
         table {
-        border-collapse: separate;
-        border-spacing: 0;
+          border-collapse: separate;
+          border-spacing: 0;
         };
 
         .columnRight {
-        flex: 0 0;
+          flex: 0 0;
         };
 
         .alignright {
-        float: right;
+          float: right;
         };
 
         .editButton {
-        justify-content: center;
+          background-color: #E6E6FA;
+          margin: 2%;
+          width: 80%;
+          height: 90%;
         };
 
         .flex-item {
-        order: 0;
-        flex: 1 1 auto;
-        align-self: auto;
-        }
-
-        .green, .red {
-          color: white;
-          align-self: center;
-          width: 85px;
-          margin: 2%;
-        }
+          order: 0;
+          flex: 1 1 auto;
+          align-self: auto;
+        };
 
         .green {
           background-color: green;
+          color: white;
+          align-self: center;
+          width: 80%;
+          height: 90%;
         };
 
         .red {
           background-color: red;
+          color: white;
+          align-self: center;
+          width: 80%;
+          height: 90%;
         };
     </style>
     </shape-iron-ajax-helper>
@@ -149,18 +153,18 @@
                     <td><span>{{item.npi}}</span></td>
                     <td><span>{{item.organization}}</span></td>
                     <td>
-
+                    <div align="center">
                       <template restamp="true" is="dom-if" if="{{item.active}}">
-                        <paper-button align="center" class="green activeButton" providers={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
+                        <paper-button align="center" class="green" providers={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
                       </template>
                       <template restamp="true" is="dom-if" if="{{!item.active}}">
-                        <paper-button align="center" class="red activeButton" providers={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
+                        <paper-button align="center" class="red" providers={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
                       </template>
-
+                    </div>
                     </td>
-                    <td style="font-size: 12px">
-                        <div class="editButton">
-                            <paper-button raised on-tap="editProvider" modalName="editProvider">Edit</paper-button>
+                    <td align="center">
+                        <div>
+                            <paper-button class="editButton" raised on-tap="editProvider" modalName="editProvider"><b>Edit</b></paper-button>
                         </div>
                     </td>
                 </tr>
