@@ -10,7 +10,7 @@
 
         paper-dialog {
           min-height: 300px;
-        }
+        };
 
         .securityQuestion {
             height: 2.5em;
@@ -21,21 +21,27 @@
             font-size: 16px;
             padding: 0;
             margin-right: 24px;
-        }
+        };
 
         .okButton {
           background-color: #3F51B5;
           margin-left: 24px;
           color: white;
-        }
+        };
+
+        .button {
+          background-color: #E6E6FA;
+          margin: 2%;
+          width: 80%;
+        };
 
     </style>
     <template>
-        <div class="pms">
+        <div align="center">
             <paper-material elevation="1">
-                <paper-button id='resetPassword' on-tap="handleClick"> Reset Password </paper-button><br/>
-                <paper-button id='editEmail' on-tap="handleClick"> Edit eMail</paper-button><br/>
-                <paper-button id='securityQuestions' on-tap="handleClick"> Change Security Questions </paper-button> <br/>
+                <paper-button class="button" id='resetPassword' on-tap="handleClick"><b>Reset Password</b></paper-button>
+                <paper-button class="button" id='editEmail' on-tap="handleClick"><b>Edit eMail</b></paper-button>
+                <paper-button class="button" id='securityQuestions' on-tap="handleClick"><b>Change Security Questions</b></paper-button>
             </paper-material>
         </div>
         <paper-dialog id="changePassword">
