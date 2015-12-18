@@ -110,6 +110,7 @@
                 }
             },
             loginResponse: function(response){
+              app.$.loginPage.$.passwordInput.value="";
               app.$.loginPage.$.findUsers.resource="/admin/user/find/" + app.$.loginPage.$.userIdInput.value;
               app.$.loginPage.$.findUsers.callBack=this.callBackfindUsers;
               app.$.loginPage.$.findUsers.generateRequest();
@@ -121,6 +122,10 @@
             logIn: function () {
               this.$.loginCall.callBack = this.loginResponse;
               this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
+            },
+            logout: function(){
+              localStorage.token = "";
+              app.select = "login"
             },
 
             callBackfindUsers: function(request) {
