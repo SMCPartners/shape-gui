@@ -239,6 +239,8 @@
             },
             handleAdminPanel: function (e) {
                 this.route = 'adminpanel';
+                var template = document.querySelector('template[is="dom-bind"]');
+                console.log(template);
                 console.log("It worked for Admin!");
                 document.querySelector('app-admin-add').setajaxOrgs();
             },
