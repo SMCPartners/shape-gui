@@ -4,7 +4,7 @@
 
 <dom-module id="app-history-demographics">
     <style>
-      
+
 
     </style>
     <template>
@@ -15,10 +15,12 @@
           <br>
           <h3>Reported:<span>{{item.reportQuart}}</span>of<span>{{item.reportYear}}</span></h3>
                     <h2>Race</h2>
+                      <!--template is="dom-if" if="{{item.raceData}}"-->
                       <google-chart
-                      type='column'
-                      data='{{item.raceData}}'>
-                    </google-chart>
+                        type='column'
+                        data='{{item.raceData}}'>
+                      </google-chart>
+                    <!--/template-->
 
                     <h2>Age</h2>
                     <google-chart

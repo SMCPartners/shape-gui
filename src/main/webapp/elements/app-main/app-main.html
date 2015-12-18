@@ -108,8 +108,8 @@
                         <iron-icon icon="menu" paper-drawer-toggle></iron-icon>
                     </button>
                     -->
-                    <span class="title" style="margin-left: 0px;">Hello, Nick</span>
-                    <!--MUST ADD BACK DATA BINDING FOR USERNAME IN PREVIOUS SPAN TAG-->
+                    <paper-button on-tap="logout">Logout</paper-button>
+
                     <paper-icon-button icon="home" on-tap="navigateHome"></paper-icon-button>
 
                     <!-- Toolbar icons -->
@@ -245,6 +245,9 @@
             navigateHome: function (e) {
                 this.route = 'home';
                 console.log("I'm home!");
+            },
+            logout: function(){
+                app.$.loginPage.logout();
             }
         });
     })();
