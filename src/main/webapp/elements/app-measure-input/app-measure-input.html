@@ -147,52 +147,54 @@
         <paper-fab icon="add" elevation="5" on-tap="addMeasure" id="addFab"></paper-fab>
         <paper-tooltip for="addFab" offset="3">Add New Measure</paper-tooltip>
       </div>
-
       <paper-dialog-scrollable>
-      <template is="dom-repeat" items="{{measures}}" measure={{item}}>
-            <paper-material class="pms">
-                <div class="parent">
-                    <div value="{{item.nqfId}}" class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
-                    <div class="child header">{{item.name}}</div>
-                    <div class="child">
-                        <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item}}"></paper-icon-button>
+      <template is="dom-if" if="{{isMeasureData}}">
+          <template is="dom-repeat" items="{{measures}}" measure={{item}}>
+                <paper-material class="pms">
+                    <div class="parent">
+                        <div value="{{item.nqfId}}" class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
+                        <div class="child header">{{item.name}}</div>
+                        <div class="child">
+                            <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item}}"></paper-icon-button>
+                        </div>
                     </div>
-                </div>
-                <div class="child description">{{item.description}}</div>
-                <div class="parent">
-                    <div class="fraction1 child">
-                        <span class="fup">Numerator</span>
-                        <span class="bar">/</span>
-                        <span class="fdn">Denominator</span>
+                    <div class="child description">{{item.description}}</div>
+                    <div class="parent">
+                        <div class="fraction1 child">
+                            <span class="fup">Numerator</span>
+                            <span class="bar">/</span>
+                            <span class="fdn">Denominator</span>
+                        </div>
+                        <div class="child header">=</div>
+                        <div class="fraction2 child">
+                            <span class="fup">{{item.numeratorValue}}</span>
+                            <span class="bar">/</span>
+                            <span class="fdn">{{item.denominatorValue}}</span>
+                        </div>
+                        <div class="child">
+                          <google-chart
+                            id="measureChart"
+                            type="pie"
+                            data="{{item.chartData}}"
+                            options="{{item.chartOptions}}">
+                          </google-chart>
+                        </div>
+                        <div class="child">
+                            <paper-button raised on-tap="editMeasure" measure={{item}} id="{{item.name}}">Edit</paper-button>
+                        </div>
                     </div>
-                    <div class="child header">=</div>
-                    <div class="fraction2 child">
-                        <span class="fup">{{item.numeratorValue}}</span>
-                        <span class="bar">/</span>
-                        <span class="fdn">{{item.denominatorValue}}</span>
+                    <div class="parent">
+                        <paper-material elevation="0" class="child resultBox">
+                            <div class="resultForward">Your Measure Results:</div>
+                            <div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}
+                            </div>
+                        </paper-material>
                     </div>
-                    <div class="child">
-                      <google-chart
-                        id="measureChart"
-                        type="pie"
-                        data="{{item.chartData}}"
-                        options="{{item.chartOptions}}">
-                      </google-chart>
-                    </div>
-                    <div class="child">
-                        <paper-button raised on-tap="editMeasure" measure={{item}} id="{{item.name}}">Edit</paper-button>
-                    </div>
-                </div>
-                <div class="parent">
-                    <paper-material elevation="0" class="child resultBox">
-                        <div class="resultForward">Your Measure Results:</div>
-                        <div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}
-                    </paper-material>
-                </div>
-                    <!-- this is where aggregate measure results used to be -->
+                        <!-- this is where aggregate measure results used to be -->
                 </paper-material>
-        </template>
-      </paper-dialog-scrollable>
+            </template>
+          </template>
+        </paper-dialog-scrollable>
 
     </template>
 </dom-module>
@@ -205,6 +207,9 @@
                 nMeasure: String,
                 measureid: {
                   type: String
+                },
+                isMeasureData: {
+                  type: Number
                 }
             },
             ready: function() {
@@ -297,37 +302,41 @@
               var response = request.detail.response;
 
               // get additional measure data
-              this.$.findMeasureByOrg.body = JSON.stringify(response);
-              this.$.findMeasureByOrg.generateRequest();
+              if(response.length){
+                this.isMeasureData=1;
+                this.$.findMeasureByOrg.body = JSON.stringify(response);
+                this.$.findMeasureByOrg.generateRequest();
 
-              // display measure data we currently have
-              this.set('measures', response);
-              for (var measure in response) {
-                var currentMeasure = response[measure];
-                var chartData = [
-                  ['Month', 'Days'],
-                  ['Well Controlled', currentMeasure.numeratorValue],
-                  ['Poorly Controlled', currentMeasure.denominatorValue]
-                ];
+                // display measure data we currently have
+                this.set('measures', response);
+                for (var measure in response) {
+                  var currentMeasure = response[measure];
+                  var chartData = [
+                    ['Month', 'Days'],
+                    ['Well Controlled', currentMeasure.numeratorValue],
+                    ['Poorly Controlled', currentMeasure.denominatorValue]
+                  ];
 
 
-                var chartOptions = {
-                  "pieHole": ".6",
-                  "pieSliceText": "none"
-                };
-                this.set('measures.'+measure+'.chartData', chartData);
-                this.set('measures.'+measure+'.chartOptions', chartOptions);
-              }
-              var yearArray = [];
-              for (var measure in response) {
-                if (yearArray.indexOf(response[measure].reportPeriodYear) === -1){
-                yearArray.push(response[measure].reportPeriodYear);
+                  var chartOptions = {
+                    "pieHole": ".6",
+                    "pieSliceText": "none"
+                  };
+                  this.set('measures.'+measure+'.chartData', chartData);
+                  this.set('measures.'+measure+'.chartOptions', chartOptions);
                 }
+                var yearArray = [];
+                for (var measure in response) {
+                  if (yearArray.indexOf(response[measure].reportPeriodYear) === -1){
+                  yearArray.push(response[measure].reportPeriodYear);
+                  }
 
+                }
+                console.log(yearArray);
+                document.querySelector('app-history').set('years', yearArray);
+              }else{
+                this.isMeasureData=0;
               }
-              console.log(yearArray);
-              document.querySelector('app-history').set('years', yearArray);
-
             },
 
             secondCallBack: function(request) {
