@@ -32,7 +32,7 @@
         }
 
     </style>
-    <template>
+    <template is="dom-bind">
             <h2 style="margin: 0 0 0.4em 0.4em;">ADMIN PANEL</h2>
             <paper-tabs selected="{{selected}}">
                 <paper-tab on-tap="loadTable">USER</paper-tab>
@@ -41,7 +41,7 @@
                 <paper-tab on-tap="loadMeasureTable">MEASURE</paper-tab>
             </paper-tabs>
             <iron-pages selected="{{selected}}">
-                <app-admin-panel-user></app-admin-panel-user>
+                <app-admin-panel-user id=adminUser></app-admin-panel-user>
                 <app-admin-panel-provider></app-admin-panel-provider>
                 <app-admin-panel-organization></app-admin-panel-organization>
                 <app-admin-panel-measure></app-admin-panel-measure>
