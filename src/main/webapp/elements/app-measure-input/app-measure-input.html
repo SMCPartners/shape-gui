@@ -295,6 +295,7 @@
               //targetMeasure
               //this.modalreportPeriodYear=request.detail.response.
               var response = request.detail.response;
+              console.log(response);
 
               // get additional measure data
               this.$.findMeasureByOrg.body = JSON.stringify(response);
@@ -307,7 +308,7 @@
                 var chartData = [
                   ['Month', 'Days'],
                   ['Well Controlled', currentMeasure.numeratorValue],
-                  ['Poorly Controlled', currentMeasure.denominatorValue]
+                  ['Poorly Controlled', currentMeasure.denominatorValue - currentMeasure.numeratorValue]
                 ];
 
 
@@ -409,15 +410,6 @@
                       ["Not Hispanic", currentMeasure.ethnicityNotHispanicLatinoNum, currentMeasure.ethnicityNotHispanicLatinoDen]
                     ]
                   });
-
-                //this.set('raceArray',
-                  // [ ["test", "test", "test"],
-                  //     ["African American", response[measure].raceAfricanAmericanNum, response[measure].raceAfricanAmericanDen],
-                  //     ["Native American", response[measure].raceAmericanIndianNum, response[measure].raceAmericanIndianDen],
-                  //     ["Asian", response[measure].raceAsianNum, response[measure].raceAsianDen],
-                  //     ["Native Hawaiian", response[measure].raceNativeHawaiianNum,response[measure].raceNativeHawaiianDen],
-                  //     ["White", response[measure].raceWhiteNum, response[measure].raceWhiteDen],
-                  //     ["Other", response[measure].raceOtherNum, response[measure].raceOtherDen] ]);
                 };
                   document.querySelector('app-history-demographics').set('orgMeasCharts', orgMeasures);
                   console.log(orgMeasures);

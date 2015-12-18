@@ -20,46 +20,65 @@
             box-shadow: 1px 1px 1px 1px #9C9C9C;
             font-size: 16px;
             padding: 0;
-            margin-right: 24px;
-        };
-
-        .okButton {
-          background-color: #3F51B5;
-          margin-left: 24px;
-          color: white;
+            align-self: center;
         };
 
         .button {
           background-color: #E6E6FA;
-          margin: 2%;
-          width: 80%;
+          margin: 10px;
+          width: 60%;
+        };
+
+        .password_position {
+          width: 30%;
+          height: 65%;
+        };
+
+        .email_position {
+          width: 30%;
+          height: 50%;
+        };
+
+        .security_position {
+          width: 30%;
+          height: 100%;
         };
 
     </style>
     <template>
-        <div align="center">
-            <paper-material elevation="1">
-                <paper-button class="button" id='resetPassword' on-tap="handleClick"><b>Reset Password</b></paper-button>
-                <paper-button class="button" id='editEmail' on-tap="handleClick"><b>Edit eMail</b></paper-button>
-                <paper-button class="button" id='securityQuestions' on-tap="handleClick"><b>Change Security Questions</b></paper-button>
-            </paper-material>
-        </div>
-        <paper-dialog id="changePassword">
-            <h1>Reset Password</h1>
+      <div align="center">
+          <paper-material elevation="1">
+              <paper-button class="button" id='resetPassword' on-tap="handleClick"><b>Reset Password</b></paper-button>
+              <paper-button class="button" id='editEmail' on-tap="handleClick"><b>Edit eMail</b></paper-button>
+              <paper-button class="button" id='securityQuestions' on-tap="handleClick"><b>Change Security Questions</b></paper-button>
+          </paper-material>
+      </div>
+      <div style="position:absolute;top:0;left:0">
+        <paper-dialog class="password_position" id="changePassword">
+            <h1 align="center">Reset Password</h1>
             <paper-input type="password" value="{{oldPassword}}" placeholder="Old password"></paper-input>
             <paper-input type="password" value="{{newPassword}}" placeholder="New password"></paper-input>
-            <paper-button class="okButton" on-tap="setAjaxChangePassword">OK</paper-button>
-            <paper-button class="okButton" on-tap="closePasswordModal">Close</paper-button>
+            <div align="center">
+              <paper-button align="center" class="button" on-tap="setAjaxChangePassword"><b>Save</b></paper-button>
+              <paper-button align="center" class="button" on-tap="closePasswordModal"><b>Close<b/></paper-button>
+            </div>
         </paper-dialog>
-        <paper-dialog id="editEmailOpen">
-          <h1>Edit Email</h1>
+      </div>
+      <div style="position:absolute;top:0;left:0">
+        <paper-dialog class="email_position" id="editEmailOpen">
+          <h1 align="center">Edit Email</h1>
             <paper-input value="{{email}}" placeholder="email"></paper-input>
-            <paper-button class="okButton" on-tap="setAjaxEditEmail">OK</paper-button>
-            <paper-button class="okButton" on-tap="closeEditEmail">Close</paper-button>
+            <div align="center">
+              <paper-button align="center" class="button" on-tap="setAjaxEditEmail"><b>Save</b></paper-button>
+              <paper-button align="center" class="button" on-tap="closeEditEmail"><b>Close</b></paper-button>
+            </div>
         </paper-dialog>
-        <paper-dialog id="editQuestionsOpen">
-          <h1>Change Security Questions</h1>
+      </div>
+      <div style="position:absolute;top:0;left:0">
+        <paper-dialog class="security_position" id="editQuestionsOpen">
+          <h1 align="center">Change Security Questions</h1>
           <label for="securityQuestion1">Question 1</label>
+          <div align="center">
           <select id="securityQuestion1" class="securityQuestion">
             <option selected>{{questionOne}}</option>
             <option>Who was your second grade teacher?</option>
@@ -69,8 +88,10 @@
             <option>Where was your first date?</option>
             <option>What was your favorite holiday gift?</option>
           </select>
+          </div>
           <paper-input placeholder="Answer" value="{{answer1}}"></paper-input>
           <label for="securityQuestion2">Question 2</label>
+          <div align="center">
           <select id="securityQuestion2" class="securityQuestion">
             <option selected>{{questionTwo}}</option>
             <option>Who was your second grade teacher?</option>
@@ -80,41 +101,45 @@
             <option>Where was your first date?</option>
             <option>What was your favorite holiday gift?</option>
           </select>
+          </div>
           <paper-input placeholder="Answer" value="{{answer2}}"></paper-input>
-          <paper-button class="okButton" on-tap="setAjaxEditQuestions">OK</paper-button>
-          <paper-button class="okButton" on-tap="closeQuestionsModal">Close</paper-button>
+          <div align="center">
+            <paper-button align="center" class="button" on-tap="setAjaxEditQuestions"><b>Save<b/></paper-button>
+            <paper-button align="center" class="button" on-tap="closeQuestionsModal"><b>Close</b></paper-button>
+          </div>
         </paper-dialog>
-        <shape-iron-ajax-helper
-            id="ajaxChangePassword"
-            resource=""
-            handle-as="json"
-            method="POST"
-            on-response="callBackChangePassword"
-            debounce-duration="300">
-        </shape-iron-ajax-helper>
-        <shape-iron-ajax-helper
-            id="ajaxEditQuestions"
-            resource=""
-            handle-as="json"
-            method="POST"
-            on-response="callBackEditQuestions"
-            debounce-duration="300">
-        </shape-iron-ajax-helper>
-        <shape-iron-ajax-helper
-            id="ajaxEditEmail"
-            resource=""
-            handle-as="json"
-            method="POST"
-            on-response="callBackEditEmail"
-            debounce-duration="300">
-        </shape-iron-ajax-helper>
-        <shape-iron-ajax-helper
-            id="findUsers"
-            resource="/admin/user/findAll"
-            handle-as="json"
-            on-response="callBackfindUsers"
-            debounce-duration="300">
-        </shape-iron-ajax-helper>
+      </div>
+      <shape-iron-ajax-helper
+          id="ajaxChangePassword"
+          resource=""
+          handle-as="json"
+          method="POST"
+          on-response="callBackChangePassword"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
+      <shape-iron-ajax-helper
+          id="ajaxEditQuestions"
+          resource=""
+          handle-as="json"
+          method="POST"
+          on-response="callBackEditQuestions"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
+      <shape-iron-ajax-helper
+          id="ajaxEditEmail"
+          resource=""
+          handle-as="json"
+          method="POST"
+          on-response="callBackEditEmail"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
+      <shape-iron-ajax-helper
+          id="findUsers"
+          resource="/admin/user/findAll"
+          handle-as="json"
+          on-response="callBackfindUsers"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
