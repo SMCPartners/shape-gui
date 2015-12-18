@@ -48,9 +48,9 @@
     <template>
       <div align="center">
           <paper-material elevation="1">
-              <paper-button class="button" id='resetPassword' on-tap="handleClick"><b>Reset Password</b></paper-button>
-              <paper-button class="button" id='editEmail' on-tap="handleClick"><b>Edit eMail</b></paper-button>
-              <paper-button class="button" id='securityQuestions' on-tap="handleClick"><b>Change Security Questions</b></paper-button>
+              <paper-button class="button" id='resetPassword' on-tap="handleClickPassword"><b>Reset Password</b></paper-button>
+              <paper-button class="button" id='editEmail' on-tap="handleClickEmail"><b>Edit eMail</b></paper-button>
+              <paper-button class="button" id='securityQuestions' on-tap="handleClickSecurity"><b>Change Security Questions</b></paper-button>
           </paper-material>
       </div>
       <div style="position:absolute;top:0;left:0">
@@ -265,21 +265,25 @@
               this.email = callBackUser.email;
             },
 
-            handleClick: function (e) {
-                console.log(callBackUser.email);
+            handleClickPassword : function (e) {
                 this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
                 this.$.findUsers.callBack=this.callBackfindUsers;
                 this.$.findUsers.generateRequest();
-                var buttonClicked  = e.target.parentElement.id;
-                if (buttonClicked=='securityQuestions') {
-                    this.$.editQuestionsOpen.open();
-                 }
-                if (buttonClicked=='resetPassword'){
-                    this.$.changePassword.open();
-                }
-                if (buttonClicked=='editEmail'){
-                    this.$.editEmailOpen.open();
-                }
+                this.$.changePassword.open();
+            },
+
+            handleClickEmail : function (e) {
+                this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
+                this.$.findUsers.callBack=this.callBackfindUsers;
+                this.$.findUsers.generateRequest();
+                this.$.editEmailOpen.open();
+            },
+
+            handleClickSecurity : function (e) {
+                this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
+                this.$.findUsers.callBack=this.callBackfindUsers;
+                this.$.findUsers.generateRequest();
+                this.$.editQuestionsOpen.open();
             },
         });
     })();
