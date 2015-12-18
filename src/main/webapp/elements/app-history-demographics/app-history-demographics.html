@@ -8,7 +8,15 @@
 
     </style>
     <template>
+      <shape-iron-ajax-helper
+        id="showAppHistoryDemographics"
+        handle-as="json"
+        method="GET"
+        on-response="appHistDemograhicCallBack"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>
       <template is='dom-repeat' items='{{orgMeasCharts}}' filter="{{_filter(filterVal)}}">
+
 
         <paper-material>
           <h2>NQF ID: <span>{{item.measureNQF}}</span><br><span>{{item.measureName}}</span></h2>
@@ -18,7 +26,7 @@
                       <!--template is="dom-if" if="{{item.raceData}}"-->
                       <google-chart
                         cols='[{"label": "Data", "type": "string"},{"label": "Value", "type": "number"}]'
-                        rows='{{item.testraceData}}'>
+                        rows='{{item.raceData}}'>
                       </google-chart>
                     </template>
 
@@ -61,10 +69,16 @@
               filterVal: "defaultFilter"
             },
             ready: function() {
-
-            this.orgMeasCharts = [];
-
             },
+            appHistDemograhicCallBack: function(evt){
+              this.set("orgMeasCharts", evt.detail.response)
+              // console.log('app hist demographics: ')
+              // console.log(response)
+            },
+            setAjax: function(orgId, measureId, year){
+              this.$.showAppHistoryDemographics.resource="/common/show/appHistDemographic/"+orgId+"/"+measureId+"/"+year;
+              this.$.showAppHistoryDemographics.generateRequest();
+            }
             // _filter: function(val) {
             //     return function(orgMeasCharts) {
             //         // if (!val) return true;
