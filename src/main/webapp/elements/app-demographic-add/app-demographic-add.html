@@ -200,7 +200,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 }
             },
             ready: function () {
-
+              
               this.quarterChoose = [
                 {_id: "1", quarter: "1st Quarter"},
                 {_id: "2", quarter: "2nd Quarter"},
@@ -306,6 +306,38 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 userId: document.querySelector('app-login').$.userIdInput.value
               };
               this.setAjax(JSON.stringify(formData));
+              this.$$('#mainNum').value = "",
+              this.$$('#mainDen').value = "",
+              this.$$('#maleNum').value = "",
+              this.$$('#maleDen').value = "",
+              this.$$('#femaleNum').value = "",
+              this.$$('#femaleDen').value = "",
+              this.$$('#otherGenderNum').value = "",
+              this.$$('#otherGenderDen').value = "",
+              this.$$('#underSeventeenNum').value = "",
+              this.$$('#underSeventeenDen').value = "",
+              this.$$('#eighteenNum').value = "",
+              this.$$('#eighteenDen').value = "",
+              this.$$('#fortyFiveNum').value = "",
+              this.$$('#fortyFiveDen').value = "",
+              this.$$('#sixtyFiveNum').value = "",
+              this.$$('#sixtyFiveDen').value = "",
+              this.$$('#hispanicNum').value = "",
+              this.$$('#hispanicDen').value = "",
+              this.$$('#notHispanicNum').value = "",
+              this.$$('#notHispanicDen').value = "",
+              this.$$('#blackNum').value = "",
+              this.$$('#blackDen').value = "",
+              this.$$('#indianNum').value = "",
+              this.$$('#indianDen').value = "",
+              this.$$('#asianNum').value = "",
+              this.$$('#asianDen').value = "",
+              this.$$('#hawaiianNum').value = "",
+              this.$$('#hawaiianDen').value = "",
+              this.$$('#whiteNum').value = "",
+              this.$$('#whiteDen').value = "",
+              this.$$('#otherRaceNum').value = "",
+              this.$$('#otherRaceDen').value = "",
               document.querySelector('app-measure-input').setAjaxMeasure();
               this.$.testVar.close();
             },
