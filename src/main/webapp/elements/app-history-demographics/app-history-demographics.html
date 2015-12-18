@@ -17,12 +17,12 @@
                     <h2>Race</h2>
                       <!--template is="dom-if" if="{{item.raceData}}"-->
                       <google-chart
-                        type='column'
-                        data='{{item.raceData}}'>
+                        cols='[{"label": "Data", "type": "string"},{"label": "Value", "type": "number"}]'
+                        rows='{{item.testraceData}}'>
                       </google-chart>
-                    <!--/template-->
+                    </template>
 
-                    <h2>Age</h2>
+                    <!-- <h2>Age</h2>
                     <google-chart
                       type='column'
                       data='{{item.ageData}}'>
@@ -36,7 +36,7 @@
                     <google-chart
                       type='column'
                       data='{{item.genderData}}'>
-                    </google-chart>
+                    </google-chart> -->
         </paper-material>
 
                     <!-- <google-chart
