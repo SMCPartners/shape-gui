@@ -306,6 +306,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 userId: document.querySelector('app-login').$.userIdInput.value
               };
               this.setAjax(JSON.stringify(formData));
+              document.querySelector('app-measure-input').setAjaxMeasure();
               this.$.testVar.close();
             },
 
