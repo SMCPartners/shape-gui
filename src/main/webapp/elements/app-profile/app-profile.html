@@ -26,6 +26,9 @@
 
     </style>
     <template>
+    <div>
+      <h>Address</h>
+    </div>
 
       <shape-iron-ajax-helper
           id="findStratByOrg"
@@ -190,32 +193,33 @@
                     this.setAjaxEditStrat();
                     this.profButton = 'Edit';
                 }
-                else if (this.profbutton === "Save" && this.gender[0].strat === "") {
+                else if (this.profButton === "Save" && this.gender[0].strat === "") {
                   console.log(this.profButton);
-                  this.setAjaxAddStrat();
                   this.disabled = true;
+                  this.setAjaxAddStrat();
                 }
                 else {
-                    console.log(this.profButton);
-                    this.profButton = 'Save';
+                  console.log(this.profButton);
+                  this.profButton = 'Save';
+                  this.disabled = true;
                 };
                 var editInput = document.getElementsByClassName('childtwo');
                 for(var i = 0; i < editInput.length; i++) {
                     this.disabled = false;
                 };
+                console.log(editInput);
 
             },
             cancelEdit: function (e) {
                 var cancelInput = document.getElementsByClassName('childtwo');
                 for(var i = 0; i < cancelInput.length; i++) {
-              this.disabled = true;
+                  this.disabled = true;
                 };
-                this.profButton = 'Edit';
+                  this.profButton = 'Edit';
             },
             setajax: function() {
               this.$.findStratByOrg.callBack = this.callBack
               this.$.findStratByOrg.resource = "/common/organization_stratification/findAllByOrg/"+ document.getElementById('findUserOrganizations').value;
-              //console.log(this.$.findStratByOrg.resource);
               this.$.findStratByOrg.generateRequest();
 
             },
@@ -238,7 +242,8 @@
                 "raceWhite" : this.race[4].num,
                 "raceOther" : this.race[5].num,
                 "organizationId" : app.$.mainPage.$.dashboard.$.findUserOrganizations.value,
-                "userId" : app.$.loginPage.$.userIdInput.value
+                "userId" : app.$.loginPage.$.userIdInput.value,
+                "rpDate" : ""
                });
               this.$.addOrgStrat.generateRequest();
               this.isDemographicData = true;
@@ -263,23 +268,16 @@
                 "raceOther" : this.race[5].num,
                 "organizationId" : app.$.mainPage.$.dashboard.$.findUserOrganizations.value,
                 "userId" : app.$.loginPage.$.userIdInput.value,
+                "rpDate" : ""
                });
+              console.log(this.$.postOrgStrat.body);
               this.$.postOrgStrat.generateRequest();
             },
 
-          // callBackTest: function (){
-          //   if (typeof request === 'undefined'){
-          //     this.addProfile();
-          //   }
-          //   else {
-          //     this.callback();
-          //   }
-          // },
-
            callBack: function(request) {
-             //console.log(request.detail.response[0]);
-
+             console.log(request.detail.response);
              this.profile = request.detail.response[0];
+             console.log(this.profile);
 
              if(this.profile){
                this.isDemographicData = true;
