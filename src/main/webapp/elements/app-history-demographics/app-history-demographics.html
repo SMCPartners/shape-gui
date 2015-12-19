@@ -4,7 +4,28 @@
 
 <dom-module id="app-history-demographics">
     <style>
+    google-chart {
+      width: 80%;
+      padding-top: 5px;
+      margin-top: 0px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h3 {
+      padding-left: 5%;
+    }
+    h2 {
+      padding-left: 5%;
+    }
+    .measureDescription {
+      text-align: justify;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 10px;
+      padding-bottom: 10px;
 
+    }
 
     </style>
     <template>
@@ -19,15 +40,49 @@
 
 
         <paper-material>
-          <h2>NQF ID: <span>{{item.measureNQF}}</span><br><span>{{item.measureName}}</span></h2>
-          <br>
-          <h3>Reported:<span>{{item.reportQuart}}</span>of<span>{{item.reportYear}}</span></h3>
-                    <h2>Race</h2>
-                      <!--template is="dom-if" if="{{item.raceData}}"-->
+          <h2>NQF ID: <span>{{item.nqfId}}</span>&nbsp<span>{{item.name}}</span>:</h2>
+          <h2>Year:&nbsp<span>{{item.reportPeriodYear}}</span></h2>
+                    <div class="measureDescription">
+                      <p>{{item.description}}</p>
+                    </div>
+
+                      <template is="dom-if" if="{{item.raceData}}">
+                      <h3>NQF measure&nbsp<span>{{item.nqfId}}</span>&nbspby Race:</h3>
                       <google-chart
-                        cols='[{"label": "Data", "type": "string"},{"label": "Value", "type": "number"}]'
+                      options='{"vAxis": {"maxValue": 1}}'
+                        cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"}]'
                         rows='{{item.raceData}}'>
                       </google-chart>
+                    </template>
+
+                    <template is="dom-if" if="{{item.ageData}}">
+                      <h3>NQF measure&nbsp<span>{{item.nqfId}}</span>&nbspby Age:</h3>
+                      <google-chart
+                        options='{"vAxis": {"maxValue": 1}}'
+                        cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"}]'
+                        rows='{{item.ageData}}'>
+                      </google-chart>
+                    </template>
+
+                    <template is="dom-if" if="{{item.ethnicityData}}">
+                      <h3>NQF measure&nbsp<span>{{item.nqfId}}</span>&nbspby Ethnicity:</h3>
+                      <google-chart
+                        options='{"vAxis": {"maxValue": 1}}'
+                        cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"}]'
+                        rows='{{item.ethnicityData}}'>
+                      </google-chart>
+                    </template>
+
+                    <template is="dom-if" if="{{item.genderData}}">
+                      <h3>NQF measure&nbsp<span>{{item.nqfId}}</span>&nbspby Gender:</h3>
+                      <google-chart
+                        options='{"vAxis": {"maxValue": 1}}'
+                        cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"}]'
+                        rows='{{item.genderData}}'>
+                      </google-chart>
+                    </template>
+
+
                     </template>
 
                     <!-- <h2>Age</h2>
@@ -72,7 +127,7 @@
             },
             appHistDemograhicCallBack: function(evt){
               this.set("orgMeasCharts", evt.detail.response)
-              // console.log('app hist demographics: ')
+              console.log(this.orgMeasCharts)
               // console.log(response)
             },
             setAjax: function(orgId, measureId, year){
