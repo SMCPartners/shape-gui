@@ -197,6 +197,10 @@
 
             },
             loadMeasureData: function() {
+              year=this.$.selectYear.value;
+              measure = this.$.selectMeasure.value;
+              orgId = app.$.mainPage.$.dashboard.$.findUserOrganizations.value
+              this.$.histographic.setAjax(orgId, measure, year);
               document.querySelector('app-history-list-view').setajax();
               document.querySelector('app-history-graph').loadTrendChart();
               document.querySelector('app-measure-input').setAjaxMeasure();
