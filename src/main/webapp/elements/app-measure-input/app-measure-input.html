@@ -370,9 +370,11 @@
             },
 
             setAjaxMeasure: function() {
-              this.$.findMeasureInput.resource = '/common/organization_measure/findAllByOrg/' + document.getElementById('findUserOrganizations').value;
-              this.$.findMeasureInput.callBack = this.callBack;
-              this.$.findMeasureInput.generateRequest();
+              if(app.$.mainPage.$.dashboard.isOrgSelected){
+                this.$.findMeasureInput.resource = '/common/organization_measure/findAllByOrg/' + document.getElementById('findUserOrganizations').value;
+                this.$.findMeasureInput.callBack = this.callBack;
+                this.$.findMeasureInput.generateRequest();
+              }
             },
 
             setAppHistoryGraph: function() {

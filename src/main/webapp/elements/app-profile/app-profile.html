@@ -218,9 +218,11 @@
                   this.profButton = 'Edit';
             },
             setajax: function() {
-              this.$.findStratByOrg.callBack = this.callBack
-              this.$.findStratByOrg.resource = "/common/organization_stratification/findAllByOrg/"+ document.getElementById('findUserOrganizations').value;
-              this.$.findStratByOrg.generateRequest();
+              if (app.$.mainPage.$.dashboard.isOrgSelected){
+                this.$.findStratByOrg.callBack = this.callBack
+                this.$.findStratByOrg.resource = "/common/organization_stratification/findAllByOrg/"+ document.getElementById('findUserOrganizations').value;
+                this.$.findStratByOrg.generateRequest();
+              }
 
             },
             setAjaxAddStrat: function() {

@@ -68,7 +68,7 @@
                     <label class="child" style="font: inherit; margin-left:0.5em;"><b>Measure:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
                         <select id="selectMeasure" name="measure" style="font: inherit" on-change="loadMeasureData">
-                          <option>Select Measure</option>
+                          <option value = "label">Select Measure</option>
                             <template is="dom-repeat" restamp="true" selectedMeasures={{item}} items="{{measures}}">
                                 <option style="font: inherit" value={{item.id}}>
                                     NQF <span>{{item.nqfId}}</span> <span>{{item.name}}</span>
@@ -116,7 +116,7 @@
                     <label class="child" style="font: inherit; margin-left:0.5em;"><b>Analytics:</b></label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
                         <select value="{{selectedView::change}}" style="font: inherit;" on-change="loadMeasureData">
-                            <option>Choose view..</option>
+                            <option value ="label">Choose view..</option>
                             <option value="0">List View</option>
                             <option value="1">Measure Trend</option>
                             <option value="2">Measure Demographics</option>
@@ -197,6 +197,7 @@
 
             },
             loadMeasureData: function() {
+              if (app.$.mainPage.$.dashboard.isOrgSelected && this.selectedMeasure !=="label" && this.selectYear !=="label" )
               document.querySelector('app-history-list-view').setajax();
               document.querySelector('app-history-graph').loadTrendChart();
               document.querySelector('app-measure-input').setAjaxMeasure();
