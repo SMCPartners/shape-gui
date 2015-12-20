@@ -105,9 +105,11 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
               <div class="dropdown">
                   <select id="mid" name="measure" style="font: inherit">
                       <template is="dom-repeat" items="{{measures}}">
+                        <template is="dom-if" if="{{item.active}}">
                           <option style="font: inherit" value="{{item.id}}">
                               NQF <span>{{item.nqf}}</span> <span>{{item.name}}</span>
                           </option>
+                        </template>
                       </template>
                   </select>
               </div>
@@ -352,6 +354,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
             },
             setDropdowns: function(request) {
               var response = request.detail.response;
+              console.log(response)
               this.set('measures', response);
             }
         });

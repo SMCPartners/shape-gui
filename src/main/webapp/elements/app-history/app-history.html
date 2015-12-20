@@ -197,7 +197,11 @@
 
             },
             loadMeasureData: function() {
-              if (app.$.mainPage.$.dashboard.isOrgSelected && this.selectedMeasure !=="label" && this.selectYear !=="label" ){
+              this.$.selectMeasure.value !=="label" ? this.isMeasureSelected = true : this.isMeasureSelected = false;
+              this.$.selectYear.value !=="label" ? this.isYearSelected = true : this.isYearSelected = false;
+              console.log("Is selected: "+ this.isMeasureSelected+"Is year: "+this.isYearSelected);
+
+              if (app.$.mainPage.$.dashboard.isOrgSelected && this.isYearSelected && this.isMeasureSelected ){
                 year=this.$.selectYear.value;
                 measure = this.$.selectMeasure.value;
                 orgId = app.$.mainPage.$.dashboard.$.findUserOrganizations.value
