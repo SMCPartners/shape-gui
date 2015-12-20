@@ -4,25 +4,108 @@
 
 <dom-module id="app-history-demographics">
     <style>
+    google-chart {
+      width: 80%;
+      padding-top: 5px;
+      margin-top: 0px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h3 {
+      padding-left: 5%;
+    }
+    h2 {
+      padding-left: 5%;
+    }
+    .measureDescription {
+      text-align: justify;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 10px;
+      padding-bottom: 10px;
 
+    }
+    .incompleteGraph {
+      font-weight:400;
+    }
 
     </style>
     <template>
+      <shape-iron-ajax-helper
+        id="showAppHistoryDemographics"
+        handle-as="json"
+        method="GET"
+        on-response="appHistDemograhicCallBack"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>
       <template is='dom-repeat' items='{{orgMeasCharts}}' filter="{{_filter(filterVal)}}">
 
-        <paper-material>
-          <h2>NQF ID: <span>{{item.measureNQF}}</span><br><span>{{item.measureName}}</span></h2>
-          <br>
-          <h3>Reported:<span>{{item.reportQuart}}</span>of<span>{{item.reportYear}}</span></h3>
-                    <h2>Race</h2>
-                      <!--template is="dom-if" if="{{item.raceData}}"-->
-                      <google-chart
-                        type='column'
-                        data='{{item.raceData}}'>
-                      </google-chart>
-                    <!--/template-->
 
-                    <h2>Age</h2>
+        <paper-material>
+          <h2>NQF ID: <span>{{item.nqfId}}</span>&nbsp<span>{{item.name}}</span>:</h2>
+          <h2>Year:&nbsp<span>{{item.reportPeriodYear}}</span></h2>
+                    <div class="measureDescription">
+                      <p>{{item.description}}</p>
+                    </div>
+
+
+                      <h3>NQF measure&nbsp<span>{{item.nqfId}}</span>&nbspby Race:</h3>
+                      <template is="dom-if" if="{{item.raceData}}">
+                        <google-chart
+                          options='{"vAxis": {"maxValue": 1}}'
+                          cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"}]'
+                          rows='{{item.raceData}}'>
+                        </google-chart>
+                      </template>
+                      <template is="dom-if" if="{{isChartIncomplete(item.raceData)}}">
+                        <p class= "incompleteGraph" >Data not available for chart.</p>
+                      </template>
+
+
+                      <h3>NQF measure&nbsp<span>{{item.nqfId}}</span>&nbspby Age:</h3>
+                      <template is="dom-if" if="{{item.ageData}}">
+                        <google-chart
+                          options='{"vAxis": {"maxValue": 1}}'
+                          cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"}]'
+                          rows='{{item.ageData}}'>
+                        </google-chart>
+                      </template>
+                      <template is="dom-if" if="{{isChartIncomplete(item.ageData)}}">
+                        <p class= "incompleteGraph" >Data not available for chart.</p>
+                      </template>
+
+
+                      <h3>NQF measure&nbsp<span>{{item.nqfId}}</span>&nbspby Ethnicity:</h3>
+                      <template is="dom-if" if="{{item.ethnicityData}}">
+                        <google-chart
+                          options='{"vAxis": {"maxValue": 1}}'
+                          cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"}]'
+                          rows='{{item.ethnicityData}}'>
+                        </google-chart>
+                      </template>
+                      <template is="dom-if" if="{{isChartIncomplete(item.ethnicityData)}}">
+                        <p class= "incompleteGraph" >Data not available for chart.</p>
+                      </template>
+
+
+                      <h3>NQF measure&nbsp<span>{{item.nqfId}}</span>&nbspby Gender:</h3>
+                      <template is="dom-if" if="{{item.genderData}}">
+                        <google-chart
+                          options='{"vAxis": {"maxValue": 1}}'
+                          cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"}]'
+                          rows='{{item.genderData}}'>
+                        </google-chart>
+                      </template>
+                      <template is="dom-if" if="{{isChartIncomplete(item.genderData)}}">
+                        <p class= "incompleteGraph" >Data not available for chart.</p>
+                      </template>
+                     </paper-material>
+
+
+                    </template>
+
+                    <!-- <h2>Age</h2>
                     <google-chart
                       type='column'
                       data='{{item.ageData}}'>
@@ -36,7 +119,7 @@
                     <google-chart
                       type='column'
                       data='{{item.genderData}}'>
-                    </google-chart>
+                    </google-chart> -->
         </paper-material>
 
                     <!-- <google-chart
@@ -61,10 +144,25 @@
               filterVal: "defaultFilter"
             },
             ready: function() {
-
-            this.orgMeasCharts = [];
-
             },
+            appHistDemograhicCallBack: function(evt){
+              console.log(evt.detail.response)
+              this.set("orgMeasCharts", evt.detail.response)
+              console.log(this.orgMeasCharts)
+              // console.log(response)
+            },
+            setAjax: function(orgId, measureId, year){
+              this.$.showAppHistoryDemographics.resource="/common/show/appHistDemographic/"+orgId+"/"+measureId+"/"+year;
+              this.$.showAppHistoryDemographics.generateRequest();
+            },
+            isChartIncomplete: function(array){
+              if (array[0]=="false"){
+                return true;
+              }else{
+                return false;
+              }
+
+            }
             // _filter: function(val) {
             //     return function(orgMeasCharts) {
             //         // if (!val) return true;

@@ -197,13 +197,12 @@
 
             },
             loadMeasureData: function() {
-              if (app.$.mainPage.$.dashboard.isOrgSelected && this.selectedMeasure !=="label" && this.selectYear !=="label" )
-              document.querySelector('app-history-list-view').setajax();
-              document.querySelector('app-history-graph').loadTrendChart();
-              document.querySelector('app-measure-input').setAjaxMeasure();
-              document.querySelector('app-profile').organizationID = this.selectedOrganization;
-              document.querySelector('app-profile').setajax();
-
+              if (app.$.mainPage.$.dashboard.isOrgSelected && this.selectedMeasure !=="label" && this.selectYear !=="label" ){
+                year=this.$.selectYear.value;
+                measure = this.$.selectMeasure.value;
+                orgId = app.$.mainPage.$.dashboard.$.findUserOrganizations.value
+                this.$.histographic.setAjax(orgId, measure, year);
+              }
             },
             /*buildStratify: function (e) {
 
