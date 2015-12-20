@@ -75,7 +75,7 @@
 
         },
         handleError: function(evt){
-          errorMessage = evt.detail.error;
+          errorMessage = evt.detail.request.parseResponse().errMsg;
           app.$.errorDialogBox.openError(errorMessage);
           // document.querySelector('app-error-dialog').openError;
         },
