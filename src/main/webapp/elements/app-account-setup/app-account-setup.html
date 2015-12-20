@@ -44,7 +44,7 @@
       <p>Select your new password and add security questions below</p>
 
       <paper-input class="passwordInput" type="oldPassword" value="{{oldPassword}}" placeholder="Old Password"></paper-input>
-      <paper-input class="password" type="newPassword" value="{{newPassword}}" placeholder="New Password"></paper-input>
+      <paper-input class="password" type="newPassword" value="{{newPassword}}"></paper-input>
         <h1>Add Security Questions</h1>
           <label for="securityQuestion1">Question 1</label>
           <select id="securityQuestion1" class="securityQuestion">
@@ -115,8 +115,47 @@
               console.log(request.detail.response);
               callBackUser=request.detail.response;
             },
+            checkPasswordComplexity: function(password){
+              // create empty array for errors
+              errors = []
+              //set REGEX
+              var lowercase = new RegExp("[a-z]")
+              var uppercase = new RegExp("[A-Z]")
+              var digit = new RegExp("[0-9]")
+
+              // check for upper case
+              lowercase.test(password) ? true : errors.push("One lowercase")
+              // check for lower case
+              uppercase.test(password) ? true : errors.push("One uppercase")
+              // check for number
+              digit.test(password) ? ture : errors.push("One digit")
+
+              // if any errors
+              if (errors.length>0){
+                // popup with errors
+                errorString = "Your password doesn't contain: \n"
+                for (var i=0, i < errors.length, i++){
+                  errorString+= errors[i]+"\n"
+                }
+                alert(errorString)
+                // erase password
+                this.newPassword=""
+                // return false
+                return false
+
+              }else{
+                // otherwise
+                   // return true
+                   return true;
+              }
+
+
+
+
+            },
 
             setupAccount: function (request) {
+              if (checkPasswordComplexity(this.newPassword)){
                 this.$.ajaxSetupAccount.resource="/common/changepassword";
                 this.$.ajaxSetupAccount.body = JSON.stringify ({
                       "id": document.querySelector('app-login').$.userIdInput.value,
@@ -131,10 +170,11 @@
                       "questionTwo": callBackUser.questionTwo,
                       "answerOne": this.answer1,
                       "answerTwo" : this.answer2
-              });
+                });
                 this.$.ajaxSetupAccount.method="POST";
                 this.$.ajaxSetupAccount.callBack=this.callBackSetupAccount;
                 this.$.ajaxSetupAccount.generateRequest();
+              }
               },
 
             callBackSetupAccount: function(request) {
