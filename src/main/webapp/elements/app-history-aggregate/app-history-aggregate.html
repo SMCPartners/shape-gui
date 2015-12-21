@@ -1,0 +1,118 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../elements.html">
+
+
+<dom-module id="app-history-aggregate">
+    <style>
+    google-chart {
+      width: 80%;
+      padding-top: 5px;
+      margin-top: 0px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    h3 {
+      padding-left: 5%;
+    }
+    h2 {
+      padding-left: 5%;
+    }
+    .measureDescription {
+      text-align: justify;
+      width: 60%;
+      margin-left: auto;
+      margin-right: auto;
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+    }
+    .incompleteGraph {
+      font-weight:400;
+    }
+
+    </style>
+    <template>
+      <shape-iron-ajax-helper
+        id="showAppHistoryAggregate"
+        handle-as="json"
+        method="GET"
+        on-response="appHistAggregateCallBack"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>
+
+
+        <paper-material>
+        <google-chart
+          options= {{options}}
+          type = "bar"
+          data = "{{aggChartData}}"
+          >
+
+        </google-chart>
+        </paper-material>
+
+
+
+
+     </template>
+
+
+</dom-module>
+<script>
+    (function () {
+        Polymer({
+            is: 'app-history-aggregate',
+            properties: {
+              organizationId: {
+                type: String
+              },
+              measureId: {
+                type: String
+              },
+              year: {
+                type: String
+              },
+              options: {
+                type: Object,
+                value: {isStacked : true}
+              }
+            },
+            ready: function() {
+              this.aggChartData =
+                [["Organization", "Denominator", " Numerator"], // First item in array is an array of strings, these are graph labels, they shouldn't change
+                ["Aggregate", 600, 90], // second item in array is the aggregate data. First element is a string  with the label aggregate. second label is the denominator, which is the sum of denominator for all organizations for a given measure and ID. The Third is the numerator under the same criteria
+                ["org 1", 500, 30], // The following items are [org name, denominator, numerator] for a given organization , measure and year
+                ["org 2", 100, 60]
+              ]
+              //this.options = {isStacked : true}
+            },
+            appHistAggregateCallBack: function(evt){
+              console.log(evt.detail.response)
+              this.set("orgAggCharts", evt.detail.response)
+              console.log(this.orgMeasCharts)
+              // console.log(response)
+            },
+            setAjax: function(orgId, measureId, year){
+
+              //This should be the resource for the new service
+              /*
+              this.$.showAppHistoryAggregate.resource="/common/show/appHistDemographic/"+orgId+"/"+measureId+"/"+year;
+              this.$.showAppHistoryAggregate.generateRequest();
+              */
+
+            }
+            // _filter: function(val) {
+            //     return function(orgMeasCharts) {
+            //         // if (!val) return true;
+            //         // if (!orgMeasCharts) return false;
+            //         // return(orgMeasCharts.reportYear && ~orgMeasCharts.reportYear.indexOf(val));
+            //         console.log(orgMeasCharts.reportYear === app.$.mainPage.$.dashboard.$.history.$.yearSelect.value && orgMeasCharts.measureNQF === app.$.mainPage.$.dashboard.$.history.$.measureSelect.value);
+            //         return (orgMeasCharts.reportYear === app.$.mainPage.$.dashboard.$.history.$.yearSelect.value && orgMeasCharts.measureNQF === app.$.mainPage.$.dashboard.$.history.$.measureSelect.value)
+            //         // return true;
+            //    };
+            //  }
+        });
+    })();
+
+
+</script>
