@@ -320,6 +320,7 @@
             editUserModal: function(e) {
                 //  console.log(e.target.parentNode.getAttribute("modalName")),
                   this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
+                  //this.$.editModal.editUserButton();
                   var userNum = e.target.parentNode.getAttribute('id');
                   this.$.editModal.users = Object.create(this.users[userNum]);
 

@@ -229,6 +229,8 @@
             },
 
             selectMeasureCallBack: function(request) {
+                document.querySelector('app-history').setajaxMeasures();
+                this.setajax();
                 console.log(request);
             },
 
@@ -241,6 +243,8 @@
             },
 
             unselectMeasureCallBack: function(request) {
+                document.querySelector('app-history').setajaxMeasures();
+                this.setajax();
                 console.log(request);
             },
 
