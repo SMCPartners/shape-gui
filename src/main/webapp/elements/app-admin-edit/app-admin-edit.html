@@ -264,8 +264,10 @@
                 type: String
               },
             },
+
             ready: function() {
             },
+
             getData: function(){
                 this.$.findOrgs.generateRequest()
             },
@@ -282,7 +284,6 @@
                   }
                   this.$.providerOrgSelect.value = data.organization;
                   console.log('providerData', this.providerData);
-
                   this.$.editProvider.open();
                 }
 
@@ -295,7 +296,6 @@
                 }
 
                 if (inputModalName == 'editUser') {
-
                   this.$.editUser.open();
                 };
             },

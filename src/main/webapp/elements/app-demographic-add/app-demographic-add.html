@@ -105,7 +105,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
               <div class="dropdown">
                   <select id="mid" name="measure" style="font: inherit">
                       <template is="dom-repeat" items="{{measures}}">
-                        <template is="dom-if" if="{{item.active}}">
+                        <template is="dom-if" if="{{item.selected}}">
                           <option style="font: inherit" value="{{item.id}}">
                               NQF <span>{{item.nqf}}</span> <span>{{item.name}}</span>
                           </option>
