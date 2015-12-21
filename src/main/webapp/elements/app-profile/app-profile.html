@@ -5,8 +5,8 @@
 <dom-module id="app-profile">
     <style>
       paper-input {
-        width: 80px;
-        margin-right: 25px;
+        width: 65px;
+        margin-right: 5px;
         display: inline-block;
 
         --paper-input-container-disabled: {
@@ -17,7 +17,7 @@
       }
 
       h1 {
-        padding: 0px 0px 25px 50px;
+        padding-top: 25px;
       }
       paper-button {
         padding: 10px;
@@ -71,6 +71,13 @@
       .center {
         text-align: center;
       }
+      .smallFont {
+        font-size: .75em;
+        margin-right: 25px;
+      }
+      .inputBlock {
+        display: inline-block;
+      }
 
 
     </style>
@@ -120,13 +127,13 @@
           <h1 class="center">Patient Population</h1>
             <div class="firstColumn">
               <h3 class="center">Patient Volume</h3>
-              <paper-input label="Patients" value="{{profile.totalPatients}}" disabled="{{disabled}}"></paper-input>
-              <paper-input label="Visits per Year" value="{{profile.totalVisits}}" disabled="{{disabled}}"></paper-input>
+              <paper-input value="{{profile.totalPatients}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients</p><br>
+              <paper-input value="{{profile.totalVisits}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Visits per Year</p><br>
               <h3 class="center">Patient Counts</h3>
-              <paper-input label="Patients with a Diagnosis of Hypertension" value="{{profile.patientsHypertension}}" disabled="{{disabled}}"></paper-input>
-              <paper-input label="Patients with a Diagnosis of Diabetes" value="{{profile.patientsDiabetes}}" disabled="{{disabled}}"></paper-input>
-              <paper-input label="Patients with Pre-Diabetes" value="{{profile.patientsPreDiabetes}}" disabled="{{disabled}}"></paper-input>
-              <paper-input label="Patients with High BP but no Diagnosis of Hypertension" value="{{profile.patientsHighBp}}" disabled="{{disabled}}"></paper-input>
+              <paper-input value="{{profile.patientsHypertension}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients with a Diagnosis of Hypertension</p><br>
+              <paper-input value="{{profile.patientsDiabetes}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients with a Diagnosis of Diabetes</p><br>
+              <paper-input value="{{profile.patientsPreDiabetes}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients with Pre-Diabetes</p><br>
+              <paper-input value="{{profile.patientsHighBp}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients with High BP but no Diagnosis of Hypertension</p>
             </div>
             <div class="demoColumn">
 
@@ -134,9 +141,9 @@
 
             <h3>Gender</h3>
                 <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
-
-                      <paper-input label="{{gender.strat}}" value="{{gender.num}}" disabled="{{disabled}}"></paper-input>
-
+                  <div class="inputBlock">
+                      <paper-input value="{{gender.num}}" disabled="{{disabled}}"></paper-input><p class="smallFont">{{gender.strat}}</p>
+                  </div>
                 </template>
 
 
@@ -144,18 +151,18 @@
 
             <h3>Age</h3>
                 <template id="agelist" is="dom-repeat" items="{{age}}" as="age">
-
-                      <paper-input label="{{age.strat}}" value="{{age.num}}" disabled="{{disabled}}"></paper-input>
-
+                  <div class="inputBlock">
+                      <paper-input value="{{age.num}}" disabled="{{disabled}}"></paper-input><p class="smallFont">{{age.strat}}</p>
+                  </div>
                 </template>
 
 
 
             <h3>Ethnicity</h3>
                 <template id="ethnicitylist" is="dom-repeat" items="{{ethnicity}}" as="ethnicity">
-
-                      <paper-input label="{{ethnicity.strat}}" value="{{ethnicity.num}}" disabled="{{disabled}}"></paper-input>
-
+                  <div class="inputBlock">
+                      <paper-input value="{{ethnicity.num}}" disabled="{{disabled}}"></paper-input><p class="smallFont">{{ethnicity.strat}}</p>
+                  </div>
                 </template>
 
 
@@ -163,19 +170,19 @@
 
             <h3>Race</h3>
                 <template id="racelist" is="dom-repeat" items="{{race}}" as="race">
-
-                      <paper-input label="{{race.strat}}" value="{{race.num}}" disabled="{{disabled}}"></paper-input>
-
+                  <div class="inputBlock">
+                      <paper-input value="{{race.num}}" disabled="{{disabled}}"></paper-input><p class="smallFont">{{race.strat}}</p>
+                  </div>
                 </template>
 
             </div>
           </div>
 
 
-
+      <div class="center">
         <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
-
         <paper-button on-tap="cancelEdit" raised="2">Cancel</paper-button>
+      </div>
       </paper-material>
 
     </template>
@@ -189,7 +196,7 @@
           <h1>Gender</h1>
               <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
 
-                    <paper-input label="{{gender.strat}}" value="{{gender.num}}"></paper-input>
+                    <paper-input label="{{gender.strat}}" value="{{gender.num}}"></paper-input><p class="smallFont">Patients with a Diagnosis of Hypertension</p>
 
               </template>
 
@@ -201,7 +208,7 @@
           <h1>Age</h1>
               <template id="agelist" is="dom-repeat" items="{{age}}" as="age">
 
-                    <paper-input label="{{age.strat}}" value="{{age.num}}"></paper-input>
+                    <paper-input label="{{age.strat}}" value="{{age.num}}"></paper-input><p class="smallFont">Patients with a Diagnosis of Hypertension</p>
 
               </template>
 
@@ -212,7 +219,7 @@
           <h1>Ethnicity</h1>
               <template id="ethnicitylist" is="dom-repeat" items="{{ethnicity}}" as="ethnicity">
 
-                    <paper-input label="{{ethnicity.strat}}" value="{{ethnicity.num}}" ></paper-input>
+                    <paper-input label="{{ethnicity.strat}}" value="{{ethnicity.num}}" ></paper-input><p class="smallFont">Patients with a Diagnosis of Hypertension</p>
 
               </template>
 
@@ -223,10 +230,10 @@
           <h1>Race</h1>
               <template id="racelist" is="dom-repeat" items="{{race}}" as="race">
 
-                    <paper-input label="{{race.strat}}" value="{{race.num}}"></paper-input>
+                    <paper-input label="{{race.strat}}" value="{{race.num}}"></paper-input><p class="smallFont">Patients with a Diagnosis of Hypertension</p>
 
               </template>
-        <paper-button on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
+        <paper-button class="center" on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
 
 
       </paper-material>
