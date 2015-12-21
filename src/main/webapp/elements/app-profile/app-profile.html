@@ -5,19 +5,26 @@
 <dom-module id="app-profile">
     <style>
       paper-input {
-        width: 120px;
-        padding: 15px 5px 15px 5px;
+        width: 80px;
+        margin-right: 25px;
         display: inline-block;
+
         --paper-input-container-disabled: {
           opacity: 1;
           font-weight: 600;
-      };
+        }
+
       }
+
       h1 {
         padding: 0px 0px 25px 50px;
       }
       paper-button {
         padding: 10px;
+      }
+      title {
+        margin-left: auto;
+        margin-right: auto;
       }
       .fab {
           position: fixed;
@@ -25,16 +32,49 @@
           top: 180px;
           right: 5%;
       }
-}
+      .firstColumn {
+        width: 40%;
+        display: inline-block;
+        margin-left: 15%;
+        vertical-align: top;
 
+      }
+      .demoColumn {
+        width: 40%;
+        display: inline-block;
+      }
+
+      .columnHeader {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      p {
+        display: inline-block;
+        margin-right: 10px;
+      }
+      .orginfo {
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%
+      }
+      .address {
+        width: 35%;
+        display: inline-block;
+        margin-left: 20%;
+
+
+      }
+      .primaryContact{
+        width: 35%;
+        display: inline-block;
+      }
+      .center {
+        text-align: center;
+      }
 
 
     </style>
     <template>
-    <div>
-      <h>Address</h>
-    </div>
-
       <shape-iron-ajax-helper
           id="findStratByOrg"
           method="GET"
@@ -58,17 +98,41 @@
           handle-as="json"
           debounce-duration="300">
       </shape-iron-ajax-helper>
-
-      <!-- <div class="fab">
-        <paper-fab icon="add" elevation="5" on-tap="addProfile" id="addFab"></paper-fab>
-        <paper-tooltip for="addProfile" offset="3">Add New Demographic Profile</paper-tooltip>
-      </div> -->
-
-<!-- on-response="callBack" -->
-
       <template is="dom-if" if="{{isDemographicData}}">
-        <paper-material elevation="5">
-            <h1>Gender</h1>
+        <paper-material elevation="3">
+        <h1 class="center">{{orgData.name}}</h1>
+        <div class="orginfo">
+          <div class="address">
+          <h3 class="center">Address:<h3>
+          <h3 class="center">{{orgData.addressStreet}}<h3>
+            <h3 class="center"><span>{{orgData.addressCity}}</span>,&nbsp<span>{{orgData.addressState}}</span>&nbsp<span>{{orgData.addressZip}}</span><h3>
+              <h3 class="center">{{orgData.primaryContactPhone}}<h3>
+        </div>
+        <div class="primaryContact">
+          <h3 class="center">Primary Contact</h3>
+          <h3 class="center">{{orgData.primaryContactName}}</h3>
+          <h3 class="center">{{orgData.primaryContactRole}}</h3>
+          <h3 class="center">{{orgData.primaryContactEmail}}</h3>
+
+        </div>
+      </div>
+        <div class="lowerHalf">
+          <h1 class="center">Patient Population</h1>
+            <div class="firstColumn">
+              <h3 class="center">Patient Volume</h3>
+              <paper-input label="Patients" value="{{profile.totalPatients}}" disabled="{{disabled}}"></paper-input>
+              <paper-input label="Visits per Year" value="{{profile.totalVisits}}" disabled="{{disabled}}"></paper-input>
+              <h3 class="center">Patient Counts</h3>
+              <paper-input label="Patients with a Diagnosis of Hypertension" value="{{profile.patientsHypertension}}" disabled="{{disabled}}"></paper-input>
+              <paper-input label="Patients with a Diagnosis of Diabetes" value="{{profile.patientsDiabetes}}" disabled="{{disabled}}"></paper-input>
+              <paper-input label="Patients with Pre-Diabetes" value="{{profile.patientsPreDiabetes}}" disabled="{{disabled}}"></paper-input>
+              <paper-input label="Patients with High BP but no Diagnosis of Hypertension" value="{{profile.patientsHighBp}}" disabled="{{disabled}}"></paper-input>
+            </div>
+            <div class="demoColumn">
+
+                <h3 class="center">Demographic Information</h3>
+
+            <h3>Gender</h3>
                 <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
 
                       <paper-input label="{{gender.strat}}" value="{{gender.num}}" disabled="{{disabled}}"></paper-input>
@@ -77,10 +141,8 @@
 
 
 
-        </paper-material>
 
-        <paper-material elevation="5">
-            <h1>Age</h1>
+            <h3>Age</h3>
                 <template id="agelist" is="dom-repeat" items="{{age}}" as="age">
 
                       <paper-input label="{{age.strat}}" value="{{age.num}}" disabled="{{disabled}}"></paper-input>
@@ -89,9 +151,7 @@
 
 
 
-        </paper-material>
-        <paper-material elevation="5">
-            <h1>Ethnicity</h1>
+            <h3>Ethnicity</h3>
                 <template id="ethnicitylist" is="dom-repeat" items="{{ethnicity}}" as="ethnicity">
 
                       <paper-input label="{{ethnicity.strat}}" value="{{ethnicity.num}}" disabled="{{disabled}}"></paper-input>
@@ -100,24 +160,29 @@
 
 
 
-        </paper-material>
-        <paper-material elevation="5">
-            <h1>Race</h1>
+
+            <h3>Race</h3>
                 <template id="racelist" is="dom-repeat" items="{{race}}" as="race">
 
                       <paper-input label="{{race.strat}}" value="{{race.num}}" disabled="{{disabled}}"></paper-input>
 
                 </template>
 
+            </div>
+          </div>
 
 
-        </paper-material>
 
         <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
 
         <paper-button on-tap="cancelEdit" raised="2">Cancel</paper-button>
+      </paper-material>
 
     </template>
+
+
+
+
 
     <template is="dom-if" if="{{!isDemographicData}}">
       <paper-material elevation="5">
@@ -186,6 +251,7 @@
                 this.zip = '06106';
                 this.profButton = 'Edit'
                 this.disabled =true;
+
 
             },
             sortFunction: function (gender) {
@@ -287,8 +353,17 @@
              console.log(this.profile);
 
              if(this.profile){
+<!--Will Remove-->
                this.isDemographicData = true;
-             }else{
+               this.profile.totalPatients = 0;
+               this.profile.totalVisits = 0;
+               this.profile.patientsHypertension = 0;
+               this.profile.patientsDiabetes = 0;
+               this.profile.patientsPreDiabetes =0;
+               this.profile.patientsHighBp = 0;
+<!--End-->
+             }
+             else{
                this.isDemographicData = false;
                this.set('gender',
                [{
@@ -322,9 +397,6 @@
                 num: 0},
               {
                 strat: 'Not Hispanic/Latino',
-                num: 0},
-              {
-                strat: 'Other',
                 num: 0}
               ]);
               this.set('race',
@@ -347,6 +419,12 @@
                 strat: 'Other',
                 num: 0}
               ]);
+              this.profile.totalPatients = 0;
+              this.profile.totalvisits = 0;
+              this.profile.patientsHypertension = 0;
+              this.profile.patientsDiabetes = 0;
+              this.profile.patientsPreDiabetes =0;
+              this.profile.patientsHighBp = 0;
              }
 
              this.set('gender',
@@ -381,10 +459,8 @@
               num: this.profile.ethnicityHispanicLatino},
             {
               strat: 'Not Hispanic/Latino',
-              num: this.profile.ethnicityNotHispanicLatino},
-            {
-              strat: 'Other',
-              num: 'null'}
+              num: this.profile.ethnicityNotHispanicLatino}
+
             ]);
             this.set('race',
             [{
@@ -406,6 +482,12 @@
               strat: 'Other',
               num: this.profile.raceOther}
             ]);
+            this.profile.totalPatients = 0;
+            this.profile.totalvisits = 0;
+            this.profile.patientsHypertension = 0;
+            this.profile.patientsDiabetes = 0;
+            this.profile.patientsPreDiabetes =0;
+            this.profile.patientsHighBp = 0;
           },
           addNewStrat: function() {
               this.profbutton = "Add New Profile Data";

@@ -105,7 +105,7 @@
               dbid={{dbid}}
               ></app-measure-input>
             <app-history id="history"></app-history>
-            <app-profile></app-profile>
+            <app-profile id="profile"></app-profile>
         </iron-pages>
 
         <shape-iron-ajax-helper
@@ -212,6 +212,7 @@
 
             callBackOrgs: function(request) {
               this.organizations = request.detail.response;
+
             },
 
             callBackProviders: function(request) {
@@ -244,6 +245,15 @@
             },
 
             loadOrgData: function() {
+              for (i =0; i < this.organizations.length; i++) {
+                if (this.organizations[i].id.toString() === this.$.findUserOrganizations.value) {
+                  this.$.profile.set('orgData', this.organizations[i]);
+                  console.log("Here it Goes:");
+                  console.log(this.$.profile.orgData);
+
+                }
+              }
+              console.log(this.$.findUserOrganizations.value);
               if(this.$.findUserOrganizations.value!=="label"){
                 this.isOrgSelected = true;
               }else{
