@@ -33,12 +33,17 @@
 
     </style>
     <template is="dom-bind">
+      <p>{{app.$.mainPage.role}}</p>
             <h2 style="margin: 0 0 0.4em 0.4em;">ADMIN PANEL</h2>
             <paper-tabs selected="{{selected}}">
                 <paper-tab on-tap="loadTable">USER</paper-tab>
                 <paper-tab on-tap="loadProviderTable">PROVIDER</paper-tab>
+              <template is="dom-if" if="{{checkOrganizationAndMeasure(role)}}">
                 <paper-tab on-tap="loadOrgTable" style="border-right: 1px solid lightgray;">ORGANIZATION</paper-tab>
+              </template>
+              <template is="dom-if" if="{{checkOrganizationAndMeasure(role)}}">
                 <paper-tab on-tap="loadMeasureTable">MEASURE</paper-tab>
+              </template>
             </paper-tabs>
             <iron-pages selected="{{selected}}">
                 <app-admin-panel-user id=adminUser></app-admin-panel-user>
@@ -46,6 +51,13 @@
                 <app-admin-panel-organization></app-admin-panel-organization>
                 <app-admin-panel-measure></app-admin-panel-measure>
             </iron-pages>
+            <shape-iron-ajax-helper
+                id="findUsersById"
+                resource=""
+                handle-as="json"
+                on-response="callBackUserById"
+                debounce-duration="300">
+            </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -53,10 +65,51 @@
         Polymer({
             is: 'app-admin-panel',
             properties: {
+              role : {
+                type: String
+              }
             },
+
+          //   setajaxFindUser: function() {
+          //     this.$.findUsersById.resource= "/admin/user/find/" + app.$.loginPage.$.userIdInput.value;
+          //     this.$.findUsersById.callBack = this.callBackUserById
+          //     this.$.findUsersById.generateRequest();
+          //   },
+           //
+          //  callBackUserById: function(request) {
+          //   user=request.detail.response;
+          //   this.adminUserFunction();
+          //   },
+           //
+           //
+          //   adminUserFunction : function () {
+          //   console.log(user.role);
+          //   //thisAdminUser = this.isAdminUser;
+          //   console.log(user.admin);
+          //   if (user.role == 'ADMIN') {
+          //     this.set('user.admin', true)
+          //   } else {
+          //     this.set('user.admin', false)
+          //   };
+          //     console.log(user.admin);
+          //   },
+
+            checkOrganizationAndMeasure : function (role) {
+              if (role == "ADMIN") {
+                return true
+              }
+              if (role == "ORG_ADMIN") {
+                return false
+              }
+              if (role == "REGISTERED") {
+                return false
+              }
+            },
+
             loadTable: function() {
               document.querySelector('app-admin-panel-user').setajax();
             },
+
             loadOrgTable: function() {
               console.log("by jobins");
               document.querySelector('app-admin-panel-organization').setajax();
