@@ -107,6 +107,9 @@
                 },
                 password: {
                     type: String
+                },
+                role : {
+                    type: String
                 }
             },
             loginResponse: function(response){
@@ -131,8 +134,10 @@
             callBackfindUsers: function(request) {
               console.log(request.detail.response);
               callBackUser=request.detail.response;
+              //app.$.mainPage.role=callBackUser.role;
+              app.$.mainPage.set("role", callBackUser.role);
               if  (callBackUser.resetPwd == true) {
-                    app.select = "setupAccount";
+                app.select = "setupAccount";
               }   else {
                 app.select = "main";
                 //this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
