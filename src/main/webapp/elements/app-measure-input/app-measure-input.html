@@ -142,6 +142,14 @@
         debounce-duration="300">
       </shape-iron-ajax-helper>
 
+      <shape-iron-ajax-helper
+        id="deleteOrgMeasure"
+        handle-as="json"
+        method="POST"
+        on-response="deleteOrgMeasureCallBack"
+        debounce-duration="300">
+      </shape-iron-ajax-helper>
+
 
       <div class="fab">
         <paper-fab icon="add" elevation="5" on-tap="addMeasure" id="addFab"></paper-fab>
@@ -183,6 +191,7 @@
                         </div>
                         <div class="child">
                             <paper-button raised on-tap="editMeasure" measure={{item}} id="{{item.name}}">Edit</paper-button>
+                            <paper-button raised on-tap="deleteMeasure" measure={{item}}>Delete</paper-button>
                         </div>
                     </div>
                     <div class="parent">
@@ -275,6 +284,20 @@
                 document.querySelector('app-demographic-input').loadMeasureStratification();
                 demIn.open();
             },
+            deleteMeasure: function(e){
+              orgMeasureId = e.model.item.id;
+              this.deleteMeasureSetAjax(orgMeasureId);
+            },
+            deleteMeasureSetAjax: function(orgMeasureId){
+              this.$.deleteOrgMeasure.resource = "/admin/organization_measure/delete"
+              this.$.deleteOrgMeasure.body = JSON.stringify({
+                "id": orgMeasureId
+              })
+              this.$.deleteOrgMeasure.generateRequest()
+            },
+            deleteOrgMeasureCallBack: function(){
+              this.setAjaxMeasure()
+            },
             computePercentage: function (numerator, denominator) {
                 var ratio = 100 * numerator / denominator;
                 var percent = Math.round(ratio * 10)/10
@@ -316,8 +339,8 @@
                   var currentMeasure = response[measure];
                   var chartData = [
                     ['Month', 'Days'],
-                    ['Well Controlled', currentMeasure.numeratorValue],
-                    ['Poorly Controlled', currentMeasure.denominatorValue - currentMeasure.numeratorValue]
+                    ['Patients in Numerator', currentMeasure.numeratorValue],
+                    ['Remainder of Patients', currentMeasure.denominatorValue - currentMeasure.numeratorValue]
                   ];
 
 
@@ -355,6 +378,7 @@
                   var currentObject = response[object];
                   if (currentObject.id == currentMeasure.measureId) {
                     done = true;
+                    delete currentObject.id;
 
                     // and add that data to it
                     for (var property in currentObject) {
