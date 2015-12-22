@@ -21,6 +21,17 @@
             on-error="handleError"
     >
     </iron-ajax>
+    <iron-ajax
+            id="passwordResetCall"
+            url="{{computePath(baseURL, resource)}}"
+            on-response="handleResponse"
+            method="{{method}}"
+            content-type="{{contentType}}"
+            handle-as="json"
+            body="{{body}}"
+            on-error="handleError"
+    >
+    </iron-ajax>
 
 
   </template>
@@ -69,6 +80,13 @@
           this.$.secureCall.url=this.computePath(this.baseUrl, this.resource)
           //create request
           this.$.secureCall.generateRequest()
+
+        },
+        generatePasswordResetRequest: function(){
+          //set header
+          this.$.passwordResetCall.url=this.computePath(this.baseUrl, this.resource)
+          //create request
+          this.$.passwordResetCall.generateRequest()
 
         },
         ready: function() {
