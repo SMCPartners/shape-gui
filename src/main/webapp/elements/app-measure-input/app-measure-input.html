@@ -225,39 +225,6 @@
             },
             ready: function() {
 
-                /*this.measures = [
-                    {
-                      name: 'Controlling High Blood Pressure',
-                      NQF: 'NQF 0018',
-                      //numerator: this.measureInput[0].numeratorValue,
-                      //denominator: this.measureInput.denominatorValue,
-                      aggregateNumerator: 18893,
-                      aggregateDenominator: 23184,
-                      chart: this.chartDefault,
-                      // chartOptions: {
-                      //   "title": "Controlling High Blood Pressure",
-                      //   "pieHole": ".6",
-                      //   "pieSliceText": "none"
-                      // },
-                      description: 'Percentage of patients 18-85 years of age who had a diagnosis of hypertension and whose blood pressure was adequately controlled (<140/90mmHg) during the measurement period.'
-                    },
-
-                      {
-                        name: 'Diabetes: HbA1c Poor Control',
-                        NQF: 'NQF 0059',
-                        numerator: 2153,
-                        denominator: 3597,
-                        aggregateNumerator: 12948,
-                        aggregateDenominator: 15034,
-                        chart: this.chartDefault,
-                        // chartOptions: {
-                        //   "title": this.name,
-                        //   "pieHole": ".6",
-                        //   "pieSliceText": "none"
-                        // },
-                          description: 'Percentage of patients 18-75 years of age with diabetes who had hemoglobin A1c > 9.0% during the measurement period.'
-                        }
-                ];*/
 
             },
             attached: function() {
@@ -278,7 +245,7 @@
                 targetMeasure=e.currentTarget;
                 this.inputMeasureID=e.currentTarget.measure.measureId;
                 this.dbid=e.currentTarget.measure.id;
-                this.reportPeriodQuarter=e.currentTarget.measure.reportPeriodQuarter;
+                this.orgMeasure=e.currentTarget.measure;
                 this.reportPeriodYear=e.currentTarget.measure.reportPeriodYear;
                 document.querySelector('app-demographic-input').ajaxFindUsers();
                 document.querySelector('app-demographic-input').loadMeasureStratification();
@@ -367,6 +334,7 @@
 
             secondCallBack: function(request) {
               var response = request.detail.response;
+
 
               // for each measure
               for (var measure in this.measures) {
