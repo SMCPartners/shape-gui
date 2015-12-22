@@ -12,7 +12,31 @@
           float: right
         };
 
-        .dialog_position {
+        .saveCloseButtons {
+          padding-top: 20px;
+        };
+
+        .saveCloseButtons1 {
+          background-color: #FFFAF0;
+          color: #0066CC;
+        };
+
+        .userModal {
+          width: 40%;
+          height: 75%;
+        };
+
+        .measureModal {
+          width: 75%;
+          height: 90%;
+        };
+
+        .providerModal {
+          width: 45%;
+          height: 65%;
+        };
+
+        .organizationModal {
           width: 30%;
           height: 65%;
         };
@@ -24,14 +48,32 @@
         };
 
         .button {
-          width: 95%;
+          width: 50%;
           background-color: #FFFAF0;
+        };
+
+        .button1 {
           margin: 10px;
+          padding-left: 20px;
+          padding-right: 20px;
         };
 
         .marginClass {
             padding-top: 20px;
             padding-bottom: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+        };
+
+        paper-dialog-scrollable {
+          border-top: 1px solid black;
+          border-bottom: 1px solid black;
+          margin: 0px;
+          max-height: 90%;
+        };
+
+        .userNameMarginClass {
+            padding-left: 20px;
         };
 
         h2 {
@@ -59,19 +101,19 @@
             border: none;
         };
 
+        paper-dialog {
+          max-width: 850px;
+        };
+
     </style>
     <template>
+      <div style="position:absolute;top:0;left:0">
         <paper-dialog id="editProvider" class="dialog_position">
             <div style="text-align:center">
                 <h2>Edit Provider Information</h2>
             </div>
-            <paper-dialog-scrollable>
-                <div>
-                    <paper-input label="Name" value="{{providerData.name}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
-                </div>
+                <paper-input label="Name" value="{{providerData.name}}"></paper-input>
+                <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
                 <div class="marginClass">
                   <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Organization :</b></h></label>
                   <select class="alignRight" id="providerOrgSelect" style="font: inherit">
@@ -80,127 +122,88 @@
                     </template>
                   </select>
                 </div>
-            </paper-dialog-scrollable>
-            <div class="parenttwo">
-                <paper-button raised class="button" on-tap="logProvider">Save</paper-button>
-                <paper-button raised class="button" on-tap="closeModal" modalName="closeProviderModal">Cancel</paper-button>
+            <div align="center" class="saveCloseButtons">
+                <paper-button raised class="saveCloseButtons1" on-tap="logProvider"><b>Save</b></paper-button>
+                <paper-button raised class="saveCloseButtons1" on-tap="closeProviderModal"><b>Cancel</b></paper-button>
             </div>
+          </div>
         </paper-dialog>
+      </div>
+      <div style="position:absolute;top:0;left:0">
         <paper-dialog id="editOrganization" class="size-position modalBox">
-          <shape-iron-ajax-helper
-              id="ajaxEditOrganization"
-              resource="/admin/organization/edit"
-              handle-as="json"
-              method="POST"
-              on-response="organizationCallBack"
-              debounce-duration="300">
-          </shape-iron-ajax-helper>
-
-            <div>
-                <h2>Edit Organization Information</h2>
-            </div>
-            <div class="childtwo">
-                <div>
-                    <paper-input label="Organization Name" value="{{organization.name}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Street Address" value="{{organization.addressStreet}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="City" value="{{organization.addressCity}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="State" value="{{organization.addressState}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Zip" value="{{organization.addressZip}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Primary Contact Name" value="{{organization.primaryContactName}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Primary Contact email" value="{{organization.primaryContactEmail}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Primary Contact Phone" value="{{organization.primaryContactPhone}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Primary Contact Role" value="{{organization.primaryContactRole}}"></paper-input>
-                </div>
-            </div>
-                <div class="parenttwo">
-                    <paper-button raised class="child" on-tap="logOrganization">Save</paper-button>
-                    <paper-button raised class="child" on-tap="closeModal" modalName="closeOrgModal">Cancel</paper-button>
-                </div>
+            <h2 style="text-align:center">Edit Organization Information</h2>
+            <paper-dialog-scrollable>
+              <div>
+                <paper-input label="Organization Name" value="{{organizationData.name}}"></paper-input>
+                <paper-input label="Street Address" value="{{organizationData.addressStreet}}"></paper-input>
+                <paper-input label="City" value="{{organizationData.addressCity}}"></paper-input>
+                <paper-input label="State" value="{{organizationData.addressState}}"></paper-input>
+                <paper-input label="Zip" value="{{organizationData.addressZip}}"></paper-input>
+                <paper-input label="Primary Contact Name" value="{{organizationData.primaryContactName}}"></paper-input>
+                <paper-input label="Primary Contact email" value="{{organizationData.primaryContactEmail}}"></paper-input>
+                <paper-input label="Primary Contact Phone" value="{{organizationData.primaryContactPhone}}"></paper-input>
+                <paper-input label="Primary Contact Role" value="{{organizationData.primaryContactRole}}"></paper-input>
+              </div>
+            </paper-dialog-scrollable>
+              <div align="center" class="saveCloseButtons">
+                <paper-button raised class="saveCloseButtons1" on-tap="logOrganization"><b>Save</b></paper-button>
+                <paper-button raised class="saveCloseButtons1" on-tap="closeOrganziationModal"><b>Cancel</b></paper-button>
+              </div>
         </paper-dialog>
-
-
-        <paper-dialog id="editUser" class="size-position modalBox">
-            <div>
+      </div>
+      <div style="position:absolute;top:0;left:0">
+        <paper-dialog id="editUser" class="userModal">
+            <div style="text-align:center">
                 <h2>Edit User Information</h2>
             </div>
             <div class="childtwo">
-                <div>
-                <p class="Username">Username: <span>{{users.id}}</span></p>
+                <div class="userNameMarginClass">
+                <p class="Username">Username: <span>{{username}}</span></p>
                 </div>
                 <div>
-                    <paper-input label="First Name" value="{{users.firstName}}"></paper-input>
+                    <paper-input id=usersFirstName label="First Name" value="{{userData.firstName}}"></paper-input>
+                    <paper-input id=usersLastName label="Last Name" value="{{userData.lastName}}"></paper-input>
                 </div>
-                <div>
-                    <paper-input label="Last Name" value="{{users.lastName}}"></paper-input>
-                </div>
-                <div>
-                    <select id=findUserRole style="font: inherit; margin-left:0.5em;">
-                        <option select>Select Role</option>
+                <div class="marginClass">
+                  <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Role :</b></h></label>
+                    <select class="alignRight" id=findUserRole style="font: inherit">
                         <option value="ADMIN">Admin</option>
                         <option value="ORG_ADMIN">Organization Admin</option>
                         <option value="REGISTERED">Registered</option>
                     </select>
                 </div>
-                <!-- <select id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
-                    <option select>Select Organization</option>
-                  <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
-                    <option value="{{item.value}}">{{item.name}}</option>
-                  </template>
-                </select> -->
+                <div class="marginClass">
+                  <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Organization :</b></h></label>
+                  <select class="alignRight" id="userOrgSelect" style="font: inherit">
+                    <template is="dom-repeat" items="{{organizations}}">
+                      <option style="font: inherit margin-right:0.9em;">{{item.name}}</option>
+                    </template>
+                  </select>
+                </div>
             </div>
-            <div class="parenttwo">
-                <paper-button raised class="child" on-tap="ajaxEditUser">Save</paper-button>
-                <paper-button raised class="child" on-tap="closeModal" modalName="closeUserModal">Cancel</paper-button>
-            </div>
-        </paper-dialog>
-
-
-
-        <paper-dialog id="editMeasure" class="size-position modalBox">
-            <div>
-                <h2>Edit Measure Information</h2>
-            </div>
-            <div class="childtwo">
-              <div>
-                  <paper-input required="true" label="NQF ID" value="{{measure.nqfId}}"></paper-input>
-              </div>
-              <div>
-                  <paper-input label="Name" value="{{measure.name}}"></paper-input>
-              </div>
-              <div>
-                  <paper-input label="Description" value="{{measure.description}}"></paper-input>
-              </div>
-              <div>
-                  <paper-input label="Numerator Description" value="{{measure.numeratorDescription}}"></paper-input>
-              </div>
-              <div>
-                  <paper-input label="Denominator Description" value="{{measure.denominatorDescription}}"></paper-input>
-              </div>
-              <div>
-                  <paper-input label="Exclusions Description" value="{{measure.exclusionsDescription}}"></paper-input>
-              </div>
-            </div>
-            <div class="parenttwo">
-                <paper-button raised class="child" on-tap="ajaxEditMeasure">Save</paper-button>
-                <paper-button raised class="child" on-tap="closeModal" modalName="closeMeasureModal">Cancel</paper-button>
+            <div align="center" class="saveCloseButtons">
+                <paper-button class="saveCloseButtons1" on-tap="ajaxEditUser" elevation="5"><b>Save</b></paper-button>
+                <paper-button class="saveCloseButtons1" on-tap="closeUserModal" elevation="5"><b>Cancel</b></paper-button>
             </div>
         </paper-dialog>
+      </div>
+      <div style="position:absolute;top:0;left:0">
+        <paper-dialog id="editMeasure" class="measureModal">
+          <h2 style="text-align:center">Edit Measure Information</h2>
+            <paper-dialog-scrollable>
+              <paper-input required="true" label="NQF ID" value="{{measureData.nqfId}}"></paper-input>
+              <paper-input label="Name" value="{{measureData.name}}"></paper-input>
+              <paper-input label="Description" value="{{measureData.description}}"></paper-input>
+              <paper-input label="Numerator Description" value="{{measureData.numeratorDescription}}"></paper-input>
+              <paper-input label="Denominator Description" value="{{measureData.denominatorDescription}}"></paper-input>
+              <paper-input label="Exclusions Description" value="{{measureData.exclusionsDescription}}"></paper-input>
+          </paper-dialog-scrollable>
+          <div align="center" class="saveCloseButtons">
+              <paper-button raised class="saveCloseButtons1" on-tap="ajaxEditMeasure"><b>Save</b></paper-button>
+              <paper-button raised class="saveCloseButtons1" on-tap="closeMeasureModal"><b>Cancel</b></paper-button>
+          </div>
+          </paper-dialog>
+        </div>
         <shape-iron-ajax-helper
             id="findOrgs"
             resource="/admin/organization/findAll"
@@ -215,6 +218,14 @@
             handle-as="json"
             method="POST"
             on-response="measureCallBack"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxEditOrganization"
+            resource="/admin/organization/edit"
+            handle-as="json"
+            method="POST"
+            on-response="organizationCallBack"
             debounce-duration="300">
         </shape-iron-ajax-helper>
         <shape-iron-ajax-helper
@@ -275,30 +286,49 @@
                 this.organizations=request.detail.response;
             },
 
-            editButton: function(inputModalName, data) {
+            editProviderButton : function (data) {
                 this.getData();
-                if (inputModalName == 'editProvider') {
-                  this.set('providerData', {});
+                this.set('providerData', {});
                   for (var i in data) {
                     this.set('providerData.' + i, data[i]);
-                  }
-                  this.$.providerOrgSelect.value = data.organization;
-                  console.log('providerData', this.providerData);
-                  this.$.editProvider.open();
                 }
-
-                if (inputModalName == 'editOrganization') {
-                  this.$.editOrganization.open();
-                }
-
-                if (inputModalName == 'editMeasure') {
-                  this.$.editMeasure.open();
-                }
-
-                if (inputModalName == 'editUser') {
-                  this.$.editUser.open();
-                };
+                console.log(data);
+                this.$.providerOrgSelect.value = data.organization;
+                this.$.editProvider.open();
             },
+
+            editMeasureButton : function (data) {
+                this.getData();
+                this.set('measureData', {});
+                  for (var i in data) {
+                    this.set('measureData.' + i, data[i]);
+                }
+                console.log(data);
+                this.$.editMeasure.open();
+            },
+
+            editUserButton : function (data) {
+              this.getData();
+              this.set('userData', {});
+                for (var i in data) {
+                  this.set('userData.' + i, data[i]);
+              }
+              this.username = data.id;
+              this.$.findUserRole.value = data.role;
+              this.$.userOrgSelect.value = data.organizationName;
+              this.$.editUser.open();
+            },
+
+            editOrganizationButton : function (data) {
+                this.getData();
+                this.set('organizationData', {});
+                  for (var i in data) {
+                    this.set('organizationData.' + i, data[i]);
+                }
+                console.log(data);
+                this.$.editOrganization.open();
+            },
+
             callback: function() {
               //refreshTableName = e.target.parentNode.getAttribute("id");
               // if (refreshTableName == ajaxEditOrganization){
@@ -307,25 +337,20 @@
               console.log("helloWorld");
             },
 
-            closeModal: function(e) {
-                closeModalName = e.target.parentNode.getAttribute("modalName");
+            closeUserModal: function() {
+              this.$.editUser.close();
+            },
 
-                if (closeModalName == 'closeProviderModal') {
-                    this.$.editProvider.close();
-                };
+            closeProviderModal: function() {
+              this.$.editProvider.close();
+            },
 
-                if (closeModalName == 'closeOrgModal') {
-                    this.organization = {};
-                    this.$.editOrganization.close();
-                };
+            closeMeasureModal: function() {
+              this.$.editMeasure.close();
+            },
 
-                if (closeModalName == 'closeMeasureModal') {
-                    this.$.editMeasure.close();
-                };
-
-                if (closeModalName == 'closeUserModal') {
-                    this.$.editUser.close();
-                };
+            closeOrganziationModal: function() {
+              this.$.editOrganization.close();
             },
 
             logProvider: function (e) {
@@ -360,19 +385,19 @@
             },
             logOrganization: function (e) {
                 this.$.ajaxEditOrganization.body = JSON.stringify({
-                  "id" : this.organization.id,
-                  "name" : this.organization.name,
-                  "addressStreet" : this.organization.addressStreet,
-                  "addressCity" : this.organization.addressCity,
-                  "addressState" : this.organization.addressState,
-                  "addressZip" : this.organization.addressZip,
-                  "primaryContactName" : this.organization.primaryContactName,
-                  "primaryContactEmail" : this.organization.primaryContactEmail,
-                  "primaryContactPhone" : this.organization.primaryContactPhone,
-                  "primaryContactRole" : this.organization.primaryContactRole,
+                  "id" : this.organizationData.id,
+                  "name" : this.organizationData.name,
+                  "addressStreet" : this.organizationData.addressStreet,
+                  "addressCity" : this.organizationData.addressCity,
+                  "addressState" : this.organizationData.addressState,
+                  "addressZip" : this.organizationData.addressZip,
+                  "primaryContactName" : this.organizationData.primaryContactName,
+                  "primaryContactEmail" : this.organizationData.primaryContactEmail,
+                  "primaryContactPhone" : this.organizationData.primaryContactPhone,
+                  "primaryContactRole" : this.organizationData.primaryContactRole,
                   "modifiedDt" : "",
                   "modifiedBy" : app.$.loginPage.$.userIdInput.value,
-                  "createdBy"  : this.organization.createdBy
+                  "createdBy"  : this.organizationData.createdBy
                 });
                 this.$.ajaxEditOrganization.generateRequest();
                 console.log(this.$.ajaxEditOrganization.body);
@@ -393,26 +418,23 @@
             },
 
            callBackUser: function(request) {
-             console.log(request.detail.response);
-             console.log(request.detail.response.organizationId);
              userOrganizationId=request.detail.response.organizationId;
-             console.log(userOrganizationId);
           },
 
             ajaxEditUser: function (e) {
                 editUserPassword=document.getElementById('passwordInput').value;
                 this.$.ajaxEditUser.body = JSON.stringify({
-                  "id" : this.users.id,
-                  "admin" : this.users.admin,
-                  "active" : this.users.active,
-                  "resetPwd" : this.users.resetPwd,
+                  "id" : this.userData.id,
+                  "admin" : this.userData.admin,
+                  "active" : this.userData.active,
+                  "resetPwd" : this.userData.resetPwd,
                   "modifiedDt" : "",
                   "modifiedBy" : app.$.loginPage.$.userIdInput.value,
                   "role" : this.$.findUserRole.value,
-                  "organizationId" : this.users.organizationId,
-                  "firstName" : this.users.firstName,
-                  "lastName" : this.users.lastName,
-                  "email" : this.users.email
+                  "organizationId" : this.userData.organizationId,
+                  "firstName" : this.userData.firstName,
+                  "lastName" : this.userData.lastName,
+                  "email" : this.userData.email
                 });
                 this.$.ajaxEditUser.generateRequest();
                 document.querySelector('app-admin-panel').loadTable();
@@ -425,13 +447,13 @@
 
             ajaxEditMeasure: function (e) {
                 this.$.ajaxEditMeasure.body = JSON.stringify({
-                  "id": this.measure.id,
-                  "name": this.measure.name,
-                  "description": this.measure.description,
-                  "nqfId":this.measure.nqfId,
-                  "numeratorDescription": this.measure.numeratorDescription,
-                  "denominatorDescription": this.measure.denominatorDescription,
-                  "exclusionsDescription": this.measure.exclusionsDescription,
+                  "id": this.measureData.id,
+                  "name": this.measureData.name,
+                  "description": this.measureData.description,
+                  "nqfId":this.measureData.nqfId,
+                  "numeratorDescription": this.measureData.numeratorDescription,
+                  "denominatorDescription": this.measureData.denominatorDescription,
+                  "exclusionsDescription": this.measureData.exclusionsDescription,
                   "wellControlledNumerator" : "",
                   "selected": ""
                 });

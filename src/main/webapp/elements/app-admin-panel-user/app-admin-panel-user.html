@@ -101,7 +101,7 @@
             </thead>
             <tbody>
             <template is="dom-repeat" id="table" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
-                <tr>
+                <tr data-id$="{{item.id}}">
                     <td><span>{{item.id}}</span></td>
                     <td><span>{{item.firstName}}</span><span> </span><span>{{item.lastName}}</td>
                     <td><span>{{item.role}}</span></td>
@@ -119,10 +119,10 @@
                     </div>
                     </td>
                     <div align="center">
-                    <td style="font-size: 1em;">
+                      <td style="font-size: 1em;">
                         <paper-button class="editButton" raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}"><b>Edit</b></paper-button>
-                    </td>
-                    <div>
+                      </td>
+                    </div>
                 </tr>
             </template>
                   <app-admin-add id="inputModal"></app-admin-add>
@@ -290,53 +290,38 @@
                 console.log(this.users[i].index);
               };
             },
-            ready: function() {
-              //this.setajax();
 
-            // this.users=[
-            //             {
-            //               username: 'alpha',
-            //               userFullName: 'Zoltan Mesko',
-            //               userRole: 'Org Administrator',
-            //               userOrganization: 'Core Health'
-            //             },
-            //
-            //             {
-            //               username: 'beta',
-            //               userFullName: 'Craig Jenny',
-            //               userRole: 'Org User',
-            //               userOrganization: 'Zebra Health'
-            //             },
-            //
-            //             {
-            //               username: 'charlie',
-            //               userFullName: 'Sarah Lee',
-            //               userRole: 'Provider',
-            //               userOrganization: 'Johnson and Sons'
-            //             }
-            // ];
+            ready: function() {
             },
 
             editUserModal: function(e) {
-                //  console.log(e.target.parentNode.getAttribute("modalName")),
-                  this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
-                  //this.$.editModal.editUserButton();
-                  var userNum = e.target.parentNode.getAttribute('id');
-                  this.$.editModal.users = Object.create(this.users[userNum]);
-
-                    //this.modalUserId=e.currentTarget.user.id;
-                    //this.modalFirstName=e.currentTarget.user.firstName;
-                    //this.modalLastName=e.currentTarget.user.lastName;
-                    //this.modalUserRole=e.currentTarget.user.role;
-                  //document.querySelector('app-admin-edit').ajaxFindUsers();
-
+              var userId = this.findAncestor(e.target, 'tr').dataset.id;
+              for (var user in this.users) {
+                if (this.users[user].id == userId) {
+                  var userData = this.users[user];
+                }
+              }
+              console.log(userData);
+              this.$.editModal.editUserButton(userData);
             },
 
             addUser: function(e){
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
                 document.querySelector('app-admin-add').setajaxOrgs();
             },
-
+            findAncestor: function(element, query) {
+              do {
+                element = element.parentElement;
+              } while (element && !this.elementMatches(element, query))
+              return element;
+            },
+            elementMatches: function(element, query) {
+              var siblingMatches = element.parentElement.querySelectorAll(query)
+              for (var match = 0; match < siblingMatches.length; match++) {
+                if (siblingMatches[match] == element) return true;
+              }
+              return false;
+            }
         });
 })();
 </script>
