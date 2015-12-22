@@ -37,14 +37,13 @@
         border-right: 1px solid #cecfd5;
         border-left: 1px solid #cecfd5;
         };
-/*
-        td: first-child {
-        border-left: 1px solid #cecfd5;
-        };
 
-        tr: nth-child(even) {
-        background-color: #395870;
-        };*/
+        .editButton {
+          background-color: #E6E6FA;
+          margin: 2%;
+          width: 80%;
+          height: 90%;
+        };
 
         table {
         border-collapse: separate;
@@ -122,7 +121,7 @@
             </thead>
             <tbody>
             <template id="orgTable" is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
-                <tr>
+                <tr data-id$="{{item.id}}">
                     <td><span>{{item.name}}</span></td>
                     <td><span class="nowrap">{{item.addressStreet}}</span><br><span>{{item.addressCity}}</span>&nbsp<span>{{item.addressState}}</span>&nbsp<span>{{item.addressZip}}</span></td>
                     <td><span class="noWrap">{{item.primaryContactPhone}}</span></td>
@@ -141,11 +140,11 @@
                       </template>
                     </div>
                     </td>
-                    <td style="font-size: 12px">
-                        <div class="editButton">
-                            <paper-button raised on-tap="editOrganization" modalName="editOrganization" id="{{item.index}}">Edit</paper-button>
-                        </div>
-                    </td>
+                    <div align="center">
+                      <td style="font-size: 1em;">
+                            <paper-button class="editButton" raised on-tap="editOrganization" modalName="editOrganization"><b>Edit</b></paper-button>
+                      </td>
+                    </div>
                 </tr>
             </template>
                 <app-admin-add id="inputModal"></app-admin-add>
@@ -274,37 +273,43 @@
              },
 
             editOrganization: function(e) {
-                this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
-                var orgNum = e.target.parentNode.getAttribute('id');
-                console.log(orgNum);
-                this.$.editModal.organization = Object.create(this.organization[orgNum]);
-                console.log(this.organization[orgNum - 1]);
+              var organizationId = this.findAncestor(e.target, 'tr').dataset.id;
+              for (var organizations in this.organization) {
+                if (this.organization[organizations].id == organizationId) {
+                  var organizationData = this.organization[organizations];
+                }
+              }
+              console.log(organizationData);
+              this.$.editModal.editOrganizationButton(organizationData);
             },
 
             addOrganization: function(e) {
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
             },
 
-           logOrganization: function (e) {
-                var formSubmitEditOrganization = {
-                    firstName: firstName.value,
-                    lastName: lastName.value,
-                    NPI: NPI.value,
-                    organization: organization.value
-                };
-                this.$.editOrganizationInfo.toggle();
+            findAncestor: function(element, query) {
+              do {
+                element = element.parentElement;
+              } while (element && !this.elementMatches(element, query))
+              return element;
             },
+            elementMatches: function(element, query) {
+              var siblingMatches = element.parentElement.querySelectorAll(query)
+              for (var match = 0; match < siblingMatches.length; match++) {
+                if (siblingMatches[match] == element) return true;
+              }
+              return false;
+            },
+
             setajax: function() {
-              //this.$.findOrganizations.callBack = this.callBack
+              this.$.findOrganizations.callBack = this.callBack
               this.$.findOrganizations.generateRequest();
             },
 
            callBack: function(request) {
-             console.log(request.detail.response);
              this.organization = request.detail.response;
              for (i = 0; i < this.organization.length; i ++){
                this.organization[i].index = i;
-               console.log(this.organization[i].index);
              };
            },
            storeValue: function() {

@@ -1,23 +1,21 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
 
-
 <dom-module id="app-profile">
-    <style>
+  <style>
       paper-input {
-        width: 80px;
-        margin-right: 25px;
+        width: 65px;
+        margin-right: 5px;
         display: inline-block;
 
         --paper-input-container-disabled: {
           opacity: 1;
           font-weight: 600;
         }
-
       }
 
       h1 {
-        padding: 0px 0px 25px 50px;
+        padding-top: 25px;
       }
       paper-button {
         padding: 10px;
@@ -60,7 +58,7 @@
       .address {
         width: 35%;
         display: inline-block;
-        margin-left: 20%;
+        margin-left: 15%;
 
 
       }
@@ -71,10 +69,17 @@
       .center {
         text-align: center;
       }
+      .smallFont {
+        font-size: .75em;
+        margin-right: 25px;
+      }
+      .inputBlock {
+        display: inline-block;
+      }
 
 
-    </style>
-    <template>
+  </style>
+  <template>
       <shape-iron-ajax-helper
           id="findStratByOrg"
           method="GET"
@@ -89,16 +94,18 @@
           method="POST"
           resource="/common/organization_stratification/edit/"
           handle-as="json"
-          debounce-duration="300">
+          debounce-duration="300"
+          on-response="setajax">
       </shape-iron-ajax-helper>
       <shape-iron-ajax-helper
           id="addOrgStrat"
           method="POST"
           resource="/common/organization_stratification/add/"
           handle-as="json"
-          debounce-duration="300">
+          debounce-duration="300"
+          on-response="setajax">
       </shape-iron-ajax-helper>
-      <template is="dom-if" if="{{isDemographicData}}">
+
         <paper-material elevation="3">
         <h1 class="center">{{orgData.name}}</h1>
         <div class="orginfo">
@@ -116,17 +123,31 @@
 
         </div>
       </div>
+      <p>{{isDemographicData}}</p>
+      <template is="dom-if" if="{{isDemographicData}}">
         <div class="lowerHalf">
           <h1 class="center">Patient Population</h1>
             <div class="firstColumn">
               <h3 class="center">Patient Volume</h3>
-              <paper-input label="Patients" value="{{profile.totalPatients}}" disabled="{{disabled}}"></paper-input>
-              <paper-input label="Visits per Year" value="{{profile.totalVisits}}" disabled="{{disabled}}"></paper-input>
+              <div class="inputBlock">
+                <paper-input value="{{profile.totalPatients}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients</p>
+              </div>
+              <div class="inputBlock">
+                <paper-input value="{{profile.totalVisits}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Visits per Year</p>
+              </div>
               <h3 class="center">Patient Counts</h3>
-              <paper-input label="Patients with a Diagnosis of Hypertension" value="{{profile.patientsHypertension}}" disabled="{{disabled}}"></paper-input>
-              <paper-input label="Patients with a Diagnosis of Diabetes" value="{{profile.patientsDiabetes}}" disabled="{{disabled}}"></paper-input>
-              <paper-input label="Patients with Pre-Diabetes" value="{{profile.patientsPreDiabetes}}" disabled="{{disabled}}"></paper-input>
-              <paper-input label="Patients with High BP but no Diagnosis of Hypertension" value="{{profile.patientsHighBp}}" disabled="{{disabled}}"></paper-input>
+              <div class="inputBlock">
+                <paper-input value="{{profile.patientsHypertension}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients with a Diagnosis of Hypertension</p>
+              </div>
+              <div class="inputBlock">
+                <paper-input value="{{profile.patientsDiabetes}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients with a Diagnosis of Diabetes</p>
+              </div>
+              <div class="inputBlock">
+                <paper-input value="{{profile.patientsPreDiabetes}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients with Pre-Diabetes</p>
+              </div>
+              <div class="inputBlock">
+                <paper-input value="{{profile.patientsHighBp}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients with High BP but no Diagnosis of Hypertension</p>
+              </div>
             </div>
             <div class="demoColumn">
 
@@ -134,99 +155,95 @@
 
             <h3>Gender</h3>
                 <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
-
-                      <paper-input label="{{gender.strat}}" value="{{gender.num}}" disabled="{{disabled}}"></paper-input>
-
+                  <div class="inputBlock">
+                      <paper-input value="{{gender.num}}" disabled="{{disabled}}"></paper-input><p class="smallFont">{{gender.strat}}</p>
+                  </div>
                 </template>
-
-
-
-
             <h3>Age</h3>
                 <template id="agelist" is="dom-repeat" items="{{age}}" as="age">
-
-                      <paper-input label="{{age.strat}}" value="{{age.num}}" disabled="{{disabled}}"></paper-input>
-
+                  <div class="inputBlock">
+                      <paper-input value="{{age.num}}" disabled="{{disabled}}"></paper-input><p class="smallFont">{{age.strat}}</p>
+                  </div>
                 </template>
-
-
-
             <h3>Ethnicity</h3>
                 <template id="ethnicitylist" is="dom-repeat" items="{{ethnicity}}" as="ethnicity">
-
-                      <paper-input label="{{ethnicity.strat}}" value="{{ethnicity.num}}" disabled="{{disabled}}"></paper-input>
-
+                  <div class="inputBlock">
+                      <paper-input value="{{ethnicity.num}}" disabled="{{disabled}}"></paper-input><p class="smallFont">{{ethnicity.strat}}</p>
+                  </div>
                 </template>
-
-
-
-
             <h3>Race</h3>
                 <template id="racelist" is="dom-repeat" items="{{race}}" as="race">
-
-                      <paper-input label="{{race.strat}}" value="{{race.num}}" disabled="{{disabled}}"></paper-input>
-
+                  <div class="inputBlock">
+                      <paper-input value="{{race.num}}" disabled="{{disabled}}"></paper-input><p class="smallFont">{{race.strat}}</p>
+                  </div>
                 </template>
 
             </div>
           </div>
-
-
-
+      <div class="center">
         <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
-
         <paper-button on-tap="cancelEdit" raised="2">Cancel</paper-button>
+      </div>
       </paper-material>
-
     </template>
+    <template is="dom-if" if="{{!isDemographicData}}" restamp="true" id="newProfile">
 
+              <div class="lowerHalf">
+                <h1 class="center">Add Patient Population Information</h1>
+                  <div class="firstColumn">
+                    <h3 class="center">Patient Volume</h3>
+                    <div class="inputBlock">
+                      <paper-input id='totalPatients'></paper-input><p class="smallFont">Patients</p>
+                    </div>
+                    <div class="inputBlock">
+                      <paper-input id="totalVisits"></paper-input><p class="smallFont">Visits per Year</p>
+                    </div>
+                    <h3 class="center">Patient Counts</h3>
+                    <div class="inputBlock">
+                      <paper-input id="patientsHypertension"></paper-input><p class="smallFont">Patients with a Diagnosis of Hypertension</p>
+                    </div>
+                    <div class="inputBlock">
+                      <paper-input id="patientsDiabetes"></paper-input><p class="smallFont">Patients with a Diagnosis of Diabetes</p>
+                    </div>
+                    <div id="testing" class="inputBlock">
+                      <paper-input id="patientsPreDiabetes"></paper-input><p class="smallFont">Patients with Pre-Diabetes</p>
+                    </div>
+                    <div class="inputBlock">
+                      <paper-input id="patientsHighBp"></paper-input><p class="smallFont">Patients with High BP but no Diagnosis of Hypertension</p>
+                    </div>
+                  </div>
+                  <div class="demoColumn">
 
+                      <h3 class="center">Demographic Information</h3>
 
+                  <h3>Gender</h3>
+                      <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
+                        <div class="inputBlock">
+                            <paper-input value="{{gender.num}}"></paper-input><p class="smallFont">{{gender.strat}}</p>
+                        </div>
+                      </template>
+                  <h3>Age</h3>
+                      <template id="agelist" is="dom-repeat" items="{{age}}" as="age">
+                        <div class="inputBlock">
+                            <paper-input value="{{age.num}}"></paper-input><p class="smallFont">{{age.strat}}</p>
+                        </div>
+                      </template>
+                  <h3>Ethnicity</h3>
+                      <template id="ethnicitylist" is="dom-repeat" items="{{ethnicity}}" as="ethnicity">
+                        <div class="inputBlock">
+                            <paper-input value="{{ethnicity.num}}"></paper-input><p class="smallFont">{{ethnicity.strat}}</p>
+                        </div>
+                      </template>
+                  <h3>Race</h3>
+                      <template id="racelist" is="dom-repeat" items="{{race}}" as="race">
+                        <div class="inputBlock">
+                            <paper-input value="{{race.num}}"></paper-input><p class="smallFont">{{race.strat}}</p>
+                        </div>
+                      </template>
 
-
-    <template is="dom-if" if="{{!isDemographicData}}">
-      <paper-material elevation="5">
-          <h1>Gender</h1>
-              <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
-
-                    <paper-input label="{{gender.strat}}" value="{{gender.num}}"></paper-input>
-
-              </template>
-
-
-
-      </paper-material>
-
-      <paper-material elevation="5">
-          <h1>Age</h1>
-              <template id="agelist" is="dom-repeat" items="{{age}}" as="age">
-
-                    <paper-input label="{{age.strat}}" value="{{age.num}}"></paper-input>
-
-              </template>
-
-
-
-      </paper-material>
-      <paper-material elevation="5">
-          <h1>Ethnicity</h1>
-              <template id="ethnicitylist" is="dom-repeat" items="{{ethnicity}}" as="ethnicity">
-
-                    <paper-input label="{{ethnicity.strat}}" value="{{ethnicity.num}}" ></paper-input>
-
-              </template>
-
-
-
-      </paper-material>
-      <paper-material elevation="5">
-          <h1>Race</h1>
-              <template id="racelist" is="dom-repeat" items="{{race}}" as="race">
-
-                    <paper-input label="{{race.strat}}" value="{{race.num}}"></paper-input>
-
-              </template>
-        <paper-button on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
+                  </div>
+                </div>
+        <paper-button class="center" on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
 
 
       </paper-material>
@@ -241,7 +258,7 @@
             is: 'app-profile',
             properties: {
               organizationID: String,
-              profile: Object,
+              //profile: Object,
               isDemographicData: Boolean
             },
             ready: function() {
@@ -251,6 +268,30 @@
                 this.zip = '06106';
                 this.profButton = 'Edit'
                 this.disabled =true;
+                this.profile = {
+                  genderMale: 0,
+                  genderFemale: 0,
+                  genderOther: 0,
+                  ageUnder17: 0,
+                  age1844: 0,
+                  age4564: 0,
+                  ageOver65: 0,
+                  ethnicityHispanicLatino: 0,
+                  ethnicityNotHispanicLatino: 0,
+                  raceAsian: 0,
+                  raceAfricanAmerican: 0,
+                  raceNativeHawaiian: 0,
+                  raceAmericanIndian: 0,
+                  raceWhite: 0,
+                  raceOther: 0,
+                  totalPatients: 0,
+                  totalVisits: 0,
+                  patientsHypertension: 0,
+                  patientsPreDiabetes: 0,
+                  patientsHighBp: 0,
+                  patientsDiabetes: 0
+                };
+
 
 
             },
@@ -316,10 +357,17 @@
                 "raceOther" : this.race[5].num,
                 "organizationId" : app.$.mainPage.$.dashboard.$.findUserOrganizations.value,
                 "userId" : app.$.loginPage.$.userIdInput.value,
-                "rpDate" : ""
+                "rpDate" : "",
+                "totalPatients" : this.$$('#totalPatients').value,
+                "totalVisits" : this.$$('#totalVisits').value,
+                "patientsHypertension" : this.$$('#patientsHypertension').value,
+                "patientsDiabetes" : this.$$('#patientsDiabetes').value,
+                "patientsPreDiabetes" : this.$$('#patientsPreDiabetes').value,
+                "patientsHighBp" : this.$$('#patientsHighBp').value
+
                });
               this.$.addOrgStrat.generateRequest();
-              this.isDemographicData = true;
+              this.isDemographicData = 1;
             },
             setAjaxEditStrat: function() {
               this.$.postOrgStrat.body = JSON.stringify({
@@ -341,30 +389,30 @@
                 "raceOther" : this.race[5].num,
                 "organizationId" : app.$.mainPage.$.dashboard.$.findUserOrganizations.value,
                 "userId" : app.$.loginPage.$.userIdInput.value,
-                "rpDate" : ""
+                "rpDate" : "",
+                "totalPatients" : this.profile.totalPatients,
+                "totalVisits" : this.profile.totalVisits,
+                "patientsHypertension" : this.profile.patientsHypertension,
+                "patientsDiabetes" : this.profile.patientsDiabetes,
+                "patientsPreDiabetes" : this.profile.patientsPreDiabetes,
+                "patientsHighBp" : this.profile.patientsHighBp
                });
               console.log(this.$.postOrgStrat.body);
               this.$.postOrgStrat.generateRequest();
             },
 
            callBack: function(request) {
-             console.log(request.detail.response);
+            // console.log(request.detail.response);
              this.profile = request.detail.response[0];
              console.log(this.profile);
 
              if(this.profile){
-<!--Will Remove-->
-               this.isDemographicData = true;
-               this.profile.totalPatients = 0;
-               this.profile.totalVisits = 0;
-               this.profile.patientsHypertension = 0;
-               this.profile.patientsDiabetes = 0;
-               this.profile.patientsPreDiabetes =0;
-               this.profile.patientsHighBp = 0;
-<!--End-->
+               this.isDemographicData = 1;
              }
              else{
-               this.isDemographicData = false;
+               this.isDemographicData = 0;
+               this.diasabled = false;
+               this.setProfile();
                this.set('gender',
                [{
                    strat: 'Male',
@@ -419,12 +467,6 @@
                 strat: 'Other',
                 num: 0}
               ]);
-              this.profile.totalPatients = 0;
-              this.profile.totalvisits = 0;
-              this.profile.patientsHypertension = 0;
-              this.profile.patientsDiabetes = 0;
-              this.profile.patientsPreDiabetes =0;
-              this.profile.patientsHighBp = 0;
              }
 
              this.set('gender',
@@ -482,19 +524,36 @@
               strat: 'Other',
               num: this.profile.raceOther}
             ]);
-            this.profile.totalPatients = 0;
-            this.profile.totalvisits = 0;
-            this.profile.patientsHypertension = 0;
-            this.profile.patientsDiabetes = 0;
-            this.profile.patientsPreDiabetes =0;
-            this.profile.patientsHighBp = 0;
+
           },
           addNewStrat: function() {
               this.profbutton = "Add New Profile Data";
+          },
+          setProfile: function() {
+            this.profile = {
+              genderMale: 0,
+              genderFemale: 0,
+              genderOther: 0,
+              ageUnder17: 0,
+              age1844: 0,
+              age4564: 0,
+              ageOver65: 0,
+              ethnicityHispanicLatino: 0,
+              ethnicityNotHispanicLatino: 0,
+              raceAsian: 0,
+              raceAfricanAmerican: 0,
+              raceNativeHawaiian: 0,
+              raceAmericanIndian: 0,
+              raceWhite: 0,
+              raceOther: 0,
+              totalPatients: 0,
+              totalVisits: 0,
+              patientsHypertension: 0,
+              patientsPreDiabetes: 0,
+              patientsHighBp: 0,
+              patientsDiabetes: 0
+            };
           }
-          // addProfile: function () {
-          //
-          // }
 
         });
     })();

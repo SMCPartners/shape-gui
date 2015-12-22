@@ -70,9 +70,11 @@
                         <select id="selectMeasure" name="measure" style="font: inherit" on-change="loadMeasureData">
                           <option value = "label">Select Measure</option>
                             <template is="dom-repeat" restamp="true" selectedMeasures={{item}} items="{{measures}}">
+                              <template is="dom-if" if="{{item.selected}}">
                                 <option style="font: inherit" value={{item.id}}>
                                     NQF <span>{{item.nqfId}}</span> <span>{{item.name}}</span>
                                 </option>
+                              </template>
                             </template>
                         </select>
                     </div>

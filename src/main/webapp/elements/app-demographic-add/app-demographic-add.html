@@ -79,6 +79,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
         id="postAppDemographic"
         method="POST"
         resource="/common/organization_measure/add"
+        on-response="callBackAppDemographic"
         handle-as="json"
         debounce-duration="300">
       </shape-iron-ajax-helper>
@@ -105,9 +106,9 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
               <div class="dropdown">
                   <select id="mid" name="measure" style="font: inherit">
                       <template is="dom-repeat" items="{{measures}}">
-                        <template is="dom-if" if="{{item.active}}">
+                        <template is="dom-if" if="{{item.selected}}">
                           <option style="font: inherit" value="{{item.id}}">
-                              NQF <span>{{item.nqf}}</span> <span>{{item.name}}</span>
+                              NQF <span>{{item.nqfId}}</span> <span>{{item.name}}</span>
                           </option>
                         </template>
                       </template>
@@ -226,11 +227,6 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 {_id: "14", year: 2014},
                 {_id: "15", year: 2015}
               ];
-
-                this.measures = [
-                  // {_id: "1", name: "Controlling High Blood Pressure", nqf: "0018"},
-                  // {_id: "2", name: "Diabetes: HbA1c Poor Control", nqf: "0059"}
-              ];
                 this.stratifyGroups = [
                 {name: 'Gender', categories: [
                     {strat: 'Male', num: 'maleNum', den: 'maleDen'},
@@ -260,11 +256,48 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
 
             cancelLog: function (e) {
                 this.$.testVar.toggle();
+                this.$$('#mainNum').value = "",
+                this.$$('#mainDen').value = "",
+                this.$$('#maleNum').value = "",
+                this.$$('#maleDen').value = "",
+                this.$$('#femaleNum').value = "",
+                this.$$('#femaleDen').value = "",
+                this.$$('#otherGenderNum').value = "",
+                this.$$('#otherGenderDen').value = "",
+                this.$$('#underSeventeenNum').value = "",
+                this.$$('#underSeventeenDen').value = "",
+                this.$$('#eighteenNum').value = "",
+                this.$$('#eighteenDen').value = "",
+                this.$$('#fortyFiveNum').value = "",
+                this.$$('#fortyFiveDen').value = "",
+                this.$$('#sixtyFiveNum').value = "",
+                this.$$('#sixtyFiveDen').value = "",
+                this.$$('#hispanicNum').value = "",
+                this.$$('#hispanicDen').value = "",
+                this.$$('#notHispanicNum').value = "",
+                this.$$('#notHispanicDen').value = "",
+                this.$$('#blackNum').value = "",
+                this.$$('#blackDen').value = "",
+                this.$$('#indianNum').value = "",
+                this.$$('#indianDen').value = "",
+                this.$$('#asianNum').value = "",
+                this.$$('#asianDen').value = "",
+                this.$$('#hawaiianNum').value = "",
+                this.$$('#hawaiianDen').value = "",
+                this.$$('#whiteNum').value = "",
+                this.$$('#whiteDen').value = "",
+                this.$$('#otherRaceNum').value = "",
+                this.$$('#otherRaceDen').value = ""
             },
             setAjax: function(formDataJson) {
               this.$.postAppDemographic.body = formDataJson;
               this.$.postAppDemographic.generateRequest();
             },
+
+            callBackAppDemographic: function () {
+              document.querySelector('app-measure-input').setAjaxMeasure();
+            },
+
             submitForm: function(request) {
                 userOrganizationId=document.querySelector('app-dashboard').$.findUserOrganizations.value;
               var formData = {
@@ -339,7 +372,6 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
               this.$$('#whiteDen').value = "",
               this.$$('#otherRaceNum').value = "",
               this.$$('#otherRaceDen').value = "",
-              document.querySelector('app-measure-input').setAjaxMeasure();
               this.$.testVar.close();
             },
 

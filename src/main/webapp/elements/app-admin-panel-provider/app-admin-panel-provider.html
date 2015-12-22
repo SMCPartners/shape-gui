@@ -87,6 +87,7 @@
           width: 80%;
           height: 90%;
         };
+
     </style>
     </shape-iron-ajax-helper>
     <template>
@@ -162,11 +163,11 @@
                       </template>
                     </div>
                     </td>
-                    <td align="center">
-                        <div>
-                            <paper-button class="editButton" raised on-tap="editProvider" modalName="editProvider"><b>Edit</b></paper-button>
-                        </div>
-                    </td>
+                    <div align="center">
+                      <td style="font-size: 1em;">
+                        <paper-button class="editButton" raised on-tap="editProvider" modalName="editProvider"><b>Edit</b></paper-button>
+                      </td>
+                    </div>
                 </tr>
                 </template>
                 <app-admin-add id="inputModal"></app-admin-add>
@@ -320,7 +321,8 @@
                   var providerData = this.providers[provider];
                 }
               }
-              this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"), providerData);
+              this.$.editModal.editProviderButton(providerData);
+              //this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"), providerData);
             },
 
             addProvider: function(e){
