@@ -7,18 +7,18 @@
         @apply(--pm-style)
         }
 
-        select[selected] {
+        /*select[selected] {
             border: none;
-        }
+        }*/
         select {
             height: 2.5em;
             font-size: 1em;
             background: transparent;
             border: none;
         }
-        select[focused] {
+        /*select[focused] {
             border: none;
-        }
+        }*/
 
         .flex-child {
             order: 0;
@@ -50,7 +50,8 @@
             <div class="flex-parent flex-child">
                 <label class="flex-child" style="font: inherit; margin-left:0.5em;"> <b>Organization: </b></label>
                 <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                    <select id=findUserOrganizations style="font: inherit; margin-left:0.5em;" on-change="loadOrgData">
+                    <!--select id=findUserOrganizations style="font: inherit; margin-left:0.5em;" on-change="loadOrgData"-->
+                      <select id=findUserOrganizations on-change="loadOrgData">
                       <option value="label">Select Organization</option>
                         <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
                             <option style="font: inherit" value="{{item.id}}">{{item.name}}</option>
