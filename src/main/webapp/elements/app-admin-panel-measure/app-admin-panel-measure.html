@@ -25,6 +25,13 @@
           font-family: Roboto;
         };
 
+        .editButton {
+          background-color: #E6E6FA;
+          margin: 2%;
+          width: 80%;
+          height: 90%;
+        };
+
         thead {
         background: #395870;
         color: #fff;
@@ -91,7 +98,7 @@
             </thead>
             <tbody>
             <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
-            <tr>
+            <tr data-id$="{{item.id}}">
                 <td>
                   <div align="center">
                     <template restamp="true" is="dom-if" if="{{item.selected}}">
@@ -111,11 +118,11 @@
                 <td><span>{{item.nqfId}}</span></td>
                 <td><span>{{item.name}}</span></td>
                 <td><span>{{item.description}}</span></td>
-                <td style="font-size: 12px">
-                    <div class="editButton">
-                        <paper-button raised on-tap="editMeasure" modalName="editMeasure" id="{{item.index}}">Edit</paper-button>
-                    </div>
-                </td>
+                <div align="center">
+                  <td style="font-size: 1em;">
+                        <paper-button class="editButton" raised on-tap="editMeasure" modalName="editMeasure" id="{{item.index}}"><b>Edit</b></paper-button>
+                  </td>
+                </div>
             </tr>
             </template>
                 <app-admin-add id="inputModal"></app-admin-add>
@@ -220,6 +227,16 @@
                 console.log(this.measure[measureNum - 1]);
             },
 
+            editMeasure: function(e) {
+              var measureId = this.findAncestor(e.target, 'tr').dataset.id;
+              for (var measures in this.measure) {
+                if (this.measure[measures].id == measureId) {
+                  var measureData = this.measure[measures];
+                }
+              }
+              this.$.editModal.editMeasureButton(measureData);
+            },
+
             selectMeasure: function (e) {
                 console.log(e.currentTarget.selectUserMeasure.value);
                 this.$.ajaxSelectMeasure.body = JSON.stringify({
@@ -251,6 +268,21 @@
             addMeasure: function(e) {
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
             },
+
+            findAncestor: function(element, query) {
+              do {
+                element = element.parentElement;
+              } while (element && !this.elementMatches(element, query))
+              return element;
+            },
+            elementMatches: function(element, query) {
+              var siblingMatches = element.parentElement.querySelectorAll(query)
+              for (var match = 0; match < siblingMatches.length; match++) {
+                if (siblingMatches[match] == element) return true;
+              }
+              return false;
+            },
+
             setajax: function() {
               this.$.findMeasures.callBack = this.callBack;
               this.$.findMeasures.generateRequest();

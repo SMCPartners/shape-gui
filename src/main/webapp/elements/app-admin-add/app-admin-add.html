@@ -10,7 +10,7 @@
 
         .modalPositionProvider {
           width: 30%;
-          height: 70%;
+          height: 60%;
         };
 
         .modalPositionOrganization {
@@ -26,9 +26,23 @@
             padding-bottom: 10px;
         };
 
+        .saveCloseButtons {
+          padding-top: 20px;
+        };
+
+        .saveCloseButtons1 {
+          background-color: #FFFAF0;
+          color: #0066CC;
+        };
+
         .modalPositionUser {
           width: 30%;
           height: 100%;
+        };
+
+        .measureModal {
+          width: 75%;
+          height: 90%;
         };
 
         .alignRight {
@@ -69,6 +83,7 @@
           margin: 0px;
           max-height: 90%;
         };
+
         paper-dialog {
           max-width: 850px;
         };
@@ -80,8 +95,10 @@
             <div style="text-align:center">
                 <h2>Add New Provider</h2>
             </div>
+            <div>
                 <paper-input label="Name" value="{{providerData.name}}"></paper-input>
                 <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
+            </div>
                 <div>
                   <label style="font: inherit margin-left:.9em"> <h><b>Select Organization :</b></h></label>
                   <select class="alignRight" id="providerOrgSelect" style="font: inherit">
@@ -90,29 +107,14 @@
                     </template>
                   </select>
                 </div>
-            <div class="parenttwo">
-                <paper-button raised class="button" on-tap="logProvider"><b>Save</b></paper-button>
-                <paper-button raised class="button" on-tap="closeProvider"><b>Cancel</b></paper-button>
+            <div align="center" class="saveCloseButtons">
+                <paper-button raised class="saveCloseButtons1" on-tap="logProvider"><b>Save</b></paper-button>
+                <paper-button raised class="saveCloseButtons1" on-tap="closeProvider"><b>Cancel</b></paper-button>
             </div>
           </paper-dialog>
         </div>
         <div style="position:absolute;top:0;left:0">
-        <paper-dialog id="addOrganization" class="modalPositionOrganization">
-          <shape-iron-ajax-helper
-              id="ajaxAddOrganization"
-              resource="/common/organization/add"
-              handle-as="json"
-              method="POST"
-              debounce-duration="300">
-          </shape-iron-ajax-helper>
-          <shape-iron-ajax-helper
-              id="ajaxAddProvider"
-              resource="/admin/provider/add"
-              handle-as="json"
-              method="POST"
-              debounce-duration="300"
-              on-response="addProviderCallback">
-          </shape-iron-ajax-helper>
+        <paper-dialog id="addOrganization">
               <h2 style="text-align:center">Add New Organization</h2>
               <paper-dialog-scrollable>
                 <div>
@@ -127,9 +129,9 @@
                   <paper-input label="Primary Contact Role" value="{{primaryContactRole}}"></paper-input>
                 </div>
               </paper-dialog-scrollable>
-              <div>
-                <paper-button raised class="button" on-tap="logOrganization">Save</paper-button>
-                <paper-button raised class="button" on-tap="closeOrganization">Cancel</paper-button>
+              <div align="center" class="saveCloseButtons">
+                <paper-button raised class="saveCloseButtons1" on-tap="logOrganization"><b>Save</b></paper-button>
+                <paper-button raised class="saveCloseButtons1" on-tap="closeOrganization"><b>Cancel</b></paper-button>
               </div>
           </paper-dialog>
         </div>
@@ -138,63 +140,66 @@
             <div style="text-align:center">
                 <h2>Add New User</h2>
             </div>
+            <div>
                   <paper-input label="User Name" value="{{username}}"></paper-input>
                   <paper-input label="First Name" value="{{userFirstName}}"></paper-input>
                   <paper-input label="Last Name" value="{{userLastName}}"></paper-input>
                   <paper-input label="Email" value="{{userEmail}}"></paper-input>
-                <div>
-                <label style="font: inherit"> <h>Select Role :</h></label>
+            </div>
+            <div>
+                <label style="font: inherit"> <h><b>Select Role :</b></h></label>
                 <select class="alignRight" id=findUserRole style="font: inherit; margin-left:0.5em;">
-                    <option>Select Role</option>
                     <option value="ADMIN">Admin</option>
                     <option value="ORG_ADMIN">Organization Admin</option>
                     <option value="REGISTERED">Registered</option>
                 </select>
-                </div>
+            </div>
                 <div class="flex-child">
-                <label class="flex-child" style="font: inherit"> <h>Select Organization :</h></label>
+                <label class="flex-child" style="font: inherit"> <h><b>Select Organization :</b></h></label>
                 <select class="alignRight" id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
-                  <option>Select User</option>
                   <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
                     <option value="{{item.id}}">{{item.name}}</option>
                   </template>
                 </select>
               </div>
-            <div class="parenttwo">
-                <paper-button raised class="button" on-tap="setAjaxAddUser">Save</paper-button>
-                <paper-button raised class="button" on-tap="closeUser">Cancel</paper-button>
+            <div align="center" class="saveCloseButtons">
+                <paper-button raised class="saveCloseButtons1" on-tap="setAjaxAddUser"><b>Save</b></paper-button>
+                <paper-button raised class="saveCloseButtons1" on-tap="closeUser"><b>Cancel</b></paper-button>
             </div>
           </div>
         </paper-dialog>
-        <paper-dialog id="addMeasure" class="size-position modalBox">
-            <div>
-                <h2>Add New Measure</h2>
-            </div>
-            <paper-dialog-scrollable class="childtwo">
-                <div>
-                    <paper-input required="true" label="NQF ID" value="{{nqfId}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Name" value="{{measureName}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Description" value="{{measureDescription}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Numerator Description" value="{{numeratorDescription}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Denominator Description" value="{{denominatorDescription}}"></paper-input>
-                </div>
-                <div>
-                    <paper-input label="Exclusions Description" value="{{exclusionsDescription}}"></paper-input>
-                </div>
-            </paper-dialog-scrollable>
-            <div class="parenttwo">
-                <paper-button raised class="child" on-tap="setAjaxAddMeasure">Save</paper-button>
-                <paper-button raised class="child" on-tap="closeMeasure">Cancel</paper-button>
-            </div>
-        </paper-dialog>
+        <div style="position:absolute;top:0;left:0">
+          <paper-dialog id="addMeasure" class="measureModal">
+            <h2 style="text-align:center">Add New Measure</h2>
+              <paper-dialog-scrollable>
+                <paper-input required="true" label="NQF ID" value="{{nqfId}}"></paper-input>
+                <paper-input label="Name" value="{{measureName}}"></paper-input>
+                <paper-input label="Description" value="{{measureDescription}}"></paper-input>
+                <paper-input label="Numerator Description" value="{{numeratorDescription}}"></paper-input>
+                <paper-input label="Denominator Description" value="{{denominatorDescription}}"></paper-input>
+                <paper-input label="Exclusions Description" value="{{exclusionsDescription}}"></paper-input>
+              </paper-dialog-scrollable>
+              <div align="center" class="saveCloseButtons">
+                <paper-button raised class="saveCloseButtons1" on-tap="setAjaxAddMeasure"><b>Save</b></paper-button>
+                <paper-button raised class="saveCloseButtons1" on-tap="closeMeasure"><b>Cancel</b></paper-button>
+              </div>
+          </paper-dialog>
+        </div>
+        <shape-iron-ajax-helper
+            id="ajaxAddOrganization"
+            resource="/common/organization/add"
+            handle-as="json"
+            method="POST"
+            debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+            id="ajaxAddProvider"
+            resource="/admin/provider/add"
+            handle-as="json"
+            method="POST"
+            debounce-duration="300"
+            on-response="addProviderCallback">
+        </shape-iron-ajax-helper>
         <shape-iron-ajax-helper
             id="ajaxAddOrganization"
             resource="/common/organization/add"
@@ -284,7 +289,6 @@
               },
 
             callBackAddUser: function(request) {
-              console.log(request);
               document.querySelector('app-admin-panel-user').setajax();
             },
 
@@ -325,7 +329,6 @@
             },
 
             callBackOrgs: function(request) {
-              console.log(request.detail.response);
               document.querySelector('app-admin-panel-organization').setajax();
               this.organizations=request.detail.response;
             },
@@ -334,9 +337,7 @@
                 for (var i in this.providerData) {
                   this.set('providerData.' + i, '');
                 }
-
                 this.setajaxOrgs();
-
                 if (inputModalName == 'addProvider') {
                 this.$.addProvider.open();
                 };
@@ -408,6 +409,7 @@
               this.primaryContactRole = "";
               this.$.ajaxAddOrganization.generateRequest();
               this.$.addOrganization.close();
+              this.setajaxOrgs();
               document.querySelector('app-admin-panel').loadOrgTable();
             },
             closeOrganization: function(e) {
