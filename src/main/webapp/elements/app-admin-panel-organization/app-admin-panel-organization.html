@@ -88,19 +88,11 @@
       </shape-iron-ajax-helper>
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
-            <!--
-            <div class="flex-item" style="height: 2em; margin: 0 25%; padding-top:0.5em;">
-                <label>Sort By:</label>
-                <select value="{{sortVal::change}}">
-                    <option>Select:</option>-
-                    <option value="name">Name</option>
-                    <option value="address">Address</option>
-                </select>
-            </div>
-            -->
+            <template is="dom-if" if="{{isOrgAdmin(role)}}">
             <div class="flex-item">
                 <paper-button raised on-tap="addOrganization" modalName="addOrganization" style="float:right;padding-top: 0.1em;">Add Organization</paper-button>
             </div>
+            </template>
         </div>
         <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
@@ -191,6 +183,18 @@
                     return (organization.name && ~organization.name.toLowerCase().indexOf(val.toLowerCase())) ||
                             (organization.address && ~organization.address.toLowerCase().indexOf(val.toLowerCase()));
                };
+            },
+
+            isOrgAdmin : function (role) {
+              if (role == "ADMIN") {
+                return true
+              }
+              if (role == "ORG_ADMIN") {
+                return false
+              }
+              if (role == "REGISTERED") {
+                return false
+              }
             },
 
             setAjaxActivate: function(e) {
