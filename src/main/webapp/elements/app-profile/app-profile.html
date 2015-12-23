@@ -279,6 +279,7 @@
                     this.disabled = true;
                     this.setAjaxEditStrat();
                     this.profButton = 'Edit';
+
                 }
                 else if(this.profButton == 'Save' && !this.isDemographicData) {
                   this.disabled = true;
@@ -289,7 +290,10 @@
                   console.log(this.profButton);
                   this.profButton = 'Save';
                   this.disabled = false;
-
+                };
+                var editInput = document.getElementsByClassName('childtwo');
+                for(var i = 0; i < editInput.length; i++) {
+                  this.disabled = false;
                 };
 
 

@@ -33,14 +33,13 @@
 
     </style>
     <template>
-      <p>{{app.$.mainPage.role}}</p>
             <h2 style="margin: 0 0 0.4em 0.4em;">ADMIN PANEL</h2>
             <paper-tabs selected="{{selected}}">
                 <paper-tab on-tap="loadTable">USER</paper-tab>
                 <paper-tab on-tap="loadProviderTable">PROVIDER</paper-tab>
-              <template is="dom-if" if="{{checkOrganizationAndMeasure(role)}}">
+              <!--template is="dom-if" if="{{checkOrganizationAndMeasure(role)}}"-->
                 <paper-tab on-tap="loadOrgTable" style="border-right: 1px solid lightgray;">ORGANIZATION</paper-tab>
-              </template>
+
               <template is="dom-if" if="{{checkOrganizationAndMeasure(role)}}">
                 <paper-tab on-tap="loadMeasureTable">MEASURE</paper-tab>
               </template>
@@ -67,32 +66,11 @@
             properties: {
               role : {
                 type: String
+              },
+              organizationId : {
+                type: String
               }
             },
-
-          //   setajaxFindUser: function() {
-          //     this.$.findUsersById.resource= "/admin/user/find/" + app.$.loginPage.$.userIdInput.value;
-          //     this.$.findUsersById.callBack = this.callBackUserById
-          //     this.$.findUsersById.generateRequest();
-          //   },
-           //
-          //  callBackUserById: function(request) {
-          //   user=request.detail.response;
-          //   this.adminUserFunction();
-          //   },
-           //
-           //
-          //   adminUserFunction : function () {
-          //   console.log(user.role);
-          //   //thisAdminUser = this.isAdminUser;
-          //   console.log(user.admin);
-          //   if (user.role == 'ADMIN') {
-          //     this.set('user.admin', true)
-          //   } else {
-          //     this.set('user.admin', false)
-          //   };
-          //     console.log(user.admin);
-          //   },
 
             checkOrganizationAndMeasure : function (role) {
               if (role == "ADMIN") {
