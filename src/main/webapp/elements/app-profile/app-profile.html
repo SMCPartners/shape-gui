@@ -123,8 +123,6 @@
 
         </div>
       </div>
-      <!-- <p>{{isDemographicData}}</p>
-      <p>{{disabled}}</p> -->
       <template is="dom-if" if="{{isDemographicData}}">
         <div class="lowerHalf">
           <h1 class="center">Patient Population</h1>
@@ -214,16 +212,14 @@
                     </div>
                   </div>
                   <div class="demoColumn">
-
                       <h3 class="center">Demographic Information</h3>
-
-                  <h3>Gender</h3>
+                      <h3>Gender</h3>
                       <template id="genderlist" is="dom-repeat" items="{{gender}}" as="gender">
                         <div class="inputBlock">
                             <paper-input value="{{gender.num}}"></paper-input><p class="smallFont">{{gender.strat}}</p>
                         </div>
                       </template>
-                  <h3>Age</h3>
+                      <h3>Age</h3>
                       <template id="agelist" is="dom-repeat" items="{{age}}" as="age">
                         <div class="inputBlock">
                             <paper-input value="{{age.num}}"></paper-input><p class="smallFont">{{age.strat}}</p>
@@ -244,7 +240,9 @@
 
                   </div>
                 </div>
-        <paper-button class="center" on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
+                <div class="center">
+                  <paper-button on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
+                </div>
 
 
       </paper-material>
@@ -269,42 +267,25 @@
                 this.zip = '06106';
                 this.profButton = 'Edit'
                 this.disabled =true;
-                this.profile = {
-                  genderMale: 0,
-                  genderFemale: 0,
-                  genderOther: 0,
-                  ageUnder17: 0,
-                  age1844: 0,
-                  age4564: 0,
-                  ageOver65: 0,
-                  ethnicityHispanicLatino: 0,
-                  ethnicityNotHispanicLatino: 0,
-                  raceAsian: 0,
-                  raceAfricanAmerican: 0,
-                  raceNativeHawaiian: 0,
-                  raceAmericanIndian: 0,
-                  raceWhite: 0,
-                  raceOther: 0,
-                  totalPatients: 0,
-                  totalVisits: 0,
-                  patientsHypertension: 0,
-                  patientsPreDiabetes: 0,
-                  patientsHighBp: 0,
-                  patientsDiabetes: 0
-                };
+                this.setProfile();
 
 
 
             },
 
             editProfile: function(e) {
-                if (this.profButton == 'Save') {
+                if (this.profButton == 'Save' && this.isDemographicData) {
                     console.log(this.profButton);
                     this.disabled = true;
                     this.setAjaxEditStrat();
                     this.profButton = 'Edit';
                 }
-                else {
+                else if(this.profButton == 'Save' && !this.isDemographicData) {
+                  this.disabled = true;
+                  this.setAjaxAddStrat();
+                  this.profButton = 'Edit'
+                }
+                  else {
                   console.log(this.profButton);
                   this.profButton = 'Save';
                   this.disabled = false;
@@ -396,123 +377,74 @@
 
              if(this.profile){
                this.isDemographicData = 1;
+               this.populateProfile();
+
              }
-             else{
+             else {
                this.isDemographicData = 0;
                this.diasabled = false;
-               //this.setProfile();
-              //  this.set('gender',
-              //  [{
-              //      strat: 'Male',
-              //      num: 0},
-              //    {
-              //      strat: 'Female',
-              //      num: 'Female', num: 0},
-              //    {
-              //      strat: 'Other',
-              //      num: 0 }
-              //
-              //  ]);
-              //  this.set('age',
-              //  [{
-              //     strat: '17 & Under',
-              //     num: 0},
-              //  {
-              //     strat: '18-44 Years',
-              //     num: 0},
-              //  {
-              //     strat: '45-64 Years',
-              //     num: 0},
-              //  {
-              //     strat: '65 & Over',
-              //     num: 0}
-              // ]);
-              // this.set('ethnicity',
-              // [{
-              //   strat: 'Hispanic/Latino',
-              //   num: 0},
-              // {
-              //   strat: 'Not Hispanic/Latino',
-              //   num: 0}
-              // ]);
-              // this.set('race',
-              // [{
-              //   strat: 'African American/Black',
-              //   num: 0},
-              // {
-              //   strat: 'American Indian or Alaska Native',
-              //   num: 0},
-              // {
-              //   strat: 'Asian',
-              //   num: 0},
-              // {
-              //   strat: 'Native Hawaiian or Pacific Islander',
-              //   num: 0},
-              // {
-              //   strat: 'White',
-              //   num: 0},
-              // {
-              //   strat: 'Other',
-              //   num: 0}
-              // ]);
+               this.setProfile();
              }
 
-             this.set('gender',
-             [{
-                 strat: 'Male',
-                 num: this.profile.genderMale},
-               {
-                 strat: 'Female',
-                 num: 'Female', num: this.profile.genderFemale},
-               {
-                 strat: 'Other',
-                 num: this.profile.genderOther}
 
-             ]);
-             console.log("Profile is: ", this.profile);
-             this.set('age',
-             [{
-                strat: '17 & Under',
-                num: this.profile.ageUnder17},
-             {
-                strat: '18-44 Years',
-                num: this.profile.age1844},
-             {
-                strat: '45-64 Years',
-                num: this.profile.age4564},
-             {
-                strat: '65 & Over',
-                num: this.profile.ageOver65}
-            ]);
-            this.set('ethnicity',
+          },
+          populateProfile: function() {
+            this.set('gender',
             [{
-              strat: 'Hispanic/Latino',
-              num: this.profile.ethnicityHispanicLatino},
-            {
-              strat: 'Not Hispanic/Latino',
-              num: this.profile.ethnicityNotHispanicLatino}
+                strat: 'Male',
+                num: this.profile.genderMale},
+              {
+                strat: 'Female',
+                num: 'Female', num: this.profile.genderFemale},
+              {
+                strat: 'Other',
+                num: this.profile.genderOther}
 
             ]);
-            this.set('race',
+            console.log("Profile is: ", this.profile);
+            this.set('age',
             [{
-              strat: 'African American/Black',
-              num: this.profile.raceAfricanAmerican},
+               strat: '17 & Under',
+               num: this.profile.ageUnder17},
             {
-              strat: 'American Indian or Alaska Native',
-              num: this.profile.raceAmericanIndian},
+               strat: '18-44 Years',
+               num: this.profile.age1844},
             {
-              strat: 'Asian',
-              num: this.profile.raceAsian},
+               strat: '45-64 Years',
+               num: this.profile.age4564},
             {
-              strat: 'Native Hawaiian or Pacific Islander',
-              num: this.profile.raceNativeHawaiian},
-            {
-              strat: 'White',
-              num: this.profile.raceWhite},
-            {
-              strat: 'Other',
-              num: this.profile.raceOther}
-            ]);
+               strat: '65 & Over',
+               num: this.profile.ageOver65}
+           ]);
+           this.set('ethnicity',
+           [{
+             strat: 'Hispanic/Latino',
+             num: this.profile.ethnicityHispanicLatino},
+           {
+             strat: 'Not Hispanic/Latino',
+             num: this.profile.ethnicityNotHispanicLatino}
+
+           ]);
+           this.set('race',
+           [{
+             strat: 'African American/Black',
+             num: this.profile.raceAfricanAmerican},
+           {
+             strat: 'American Indian or Alaska Native',
+             num: this.profile.raceAmericanIndian},
+           {
+             strat: 'Asian',
+             num: this.profile.raceAsian},
+           {
+             strat: 'Native Hawaiian or Pacific Islander',
+             num: this.profile.raceNativeHawaiian},
+           {
+             strat: 'White',
+             num: this.profile.raceWhite},
+           {
+             strat: 'Other',
+             num: this.profile.raceOther}
+           ]);
           },
           addNewStrat: function() {
               this.profbutton = "Add New Profile Data";
@@ -541,6 +473,7 @@
               patientsHighBp: 0,
               patientsDiabetes: 0
             };
+            this.populateProfile();
           }
 
         });
