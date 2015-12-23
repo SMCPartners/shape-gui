@@ -300,10 +300,10 @@
             },
             editProfile: function(e) {
                 if (this.profButton == 'Save' && this.gender[0].strat !== "" ) {
-                    console.log(this.profButton);
-                    this.disabled = true;
-                    this.setAjaxEditStrat();
-                    this.profButton = 'Edit';
+                  console.log(this.profButton);
+                  this.disabled = true;
+                  this.setAjaxEditStrat();
+                  this.profButton = 'Edit';
                 }
                 else if (this.profButton === "Save" && this.gender[0].strat === "") {
                   console.log(this.profButton);
@@ -317,7 +317,7 @@
                 };
                 var editInput = document.getElementsByClassName('childtwo');
                 for(var i = 0; i < editInput.length; i++) {
-                    this.disabled = false;
+                  this.disabled = false;
                 };
                 console.log(editInput);
 
