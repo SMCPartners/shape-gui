@@ -124,6 +124,7 @@
         </div>
       </div>
       <p>{{isDemographicData}}</p>
+      <p>{{disabled}}</p>
       <template is="dom-if" if="{{isDemographicData}}">
         <div class="lowerHalf">
           <h1 class="center">Patient Population</h1>
@@ -299,26 +300,33 @@
               return 1;
             },
             editProfile: function(e) {
-                if (this.profButton == 'Save' && this.gender[0].strat !== "" ) {
+                if (this.profButton == 'Save') {
                     console.log(this.profButton);
                     this.disabled = true;
                     this.setAjaxEditStrat();
                     this.profButton = 'Edit';
+                    // var editInput = document.getElementsByClassName('childtwo');
+                    // for(var i = 0; i < editInput.length; i++) {
+                    //     this.disabled = true;
+                    //};
                 }
-                else if (this.profButton === "Save" && this.gender[0].strat === "") {
-                  console.log(this.profButton);
-                  this.disabled = true;
-                  this.setAjaxAddStrat();
-                }
+                // else if (this.profButton === "Save" && this.gender[0].strat === "") {
+                //   console.log(this.profButton);
+                //   this.disabled = true;
+                //   this.setAjaxAddStrat();
+                // }
                 else {
                   console.log(this.profButton);
                   this.profButton = 'Save';
-                  this.disabled = true;
+                  this.disabled = false;
+                  //this.disabled = true;
+                  // var editInput = document.getElementsByClassName('childtwo');
+                  // for(var i = 0; i < editInput.length; i++) {
+                      //this.disabled = false;
+                  //};
+
                 };
-                var editInput = document.getElementsByClassName('childtwo');
-                for(var i = 0; i < editInput.length; i++) {
-                    this.disabled = false;
-                };
+
                 console.log(editInput);
 
             },
