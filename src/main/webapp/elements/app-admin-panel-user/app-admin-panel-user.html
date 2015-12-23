@@ -82,9 +82,11 @@
         <!-- top bar for search, sort, add -->
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
-            <div class="flex-item">
+            <template is="dom-if" if="{{isOrgAdmin(role)}}">
+              <div class="flex-item">
                 <paper-button raised on-tap="addUser" modalName="addUser" style="float:right; padding-top: 0.1em;">Add User</paper-button>
-            </div>
+              </div>
+            </template>
         </div>
         <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
             <colgroup>
@@ -119,9 +121,11 @@
                     </div>
                     </td>
                     <div align="center">
-                      <td style="font-size: 1em;">
-                        <paper-button class="editButton" raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}"><b>Edit</b></paper-button>
-                      </td>
+                      <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
+                        <td style="font-size: 1em;">
+                          <paper-button class="editButton" raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}"><b>Edit</b></paper-button>
+                        </td>
+                      </template>
                     </div>
                 </tr>
             </template>
@@ -176,7 +180,13 @@
               sortVal: "defaultsort",
               sortPass: String,
               sortReverse: false,
-              lastSortVal: "username"
+              lastSortVal: "username",
+              organizationId : {
+                type: String
+              },
+              role : {
+                type: String
+              }
           },
 
             _filter: function(val) {
@@ -188,6 +198,18 @@
                             (user.role && ~user.role.toLowerCase().indexOf(val.toLowerCase())) ||
                             (user.organizationName && ~user.organizationName.toLowerCase().indexOf(val.toLowerCase()));
                };
+            },
+
+            isOrgAdmin : function (role) {
+              if (role == "ADMIN") {
+                return true
+              }
+              if (role == "ORG_ADMIN") {
+                return true
+              }
+              if (role == "REGISTERED") {
+                return false
+              }
             },
 
             setAjaxActivate: function(e) {

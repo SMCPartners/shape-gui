@@ -110,6 +110,12 @@
                 },
                 role : {
                     type: String
+                },
+                organziationId : {
+                    type: String
+                },
+                organizationName : {
+                    type: String
                 }
             },
             loginResponse: function(response){
@@ -119,7 +125,6 @@
               app.$.loginPage.$.findUsers.generateRequest();
               //localStorage.token= event.detail.response.token;
               app.$.loginPage.setSecureCall();
-
             },
 
             logIn: function () {
@@ -134,11 +139,14 @@
             callBackfindUsers: function(request) {
               console.log(request.detail.response);
               callBackUser=request.detail.response;
-              //app.$.mainPage.role=callBackUser.role;
-              app.$.mainPage.set("role", callBackUser.role);
+              document.querySelector('app-admin-panel').set("role", callBackUser.role);
+              document.querySelector('app-admin-panel-user').set("organizationId", callBackUser.organizationId);
+              document.querySelector('app-admin-panel-user').set("role", callBackUser.role);
+              document.querySelector('app-dashboard').set("organizationId", callBackUser.organizationId);
+              document.querySelector('app-dashboard').set("role", callBackUser.role);
               if  (callBackUser.resetPwd == true) {
                 app.select = "setupAccount";
-              }   else {
+                }   else {
                 app.select = "main";
                 //this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
                 document.querySelector('app-account-setup').ajaxFindUsers();

@@ -298,17 +298,20 @@
             },
 
             editProfile: function(e) {
-                if (this.profButton == 'Save') {
-                    console.log(this.profButton);
-                    this.disabled = true;
-                    this.setAjaxEditStrat();
-                    this.profButton = 'Edit';
+                if (this.profButton == 'Save' && this.gender[0].strat !== "" ) {
+                  console.log(this.profButton);
+                  this.disabled = true;
+                  this.setAjaxEditStrat();
+                  this.profButton = 'Edit';
                 }
                 else {
                   console.log(this.profButton);
                   this.profButton = 'Save';
                   this.disabled = false;
-
+                };
+                var editInput = document.getElementsByClassName('childtwo');
+                for(var i = 0; i < editInput.length; i++) {
+                  this.disabled = false;
                 };
 
 
