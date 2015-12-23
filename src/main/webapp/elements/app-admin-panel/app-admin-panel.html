@@ -32,13 +32,17 @@
         }
 
     </style>
-    <template is="dom-bind">
+    <template>
             <h2 style="margin: 0 0 0.4em 0.4em;">ADMIN PANEL</h2>
             <paper-tabs selected="{{selected}}">
                 <paper-tab on-tap="loadTable">USER</paper-tab>
                 <paper-tab on-tap="loadProviderTable">PROVIDER</paper-tab>
+              <!--template is="dom-if" if="{{checkOrganizationAndMeasure(role)}}"-->
                 <paper-tab on-tap="loadOrgTable" style="border-right: 1px solid lightgray;">ORGANIZATION</paper-tab>
+
+              <template is="dom-if" if="{{checkOrganizationAndMeasure(role)}}">
                 <paper-tab on-tap="loadMeasureTable">MEASURE</paper-tab>
+              </template>
             </paper-tabs>
             <iron-pages selected="{{selected}}">
                 <app-admin-panel-user id=adminUser></app-admin-panel-user>
@@ -46,6 +50,13 @@
                 <app-admin-panel-organization></app-admin-panel-organization>
                 <app-admin-panel-measure></app-admin-panel-measure>
             </iron-pages>
+            <shape-iron-ajax-helper
+                id="findUsersById"
+                resource=""
+                handle-as="json"
+                on-response="callBackUserById"
+                debounce-duration="300">
+            </shape-iron-ajax-helper>
     </template>
 </dom-module>
 <script>
@@ -53,10 +64,30 @@
         Polymer({
             is: 'app-admin-panel',
             properties: {
+              role : {
+                type: String
+              },
+              organizationId : {
+                type: String
+              }
             },
+
+            checkOrganizationAndMeasure : function (role) {
+              if (role == "ADMIN") {
+                return true
+              }
+              if (role == "ORG_ADMIN") {
+                return false
+              }
+              if (role == "REGISTERED") {
+                return false
+              }
+            },
+
             loadTable: function() {
               document.querySelector('app-admin-panel-user').setajax();
             },
+
             loadOrgTable: function() {
               console.log("by jobins");
               document.querySelector('app-admin-panel-organization').setajax();

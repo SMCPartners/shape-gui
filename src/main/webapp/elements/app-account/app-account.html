@@ -164,26 +164,52 @@
             },
 
             setAjaxChangePassword: function () {
+
+              // check password complexity
+              var password = this.newPassword;
+              var errors = [];
+              var lowercase = new RegExp("[a-z]");
+              var uppercase = new RegExp("[A-Z]");
+              var digit = new RegExp("[0-9]");
+              lowercase.test(password) ? true : errors.push("One lowercase");
+              uppercase.test(password) ? true : errors.push("One uppercase");
+              digit.test(password) ? true : errors.push("One digit");
+              if (password.length < 6) errors.push("More than 5 characters");
+              // if any errors
+              if (errors.length>0) {
+                errorString = "Your password doesn't contain: \n";
+                for (var i=0; i < errors.length; i++){
+                  errorString+= errors[i]+"\n";
+                }
+                alert(errorString);
+              }
+              else {
                 this.$.ajaxChangePassword.resource="/common/changepassword";
-                this.$.ajaxChangePassword.body = JSON.stringify ({
-                      "id": document.querySelector('app-login').$.userIdInput.value,
-                      "role": callBackUser.role,
-                      "password": this.oldPassword,
-                      "newPassword" : this.newPassword,
-                      "organizationId": callBackUser.organizationId,
-                      "firstName": callBackUser.firstName,
-                      "lastName": callBackUser.lastName,
-                      "email": callBackUser.email,
-                      "questionOne": callBackUser.questionOne,
-                      "questionTwo": callBackUser.questionTwo,
-                      "answerOne": callBackUser.answerOne,
-                      "answerTwo" : callBackUser.answerTwo
-              });
+                var requestObject = {
+                  "id": document.querySelector('app-login').$.userIdInput.value,
+                  "role": callBackUser.role,
+                  "password": this.oldPassword,
+                  "newPassword" : this.newPassword,
+                  "organizationId": callBackUser.organizationId,
+                  "firstName": callBackUser.firstName,
+                  "lastName": callBackUser.lastName,
+                  "email": callBackUser.email,
+                  "questionOne": callBackUser.questionOne,
+                  "questionTwo": callBackUser.questionTwo,
+                  "answerOne": callBackUser.answerOne,
+                  "answerTwo" : callBackUser.answerTwo
+                };
+                for (var property in requestObject) {
+                  if (!requestObject[property]) requestObject[property] = '';
+                }
+                this.$.ajaxChangePassword.body = JSON.stringify (requestObject);
                 this.$.ajaxChangePassword.method="POST";
                 this.$.ajaxChangePassword.callBack=this.callBackChangePassword;
+                console.log('password body', this.$.ajaxChangePassword.body);
                 this.$.ajaxChangePassword.generateRequest();
                 this.$.changePassword.toggle();
-              },
+              }
+            },
 
             callBackChangePassword: function(request) {
               console.log(request.detail.response);

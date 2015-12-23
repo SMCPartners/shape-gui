@@ -15,11 +15,36 @@
 
         passwordInput {
           text-align: center;
+          max-width: 100px;
         };
 
         paper-dialog {
           min-height: 300px;
         };
+
+        .submitButton {
+          background-color: #FFFAF0;
+          color: #0066CC;
+          width: 40%;
+          padding-top: 20px;
+        };
+
+        paper-material {
+          margin-right: 30%;
+          margin-left: 30%;
+          margin-top: 5%;
+          padding-top: 5px;
+        };
+
+        .label {
+          float: left;
+          padding-bottom: 10px;
+        };
+
+        .answer {
+          float: left;
+          padding-bottom: 10px;
+        }
 
         .securityQuestion {
             height: 2.5em;
@@ -30,6 +55,7 @@
             font-size: 16px;
             padding: 0;
             margin-right: 24px;
+            float: right
         };
 
         .okButton {
@@ -38,15 +64,31 @@
           color: white;
         };
 
+        select[selected] {
+            border: none;
+        };
+        select {
+            height: 2.5em;
+            font-size: 1em;
+            background: white;
+            border: none;
+            width: 50%;
+        };
+        select[focused] {
+            border: none;
+        };
+
     </style>
     <template>
+        <div align="center">
+          <paper-material elevation="1">
       <header><b>Reset Password</b></header>
       <p>Select your new password and add security questions below</p>
 
-      <paper-input class="passwordInput" type="oldPassword" value="{{oldPassword}}" placeholder="Old Password"></paper-input>
-      <paper-input class="password" type="newPassword" value="{{newPassword}}"></paper-input>
+      <paper-input class="passwordInput" type="oldPassword" value="{{oldPassword}}" placeholder="Temp Password"></paper-input>
+      <paper-input class="password" type="newPassword" value="{{newPassword}}" placeholder="New Password"></paper-input>
         <h1>Add Security Questions</h1>
-          <label for="securityQuestion1">Question 1</label>
+          <label class="label"><b>Question 1</b></label>
           <select id="securityQuestion1" class="securityQuestion">
             <option id=question1>Who was your second grade teacher?</option>
             <option id=question2>What was the name of your first pet?</option>
@@ -55,8 +97,8 @@
             <option id=question5>Where was your first date?</option>
             <option id=question6>What was your favorite holiday gift?</option>
           </select>
-          <paper-input placeholder="Answer" value="{{answer1}}"></paper-input>
-          <label for="securityQuestion2">Question 1</label>
+          <paper-input class="answer" placeholder="Answer" value="{{answer1}}"></paper-input>
+          <label class="label"><b>Question 2<b></label>
           <select id="securityQuestion2" class="securityQuestion">
             <option>Who was your second grade teacher?</option>
             <option>What was the name of your first pet?</option>
@@ -65,8 +107,10 @@
             <option>Where was your first date?</option>
             <option>What was your favorite holiday gift?</option>
           </select>
-          <paper-input placeholder="Answer" value="{{answer2}}"></paper-input>
+          <paper-input class="answer" placeholder="Answer" value="{{answer2}}"></paper-input>
         <paper-button class="submitButton" on-tap="setupAccount">Submit</paper-button>
+        <div>
+      </paper-material>
         <shape-iron-ajax-helper
             id="ajaxSetupAccount"
             resource=""
