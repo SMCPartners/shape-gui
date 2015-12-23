@@ -110,35 +110,31 @@
                     <td><span>{{item.organizationName}}</span></td>
                     <td>
                     <div align="center">
+                    <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
                       <template restamp="true" is="dom-if" if="{{item.active}}">
                         <paper-button align="center" class="green" participant={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
                       </template>
+                    </template>
                     </div>
                     <div align="center">
+                    <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
                       <template restamp="true" is="dom-if" if="{{!item.active}}">
                         <paper-button align="center" class="red" participant={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
                       </template>
+                    </template>
                     </div>
                     </td>
-                    <div align="center">
-                      <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
+                    <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
+                      <div align="center">
                         <td style="font-size: 1em;">
                           <paper-button class="editButton" raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}"><b>Edit</b></paper-button>
                         </td>
-                      </template>
-                    </div>
+                      </div>
+                    </template>
                 </tr>
             </template>
                   <app-admin-add id="inputModal"></app-admin-add>
-                  <app-admin-edit id="editModal">
-
-                   <!-- username={{modalUserId}}
-                    firstname={{modalFirstName}}
-                    lastname={{modalLastName}}
-                    userrole={{modalUserRole}}
-                    userorganization={{modalOrganizationName}} -->
-
-                </app-admin-edit>
+                  <app-admin-edit id="editModal"></app-admin-edit>
             </tbody>
         </table>
         <shape-iron-ajax-helper
@@ -317,26 +313,26 @@
             },
 
             editUserModal: function(e) {
-              var userId = this.findAncestor(e.target, 'tr').dataset.id;
-              for (var user in this.users) {
-                if (this.users[user].id == userId) {
-                  var userData = this.users[user];
-                }
-              }
-              console.log(userData);
-              this.$.editModal.editUserButton(userData);
+              // var userId = this.findAncestor(e.target, 'tr').dataset.id;
+              // for (var user in this.users) {
+              //   if (this.users[user].id == userId) {
+              //     var userData = this.users[user];
+              //   }
+              // }
+              // console.log(userData);
+              this.$.editModal.editUserButton(e.model.item);
             },
 
             addUser: function(e){
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
                 document.querySelector('app-admin-add').setajaxOrgs();
             },
-            findAncestor: function(element, query) {
-              do {
-                element = element.parentElement;
-              } while (element && !this.elementMatches(element, query))
-              return element;
-            },
+            // findAncestor: function(element, query) {
+            //   do {
+            //     element = element.parentElement;
+            //   } while (element && !this.elementMatches(element, query))
+            //   return element;
+            // },
             elementMatches: function(element, query) {
               var siblingMatches = element.parentElement.querySelectorAll(query)
               for (var match = 0; match < siblingMatches.length; match++) {
