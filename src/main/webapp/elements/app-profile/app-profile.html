@@ -123,8 +123,8 @@
 
         </div>
       </div>
-      <p>{{isDemographicData}}</p>
-      <p>{{disabled}}</p>
+      <!-- <p>{{isDemographicData}}</p>
+      <p>{{disabled}}</p> -->
       <template is="dom-if" if="{{isDemographicData}}">
         <div class="lowerHalf">
           <h1 class="center">Patient Population</h1>
@@ -296,46 +296,27 @@
 
 
             },
-            sortFunction: function (gender) {
-              return 1;
-            },
+
             editProfile: function(e) {
                 if (this.profButton == 'Save') {
                     console.log(this.profButton);
                     this.disabled = true;
                     this.setAjaxEditStrat();
                     this.profButton = 'Edit';
-                    // var editInput = document.getElementsByClassName('childtwo');
-                    // for(var i = 0; i < editInput.length; i++) {
-                    //     this.disabled = true;
-                    //};
                 }
-                // else if (this.profButton === "Save" && this.gender[0].strat === "") {
-                //   console.log(this.profButton);
-                //   this.disabled = true;
-                //   this.setAjaxAddStrat();
-                // }
                 else {
                   console.log(this.profButton);
                   this.profButton = 'Save';
                   this.disabled = false;
-                  //this.disabled = true;
-                  // var editInput = document.getElementsByClassName('childtwo');
-                  // for(var i = 0; i < editInput.length; i++) {
-                      //this.disabled = false;
-                  //};
 
                 };
 
-                console.log(editInput);
 
             },
             cancelEdit: function (e) {
-                var cancelInput = document.getElementsByClassName('childtwo');
-                for(var i = 0; i < cancelInput.length; i++) {
                   this.disabled = true;
-                };
                   this.profButton = 'Edit';
+                  this.setajax();
             },
             setajax: function() {
               if (app.$.mainPage.$.dashboard.isOrgSelected){
@@ -410,7 +391,6 @@
             },
 
            callBack: function(request) {
-            // console.log(request.detail.response);
              this.profile = request.detail.response[0];
              console.log(this.profile);
 
@@ -420,61 +400,61 @@
              else{
                this.isDemographicData = 0;
                this.diasabled = false;
-               this.setProfile();
-               this.set('gender',
-               [{
-                   strat: 'Male',
-                   num: 0},
-                 {
-                   strat: 'Female',
-                   num: 'Female', num: 0},
-                 {
-                   strat: 'Other',
-                   num: 0 }
-
-               ]);
-               this.set('age',
-               [{
-                  strat: '17 & Under',
-                  num: 0},
-               {
-                  strat: '18-44 Years',
-                  num: 0},
-               {
-                  strat: '45-64 Years',
-                  num: 0},
-               {
-                  strat: '65 & Over',
-                  num: 0}
-              ]);
-              this.set('ethnicity',
-              [{
-                strat: 'Hispanic/Latino',
-                num: 0},
-              {
-                strat: 'Not Hispanic/Latino',
-                num: 0}
-              ]);
-              this.set('race',
-              [{
-                strat: 'African American/Black',
-                num: 0},
-              {
-                strat: 'American Indian or Alaska Native',
-                num: 0},
-              {
-                strat: 'Asian',
-                num: 0},
-              {
-                strat: 'Native Hawaiian or Pacific Islander',
-                num: 0},
-              {
-                strat: 'White',
-                num: 0},
-              {
-                strat: 'Other',
-                num: 0}
-              ]);
+               //this.setProfile();
+              //  this.set('gender',
+              //  [{
+              //      strat: 'Male',
+              //      num: 0},
+              //    {
+              //      strat: 'Female',
+              //      num: 'Female', num: 0},
+              //    {
+              //      strat: 'Other',
+              //      num: 0 }
+              //
+              //  ]);
+              //  this.set('age',
+              //  [{
+              //     strat: '17 & Under',
+              //     num: 0},
+              //  {
+              //     strat: '18-44 Years',
+              //     num: 0},
+              //  {
+              //     strat: '45-64 Years',
+              //     num: 0},
+              //  {
+              //     strat: '65 & Over',
+              //     num: 0}
+              // ]);
+              // this.set('ethnicity',
+              // [{
+              //   strat: 'Hispanic/Latino',
+              //   num: 0},
+              // {
+              //   strat: 'Not Hispanic/Latino',
+              //   num: 0}
+              // ]);
+              // this.set('race',
+              // [{
+              //   strat: 'African American/Black',
+              //   num: 0},
+              // {
+              //   strat: 'American Indian or Alaska Native',
+              //   num: 0},
+              // {
+              //   strat: 'Asian',
+              //   num: 0},
+              // {
+              //   strat: 'Native Hawaiian or Pacific Islander',
+              //   num: 0},
+              // {
+              //   strat: 'White',
+              //   num: 0},
+              // {
+              //   strat: 'Other',
+              //   num: 0}
+              // ]);
              }
 
              this.set('gender',
@@ -489,6 +469,7 @@
                  num: this.profile.genderOther}
 
              ]);
+             console.log("Profile is: ", this.profile);
              this.set('age',
              [{
                 strat: '17 & Under',
@@ -532,7 +513,6 @@
               strat: 'Other',
               num: this.profile.raceOther}
             ]);
-
           },
           addNewStrat: function() {
               this.profbutton = "Add New Profile Data";
