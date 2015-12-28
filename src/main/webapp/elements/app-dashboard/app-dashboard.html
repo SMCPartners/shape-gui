@@ -52,7 +52,9 @@
                 <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
                     <!--select id=findUserOrganizations style="font: inherit; margin-left:0.5em;" on-change="loadOrgData"-->
                       <select id=findUserOrganizations on-change="loadOrgData">
-                      <option>Select Organization</option>>
+                      <div hidden="{{isOrgSelected}}">
+                        <option>Select Organization</option>>
+                      </div>
                         <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
                           <template is="dom-if" restamp="true" if="{{checkOrganizationAndMeasure(organizationId)}}">
                             <option style="font: inherit" value="{{item.id}}">{{item.name}}</option>
@@ -273,6 +275,7 @@
               console.log(this.$.findUserOrganizations.value);
               if(this.$.findUserOrganizations.value!=="label"){
                 this.isOrgSelected = true;
+                this.$.profile.noOrgSel = false;
               }else{
                 this.isOrgSelected = false;
               }

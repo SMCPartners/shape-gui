@@ -105,14 +105,20 @@
           debounce-duration="300"
           on-response="setajax">
       </shape-iron-ajax-helper>
+      <div hidden="{{!noOrgSel}}">
+        <br>
+        <br>
+        <h1 class=" center">Please Select an Organization</h1>
+      </div>
 
+      <div hidden="{{noOrgSel}}">
         <paper-material elevation="3">
         <h1 class="center">{{orgData.name}}</h1>
         <div class="orginfo">
           <div class="address">
           <h3 class="center">Address:<h3>
           <h3 class="center">{{orgData.addressStreet}}<h3>
-            <h3 class="center"><span>{{orgData.addressCity}}</span>,&nbsp<span>{{orgData.addressState}}</span>&nbsp<span>{{orgData.addressZip}}</span><h3>
+            <h3 class="center"><span>{{orgData.addressCity}}</span>&nbsp<span>{{orgData.addressState}}</span>&nbsp<span>{{orgData.addressZip}}</span><h3>
               <h3 class="center">{{orgData.primaryContactPhone}}<h3>
         </div>
         <div class="primaryContact">
@@ -248,6 +254,7 @@
       </paper-material>
 
     </template>
+  </div>
     </template>
 
 </dom-module>
@@ -259,6 +266,7 @@
               organizationID: String,
               //profile: Object,
               isDemographicData: Boolean
+
             },
             ready: function() {
                 this.cityStateZip = 'Hartford, CT 06106';
@@ -268,6 +276,10 @@
                 this.profButton = 'Edit'
                 this.disabled =true;
                 this.setProfile();
+                this.noOrgSel = true;
+                // if (app.$.dashboard.$.findUserOrganizations.value === 1){
+                //   this.noOrgsel = true;
+                // };
 
 
 
@@ -304,11 +316,17 @@
                   this.setajax();
             },
             setajax: function() {
-              if (app.$.mainPage.$.dashboard.isOrgSelected){
+              if (app.$.mainPage.$.dashboard.$.findUserOrganizations.value === "Select Organization"){
+                this.noOrgSel = true;
+                return 0;
+              }
+              else{
+                if (app.$.mainPage.$.dashboard.isOrgSelected){
                 this.$.findStratByOrg.callBack = this.callBack
                 this.$.findStratByOrg.resource = "/common/organization_stratification/findAllByOrg/"+ document.getElementById('findUserOrganizations').value;
                 this.$.findStratByOrg.generateRequest();
               }
+            }
 
             },
             setAjaxAddStrat: function() {

@@ -279,10 +279,6 @@
                 appInformationModal.denomDesc = e.currentTarget.data.denominatorDescription;
                 appInformationModal.exclDesc = e.currentTarget.data.exclusionsDescription;
                 appInformationModal.NQFnumber = e.currentTarget.data.nqfId;
-                // console.log(nDescription);
-                // measureEdit=e.currentTarget;
-                // appInformationModal.nameOfMeasure=nInfo;
-                // appInformationModal.detailedDescription=nDescription;
                 infoMod.open();
             },
             //To be added to object to style graphs:
@@ -357,8 +353,6 @@
                   }
                 }
               }
-              // this.setAppHistoryGraph();
-
             },
 
             setAjaxMeasure: function() {
@@ -391,32 +385,9 @@
                         ["White", (currentMeasure.raceWhiteNum / currentMeasure.raceWhiteDen)],
                         ["Other", (currentMeasure.raceOtherNum / currentMeasure.raceOtherDen)]
                       ]
-                    //
-                    // ageData:
-                    // [
-                    //   ["test", "Numerator", "Denominator"],
-                    //   ["Under 17", currentMeasure.ageUnder17Num, currentMeasure.ageUnder17Den],
-                    //   ["18-44", currentMeasure.age1844Num, currentMeasure.age1844Den],
-                    //   ["45-64", currentMeasure.age4564Num, currentMeasure.age4564Den],
-                    //   ["65+", currentMeasure.ageOver65Num, currentMeasure.ageOver65Den]
-                    // ],
-                    // genderData:
-                    // [
-                    //   ["test", "Numerator", "Denominator"],
-                    //   ["Female", currentMeasure.genderFemaleNum, currentMeasure.genderFemaleDen],
-                    //   ["Male", currentMeasure.genderMaleNum, currentMeasure.genderMaleDen],
-                    //   ["Other", currentMeasure.genderOtherNum, currentMeasure.genderOtherDen]
-                    // ],
-                    // ethniData:
-                    // [
-                    //   ["test", "Numerator", "Denominator"],
-                    //   ["Hispanic", currentMeasure.ethnicityHispanicLatinoNum, currentMeasure.ethnicityHispanicLatinoDen],
-                    //   ["Not Hispanic", currentMeasure.ethnicityNotHispanicLatinoNum, currentMeasure.ethnicityNotHispanicLatinoDen]
-                    // ]
+
                   });
                 };
-                  //document.querySelector('app-history-demographics').set('orgMeasCharts', orgMeasures);
-                  //console.log(orgMeasures);
             }
         });
     })();
