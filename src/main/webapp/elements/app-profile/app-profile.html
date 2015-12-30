@@ -265,8 +265,10 @@
             properties: {
               organizationID: String,
               //profile: Object,
-              isDemographicData: Boolean
-
+              isDemographicData: Boolean,
+              genderMale : {
+                type: String
+              }
             },
             ready: function() {
                 this.cityStateZip = 'Hartford, CT 06106';
@@ -414,58 +416,58 @@
             this.set('gender',
             [{
                 strat: 'Male',
-                num: this.profile.genderMale},
+                num: this.profile.genderMale.toString()},
               {
                 strat: 'Female',
-                num: 'Female', num: this.profile.genderFemale},
+                num: 'Female', num: this.profile.genderFemale.toString()},
               {
                 strat: 'Other',
-                num: this.profile.genderOther}
+                num: this.profile.genderOther.toString()}
 
             ]);
             console.log("Profile is: ", this.profile);
             this.set('age',
             [{
                strat: '17 & Under',
-               num: this.profile.ageUnder17},
+               num: this.profile.ageUnder17.toString()},
             {
                strat: '18-44 Years',
-               num: this.profile.age1844},
+               num: this.profile.age1844.toString()},
             {
                strat: '45-64 Years',
-               num: this.profile.age4564},
+               num: this.profile.age4564.toString()},
             {
                strat: '65 & Over',
-               num: this.profile.ageOver65}
+               num: this.profile.ageOver65.toString()}
            ]);
            this.set('ethnicity',
            [{
              strat: 'Hispanic/Latino',
-             num: this.profile.ethnicityHispanicLatino},
+             num: this.profile.ethnicityHispanicLatino.toString()},
            {
              strat: 'Not Hispanic/Latino',
-             num: this.profile.ethnicityNotHispanicLatino}
+             num: this.profile.ethnicityNotHispanicLatino.toString()}
 
            ]);
            this.set('race',
            [{
              strat: 'African American/Black',
-             num: this.profile.raceAfricanAmerican},
+             num: this.profile.raceAfricanAmerican.toString()},
            {
              strat: 'American Indian or Alaska Native',
-             num: this.profile.raceAmericanIndian},
+             num: this.profile.raceAmericanIndian.toString()},
            {
              strat: 'Asian',
-             num: this.profile.raceAsian},
+             num: this.profile.raceAsian.toString()},
            {
              strat: 'Native Hawaiian or Pacific Islander',
-             num: this.profile.raceNativeHawaiian},
+             num: this.profile.raceNativeHawaiian.toString()},
            {
              strat: 'White',
-             num: this.profile.raceWhite},
+             num: this.profile.raceWhite.toString()},
            {
              strat: 'Other',
-             num: this.profile.raceOther}
+             num: this.profile.raceOther.toString()}
            ]);
           },
           addNewStrat: function() {
