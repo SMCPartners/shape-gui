@@ -36,16 +36,6 @@
           padding-top: 5px;
         };
 
-        .label {
-          float: left;
-          padding-bottom: 10px;
-        };
-
-        .answer {
-          float: left;
-          padding-bottom: 10px;
-        }
-
         .securityQuestion {
             height: 2.5em;
             font-size: 1em;
@@ -68,48 +58,74 @@
             border: none;
         };
         select {
-            height: 2.5em;
+            height: 1.5em;
             font-size: 1em;
             background: white;
             border: none;
-            width: 50%;
+            width: 75%;
         };
         select[focused] {
             border: none;
         };
 
+        .alignRight {
+          float: right;
+        };
+
+        .alignLeft {
+          float: left;
+        };
+
+        .paddingBottom {
+          padding-bottom: 4px;
+        };
+
+        .button {
+          width: 80%;
+          background-color: #E6E6FA;
+          height: 80%;
+          margin: 2%;
+        };
+
     </style>
     <template>
-        <div align="center">
-          <paper-material elevation="1">
-      <header><b>Reset Password</b></header>
-      <p>Select your new password and add security questions below</p>
-
+      <div align="center">
+        <paper-material elevation="1">
+      <h1>Reset Password</h1>
       <paper-input class="passwordInput" type="oldPassword" value="{{oldPassword}}" placeholder="Temp Password"></paper-input>
       <paper-input class="password" type="newPassword" value="{{newPassword}}" placeholder="New Password"></paper-input>
         <h1>Add Security Questions</h1>
-          <label class="label"><b>Question 1</b></label>
-          <select id="securityQuestion1" class="securityQuestion">
-            <option id=question1>Who was your second grade teacher?</option>
-            <option id=question2>What was the name of your first pet?</option>
-            <option id=question3>Where did you learn to swim?</option>
-            <option id=question4>What was your favorite high school class?</option>
-            <option id=question5>Where was your first date?</option>
-            <option id=question6>What was your favorite holiday gift?</option>
+        <div class="paddingBottom">
+        <label class="alignLeft" style="font: inherit"><h><b>Question 1 :</b></h></label>
+          <select class="alignRight" id="securityQuestion1" style="font: inherit">
+              <option style="font: inherit margin-right:0.5em;">Who was your second grade teacher?</option>
+              <option style="font: inherit margin-right:0.5em;">What was the name of your first pet?</option>
+              <option style="font: inherit margin-right:0.5em;">Where did you learn to swim?</option>
+              <option style="font: inherit margin-right:0.5em;">What was your favorite high school class?</option>
+              <option style="font: inherit margin-right:0.5em;">Where was your first date?</option>
+              <option style="font: inherit margin-right:0.5em;">What was your favorite holiday gift?</option>
           </select>
-          <paper-input class="answer" placeholder="Answer" value="{{answer1}}"></paper-input>
-          <label class="label"><b>Question 2<b></label>
-          <select id="securityQuestion2" class="securityQuestion">
-            <option>Who was your second grade teacher?</option>
-            <option>What was the name of your first pet?</option>
-            <option>Where did you learn to swim?</option>
-            <option>What was your favorite high school class?</option>
-            <option>Where was your first date?</option>
-            <option>What was your favorite holiday gift?</option>
-          </select>
-          <paper-input class="answer" placeholder="Answer" value="{{answer2}}"></paper-input>
-        <paper-button class="submitButton" on-tap="setupAccount">Submit</paper-button>
+        </div>
         <div>
+          <paper-input class="paddingBottom" placeholder="Answer" value="{{answer1}}"></paper-input>
+        </div>
+        <div class="paddingBottom">
+        <label class="alignLeft" style="font: inherit"><h><b>Question 2 :</b></h></label>
+          <select class="alignRight" id="securityQuestion2" style="font: inherit">
+              <option style="font: inherit margin-right:0.5em;">Who was your second grade teacher?</option>
+              <option style="font: inherit margin-right:0.5em;">What was the name of your first pet?</option>
+              <option style="font: inherit margin-right:0.5em;">Where did you learn to swim?</option>
+              <option style="font: inherit margin-right:0.5em;">What was your favorite high school class?</option>
+              <option style="font: inherit margin-right:0.5em;">Where was your first date?</option>
+              <option style="font: inherit margin-right:0.5em;">What was your favorite holiday gift?</option>
+          </select>
+        </div>
+        <div>
+          <paper-input class="paddingBottom" placeholder="Answer" value="{{answer2}}"></paper-input>
+        </div>
+      <div>
+        <paper-button class="button" on-tap="setupAccount">Submit</paper-button>
+      </div>
       </paper-material>
         <shape-iron-ajax-helper
             id="ajaxSetupAccount"
@@ -172,7 +188,7 @@
               // check for lower case
               uppercase.test(password) ? true : errors.push("One uppercase")
               // check for number
-              digit.test(password) ? ture : errors.push("One digit")
+              digit.test(password) ? true : errors.push("One digit")
 
               // if any errors
               if (errors.length>0){
@@ -224,6 +240,8 @@
             callBackSetupAccount: function(request) {
                 console.log(request.detail.errMsg);
                 app.select = "main";
+                document.querySelector('app-dashboard').setAjax();
+                document.querySelector('app-history').setajaxMeasures();
             },
 
             handleClick: function (e) {
