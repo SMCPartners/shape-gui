@@ -172,7 +172,7 @@
               // check for lower case
               uppercase.test(password) ? true : errors.push("One uppercase")
               // check for number
-              digit.test(password) ? ture : errors.push("One digit")
+              digit.test(password) ? true : errors.push("One digit")
 
               // if any errors
               if (errors.length>0){
@@ -199,7 +199,7 @@
             },
 
             setupAccount: function (request) {
-              if (checkPasswordComplexity(this.newPassword)){
+              if (this.checkPasswordComplexity(this.newPassword)){
                 this.$.ajaxSetupAccount.resource="/common/changepassword";
                 this.$.ajaxSetupAccount.body = JSON.stringify ({
                       "id": document.querySelector('app-login').$.userIdInput.value,
