@@ -40,11 +40,6 @@
           margin-right: auto;
           display: inline-block;
         }
-        /*.buttons {
-          margin-left: auto;
-          margin-right: auto;
-        }*/
-
     </style>
     <template>
       <paper-material elevation="2">
@@ -54,24 +49,7 @@
           <paper-input label="Password" id="passwordInput" type="password" on-keydown="checkKeyStroke"></paper-input>
             <paper-button id="login" on-tap="logIn" raised noink>Login</paper-button>
             <paper-button id="forgotPasswordButton" on-tap="resetPassword" raised noink>Forgot Password?</paper-button>
-      </paper-material-->
-          <!--iron-ajax
-                  id="loginCall"
-                  url="http://localhost:8080/jump-service/jump/auth/login/"
-                  on-response="loginResponse"
-                  method="POST"
-                  handle-as="json"
-                  content-type="application/json"
-          >
-          </iron-ajax>
-          <iron-ajax
-                  id="secureCall"
-                  url="http://localhost:8080/jump-service/jump/user/get/mobile_exercise_scr/u2/11-10-2015"
-                  on-response="secureCallResponse"
-                  method="GET"
-                  handle-as="json"
-          >
-          </iron-ajax-->
+      </paper-material>
           <shape-iron-ajax-helper id="loginCall">
           </shape-iron-ajax-helper>
           <shape-iron-ajax-helper id="secureCall">
@@ -84,12 +62,6 @@
               debounce-duration="300">
           </shape-iron-ajax-helper>
     </template>
-
-    <!--shape-iron-ajax-helper
-      id='logInCall'
-      resource='/auth/login/'
-      callback='callBack'
-    ></shape-iron-ajax-helper-->
 </dom-module>
 <script>
     (function () {

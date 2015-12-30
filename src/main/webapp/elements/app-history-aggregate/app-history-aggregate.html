@@ -89,7 +89,17 @@
               //this.options = {isStacked : true}
             },
             appHistAggregateCallBack: function(evt){
-              this.set("aggChartData", evt.detail.response)
+              console.log(evt.detail.response);
+              chartArray = evt.detail.response;
+              var percentGraph = []
+              percentGraph[0] = ["Organization", "Percent"];
+              for (i = 1; i < chartArray.length; i ++) {
+                x = chartArray[i];
+                y = (x[2] / x[1]) * 100;
+                x = [x[0], y];
+                percentGraph[i] = x;
+              }
+              this.set("aggChartData", percentGraph)
             },
             setAjax: function(orgId, measureId, year){
 
