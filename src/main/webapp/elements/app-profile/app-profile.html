@@ -413,6 +413,13 @@
 
           },
           populateProfile: function() {
+            this.set('profile.totalPatients', this.profile.totalPatients.toString());
+            this.set('profile.patientsHighBp', this.profile.patientsHighBp.toString());
+            this.set('profile.patientsDiabetes', this.profile.patientsDiabetes.toString());
+            this.set('profile.patientsPreDiabetes', this.profile.patientsPreDiabetes.toString());
+            this.set('profile.patientsHypertension', this.profile.patientsHypertension.toString());
+            this.set('profile.totalVisits', this.profile.totalVisits.toString());
+
             this.set('gender',
             [{
                 strat: 'Male',
@@ -425,7 +432,7 @@
                 num: this.profile.genderOther.toString()}
 
             ]);
-            console.log("Profile is: ", this.profile);
+            //console.log("Profile is: ", this.profile);
             this.set('age',
             [{
                strat: '17 & Under',
@@ -469,33 +476,35 @@
              strat: 'Other',
              num: this.profile.raceOther.toString()}
            ]);
+
+
           },
           addNewStrat: function() {
               this.profbutton = "Add New Profile Data";
           },
           setProfile: function() {
             this.profile = {
-              genderMale: 0,
-              genderFemale: 0,
-              genderOther: 0,
-              ageUnder17: 0,
-              age1844: 0,
-              age4564: 0,
-              ageOver65: 0,
-              ethnicityHispanicLatino: 0,
-              ethnicityNotHispanicLatino: 0,
-              raceAsian: 0,
-              raceAfricanAmerican: 0,
-              raceNativeHawaiian: 0,
-              raceAmericanIndian: 0,
-              raceWhite: 0,
-              raceOther: 0,
-              totalPatients: 0,
-              totalVisits: 0,
-              patientsHypertension: 0,
-              patientsPreDiabetes: 0,
-              patientsHighBp: 0,
-              patientsDiabetes: 0
+              genderMale: "",
+              genderFemale: "",
+              genderOther: "",
+              ageUnder17: "",
+              age1844: "",
+              age4564: "",
+              ageOver65: "",
+              ethnicityHispanicLatino: "",
+              ethnicityNotHispanicLatino: "",
+              raceAsian: "",
+              raceAfricanAmerican: "",
+              raceNativeHawaiian: "",
+              raceAmericanIndian: "",
+              raceWhite: "",
+              raceOther: "",
+              totalPatients: "",
+              totalVisits: "",
+              patientsHypertension: "",
+              patientsPreDiabetes: "",
+              patientsHighBp: "",
+              patientsDiabetes: ""
             };
             this.populateProfile();
           }
