@@ -404,6 +404,7 @@
 
             },
             logOrganization: function (e) {
+                console.log(this.organizationData);
                 this.$.ajaxEditOrganization.body = JSON.stringify({
                   "id" : this.organizationData.id,
                   "name" : this.organizationData.name,
@@ -417,7 +418,8 @@
                   "primaryContactRole" : this.organizationData.primaryContactRole,
                   "modifiedDt" : "",
                   "modifiedBy" : app.$.loginPage.$.userIdInput.value,
-                  "createdBy"  : this.organizationData.createdBy
+                  "createdBy"  : this.organizationData.createdBy,
+                  "active" : this.organizationData.active
                 });
                 this.$.ajaxEditOrganization.generateRequest();
                 console.log(this.$.ajaxEditOrganization.body);
