@@ -149,7 +149,9 @@
             <div>
                 <label style="font: inherit"> <h><b>Select Role :</b></h></label>
                 <select class="alignRight" id=findUserRole style="font: inherit; margin-left:0.5em;">
+                  <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
                     <option value="ADMIN">Admin</option>
+                  </template>
                     <option value="ORG_ADMIN">Organization Admin</option>
                     <option value="REGISTERED">Registered</option>
                 </select>
@@ -259,8 +261,10 @@
                 primaryContactName: String,
                 primaryContactRole: String,
                 primaryContactEmail: String,
-                primaryContactPhone: String
-
+                primaryContactPhone: String,
+                role : {
+                  type: String
+                }
             },
             ready: function() {
               this.providerData = {};
@@ -286,6 +290,19 @@
                 this.$.ajaxAddUser.callBack=this.callBackAddUser;
                 this.$.ajaxAddUser.generateRequest();
                 this.$.addUser.toggle();
+              },
+
+
+              isOrgAdmin : function (role) {
+                if (role == "ADMIN") {
+                  return true
+                }
+                if (role == "ORG_ADMIN") {
+                  return false
+                }
+                if (role == "REGISTERED") {
+                  return false
+                }
               },
 
             callBackAddUser: function(request) {

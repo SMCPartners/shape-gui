@@ -173,7 +173,9 @@
                 <div class="marginClass">
                   <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Role :</b></h></label>
                     <select class="alignRight" id=findUserRole style="font: inherit">
+                      <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
                         <option value="ADMIN">Admin</option>
+                      </template>
                         <option value="ORG_ADMIN">Organization Admin</option>
                         <option value="REGISTERED">Registered</option>
                     </select>
@@ -280,6 +282,18 @@
               userorganization:{
                 type: String
               },
+            },
+
+            isOrgAdmin : function (role) {
+              if (role == "ADMIN") {
+                return true
+              }
+              if (role == "ORG_ADMIN") {
+                return false
+              }
+              if (role == "REGISTERED") {
+                return false
+              }
             },
 
             ready: function() {

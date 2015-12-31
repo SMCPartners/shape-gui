@@ -191,7 +191,9 @@
                         </div>
                         <div class="child">
                             <paper-button raised on-tap="editMeasure" measure={{item}} id="{{item.name}}">Edit</paper-button>
-                            <paper-button raised on-tap="deleteMeasure" measure={{item}}>Delete</paper-button>
+                            <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
+                              <paper-button raised on-tap="deleteMeasure" measure={{item}}>Delete</paper-button>
+                            </template>
                         </div>
                     </div>
                     <div class="parent">
@@ -255,6 +257,19 @@
               orgMeasureId = e.model.item.id;
               this.deleteMeasureSetAjax(orgMeasureId);
             },
+
+            isOrgAdmin : function (role) {
+              if (role == "ADMIN") {
+                return true
+              }
+              if (role == "ORG_ADMIN") {
+                return true
+              }
+              if (role == "REGISTERED") {
+                return false
+              }
+            },
+            
             deleteMeasureSetAjax: function(orgMeasureId){
               this.$.deleteOrgMeasure.resource = "/admin/organization_measure/delete"
               this.$.deleteOrgMeasure.body = JSON.stringify({
