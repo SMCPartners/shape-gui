@@ -7,18 +7,12 @@
         @apply(--pm-style)
         }
 
-        /*select[selected] {
-            border: none;
-        }*/
         select {
             height: 2.5em;
             font-size: 1em;
             background: transparent;
             border: none;
         }
-        /*select[focused] {
-            border: none;
-        }*/
 
         .flex-child {
             order: 0;
@@ -64,37 +58,6 @@
                 </div>
             </div>
 
-            <!--div class="flex-parent flex-child">
-                <label class="flex-child" style="font: inherit; margin-left:0.5em;"><b>Provider:</b></label>
-                <div class='flex-child' style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                    <select name="organization" style="font: inherit;">
-                        <template is="dom-repeat" items="{{providers}}">
-                            <option style="font: inherit" value="{{item.id}}">{{item.name}}</option>
-                          </template>
-                      </select>
-                  </div>
-              </div-->
-            <!--<div class="flex-parent flex-child">
-                <label class="flex-child" style="font: inherit; margin-left:0.5em;"> <b>Quarter: </b></label>
-                <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                    <select name="quarter" style="font: inherit">
-                        <template is="dom-repeat" items="{{quarters}}">
-                            <option style="font: inherit" value="{{item.quarter}}">{{item.quarter}}</option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-            <div class="flex-parent flex-child">
-                <label class="flex-child" style="font: inherit; margin-left:0.5em;"> <b>Year: </b></label>
-                <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                    <select name="year" style="font: inherit">
-                        <template is="dom-repeat" items="{{years}}">
-                            <option style="font: inherit" value="{{item.year}}">{{item.year}}</option>
-                        </template>
-                    </select>
-                </div>
-              </div-->
-            <!--  box-shadow: 1px 1px 1px 1px lightgray -->
         </div>
             <paper-tabs selected="{{selected}}" noink no-slide>
 
@@ -151,11 +114,6 @@
                 value: false
               }
             },
-            // orgStrat: function() {
-            //   console.log("go");
-            //   document.querySelector('app-profile').organizationID = this.selectedOrganization;
-            //   document.querySelector('app-profile').setajax();
-            // },
 
             setAjax: function () {
               this.$.findOrgs.generateRequest();
@@ -239,11 +197,7 @@
             },
 
             ready: function() {
-                //this.selected = 0;
-                // this.organizations = [
-                //     {_id: "1", name: "Organization 1"},
-                //     {_id: "2", name: "Organization 2"}
-                // ];
+
                 this.providers = [
                   {_id: "1", name: "Provider 1"},
                   {_id: "2", name: "Provider 2"},
@@ -267,12 +221,8 @@
               for (i =0; i < this.organizations.length; i++) {
                 if (this.organizations[i].id.toString() === this.$.findUserOrganizations.value) {
                   this.$.profile.set('orgData', this.organizations[i]);
-                  console.log("Here it Goes:");
-                  console.log(this.$.profile.orgData);
-
                 }
               }
-              console.log(this.$.findUserOrganizations.value);
               if(this.$.findUserOrganizations.value!=="label"){
                 this.isOrgSelected = true;
                 this.$.profile.noOrgSel = false;
@@ -284,8 +234,6 @@
                   this.loadEmptyAppProfile();
                 };
                 document.querySelector('app-measure-input').setAjaxMeasure();
-                console.log(document.querySelector('app-history-list-view'));
-                //document.querySelector('app-profile').organizationID = this.selectedOrganization;
                 document.querySelector('app-profile').setajax();
                 this.$.history.loadMeasureData();
 

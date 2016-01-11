@@ -124,14 +124,6 @@
     </style>
     <template>
 
-      <!-- <shape-iron-ajax-helper
-        id="findMeasureInput"
-        resource=""
-        handle-as="json"
-        on-response="callBack"
-        debounce-duration="300">
-      </shape-iron-ajax-helper> -->
-
       <shape-iron-ajax-helper
           id="findListView"
           resource=""
@@ -140,15 +132,6 @@
           debounce-duration="300">
       </shape-iron-ajax-helper>
 
-      <!-- <shape-iron-ajax-helper
-        id="findMeasureByOrg"
-        resource="/admin/find/measureById"
-        handle-as="json"
-        body=""
-        method="POST"
-        on-response="secondCallBack"
-        debounce-duration="300">
-      </shape-iron-ajax-helper> -->
       <paper-dialog-scrollable>
       <template is="dom-repeat" items="{{measures}}" measure={{item}}>
             <paper-material class="pms">
@@ -181,9 +164,6 @@
                         options="{{item.chartOptions}}">
                       </google-chart>
                     </div>
-                    <!--div class="child">
-                        <paper-button raised on-tap="editMeasure" measure={{item}} id="{{item.name}}">Edit</paper-button>
-                    </div-->
                 </div>
                 <div class="parent">
                     <paper-material elevation="0" class="child resultBox">
@@ -191,7 +171,6 @@
                         <div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}
                     </paper-material>
                 </div>
-                    <!-- this is where aggregate measure results used to be -->
                 </paper-material>
         </template>
       </paper-dialog-scrollable>
@@ -223,9 +202,6 @@
             },
 
             addMeasure: function (e) {
-                // var nMeasure = e.currentTarget.id;
-                // console.log(nMeasure);
-                // appDemographicAdd.nameOfMeasure=nMeasure;
                 document.querySelector('app-demographic-add').setGetUserDataAjax();
                 testVar.open();
             },
@@ -236,9 +212,7 @@
             },
             measureDetail: function (e) {
                 var nInfo = e.currentTarget.id;
-                //console.log(nInfo);
                 var nDescription = e.currentTarget.data;
-                console.log(nDescription);
                 measureEdit=e.currentTarget;
                 appInformationModal.nameOfMeasure=nInfo;
                 appInformationModal.detailedDescription=nDescription;
@@ -257,9 +231,6 @@
             callBack: function(request) {
               this.measures=request.detail.response;
             },
-
-            //To be added to object to style graphs:
-            //"slices": ["0": {'color': #32cd32}, "1": {'color': 'transparent'}],
 
             modalMeasuresFunction : function () {
               modalMeasures=this.measures;

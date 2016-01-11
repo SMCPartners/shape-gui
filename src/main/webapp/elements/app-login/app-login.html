@@ -52,7 +52,6 @@
             <paper-button on-tap="showUserGuide">View Our User Guide</paper-button>
       </paper-material>
       <div>
-        <!--a href="#">Check out our User Guide</a-->
       </div>
           <shape-iron-ajax-helper id="loginCall">
           </shape-iron-ajax-helper>
@@ -99,8 +98,6 @@
               app.$.loginPage.$.findUsers.resource="/admin/user/find/" + app.$.loginPage.$.userIdInput.value;
               app.$.loginPage.$.findUsers.callBack=this.callBackfindUsers;
               app.$.loginPage.$.findUsers.generateRequest();
-              //localStorage.token= event.detail.response.token;
-              app.$.loginPage.setSecureCall();
             },
 
             logIn: function () {
@@ -113,7 +110,6 @@
             },
 
             callBackfindUsers: function(request) {
-              console.log(request.detail.response);
               callBackUser=request.detail.response;
               document.querySelector('app-admin-panel').set("role", callBackUser.role);
               document.querySelector('app-admin-panel-user').set("organizationId", callBackUser.organizationId);
@@ -132,16 +128,6 @@
               };
             },
 
-            setSecureCall: function(){
-                // var call = this.$.secureCall;
-                //call.resource = "/user/get/mobile_exercise_scr/u2/11-16-2015";
-                // call.method = "GET"
-                // call.callBack = this.secureCallResponse;
-                // call.generateRequest();
-            },
-            secureCallResponse: function(response){
-                console.log(event.detail.response)
-            },
             navigateHome: function (e) {
                 this.selected = 'main';
             },
@@ -149,7 +135,6 @@
               app.select = "resetPassword"
             },
             checkKeyStroke: function(e){
-              //check if the keystroke was the enter key
               if (e.keyCode === 13){
                 app.$.loginPage.logIn()
               }
