@@ -423,6 +423,7 @@
                 });
                 this.$.ajaxEditOrganization.generateRequest();
                 console.log(this.$.ajaxEditOrganization.body);
+                document.querySelector('app-dashboard').setAjax();
                 document.querySelector('app-admin-panel').loadOrgTable();
                 this.$.editOrganization.close();
 

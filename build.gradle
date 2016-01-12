@@ -1,7 +1,7 @@
 group 'com.smcpartners.shape'
 version '1.0-SNAPSHOT'
 
-def deployDir = '/Users/bryanhokanson/Server/wildfly-9.0.2.Final/standalone/deployments/'
+def deployDir = '/Users/jklein/Tools/wildfly/wildfly-9.0.2.Final/standalone/deployments/'
 
 apply plugin: 'java'
 apply plugin: 'war'

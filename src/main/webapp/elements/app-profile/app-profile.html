@@ -413,6 +413,13 @@
 
           },
           populateProfile: function() {
+            this.set('profile.totalPatients', this.profile.totalPatients.toString());
+            this.set('profile.patientsHighBp', this.profile.patientsHighBp.toString());
+            this.set('profile.patientsDiabetes', this.profile.patientsDiabetes.toString());
+            this.set('profile.patientsPreDiabetes', this.profile.patientsPreDiabetes.toString());
+            this.set('profile.patientsHypertension', this.profile.patientsHypertension.toString());
+            this.set('profile.totalVisits', this.profile.totalVisits.toString());
+
             this.set('gender',
             [{
                 strat: 'Male',
@@ -425,7 +432,7 @@
                 num: this.profile.genderOther.toString()}
 
             ]);
-            console.log("Profile is: ", this.profile);
+            //console.log("Profile is: ", this.profile);
             this.set('age',
             [{
                strat: '17 & Under',
@@ -469,6 +476,8 @@
              strat: 'Other',
              num: this.profile.raceOther.toString()}
            ]);
+
+
           },
           addNewStrat: function() {
               this.profbutton = "Add New Profile Data";

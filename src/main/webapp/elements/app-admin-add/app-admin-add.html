@@ -427,6 +427,7 @@
               this.$.ajaxAddOrganization.generateRequest();
               this.$.addOrganization.close();
               this.setajaxOrgs();
+              document.querySelector('app-dashboard').setAjax();
               document.querySelector('app-admin-panel').loadOrgTable();
             },
             closeOrganization: function(e) {
