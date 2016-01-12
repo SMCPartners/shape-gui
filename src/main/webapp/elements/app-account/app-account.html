@@ -114,7 +114,6 @@
           resource=""
           handle-as="json"
           method="POST"
-          on-response="callBackChangePassword"
           debounce-duration="300">
       </shape-iron-ajax-helper>
       <shape-iron-ajax-helper
@@ -122,7 +121,6 @@
           resource=""
           handle-as="json"
           method="POST"
-          on-response="callBackEditQuestions"
           debounce-duration="300">
       </shape-iron-ajax-helper>
       <shape-iron-ajax-helper
@@ -130,7 +128,6 @@
           resource=""
           handle-as="json"
           method="POST"
-          on-response="callBackEditEmail"
           debounce-duration="300">
       </shape-iron-ajax-helper>
       <shape-iron-ajax-helper
@@ -205,14 +202,9 @@
                 this.$.ajaxChangePassword.body = JSON.stringify (requestObject);
                 this.$.ajaxChangePassword.method="POST";
                 this.$.ajaxChangePassword.callBack=this.callBackChangePassword;
-                console.log('password body', this.$.ajaxChangePassword.body);
                 this.$.ajaxChangePassword.generateRequest();
                 this.$.changePassword.toggle();
               }
-            },
-
-            callBackChangePassword: function(request) {
-              console.log(request.detail.response);
             },
 
             setAjaxEditEmail: function () {
@@ -236,14 +228,6 @@
                 this.$.ajaxEditEmail.generateRequest();
                 this.$.editEmailOpen.close();
               },
-
-            callBackEditEmail: function(request) {
-              console.log(request.detail.response);
-            },
-
-            callBackEditQuestions: function(request) {
-              console.log(request.detail.response);
-            },
 
             setAjaxEditQuestions: function () {
                 this.$.ajaxEditQuestions.resource="/common/account/edit";

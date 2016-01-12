@@ -203,7 +203,6 @@
                             </div>
                         </paper-material>
                     </div>
-                        <!-- this is where aggregate measure results used to be -->
                 </paper-material>
             </template>
           </template>
@@ -234,15 +233,11 @@
             },
 
             addMeasure: function (e) {
-                // var nMeasure = e.currentTarget.id;
-                // console.log(nMeasure);
-                // appDemographicAdd.nameOfMeasure=nMeasure;
                 document.querySelector('app-demographic-add').setGetUserDataAjax();
                 testVar.open();
             },
             editMeasure: function (e) {
                 var nMeasure=e.currentTarget.id;
-                console.log(e.currentTarget);
                 appDemographicInput.measureName=nMeasure;
                 targetMeasure=e.currentTarget;
                 this.inputMeasureID=e.currentTarget.measure.measureId;
@@ -287,7 +282,6 @@
             },
             measureDetail: function (e) {
                 var nInfo = e.currentTarget.id;
-                console.log(e.currentTarget.data);
                 appInformationModal.measNQF = e.currentTarget.data.name;
                 appInformationModal.measDesc = e.currentTarget.data.description;
                 appInformationModal.numDesc = e.currentTarget.data.numeratorDescription;
@@ -296,22 +290,12 @@
                 appInformationModal.NQFnumber = e.currentTarget.data.nqfId;
                 infoMod.open();
             },
-            //To be added to object to style graphs:
-            //"slices": ["0": {'color': #32cd32}, "1": {'color': 'transparent'}],
-
             callBack: function(request) {
-              //targetMeasure
-              //this.modalreportPeriodYear=request.detail.response.
               var response = request.detail.response;
-              console.log(response);
-
-              // get additional measure data
               if(response.length){
                 this.isMeasureData=1;
                 this.$.findMeasureByOrg.body = JSON.stringify(response);
                 this.$.findMeasureByOrg.generateRequest();
-
-                // display measure data we currently have
                 this.set('measures', response);
                 for (var measure in response) {
                   var currentMeasure = response[measure];
@@ -336,7 +320,6 @@
                   }
 
                 }
-                console.log(yearArray);
                 document.querySelector('app-history').set('years', yearArray);
               } else {
                 this.isMeasureData=0;

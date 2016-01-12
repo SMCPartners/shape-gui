@@ -216,7 +216,6 @@
             },
 
             callBackActivate: function(request) {
-                console.log(request);
                 for(var i = 0; i<this.organization.length; i++){
                   if (this.organization[i].id == activeIndicator.organizations.id){
                     stringPath= 'organization.'+i+'.active';
@@ -226,7 +225,6 @@
             },
 
             callBackInactivate: function(request) {
-              console.log(request);
                for(var i = 0; i<this.organization.length; i++){
                  if (this.organization[i].id == activeIndicator.organizations.id){
                    stringPath= 'organization.'+i+'.active';
@@ -238,8 +236,6 @@
             selectFunction: function(e) {
               val = e.target.getAttribute('sortinggroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
               this.sortPass = val;
-              console.log("target click: " + val);
-              console.log("lastSortVal is " + this.lastSortVal);
 
               if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
                   this.sortReverse = true;
@@ -260,7 +256,6 @@
 
             _sort: function(val) {
                   var clicked = this.sortPass;
-                  console.log("sortReverse is " + this.sortReverse)
                   if (this.sortReverse) {
                             return function(a, b) {
                             if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
@@ -283,7 +278,6 @@
                   var organizationData = this.organization[organizations];
                 }
               }
-              console.log(organizationData);
               this.$.editModal.editOrganizationButton(organizationData);
             },
 

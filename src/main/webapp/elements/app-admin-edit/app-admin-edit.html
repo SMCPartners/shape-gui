@@ -312,7 +312,6 @@
                   for (var i in data) {
                     this.set('providerData.' + i, data[i]);
                 }
-                console.log(data);
                 this.$.providerOrgSelect.value = data.organization;
                 this.$.editProvider.open();
             },
@@ -323,7 +322,6 @@
                   for (var i in data) {
                     this.set('measureData.' + i, data[i]);
                 }
-                console.log(data);
                 this.$.editMeasure.open();
             },
 
@@ -345,16 +343,7 @@
                   for (var i in data) {
                     this.set('organizationData.' + i, data[i]);
                 }
-                console.log(data);
                 this.$.editOrganization.open();
-            },
-
-            callback: function() {
-              //refreshTableName = e.target.parentNode.getAttribute("id");
-              // if (refreshTableName == ajaxEditOrganization){
-              //   document.querySelector('app-admin-panel-organization').setajax();
-              // }
-              console.log("helloWorld");
             },
 
             closeUserModal: function() {
@@ -422,7 +411,6 @@
                   "active" : this.organizationData.active
                 });
                 this.$.ajaxEditOrganization.generateRequest();
-                console.log(this.$.ajaxEditOrganization.body);
                 document.querySelector('app-dashboard').setAjax();
                 document.querySelector('app-admin-panel').loadOrgTable();
                 this.$.editOrganization.close();

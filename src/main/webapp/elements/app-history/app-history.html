@@ -201,7 +201,6 @@
             loadMeasureData: function() {
               this.$.selectMeasure.value !=="label" ? this.isMeasureSelected = true : this.isMeasureSelected = false;
               this.$.selectYear.value !=="label" ? this.isYearSelected = true : this.isYearSelected = false;
-              console.log("Is selected: "+ this.isMeasureSelected+"Is year: "+this.isYearSelected);
 
               if (app.$.mainPage.$.dashboard.isOrgSelected && this.isYearSelected && this.isMeasureSelected ){
                 year=this.$.selectYear.value;
@@ -212,24 +211,7 @@
                 this.$.histolist.setajax();
               }
             },
-            /*buildStratify: function (e) {
 
-                console.log(stratify);
-            for (i = 0; i < stratify.length; i++)
-                {
-                    document.write("<h1>Hello</h1>")
-                    "<div class='parent'>
-                        <div class='child modalSection double'>'stratify.i'</div>
-                        <div class='child single'>
-                            <paper-input label='Numerator'></paper-input>
-                        </div>
-                        <div class='child single'>
-                            <paper-input label='Denominator'></paper-input>
-                        </div>
-                    </div>"
-                }
-                console.log("I'm calling the function")
-            }*/
         });
     })();
 
