@@ -49,7 +49,7 @@
           <paper-input label="Password" id="passwordInput" type="password" on-keydown="checkKeyStroke"></paper-input>
             <paper-button id="login" on-tap="logIn" raised noink>Login</paper-button>
             <paper-button id="forgotPasswordButton" on-tap="resetPassword" raised noink>Forgot Password?</paper-button>
-            <paper-button on-tap="showUserGuide">View Our User Guide</paper-button>
+            <paper-button on-tap="showUserGuide">View SHAPE User Guide</paper-button>
       </paper-material>
       <div>
       </div>
@@ -140,7 +140,7 @@
               }
             },
             showUserGuide: function(e){
-              alert("Will Show User Guide")
+              window.open("images/SHAPE_Dashboard_User_Guide.pdf", '_blank')
             }
         });
     })();
