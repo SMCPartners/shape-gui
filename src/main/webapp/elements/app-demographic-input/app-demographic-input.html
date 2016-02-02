@@ -281,7 +281,6 @@
             userLoginId=document.getElementById('userIdInput').value;
             measureId=appMeasureInput.inputMeasureID;
             dbid=appMeasureInput.dbid;
-            console.log(appMeasureInput.reportPeriodQuarter);
             rpquarter=appMeasureInput.reportPeriodQuarter;
             rpyear=appMeasureInput.reportPeriodYear;
             this.$.ajaxAddMeasureDemographics.resource="/common/organization_measure/edit";
@@ -326,7 +325,6 @@
                 "reportPeriodQuarter" : rpquarter,
                 "reportPeriodYear" : rpyear
               });
-                console.log(this.$.ajaxAddMeasureDemographics.body);
                 this.$.mainNum.value = "",
                 this.$.mainDen.value = "",
                 editMaleNum.value = "",
@@ -366,67 +364,21 @@
           },
 
         callBackMeasureDemographics: function(request) {
-          console.log(request);
           document.querySelector("app-measure-input").setAjaxMeasure();
         },
 
         ajaxFindUsers: function() {
           userLoginId=document.getElementById('userIdInput').value;
           this.$.findUser.resource = "/admin/user/find/" + userLoginId;
-          console.log(this.$.findUser.resource);
           this.$.findUser.callBack = this.callBackUser;
           this.$.findUser.generateRequest();
         },
 
        callBackUser: function(request) {
-         console.log(request.detail.response);
-         console.log(request.detail.response.organizationId);
          userOrganizationId=request.detail.response.organizationId;
          this.measure = request.detail.response;
-         console.log(this.measure);
       },
 
-        // logNumbers: function (e) {
-        //     var formSubmit = {
-        //         mainNum: mainNum.value,
-        //         mainDen: mainDen.value,
-        //         maleNum: maleNum.value,
-        //         maleDen: maleDen.value,
-        //         femaleNum: femaleNum.value,
-        //         femaleDen: femaleDen.value,
-        //         blackNum: blackNum.value,
-        //         blackDen: blackDen.value,
-        //         indianNum: indianNum.value,
-        //         indianDen: indianDen.value,
-        //         asianNum: asianNum.value,
-        //         asianDen: asianDen.value,
-        //         hawaiianNum: hawaiianNum.value,
-        //         hawaiianDen: hawaiianDen.value,
-        //         whiteNum: whiteNum.value,
-        //         whiteDen: whiteDen.value,
-        //         otherNum: otherNum.value,
-        //         otherDen: otherDen.value,
-        //         hispanicNum: hispanicNum.value,
-        //         hispanicDen: hispanicDen.value,
-        //         notHispanicNum: notHispanicNum.value,
-        //         notHispanicDen: notHispanicDen.value,
-        //         eighteenNum: eighteenNum.value,
-        //         eighteenDen: eighteenDen.value,
-        //         fortyFiveNum: fortyFiveNum.value,
-        //         fortyFiveDen: fortyFiveDen.value,
-        //         sixtyFiveNum: sixtyFiveNum.value,
-        //         sixtyFiveDen: sixtyFiveDen.value
-        //     };
-            //if we want to do field completion validation, we can start with below...phase 2?
-            /*for (var i in formSubmit)
-                {
-                    if (formSubmit[i].length <= 0)
-                        {
-                            console.log(i)
-                        };
-                };
-            console.log(formSubmit);*/
-        // },
         cancelLog: function (e) {
           this.$.mainNum.value = "",
           this.$.mainDen.value = "",

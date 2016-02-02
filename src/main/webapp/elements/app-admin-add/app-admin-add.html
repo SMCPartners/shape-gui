@@ -3,451 +3,398 @@
 
 
 <dom-module id="app-admin-add">
-    <style>
-        .pms {
-        @apply(--pm-style)
-        };
+  <style>
+    .pms {
+      @apply(--pm-style)
+    }
 
-        .modalPositionProvider {
-          width: 30%;
-          height: 60%;
-        };
-
-        .modalPositionOrganization {
-          width: 30%;
-          height: 75%;
-        };
-
-        .selectBox {
-            order: 0;
-            flex: 0 1 auto;
-            align-self: center;
-            padding-top: 10px;
-            padding-bottom: 10px;
-        };
-
-        .saveCloseButtons {
-          padding-top: 20px;
-        };
-
-        .saveCloseButtons1 {
-          background-color: #B0B0B0;
-          width: 40%;
-        };
-
-        .modalPositionUser {
-          width: 30%;
-          height: 100%;
-        };
-
-        .measureModal {
-          width: 75%;
-          height: 90%;
-        };
-
-        .alignRight {
-          float: right
-        };
-
-        .button {
-          width: 90%;
-          background-color: #FFFAF0;
-          margin: 10px;
-        };
-
-        .marginClass {
-            padding-top: 20px;
-            padding-bottom: 20px;
-        };
-
-        .alignRight {
-          float: right
-        };
-
-        select[selected] {
-            border: none;
-        };
-        select {
-            height: 2.5em;
-            font-size: 1em;
-            background: white;
-            border: none;
-        };
-        select[focused] {
-            border: none;
-        };
-
-        paper-dialog-scrollable {
-          border-top: 1px solid black;
-          border-bottom: 1px solid black;
-          margin: 0px;
-          max-height: 90%;
-        };
-
-        paper-dialog {
-          max-width: 850px;
-        };
-
-    </style>
-    <template>
-      <div style="position:absolute;top:0;left:0">
-        <paper-dialog id="addProvider" class="modalPositionProvider">
-            <div style="text-align:center">
-                <h2>Add New Provider</h2>
-            </div>
-            <div>
-                <paper-input label="Name" value="{{providerData.name}}"></paper-input>
-                <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
-            </div>
-                <div>
-                  <label style="font: inherit margin-left:.9em"> <h><b>Select Organization :</b></h></label>
-                  <select class="alignRight" id="providerOrgSelect" style="font: inherit">
-                    <template is="dom-repeat" items="{{organizations}}">
-                      <option style="font: inherit margin-right:0.9em;">{{item.name}}</option>
-                    </template>
-                  </select>
-                </div>
-            <div align="center" class="saveCloseButtons">
-                <paper-button raised class="saveCloseButtons1" on-tap="logProvider"><b>Save</b></paper-button>
-                <paper-button raised class="saveCloseButtons1" on-tap="closeProvider"><b>Cancel</b></paper-button>
-            </div>
-          </paper-dialog>
+    ;
+    .modalPositionProvider {
+      width: 30%;
+      height: 60%;
+    };
+    .modalPositionOrganization {
+      width: 30%;
+      height: 75%;
+    };
+    .selectBox {
+      order: 0;
+      flex: 0 1 auto;
+      align-self: center;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    };
+    .saveCloseButtons {
+      padding-top: 20px;
+    };
+    .saveCloseButtons1 {
+      background-color: #B0B0B0;
+      width: 40%;
+    };
+    .modalPositionUser {
+      width: 30%;
+      height: 100%;
+    };
+    .measureModal {
+      width: 75%;
+      height: 90%;
+    };
+    .alignRight {
+      float: right
+    };
+    .button {
+      width: 90%;
+      background-color: #FFFAF0;
+      margin: 10px;
+    };
+    .marginClass {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    };
+    .alignRight {
+      float: right
+    };
+    select[selected] {
+      border: none;
+    };
+    select {
+      height: 2.5em;
+      font-size: 1em;
+      background: white;
+      border: none;
+    };
+    select[focused] {
+      border: none;
+    };
+    paper-dialog-scrollable {
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
+      margin: 0px;
+      max-height: 90%;
+    };
+    paper-dialog {
+      max-width: 850px;
+    };
+  </style>
+  <template>
+    <div style="position:absolute;top:0;left:0">
+      <paper-dialog id="addProvider" class="modalPositionProvider">
+        <div style="text-align:center">
+          <h2>Add New Provider</h2>
         </div>
-        <div style="position:absolute;top:0;left:0">
-        <paper-dialog id="addOrganization" class="modalPositionOrganization">
-              <h2 style="text-align:center">Add New Organization</h2>
-              <paper-dialog-scrollable>
-                <div>
-                  <paper-input label="Organization Name" value="{{name}}"></paper-input>
-                  <paper-input label="Street Address" value="{{addressStreet}}"></paper-input>
-                  <paper-input label="City" value="{{addressCity}}"></paper-input>
-                  <paper-input label="State" value="{{addressState}}"></paper-input>
-                  <paper-input label="Zip" value="{{addressZip}}"></paper-input>
-                  <paper-input label="Primary Contact Name" value="{{primaryContactName}}"></paper-input>
-                  <paper-input label="Primary Contact email" value="{{primaryContactEmail}}"></paper-input>
-                  <paper-input label="Primary Contact Phone" value="{{primaryContactPhone}}"></paper-input>
-                  <paper-input label="Primary Contact Role" value="{{primaryContactRole}}"></paper-input>
-                </div>
-              </paper-dialog-scrollable>
-              <div align="center" class="saveCloseButtons">
-                <paper-button raised class="saveCloseButtons1" on-tap="logOrganization"><b>Save</b></paper-button>
-                <paper-button raised class="saveCloseButtons1" on-tap="closeOrganization"><b>Cancel</b></paper-button>
-              </div>
-          </paper-dialog>
+        <div>
+          <paper-input label="Name" value="{{providerData.name}}"></paper-input>
+          <paper-input label="NPI" value="{{providerData.npi}}"></paper-input>
         </div>
-        <div style="position:absolute;top:0;left:0">
-        <paper-dialog id="addUser" class="modalPositionUser">
-            <div style="text-align:center">
-                <h2>Add New User</h2>
-            </div>
-            <div>
-                  <paper-input label="User Name" value="{{username}}"></paper-input>
-                  <paper-input label="First Name" value="{{userFirstName}}"></paper-input>
-                  <paper-input label="Last Name" value="{{userLastName}}"></paper-input>
-                  <paper-input label="Email" value="{{userEmail}}"></paper-input>
-            </div>
-            <div>
-                <label style="font: inherit"> <h><b>Select Role :</b></h></label>
-                <select class="alignRight" id=findUserRole style="font: inherit; margin-left:0.5em;">
-                    <option value="ADMIN">Admin</option>
-                    <option value="ORG_ADMIN">Organization Admin</option>
-                    <option value="REGISTERED">Registered</option>
-                </select>
-            </div>
-                <div class="flex-child">
-                <label class="flex-child" style="font: inherit"> <h><b>Select Organization :</b></h></label>
-                <select class="alignRight" id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
-                  <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
-                    <option value="{{item.id}}">{{item.name}}</option>
-                  </template>
-                </select>
-              </div>
-            <div align="center" class="saveCloseButtons">
-                <paper-button raised class="saveCloseButtons1" on-tap="setAjaxAddUser"><b>Save</b></paper-button>
-                <paper-button raised class="saveCloseButtons1" on-tap="closeUser"><b>Cancel</b></paper-button>
-            </div>
+        <div>
+          <label style="font: inherit margin-left:.9em">
+            <h><b>Select Organization :</b></h>
+          </label>
+          <select class="alignRight" id="providerOrgSelect" style="font: inherit">
+            <template is="dom-repeat" items="{{organizations}}">
+              <option style="font: inherit margin-right:0.9em;">{{item.name}}</option>
+            </template>
+          </select>
+        </div>
+        <div align="center" class="saveCloseButtons">
+          <paper-button raised class="saveCloseButtons1" on-tap="logProvider"><b>Save</b></paper-button>
+          <paper-button raised class="saveCloseButtons1" on-tap="closeProvider"><b>Cancel</b></paper-button>
+        </div>
+      </paper-dialog>
+    </div>
+    <div style="position:absolute;top:0;left:0">
+      <paper-dialog id="addOrganization" class="modalPositionOrganization">
+        <h2 style="text-align:center">Add New Organization</h2>
+        <paper-dialog-scrollable>
+          <div>
+            <paper-input label="Organization Name" value="{{name}}"></paper-input>
+            <paper-input label="Street Address" value="{{addressStreet}}"></paper-input>
+            <paper-input label="City" value="{{addressCity}}"></paper-input>
+            <paper-input label="State" value="{{addressState}}"></paper-input>
+            <paper-input label="Zip" value="{{addressZip}}"></paper-input>
+            <paper-input label="Primary Contact Name" value="{{primaryContactName}}"></paper-input>
+            <paper-input label="Primary Contact email" value="{{primaryContactEmail}}"></paper-input>
+            <paper-input label="Primary Contact Phone" value="{{primaryContactPhone}}"></paper-input>
+            <paper-input label="Primary Contact Role" value="{{primaryContactRole}}"></paper-input>
           </div>
-        </paper-dialog>
-        <div style="position:absolute;top:0;left:0">
-          <paper-dialog id="addMeasure" class="measureModal">
-            <h2 style="text-align:center">Add New Measure</h2>
-              <paper-dialog-scrollable>
-                <paper-input required="true" label="NQF ID" value="{{nqfId}}"></paper-input>
-                <paper-input label="Name" value="{{measureName}}"></paper-input>
-                <paper-input label="Description" value="{{measureDescription}}"></paper-input>
-                <paper-input label="Numerator Description" value="{{numeratorDescription}}"></paper-input>
-                <paper-input label="Denominator Description" value="{{denominatorDescription}}"></paper-input>
-                <paper-input label="Exclusions Description" value="{{exclusionsDescription}}"></paper-input>
-              </paper-dialog-scrollable>
-              <div align="center" class="saveCloseButtons">
-                <paper-button raised class="saveCloseButtons1" on-tap="setAjaxAddMeasure"><b>Save</b></paper-button>
-                <paper-button raised class="saveCloseButtons1" on-tap="closeMeasure"><b>Cancel</b></paper-button>
-              </div>
-          </paper-dialog>
+        </paper-dialog-scrollable>
+        <div align="center" class="saveCloseButtons">
+          <paper-button raised class="saveCloseButtons1" on-tap="logOrganization"><b>Save</b></paper-button>
+          <paper-button raised class="saveCloseButtons1" on-tap="closeOrganization"><b>Cancel</b></paper-button>
         </div>
-        <shape-iron-ajax-helper
-            id="ajaxAddOrganization"
-            resource="/common/organization/add"
-            handle-as="json"
-            method="POST"
-            debounce-duration="300">
-        </shape-iron-ajax-helper>
-        <shape-iron-ajax-helper
-            id="ajaxAddProvider"
-            resource="/admin/provider/add"
-            handle-as="json"
-            method="POST"
-            debounce-duration="300"
-            on-response="addProviderCallback">
-        </shape-iron-ajax-helper>
-        <shape-iron-ajax-helper
-            id="ajaxAddOrganization"
-            resource="/common/organization/add"
-            handle-as="json"
-            method="POST"
-            debounce-duration="300">
-        </shape-iron-ajax-helper>
-        <shape-iron-ajax-helper
-            id="ajaxAddProvider"
-            resource="/admin/provider/add"
-            handle-as="json"
-            method="POST"
-            debounce-duration="300"
-            on-response="addProviderCallback">
-        </shape-iron-ajax-helper>
-        <shape-iron-ajax-helper
-          id="ajaxAddUser"
-          resource=""
-          body=""
-          method="POST"
-          handle-as="json"
-          on-response="callBackAddUser"
-          debounce-duration="300">
-        <shape-iron-ajax-helper>
-        <shape-iron-ajax-helper
-          id="ajaxAddMeasure"
-          resource=""
-          body=""
-          method="POST"
-          handle-as="json"
-          on-response="callBackAddMeasure"
-          debounce-duration="300">
-        <shape-iron-ajax-helper>
-        <shape-iron-ajax-helper
-          id="findOrgs"
-          resource=""
-          method="GET"
-          handle-as="json"
-          on-response="callBackOrgs"
-          debounce-duration="300">
-        </shape-iron-ajax-helper>
-    </template>
+      </paper-dialog>
+    </div>
+    <div style="position:absolute;top:0;left:0">
+      <paper-dialog id="addUser" class="modalPositionUser">
+        <div style="text-align:center">
+          <h2>Add New User</h2>
+        </div>
+        <div>
+          <paper-input label="User Name" value="{{username}}"></paper-input>
+          <paper-input label="First Name" value="{{userFirstName}}"></paper-input>
+          <paper-input label="Last Name" value="{{userLastName}}"></paper-input>
+          <paper-input label="Email" value="{{userEmail}}"></paper-input>
+        </div>
+        <div>
+          <label style="font: inherit">
+            <h><b>Select Role :</b></h>
+          </label>
+          <select class="alignRight" id=findUserRole style="font: inherit; margin-left:0.5em;">
+            <option value="ADMIN">Admin</option>
+            <option value="ORG_ADMIN">Organization Admin</option>
+            <option value="REGISTERED">Registered</option>
+          </select>
+        </div>
+        <div class="flex-child">
+          <label class="flex-child" style="font: inherit">
+            <h><b>Select Organization :</b></h>
+          </label>
+          <select class="alignRight" id=findUserOrganizationId style="font: inherit; margin-left:0.5em;">
+            <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
+              <option value="{{item.id}}">{{item.name}}</option>
+            </template>
+          </select>
+        </div>
+        <div align="center" class="saveCloseButtons">
+          <paper-button raised class="saveCloseButtons1" on-tap="setAjaxAddUser"><b>Save</b></paper-button>
+          <paper-button raised class="saveCloseButtons1" on-tap="closeUser"><b>Cancel</b></paper-button>
+        </div>
+    </div>
+    </paper-dialog>
+    <div style="position:absolute;top:0;left:0">
+      <paper-dialog id="addMeasure" class="measureModal">
+        <h2 style="text-align:center">Add New Measure</h2>
+        <paper-dialog-scrollable>
+          <paper-input required="true" label="NQF ID" value="{{nqfId}}"></paper-input>
+          <paper-input label="Name" value="{{measureName}}"></paper-input>
+          <paper-input label="Description" value="{{measureDescription}}"></paper-input>
+          <paper-input label="Numerator Description" value="{{numeratorDescription}}"></paper-input>
+          <paper-input label="Denominator Description" value="{{denominatorDescription}}"></paper-input>
+          <paper-input label="Exclusions Description" value="{{exclusionsDescription}}"></paper-input>
+        </paper-dialog-scrollable>
+        <div align="center" class="saveCloseButtons">
+          <paper-button raised class="saveCloseButtons1" on-tap="setAjaxAddMeasure"><b>Save</b></paper-button>
+          <paper-button raised class="saveCloseButtons1" on-tap="closeMeasure"><b>Cancel</b></paper-button>
+        </div>
+      </paper-dialog>
+    </div>
+    <shape-iron-ajax-helper id="ajaxAddOrganization" resource="/common/organization/add" handle-as="json" method="POST" debounce-duration="300">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddProvider" resource="/admin/provider/add" handle-as="json" method="POST" debounce-duration="300" on-response="addProviderCallback">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddOrganization" resource="/common/organization/add" handle-as="json" method="POST" debounce-duration="300">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddProvider" resource="/admin/provider/add" handle-as="json" method="POST" debounce-duration="300" on-response="addProviderCallback">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddUser" resource="" body="" method="POST" handle-as="json" on-response="callBackAddUser" debounce-duration="300">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddMeasure" resource="" body="" method="POST" handle-as="json" on-response="callBackAddMeasure" debounce-duration="300">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="findOrgs" resource="" method="GET" handle-as="json" on-response="callBackOrgs" debounce-duration="300">
+    </shape-iron-ajax-helper>
+  </template>
 </dom-module>
 <script>
-    (function () {
-        Polymer({
-            is: 'app-admin-add',
-            properties: {
+  (function() {
+    Polymer({
+      is: 'app-admin-add',
+      properties: {
 
-                name: String,
-                id: Number,
-                active: Boolean,
-                addressStreet: String,
-                addressCity: String,
-                addressState: String,
-                addressZip: String,
-                primaryContactName: String,
-                primaryContactRole: String,
-                primaryContactEmail: String,
-                primaryContactPhone: String
+        name: String,
+        id: Number,
+        active: Boolean,
+        addressStreet: String,
+        addressCity: String,
+        addressState: String,
+        addressZip: String,
+        primaryContactName: String,
+        primaryContactRole: String,
+        primaryContactEmail: String,
+        primaryContactPhone: String
 
-            },
-            ready: function() {
-              this.providerData = {};
-            },
+      },
+      ready: function() {
+        this.providerData = {};
+      },
 
-            setAjaxAddUser: function () {
-                console.log(this.$.findUserOrganizationId);
-                this.$.ajaxAddUser.resource="/admin/create/user";
-                this.$.ajaxAddUser.body = JSON.stringify ({
-                      "id": this.username,
-                      "role": this.$.findUserRole.value,
-                      "password": "",
-                      "organizationId":this.$.findUserOrganizationId.value,
-                      "firstName": this.userFirstName,
-                      "lastName": this.userLastName,
-                      "email": this.userEmail
-              });
-                this.username="";
-                this.userFirstName="";
-                this.userLastName="";
-                this.userEmail="";
-                this.$.ajaxAddUser.method="POST";
-                this.$.ajaxAddUser.callBack=this.callBackAddUser;
-                this.$.ajaxAddUser.generateRequest();
-                this.$.addUser.toggle();
-              },
+      setAjaxAddUser: function() {
+        this.$.ajaxAddUser.resource = "/admin/create/user";
+        this.$.ajaxAddUser.body = JSON.stringify({
+          "id": this.username,
+          "role": this.$.findUserRole.value,
+          "password": "",
+          "organizationId": this.$.findUserOrganizationId.value,
+          "firstName": this.userFirstName,
+          "lastName": this.userLastName,
+          "email": this.userEmail
+        });
+        this.username = "";
+        this.userFirstName = "";
+        this.userLastName = "";
+        this.userEmail = "";
+        this.$.ajaxAddUser.method = "POST";
+        this.$.ajaxAddUser.callBack = this.callBackAddUser;
+        this.$.ajaxAddUser.generateRequest();
+        this.$.addUser.toggle();
+      },
 
-            callBackAddUser: function(request) {
-              document.querySelector('app-admin-panel-user').setajax();
-            },
+      callBackAddUser: function(request) {
+        document.querySelector('app-admin-panel-user').setajax();
+      },
 
-            setAjaxAddMeasure: function () {
-                this.$.ajaxAddMeasure.resource="/admin/measure/add";
-                this.$.ajaxAddMeasure.body = JSON.stringify ({
-                      "id": "",
-                      "name": this.measureName,
-                      "description": this.measureDescription,
-                      "nqfId":this.nqfId,
-                      "numeratorDescription": this.numeratorDescription,
-                      "denominatorDescription": this.denominatorDescription,
-                      "exclusionsDescription": this.exclusionsDescription,
-                      "wellControlledNumerator" : "",
-                      "selected": ""
-
-              });
-                this.measureName = "";
-                this.measureDescription = "";
-                this.nqfId = "";
-                this.numeratorDescription = "";
-                this.denominatorDescription = "";
-                this.exclusionsDescription = "";
-                this.$.ajaxAddMeasure.method="POST";
-                this.$.ajaxAddMeasure.callBack=this.callBackAddUser;
-                this.$.ajaxAddMeasure.generateRequest();
-                this.$.addMeasure.toggle();
-              },
-
-            callBackAddMeasure: function(request) {
-              document.querySelector('app-admin-panel-measure').setajax();
-            },
-
-            setajaxOrgs: function () {
-              this.$.findOrgs.resource = "/admin/organization/findAll";
-              this.$.findOrgs.callBack=this.callBackOrgs;
-              this.$.findOrgs.generateRequest();
-            },
-
-            callBackOrgs: function(request) {
-              document.querySelector('app-admin-panel-organization').setajax();
-              this.organizations=request.detail.response;
-            },
-
-            addButton: function(inputModalName) {
-                for (var i in this.providerData) {
-                  this.set('providerData.' + i, '');
-                }
-                this.setajaxOrgs();
-                if (inputModalName == 'addProvider') {
-                this.$.addProvider.open();
-                };
-
-                if (inputModalName == 'addOrganization') {
-                this.$.addOrganization.open();
-                };
-
-                if (inputModalName == 'addMeasure') {
-                this.$.addMeasure.open();
-                };
-
-                if (inputModalName == 'addUser') {
-                this.$.addUser.open();
-                };
-            },
-
-            logProvider: function (e) {
-                var selectChoice = this.$.providerOrgSelect.value;
-                for (var org in this.organizations) {
-                  if (this.organizations[org].name == selectChoice) {
-                    var orgId = this.organizations[org].id;
-                    break;
-                  }
-                }
-                var newProviderData = {
-                  name: this.providerData.name,
-                  active: true,
-                  npi: this.providerData.npi,
-                  organizationId: orgId
-                }
-                this.$.ajaxAddProvider.body = JSON.stringify(newProviderData);
-                console.log(this.$.ajaxAddProvider.body);
-                this.$.ajaxAddProvider.generateRequest();
-                this.$.addProvider.toggle();
-            },
-
-            closeProvider: function(e) {
-                this.$.addProvider.toggle()
-            },
-
-            logOrganization: function (e) {
-              this.$.ajaxAddOrganization.body = JSON.stringify({
-                "id" : "",
-                "name" : this.name,
-                "addressStreet" : this.addressStreet,
-                "addressCity" : this.addressCity,
-                "addressState" : this.addressState,
-                "addressZip" : this.addressZip,
-                "primaryContactName" : this.primaryContactName,
-                "primaryContactEmail" : this.primaryContactEmail,
-                "primaryContactPhone" : this.primaryContactPhone,
-                "primaryContactRole" : this.primaryContactRole,
-                "active" : "true",
-                "modifiedDt" : "",
-                "modifiedBy" : app.$.loginPage.$.userIdInput.value,
-                "createdBy" : app.$.loginPage.$.userIdInput.value
-              });
-              console.log(this.$.ajaxAddOrganization.body);
-              this.name = "";
-              this.addressStreet = "";
-              this.addressStreet = "";
-              this.addressCity = "";
-              this.addressState = "";
-              this.addressZip = "";
-              this.primaryContactName = "";
-              this.primaryContactEmail = "";
-              this.primaryContactPhone = "";
-              this.primaryContactRole = "";
-              this.$.ajaxAddOrganization.generateRequest();
-              this.$.addOrganization.close();
-              this.setajaxOrgs();
-              document.querySelector('app-dashboard').setAjax();
-              document.querySelector('app-admin-panel').loadOrgTable();
-            },
-            closeOrganization: function(e) {
-              this.name = "";
-              this.addressStreet = "";
-              this.addressStreet = "";
-              this.addressCity = "";
-              this.addressState = "";
-              this.addressZip = "";
-              this.primaryContactName = "";
-              this.primaryContactEmail = "";
-              this.primaryContactPhone = "";
-              this.primaryContactRole = "";
-              this.$.addOrganization.toggle()
-            },
-
-            closeMeasure: function(e) {
-              this.measureName = "";
-              this.measureDescription = "";
-              this.nqfId = "";
-              this.numeratorDescription = "";
-              this.denominatorDescription = "";
-              this.exclusionsDescription = "";
-              this.$.addMeasure.toggle()
-            },
-
-            closeUser: function(e) {
-              this.username="";
-              this.userFirstName="";
-              this.userLastName="";
-              this.userEmail="";
-              this.$.addUser.toggle()
-            },
-            addProviderCallback: function() {
-              document.querySelector('app-admin-panel-provider').setajax();
-            }
+      setAjaxAddMeasure: function() {
+        this.$.ajaxAddMeasure.resource = "/admin/measure/add";
+        this.$.ajaxAddMeasure.body = JSON.stringify({
+          "id": "",
+          "name": this.measureName,
+          "description": this.measureDescription,
+          "nqfId": this.nqfId,
+          "numeratorDescription": this.numeratorDescription,
+          "denominatorDescription": this.denominatorDescription,
+          "exclusionsDescription": this.exclusionsDescription,
+          "wellControlledNumerator": "",
+          "selected": ""
 
         });
-    })();
+        this.measureName = "";
+        this.measureDescription = "";
+        this.nqfId = "";
+        this.numeratorDescription = "";
+        this.denominatorDescription = "";
+        this.exclusionsDescription = "";
+        this.$.ajaxAddMeasure.method = "POST";
+        this.$.ajaxAddMeasure.callBack = this.callBackAddUser;
+        this.$.ajaxAddMeasure.generateRequest();
+        this.$.addMeasure.toggle();
+      },
+
+      callBackAddMeasure: function(request) {
+        document.querySelector('app-admin-panel-measure').setajax();
+      },
+
+      setajaxOrgs: function() {
+        this.$.findOrgs.resource = "/admin/organization/findAll";
+        this.$.findOrgs.callBack = this.callBackOrgs;
+        this.$.findOrgs.generateRequest();
+      },
+
+      callBackOrgs: function(request) {
+        document.querySelector('app-admin-panel-organization').setajax();
+        this.organizations = request.detail.response;
+      },
+
+      addButton: function(inputModalName) {
+        for (var i in this.providerData) {
+          this.set('providerData.' + i, '');
+        }
+        this.setajaxOrgs();
+        if (inputModalName == 'addProvider') {
+          this.$.addProvider.open();
+        };
+
+        if (inputModalName == 'addOrganization') {
+          this.$.addOrganization.open();
+        };
+
+        if (inputModalName == 'addMeasure') {
+          this.$.addMeasure.open();
+        };
+
+        if (inputModalName == 'addUser') {
+          this.$.addUser.open();
+        };
+      },
+
+      logProvider: function(e) {
+        var selectChoice = this.$.providerOrgSelect.value;
+        for (var org in this.organizations) {
+          if (this.organizations[org].name == selectChoice) {
+            var orgId = this.organizations[org].id;
+            break;
+          }
+        }
+        var newProviderData = {
+          name: this.providerData.name,
+          active: true,
+          npi: this.providerData.npi,
+          organizationId: orgId
+        }
+        this.$.ajaxAddProvider.body = JSON.stringify(newProviderData);
+        this.$.ajaxAddProvider.generateRequest();
+        this.$.addProvider.toggle();
+      },
+
+      closeProvider: function(e) {
+        this.$.addProvider.toggle()
+      },
+
+      logOrganization: function(e) {
+        this.$.ajaxAddOrganization.body = JSON.stringify({
+          "id": "",
+          "name": this.name,
+          "addressStreet": this.addressStreet,
+          "addressCity": this.addressCity,
+          "addressState": this.addressState,
+          "addressZip": this.addressZip,
+          "primaryContactName": this.primaryContactName,
+          "primaryContactEmail": this.primaryContactEmail,
+          "primaryContactPhone": this.primaryContactPhone,
+          "primaryContactRole": this.primaryContactRole,
+          "active": "true",
+          "modifiedDt": "",
+          "modifiedBy": app.$.loginPage.$.userIdInput.value,
+          "createdBy": app.$.loginPage.$.userIdInput.value
+        });
+        this.name = "";
+        this.addressStreet = "";
+        this.addressStreet = "";
+        this.addressCity = "";
+        this.addressState = "";
+        this.addressZip = "";
+        this.primaryContactName = "";
+        this.primaryContactEmail = "";
+        this.primaryContactPhone = "";
+        this.primaryContactRole = "";
+        this.$.ajaxAddOrganization.generateRequest();
+        this.$.addOrganization.close();
+        this.setajaxOrgs();
+        document.querySelector('app-dashboard').setAjax();
+        document.querySelector('app-admin-panel').loadOrgTable();
+      },
+      closeOrganization: function(e) {
+        this.name = "";
+        this.addressStreet = "";
+        this.addressStreet = "";
+        this.addressCity = "";
+        this.addressState = "";
+        this.addressZip = "";
+        this.primaryContactName = "";
+        this.primaryContactEmail = "";
+        this.primaryContactPhone = "";
+        this.primaryContactRole = "";
+        this.$.addOrganization.toggle()
+      },
+
+      closeMeasure: function(e) {
+        this.measureName = "";
+        this.measureDescription = "";
+        this.nqfId = "";
+        this.numeratorDescription = "";
+        this.denominatorDescription = "";
+        this.exclusionsDescription = "";
+        this.$.addMeasure.toggle()
+      },
+
+      closeUser: function(e) {
+        this.username = "";
+        this.userFirstName = "";
+        this.userLastName = "";
+        this.userEmail = "";
+        this.$.addUser.toggle()
+      },
+      addProviderCallback: function() {
+        document.querySelector('app-admin-panel-provider').setajax();
+      }
+    });
+  })();
 </script>

@@ -172,7 +172,6 @@
               },
 
             callBackfindUsers: function(request) {
-              console.log(request.detail.response);
               callBackUser=request.detail.response;
             },
             checkPasswordComplexity: function(password){
@@ -238,7 +237,6 @@
               },
 
             callBackSetupAccount: function(request) {
-                console.log(request.detail.errMsg);
                 app.select = "main";
                 document.querySelector('app-dashboard').setAjax();
                 document.querySelector('app-history').setajaxMeasures();
@@ -259,9 +257,6 @@
                     this.$.editSecurityQuestions.open();
                 }
             },
-            // closeDialog: function(e) {
-            //   e.target.parentElement.parentElement.close();
-            // }
         });
     })();
 </script>

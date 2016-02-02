@@ -79,7 +79,6 @@
 
     </style>
     <template>
-        <!-- top bar for search, sort, add -->
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
             <template is="dom-if" if="{{isOrgAdmin(role)}}">
@@ -210,8 +209,6 @@
 
             setAjaxActivate: function(e) {
               this.$.ajaxActivateUsers.resource="/admin/activate/" + e.currentTarget.participant.id;
-              console.log(e.currentTarget.participant.id);
-              console.log(this.$.ajaxActivateUsers.resource);
               this.$.ajaxActivateUsers.body = JSON.stringify ({"targetUserId": e.currentTarget.participant.id});
               this.$.ajaxActivateUsers.method="PUT";
               this.$.ajaxActivateUsers.callBack=this.callBackActivate
@@ -229,7 +226,6 @@
             },
 
             callBackActivate: function(request) {
-                console.log(request);
                 for(var i = 0; i<this.users.length; i++){
                   if (this.users[i].id == activeIndicator.participant.id){
                     stringPath= 'users.'+i+'.active';
@@ -239,7 +235,6 @@
             },
 
             callBackInactivate: function(request) {
-              console.log(request);
                for(var i = 0; i<this.users.length; i++){
                  if (this.users[i].id == activeIndicator.participant.id){
                    stringPath= 'users.'+i+'.active';
@@ -251,8 +246,6 @@
             selectFunction: function(e) {
               val = e.target.getAttribute('sortinggroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
               this.sortPass = val;
-              console.log("target click: " + val);
-              console.log("lastSortVal is " + this.lastSortVal);
 
               if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
                   this.sortReverse = true;
@@ -273,7 +266,6 @@
 
             _sort: function(val) {
                   var clicked = this.sortPass;
-                  console.log("sortReverse is " + this.sortReverse)
                   if (this.sortReverse) {
                             return function(a, b) {
                             if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
@@ -299,13 +291,11 @@
              },
 
             callBack: function(request) {
-              console.log(request.detail.response);
               this.users = request.detail.response;
               //loop to add an inde value to each object in the this.Users.Array
               for (i = 0 ; i < this.users.length; i ++)
               {
                 this.users[i].index = i;
-                console.log(this.users[i].index);
               };
             },
 
@@ -313,13 +303,6 @@
             },
 
             editUserModal: function(e) {
-              // var userId = this.findAncestor(e.target, 'tr').dataset.id;
-              // for (var user in this.users) {
-              //   if (this.users[user].id == userId) {
-              //     var userData = this.users[user];
-              //   }
-              // }
-              // console.log(userData);
               this.$.editModal.editUserButton(e.model.item);
             },
 
@@ -327,12 +310,6 @@
                 this.$.inputModal.addButton(e.target.parentNode.getAttribute("modalName"));
                 document.querySelector('app-admin-add').setajaxOrgs();
             },
-            // findAncestor: function(element, query) {
-            //   do {
-            //     element = element.parentElement;
-            //   } while (element && !this.elementMatches(element, query))
-            //   return element;
-            // },
             elementMatches: function(element, query) {
               var siblingMatches = element.parentElement.querySelectorAll(query)
               for (var match = 0; match < siblingMatches.length; match++) {

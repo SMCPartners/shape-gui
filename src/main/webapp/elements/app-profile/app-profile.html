@@ -276,20 +276,13 @@
                 this.state = 'CT';
                 this.zip = '06106';
                 this.profButton = 'Edit'
-                this.disabled =true;
+                this.disabled = true;
                 this.setProfile();
                 this.noOrgSel = true;
-                // if (app.$.dashboard.$.findUserOrganizations.value === 1){
-                //   this.noOrgsel = true;
-                // };
-
-
-
             },
 
             editProfile: function(e) {
                 if (this.profButton == 'Save' && this.isDemographicData) {
-                    console.log(this.profButton);
                     this.disabled = true;
                     this.setAjaxEditStrat();
                     this.profButton = 'Edit';
@@ -301,16 +294,9 @@
                   this.profButton = 'Edit'
                 }
                   else {
-                  console.log(this.profButton);
                   this.profButton = 'Save';
                   this.disabled = false;
                 };
-                // var editInput = document.getElementsByClassName('childtwo');
-                // for(var i = 0; i < editInput.length; i++) {
-                //   this.disabled = false;
-                // };
-
-
             },
             cancelEdit: function (e) {
                   this.disabled = true;
@@ -391,13 +377,11 @@
                 "patientsPreDiabetes" : this.profile.patientsPreDiabetes,
                 "patientsHighBp" : this.profile.patientsHighBp
                });
-              console.log(this.$.postOrgStrat.body);
               this.$.postOrgStrat.generateRequest();
             },
 
            callBack: function(request) {
              this.profile = request.detail.response[0];
-             console.log(this.profile);
 
              if(this.profile){
                this.isDemographicData = 1;
@@ -432,7 +416,6 @@
                 num: this.profile.genderOther.toString()}
 
             ]);
-            //console.log("Profile is: ", this.profile);
             this.set('age',
             [{
                strat: '17 & Under',

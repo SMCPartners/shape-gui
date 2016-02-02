@@ -180,8 +180,6 @@
               selectFunction: function(e) {
               val = e.target.getAttribute('sortinggroup');  //this allows the function to retreive the 'sortingGroup' attribute from the clicked button.
               this.sortPass = val;
-              console.log("target click: " + val);
-              console.log("lastSortVal is " + this.lastSortVal);
 
               if (val === this.lastSortVal) {    //sortJim is a toggle that makes sure that rows do not stay in reverse
                   this.sortReverse = true;
@@ -202,7 +200,6 @@
 
             _sort: function(val) {
                   var clicked = this.sortPass;
-                  console.log("sortReverse is " + this.sortReverse)
                   if (this.sortReverse) {
                             return function(a, b) {
                             if (a[clicked].toLowerCase() === b[clicked].toLowerCase()) return 0;
@@ -220,11 +217,8 @@
 
             editMeasure: function(e) {
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
-                console.log(e.target.parentNode);
                 var measureNum = e.target.parentNode.getAttribute('id');
-                console.log(measureNum);
                 this.$.editModal.measure = Object.create(this.measure[measureNum]);
-                console.log(this.measure[measureNum - 1]);
             },
 
             editMeasure: function(e) {
@@ -238,7 +232,6 @@
             },
 
             selectMeasure: function (e) {
-                console.log(e.currentTarget.selectUserMeasure.value);
                 this.$.ajaxSelectMeasure.body = JSON.stringify({
                   "entId" : e.currentTarget.selectUserMeasure.value,
                 });
@@ -248,11 +241,9 @@
             selectMeasureCallBack: function(request) {
                 document.querySelector('app-history').setajaxMeasures();
                 this.setajax();
-                console.log(request);
             },
 
             unselectMeasure: function (e) {
-                console.log(e.currentTarget.unselectUserMeasure.value);
                 this.$.ajaxUnselectMeasure.body = JSON.stringify({
                   "entId" : e.currentTarget.unselectUserMeasure.value,
                 });
@@ -262,7 +253,6 @@
             unselectMeasureCallBack: function(request) {
                 document.querySelector('app-history').setajaxMeasures();
                 this.setajax();
-                console.log(request);
             },
 
             addMeasure: function(e) {
@@ -289,20 +279,16 @@
             },
 
             callBack: function(request) {
-              console.log(request.detail.response);
               this.organization = request.detail.response;
               for (i = 0; i < this.organization.length; i ++){
                 this.organization[i].index = i;
-                console.log(this.organization[i].index);
               };
             },
 
            callBack: function(request) {
-             console.log(request.detail.response);
              this.measure = request.detail.response;
              for (i = 0; i < this.measure.length; i ++){
                this.measure[i].index = i;
-               console.log(this.measure[i].index);
              };
            }
         });

@@ -26,9 +26,7 @@
           }
         },
         handleResponse: function(request) {
-            console.log(typeof(request.detail.response))
             this.providers = request.detail.response;
-            console.log("after");
         },
         ready: function() {
             var fooBar = this.$.get_dem_providers;
@@ -38,15 +36,7 @@
 
 
 
-            //console.log();
-            //this.items = [
-            //    'Responsive Web App boilerplate',
-            //    'Iron Elements and Paper Elements',
-            //    'End-to-end Build Tooling (including Vulcanize)',
-            //    'Unit testing with Web Component Tester',
-            //    'Routing with Page.js',
-            //    'Offline support with the Platinum Service Worker Elements'
-            //    ];
+
             }
 
         });

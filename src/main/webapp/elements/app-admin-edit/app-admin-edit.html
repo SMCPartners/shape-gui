@@ -173,7 +173,9 @@
                 <div class="marginClass">
                   <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Role :</b></h></label>
                     <select class="alignRight" id=findUserRole style="font: inherit">
+                      <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
                         <option value="ADMIN">Admin</option>
+                      </template>
                         <option value="ORG_ADMIN">Organization Admin</option>
                         <option value="REGISTERED">Registered</option>
                     </select>
@@ -282,6 +284,18 @@
               },
             },
 
+            isOrgAdmin : function (role) {
+              if (role == "ADMIN") {
+                return true
+              }
+              if (role == "ORG_ADMIN") {
+                return false
+              }
+              if (role == "REGISTERED") {
+                return false
+              }
+            },
+
             ready: function() {
             },
 
@@ -298,7 +312,6 @@
                   for (var i in data) {
                     this.set('providerData.' + i, data[i]);
                 }
-                console.log(data);
                 this.$.providerOrgSelect.value = data.organization;
                 this.$.editProvider.open();
             },
@@ -309,7 +322,6 @@
                   for (var i in data) {
                     this.set('measureData.' + i, data[i]);
                 }
-                console.log(data);
                 this.$.editMeasure.open();
             },
 
@@ -331,16 +343,7 @@
                   for (var i in data) {
                     this.set('organizationData.' + i, data[i]);
                 }
-                console.log(data);
                 this.$.editOrganization.open();
-            },
-
-            callback: function() {
-              //refreshTableName = e.target.parentNode.getAttribute("id");
-              // if (refreshTableName == ajaxEditOrganization){
-              //   document.querySelector('app-admin-panel-organization').setajax();
-              // }
-              console.log("helloWorld");
             },
 
             closeUserModal: function() {
@@ -390,6 +393,7 @@
 
             },
             logOrganization: function (e) {
+                console.log(this.organizationData);
                 this.$.ajaxEditOrganization.body = JSON.stringify({
                   "id" : this.organizationData.id,
                   "name" : this.organizationData.name,
@@ -407,7 +411,6 @@
                   "active" : this.organizationData.active
                 });
                 this.$.ajaxEditOrganization.generateRequest();
-                console.log(this.$.ajaxEditOrganization.body);
                 document.querySelector('app-dashboard').setAjax();
                 document.querySelector('app-admin-panel').loadOrgTable();
                 this.$.editOrganization.close();
