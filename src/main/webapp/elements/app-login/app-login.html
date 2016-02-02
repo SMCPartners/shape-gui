@@ -115,6 +115,10 @@
               document.querySelector('app-admin-panel-user').set("organizationId", callBackUser.organizationId);
               document.querySelector('app-admin-panel-user').set("role", callBackUser.role);
               document.querySelector('app-admin-panel-organization').set("role", callBackUser.role);
+              document.querySelector('app-main').set("role", callBackUser.role);
+              document.querySelector('app-admin-add').set("role", callBackUser.role);
+              document.querySelector('app-admin-edit').set("role", callBackUser.role);
+              document.querySelector('app-measure-input').set("role", callBackUser.role);
               document.querySelector('app-dashboard').set("organizationId", callBackUser.organizationId);
               document.querySelector('app-dashboard').set("role", callBackUser.role);
               if  (callBackUser.resetPwd == true) {

@@ -73,7 +73,10 @@
 
 
                     <paper-icon-button icon="home" on-tap="navigateHome"></paper-icon-button>
-                    <paper-button on-tap="handleAdminPanel">Admin Panel</paper-button>
+                    <!-- Toolbar icons -->
+                    <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
+                          <paper-button on-tap="handleAdminPanel">Admin Panel</paper-button>
+                    </template>
                     <paper-button on-tap="handleAccount">Account</paper-button>
                 </paper-toolbar>
                 <iron-pages attr-for-selected="data-route" selected="{{route}}">
@@ -121,6 +124,19 @@
             attached: function () {
                 this.route = 'home';
             },
+
+            isOrgAdmin : function (role) {
+              if (role == "ADMIN") {
+                return true
+              }
+              if (role == "ORG_ADMIN") {
+                return true
+              }
+              if (role == "REGISTERED") {
+                return false
+              }
+            },
+
             _toggleDrawerPanel: function (evt) {
                 this.$.paperDrawerPanel.togglePanel();
                 var nVal = evt.target.parentElement.getAttributeNode('data-route').value;
