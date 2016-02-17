@@ -90,7 +90,7 @@
                 <col span="1" style="width:10%">
             </colgroup>
             <thead>
-                <th hidden="{{canModifyData(role)}}">Selection</th>
+                <th hidden="{{!canSelect(role)}}">Selection</th>
                 <th><a sortingGroup='nqfId' on-tap="selectFunction">NQF ID</a></th>
                 <th><a sortingGroup='name' on-tap="selectFunction">Name</a></th>
                 <th><a sortingGroup='description' on-tap="selectFunction">Description</a></th>
@@ -99,7 +99,7 @@
             <tbody>
             <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
             <tr data-id$="{{item.id}}">
-                <td hidden="{{canModifyData(role)}}">
+                <td hidden="{{!canSelect(role)}}">
                   <div align="center">
                     <template restamp="true" is="dom-if" if="{{item.selected}}">
                       <form on-tap="unselectMeasure">
@@ -224,6 +224,14 @@
 
             canModifyData : function (role) {
               if (role == "DPH_USER") {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+
+            canSelect : function(role) {
+                if (role == "ADMIN") {
                     return true;
                 } else {
                     return false;

@@ -109,7 +109,7 @@
                 <th sortingGroup="primaryContactEmail" on-tap="selectFunction">Primary Contact Email</th>
                 <th sortingGroup= "primaryContactRole" on-tap="selectFunction">Primary Contact Role</th>
                 <th hidden="{{!isOrgAdmin(role)}}" sortingGroup= "organizationStatus" on-tap="selectFunction">Status</th>
-                <th hidden="{{!isOrgAdmin(role)}}"></th>
+                <th hidden="{{!canEdit(role)}}"></th>
             </thead>
             <tbody>
             <template id="orgTable" is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
@@ -133,7 +133,7 @@
                     </div>
                     </td>
                     <div align="center">
-                      <td hidden="{{!isOrgAdmin(role)}}" style="font-size: 1em;">
+                      <td hidden="{{!canEdit(role)}}" style="font-size: 1em;">
                             <paper-button class="editButton" raised on-tap="editOrganization" modalName="editOrganization"><b>Edit</b></paper-button>
                       </td>
                     </div>
@@ -188,16 +188,10 @@
             isOrgAdmin : function (role) {
               if (role == "ADMIN") {
                 return true
-              }
-              if (role == "ORG_ADMIN") {
-                return false
-              }
-              if (role == "REGISTERED") {
-                return false
-              }
-              if (role == "DPH_USER") {
+            } else {
                 return false;
-              }
+            }
+
             },
 
             isDPHUser : function (role) {
@@ -206,6 +200,14 @@
               } else {
                   return true
               }
+            },
+
+            canEdit : function (role) {
+                if (role == "ORG_ADMIN" || role == "ADMIN") {
+                    return true;
+                } else {
+                    return false;
+                }
             },
 
             setAjaxActivate: function(e) {
