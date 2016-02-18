@@ -130,7 +130,7 @@
             </div>
 
             <div class="flex-item">
-                <paper-button raised on-tap="addProvider" modalName="addProvider" style="float:right; padding-top: 0.1em;">Add Provider</paper-button>
+                <paper-button hidden="{{!isDPHUser(role)}}" raised on-tap="addProvider" modalName="addProvider" style="float:right; padding-top: 0.1em;">Add Provider</paper-button>
             </div>
         </div>
 
@@ -144,8 +144,8 @@
                 <th sortingGroup="name" on-tap="selectFunction">Name</th>
                 <th sortingGroup="npi" on-tap="selectFunction">NPI</th>
                 <th sortingGroup="organization" on-tap="selectFunction">Organization</th>
-                <th sortingGroup="active" on-tap="selectFunction">Status</th>
-                <th></th>
+                <th hidden$="{{!isOrgAdmin(role)}}" sortingGroup="active" on-tap="selectFunction">Status</th>
+                <th hidden="{{!isOrgAdmin(role)}}"></th>
             </thead>
             <tbody>
             <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
@@ -153,7 +153,7 @@
                     <td><span>{{item.name}}</span></td>
                     <td><span>{{item.npi}}</span></td>
                     <td><span>{{item.organization}}</span></td>
-                    <td>
+                    <td hidden="{{!isOrgAdmin(role)}}">
                     <div align="center">
                       <template restamp="true" is="dom-if" if="{{item.active}}">
                         <paper-button align="center" class="green" providers={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
@@ -164,7 +164,7 @@
                     </div>
                     </td>
                     <div align="center">
-                      <td style="font-size: 1em;">
+                      <td hidden="{{!isOrgAdmin(role)}}" style="font-size: 1em;">
                         <paper-button class="editButton" raised on-tap="editProvider" modalName="editProvider"><b>Edit</b></paper-button>
                       </td>
                     </div>
@@ -185,6 +185,7 @@
             lastName: String,
             npiNum: String,
             organization: String,
+            role: String,
             sortVal: "defaultsort",
             sortPass: String,
             sortReverse: false,
@@ -221,6 +222,30 @@
 
 
               },
+
+              isOrgAdmin : function (role) {
+                if (role == "ADMIN") {
+                  return true
+                }
+                else if (role == "ORG_ADMIN") {
+                  return true
+                }
+                else if (role == "REGISTERED") {
+                  return false
+                }
+                else if (role == "DPH_USER") {
+                    return false
+                }
+              },
+
+              isDPHUser : function (role) {
+                if (role == "DPH_USER") {
+                    return false
+                } else {
+                    return true
+                }
+              },
+
 
               setAjaxActivate: function(e) {
                 this.$.ajaxActivateProvider.resource="/admin/provider/activate";

@@ -108,8 +108,8 @@
                 <th sortingGroup="primaryContactName" on-tap="selectFunction">Primary Contact Name</th>
                 <th sortingGroup="primaryContactEmail" on-tap="selectFunction">Primary Contact Email</th>
                 <th sortingGroup= "primaryContactRole" on-tap="selectFunction">Primary Contact Role</th>
-                <th sortingGroup= "organizationStatus" on-tap="selectFunction">Status</th>
-                <th></th>
+                <th hidden="{{!isOrgAdmin(role)}}" sortingGroup= "organizationStatus" on-tap="selectFunction">Status</th>
+                <th hidden="{{!canEdit(role)}}"></th>
             </thead>
             <tbody>
             <template id="orgTable" is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
@@ -120,7 +120,7 @@
                     <td><span class="noWrap">{{item.primaryContactName}}</span></td>
                     <td><span>{{item.primaryContactEmail}}</span></td>
                     <td><span>{{item.primaryContactRole}}</span></td>
-                    <td>
+                    <td hidden="{{!isOrgAdmin(role)}}">
                       <div align="center">
                       <template restamp="true" is="dom-if" if="{{item.active}}">
                         <paper-button align="center" class="green" organizations={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
@@ -133,7 +133,7 @@
                     </div>
                     </td>
                     <div align="center">
-                      <td style="font-size: 1em;">
+                      <td hidden="{{!canEdit(role)}}" style="font-size: 1em;">
                             <paper-button class="editButton" raised on-tap="editOrganization" modalName="editOrganization"><b>Edit</b></paper-button>
                       </td>
                     </div>
@@ -188,13 +188,26 @@
             isOrgAdmin : function (role) {
               if (role == "ADMIN") {
                 return true
+            } else {
+                return false;
+            }
+
+            },
+
+            isDPHUser : function (role) {
+              if (role == "DPH_USER") {
+                  return false
+              } else {
+                  return true
               }
-              if (role == "ORG_ADMIN") {
-                return false
-              }
-              if (role == "REGISTERED") {
-                return false
-              }
+            },
+
+            canEdit : function (role) {
+                if (role == "ORG_ADMIN" || role == "ADMIN") {
+                    return true;
+                } else {
+                    return false;
+                }
             },
 
             setAjaxActivate: function(e) {

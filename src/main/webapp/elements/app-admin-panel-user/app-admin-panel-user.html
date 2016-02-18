@@ -97,8 +97,8 @@
                 <th sortingGroup='firstName' on-tap="selectFunction">Name</th>
                 <th sortingGroup='role' on-tap="selectFunction">Role</th>
                 <th sortingGroup='organizationName' on-tap="selectFunction">Organization</th>
-                <th sortingGroup='userStatus' on-tap="selectFunction">Status</th>
-                <th></th>
+                <th hidden="{{!isOrgAdmin(role)}}" sortingGroup='userStatus' on-tap="selectFunction">Status</th>
+                <th hidden="{{!isOrgAdmin(role)}}"></th>
             </thead>
             <tbody>
             <template is="dom-repeat" id="table" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
@@ -107,29 +107,27 @@
                     <td><span>{{item.firstName}}</span><span> </span><span>{{item.lastName}}</td>
                     <td><span>{{item.role}}</span></td>
                     <td><span>{{item.organizationName}}</span></td>
-                    <td>
-                    <div align="center">
-                    <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
-                      <template restamp="true" is="dom-if" if="{{item.active}}">
-                        <paper-button align="center" class="green" participant={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
-                      </template>
-                    </template>
-                    </div>
-                    <div align="center">
-                    <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
-                      <template restamp="true" is="dom-if" if="{{!item.active}}">
-                        <paper-button align="center" class="red" participant={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
-                      </template>
-                    </template>
-                    </div>
-                    </td>
-                    <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
+                        <td hidden="{{!isOrgAdmin(role)}}">
+                        <div align="center">
+                        <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
+                          <template restamp="true" is="dom-if" if="{{item.active}}">
+                            <paper-button align="center" class="green" participant={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
+                          </template>
+                        </template>
+                        </div>
+                        <div align="center">
+                        <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
+                          <template restamp="true" is="dom-if" if="{{!item.active}}">
+                            <paper-button align="center" class="red" participant={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
+                          </template>
+                        </template>
+                        </div>
+                        </td>
                       <div align="center">
-                        <td style="font-size: 1em;">
+                        <td hidden="{{!isOrgAdmin(role)}}" style="font-size: 1em;">
                           <paper-button class="editButton" raised on-tap="editUserModal" user={{item}} modalName="editUser" id="{{item.index}}"><b>Edit</b></paper-button>
                         </td>
                       </div>
-                    </template>
                 </tr>
             </template>
                   <app-admin-add id="inputModal"></app-admin-add>
@@ -204,6 +202,9 @@
               }
               if (role == "REGISTERED") {
                 return false
+              }
+              if (role == "DPH_USER") {
+                  return false;
               }
             },
 
