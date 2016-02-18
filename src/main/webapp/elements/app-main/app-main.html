@@ -113,7 +113,7 @@
         </div>
           <div drawer>
             <paper-menu>
-              <paper-item hidden="{{!helpSet}}" paper-drawer-toggle on-tap="helpMail">Contact Us</paper-item>
+              <paper-item hidden="{{!helpSet}}" paper-drawer-toggle on-tap="contactUs">Contact Us</paper-item>
               <paper-item hidden="{{!helpSet}}" paper-drawer-toggle on-tap="helpFunction">SHAPE User Guide</paper-item>
               <paper-item on-tap="logout" hidden="{{helpSet}}">Logout</paper-item>
               <paper-item on-tap="handleClickPassword" hidden="{{helpSet}}" paper-drawer-toggle>Reset Password</paper-item>
@@ -270,6 +270,13 @@
                     evt.stopPropagation();
                 }
             },
+            contactUs: function() {
+              // var yourMessage = document.getElementById("message").value;
+              var subject = "SHAPE Dashboard Help";
+              document.location.href = "mailto:jmoore@smcparners.com?subject="
+                  + encodeURIComponent(subject)
+            },
+
             menuSelect: function (e) {
                 app.select = 'login';
                 this.$.paperDrawerPanel.togglePanel();

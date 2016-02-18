@@ -79,13 +79,25 @@
         h3 {
           text-align: center;
           margin: 5px auto;
+          padding-top: 10px;
         }
         .center {
           margin: 10px auto;
           text-align: center;
         }
+        .fab {
+            position: fixed;
+            z-index: 10;
+            bottom: 5%;
+            right: 5%;
+            line-height:45px;
+        }
     </style>
     <template>
+      <div class="fab">
+        <paper-fab class="primary" elevation="5" on-tap="contactUs" id="addFab" icon="mail"></paper-fab><span on-tap="contactUs">&nbsp&nbspContact Us!</span>
+      </div>
+
       <h1 class="title">CT DPH SHAPE Grant</h1>
       <div class="image">
         <img src="../../images/ehct-logo.jpg" class="ehctLogo">
@@ -149,6 +161,12 @@
                 organizationName : {
                     type: String
                 }
+            },
+            contactUs: function() {
+              // var yourMessage = document.getElementById("message").value;
+              var subject = "SHAPE Dashboard Help";
+              document.location.href = "mailto:jmoore@smcparners.com?subject="
+                  + encodeURIComponent(subject)
             },
             loginResponse: function(response){
               app.$.loginPage.$.passwordInput.value="";
