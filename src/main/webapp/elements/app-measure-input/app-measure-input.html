@@ -331,19 +331,15 @@
 
                 // find appropriate object of additional data
                 var done = false;
-                for (var object = 0; object < response.length && !done; object++) {
+                for (var object = 0; object < response.length; object++) {
                   var currentObject = response[object];
-                  if (currentObject.id == currentMeasure.measureId) {
-                    done = true;
-                    delete currentObject.id;
-
-                    // and add that data to it
+                    // and add that data to i
                     for (var property in currentObject) {
                       var polymerResource = 'measures.' + measure + '.' + property;
                       this.set(polymerResource, currentObject[property]);
                     }
 
-                  }
+
                 }
               }
             },
