@@ -52,6 +52,7 @@
         iron-pages {
           height: 100%;
           padding-top: 55px;
+          background-color: white;
         }
         /*paper-menu {
           color: white;
@@ -98,29 +99,26 @@
         <div main>
           <paper-header-panel main mode="standard">
             <paper-toolbar id="mainToolbar">
-
-                <!-- <paper-button on-tap="logout">Logout</paper-button> -->
                 <h1 class = "mainTitle">CT DPH SHAPE Grant</h1>
-                <!--span> Ct DPH SHAPE </span-->
-
               <div class="rightSide">
                 <paper-button on-tap="navigateHome"><iron-icon icon="home"></iron-icon>&nbspHome</paper-button>
-                <!-- Toolbar icons -->
                 <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
                       <paper-button on-tap="handleAdminPanel"><iron-icon icon="dashboard"></iron-icon>&nbspAdmin Panel</paper-button>
                 </template>
-                <paper-button on-tap="helpFunction"><iron-icon icon="help"></iron-icon>&nbspHelp</paper-button>
-                <paper-button paper-drawer-toggle toggle><iron-icon icon="account-box"></iron-icon>&nbspMy Account</paper-button>
+                <paper-button paper-drawer-toggle on-tap="helpToggle"><iron-icon icon="help"></iron-icon>&nbspHelp</paper-button>
+                <paper-button paper-drawer-toggle on-tap="helpOff"><iron-icon icon="account-box"></iron-icon>&nbspMy Account</paper-button>
               </div>
             </paper-toolbar>
           </paper-header-panel>
         </div>
           <div drawer>
             <paper-menu>
-              <paper-item on-tap="logout">Logout</paper-item>
-              <paper-item on-tap="handleClickPassword" paper-drawer-toggle>Reset Password</paper-item>
-              <paper-item on-tap="handleClickEmail" paper-drawer-toggle>Edit Email</paper-item>
-              <paper-item on-tap="handleClickSecurity" paper-drawer-toggle>Change Security Questions</paper-item>
+              <paper-item hidden="{{!helpSet}}" paper-drawer-toggle on-tap="helpMail">Contact Us</paper-item>
+              <paper-item hidden="{{!helpSet}}" paper-drawer-toggle on-tap="helpFunction">SHAPE User Guide</paper-item>
+              <paper-item on-tap="logout" hidden="{{helpSet}}">Logout</paper-item>
+              <paper-item on-tap="handleClickPassword" hidden="{{helpSet}}" paper-drawer-toggle>Reset Password</paper-item>
+              <paper-item on-tap="handleClickEmail"  hidden="{{helpSet}}" paper-drawer-toggle>Edit Email</paper-item>
+              <paper-item on-tap="handleClickSecurity"  hidden="{{helpSet}}" paper-drawer-toggle>Change Security Questions</paper-item>
             </paper-menu>
           </div>
             </paper-drawer-panel>
@@ -135,15 +133,12 @@
                               <app-admin-panel></app-admin-panel>
                           </paper-material>
                       </section>
-
                       <section data-route="settings">
                           <paper-material elevation="2">
                               <h2 class="paper-font-display2">Contact</h2>
-
                               <p>This is the contact section</p>
                           </paper-material>
                       </section>
-
                   </iron-pages>
     <!-- DIALOGS FROMAPP ACCOUNT-->
                   <paper-dialog class="password_position" id="changePassword" modal>
@@ -241,6 +236,10 @@
                 },
                 role : {
                   type: String
+                },
+                helpSet : {
+                  type : Boolean,
+                  value : false
                 }
             },
             attached: function () {
@@ -284,12 +283,19 @@
                 var template = document.querySelector('template[is="dom-bind"]');
                 document.querySelector('app-admin-add').setajaxOrgs();
                 document.querySelector('app-admin-panel-user').setajax();
+
             },
             navigateHome: function (e) {
                 this.route = 'home';
             },
             helpFunction: function (e) {
                 window.open("images/SHAPE_Dashboard_User_Guide.pdf", '_blank');
+            },
+            helpToggle: function () {
+              this.helpSet = true;
+            },
+            helpOff: function () {
+              this.helpSet = false;
             },
             logout: function(){
                 app.$.loginPage.logout();
