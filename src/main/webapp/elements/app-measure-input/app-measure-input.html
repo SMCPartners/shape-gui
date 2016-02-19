@@ -4,9 +4,7 @@
 
 <dom-module id="app-measure-input">
     <style>
-        .pms {
-            @apply(--pm-style)
-        };
+
         .child {
             order: 0;
             flex: 0 1 auto;
@@ -112,6 +110,7 @@
         };
         paper-dialog-scrollable {
           height: auto;
+          margin-top: 40px;
 
         }
         paper-tooltip {
@@ -158,7 +157,7 @@
       <paper-dialog-scrollable>
       <template is="dom-if" if="{{isMeasureData}}">
           <template is="dom-repeat" items="{{measures}}" measure={{item}}>
-                <paper-material class="pms">
+                <paper-material elevation="3">
                     <div class="parent">
                         <div value="{{item.nqfId}}" class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
                         <div class="child header">{{item.name}}</div>
