@@ -295,7 +295,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
             },
 
             submitForm: function(request) {
-                userOrganizationId=document.querySelector('app-dashboard').$.findUserOrganizations.value;
+              var userOrganizationId=document.querySelector('app-dashboard').organizationId;
               var formData = {
                 id: 0,
                 numeratorValue: this.$$('#mainNum').value,
@@ -327,9 +327,9 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 raceOtherNum: this.$$('#otherRaceNum').value,
                 raceOtherDen: this.$$('#otherRaceDen').value,
                 reportPeriodYear: this.$$('#reportPeriodYear').value,
-                organizationId: userOrganizationId,
+                organizationId: document.querySelector('app-dashboard').organizationId,
                 measureId: this.$$('#mid').value,
-                userId: document.querySelector('app-login').$.userIdInput.value
+                userId: document.querySelector('app-dashboard').userId
               };
               this.setAjax(JSON.stringify(formData));
               this.$$('#mainNum').value = "",

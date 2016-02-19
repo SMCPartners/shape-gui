@@ -221,6 +221,9 @@
                 },
                 isMeasureData: {
                   type: Number
+                },
+                organizationid: {
+                  type:String
                 }
             },
             ready: function() {
@@ -346,7 +349,7 @@
 
             setAjaxMeasure: function() {
               if(app.$.mainPage.$.dashboard.isOrgSelected){
-                this.$.findMeasureInput.resource = '/common/organization_measure/findAllByOrg/' + document.getElementById('findUserOrganizations').value;
+                this.$.findMeasureInput.resource = '/common/organization_measure/findAllByOrg/' + this.organizationid;
                 this.$.findMeasureInput.callBack = this.callBack;
                 this.$.findMeasureInput.generateRequest();
               }
