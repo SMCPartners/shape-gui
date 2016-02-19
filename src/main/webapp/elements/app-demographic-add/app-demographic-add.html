@@ -230,11 +230,9 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 this.stratifyGroups = [
                 {name: 'Gender', categories: [
                     {strat: 'Male', num: 'maleNum', den: 'maleDen'},
-                    {strat: 'Female', num: 'femaleNum', den: 'femaleDen'},
-                    {strat: 'Other', num: 'otherGenderNum', den: 'otherGenderDen'} ]
+                    {strat: 'Female', num: 'femaleNum', den: 'femaleDen'} ]  
                 },
                 {name: 'Age', categories: [
-                    {strat: '0-17 Years', num: 'underSeventeenNum', den: 'underSeventeenDen'},
                     {strat: '18-44 Years', num: 'eighteenNum', den: 'eighteenDen'},
                     {strat: '45-64 Years', num: 'fortyFiveNum', den: 'fortyFiveDen'},
                     {strat: '65-85 Years', num: 'sixtyFiveNum', den: 'sixtyFiveDen'} ]
@@ -262,8 +260,6 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 this.$$('#maleDen').value = "",
                 this.$$('#femaleNum').value = "",
                 this.$$('#femaleDen').value = "",
-                this.$$('#otherGenderNum').value = "",
-                this.$$('#otherGenderDen').value = "",
                 this.$$('#underSeventeenNum').value = "",
                 this.$$('#underSeventeenDen').value = "",
                 this.$$('#eighteenNum').value = "",
@@ -308,10 +304,6 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 genderMaleDen: this.$$('#maleDen').value,
                 genderFemaleNum: this.$$('#femaleNum').value,
                 genderFemaleDen: this.$$('#femaleDen').value,
-                genderOtherNum: this.$$('#otherGenderNum').value,
-                genderOtherDen: this.$$('#otherGenderDen').value,
-                ageUnder17Num: this.$$('#underSeventeenNum').value,
-                ageUnder17Den: this.$$('#underSeventeenDen').value,
                 age1844Num: this.$$('#eighteenNum').value,
                 age1844Den: this.$$('#eighteenDen').value,
                 age4564Num: this.$$('#fortyFiveNum').value,
@@ -346,10 +338,6 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
               this.$$('#maleDen').value = "",
               this.$$('#femaleNum').value = "",
               this.$$('#femaleDen').value = "",
-              this.$$('#otherGenderNum').value = "",
-              this.$$('#otherGenderDen').value = "",
-              this.$$('#underSeventeenNum').value = "",
-              this.$$('#underSeventeenDen').value = "",
               this.$$('#eighteenNum').value = "",
               this.$$('#eighteenDen').value = "",
               this.$$('#fortyFiveNum').value = "",

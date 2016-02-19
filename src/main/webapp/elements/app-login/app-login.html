@@ -4,55 +4,124 @@
 <dom-module id="app-login">
     <style>
 
-        paper-material {
-          max-width: 400px;
+
+        paper-input {
+          margin: 10px auto 10px auto;
+          width: 50%;
+          height: 40px;
 
         }
-        h1 {
-          left: 15px;
-          font-size: 15px;
-          padding-left: 10px;
-          padding-top: 10px;
-        }
-        paper-input {
-          margin: auto;
-          width: 50%;
-          padding: 10px;
-        }
-        #login {
-          margin-left: auto;
-          margin-right: 10px;
-          padding-left: 50px;
-        }
+
         #forgotPasswordButton {
           margin-left: 10px;
           margin-right: auto;
 
         }
         paper-material {
-          margin-left: auto;
-          margin-right: auto;
-
+          margin: 40px auto;
+          height: 350px;
+          max-width: 500px;
+          background: white;
         }
         paper-button {
-          padding: 20px;
           margin-left: auto;
           margin-right: auto;
           display: inline-block;
         }
+        .leftLogin {
+          width: 45%;
+
+        }
+        .rightLogin {
+
+          float: right;
+          width: 45%;
+        }
+        .title {
+          text-align: center;
+          font-size: 20px;
+          background: #3f5185;
+          color: white;
+          width: 100%;
+          height: 40px;
+          box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14),
+            0 2px 9px 1px rgba(0, 0, 0, .12),
+            0 4px 2px -2px rgba(0, 0, 0, .2);
+          margin: 0 auto;
+          line-height: 40px;
+        }
+        .ehctLogo {
+          margin-left:85%;
+          height: 123px;
+          width: 210px;
+        }
+        .mainText{
+          margin: 0 auto;
+          max-width:1000px;
+          text-align: justify;
+        }
+        .image {
+          padding-top: 10px;
+        }
+        .secondTitle {
+          font-size: 35px;
+          margin: 0 auto;
+          max-width: 1000px;
+          text-align: center;
+        }
+        #login {
+          display: block;
+          width: 200px;
+          margin: 40px auto 10px auto;
+          background: #3f5185;
+          color: white;
+        }
+        h3 {
+          text-align: center;
+          margin: 5px auto;
+          padding-top: 10px;
+        }
+        .center {
+          margin: 10px auto;
+          text-align: center;
+        }
+        .fab {
+            position: fixed;
+            z-index: 10;
+            bottom: 5%;
+            right: 5%;
+            line-height:45px;
+        }
     </style>
     <template>
-      <paper-material elevation="2">
-        <h1>SHAPE Login</h1>
+      <div class="fab">
+        <paper-fab class="primary" elevation="5" on-tap="contactUs" id="addFab" icon="mail"></paper-fab><span on-tap="contactUs">&nbsp&nbspContact Us!</span>
+      </div>
+
+      <h1 class="title">CT DPH SHAPE Grant</h1>
+      <div class="image">
+        <img src="../../images/eHCT-logo.jpg" class="ehctLogo">
+      </div>
+      <h1 class="secondTitle">Welcome to the CT DPH SHAPE Grant Dashboard!</h1>
+      </br>
+        <p class="mainText">The Shape Dashboard was developed by eHealthConnecticut in conjunction with the Connecticut Department of Public Health as part of the SHAPE grant (State Public Health Actions to Prevent and Control Diabetes, Heart Disease, Obesity and Assosiated Risk Factors and Promote School Health-1305), through funding from the Centers for Disease Control and Prevention.</p>
+      </br>
+        <p class="mainText">The goal of the SHAPE project is to leverage healthcare providers' health information technology to develop processes to improve hypertension and diabetes awareness and management among their patient populations.</p>
+      </br>
+        <p class="mainText">Through this quality measure dashboard, healthcare providers can collect and report aggregate data for NQF 0018: Controlling High Blood Pressure, and NQF 0059: Diabetes: Hemoglobin A1c Poor Control.</p>
+
+      <paper-material class="loginPaper" elevation="3">
+        <h3>Login to SHAPE Dashboard</h3>
           <paper-input id="userIdInput" label="User ID"></paper-input>
             <br/>
           <paper-input label="Password" id="passwordInput" type="password" on-keydown="checkKeyStroke"></paper-input>
             <paper-button id="login" on-tap="logIn" raised noink>Login</paper-button>
-            <paper-button id="forgotPasswordButton" on-tap="resetPassword" raised noink>Forgot Password?</paper-button>
-            <paper-button on-tap="showUserGuide">View SHAPE User Guide</paper-button>
+            <br/>
+            <div class="center">
+              <paper-button id="forgotPasswordButton" on-tap="resetPassword" noink>Forgot Password?</paper-button>
+              <paper-button on-tap="showUserGuide">View SHAPE User Guide</paper-button>
+            </div>
       </paper-material>
-      <div>
-      </div>
           <shape-iron-ajax-helper id="loginCall">
           </shape-iron-ajax-helper>
           <shape-iron-ajax-helper id="secureCall">
@@ -93,6 +162,12 @@
                     type: String
                 }
             },
+            contactUs: function() {
+              // var yourMessage = document.getElementById("message").value;
+              var subject = "SHAPE Dashboard Help";
+              document.location.href = "mailto:jmoore@smcparners.com?subject="
+                  + encodeURIComponent(subject)
+            },
             loginResponse: function(response){
               app.$.loginPage.$.passwordInput.value="";
               app.$.loginPage.$.findUsers.resource="/admin/user/find/" + app.$.loginPage.$.userIdInput.value;
@@ -114,6 +189,8 @@
               document.querySelector('app-admin-panel').set("role", callBackUser.role);
               document.querySelector('app-admin-panel-user').set("organizationId", callBackUser.organizationId);
               document.querySelector('app-admin-panel-user').set("role", callBackUser.role);
+              document.querySelector('app-admin-panel-provider').set("role", callBackUser.role);
+              document.querySelector('app-admin-panel-measure').set("role", callBackUser.role);
               document.querySelector('app-admin-panel-organization').set("role", callBackUser.role);
               document.querySelector('app-main').set("role", callBackUser.role);
               document.querySelector('app-admin-add').set("role", callBackUser.role);

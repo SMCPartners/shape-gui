@@ -325,8 +325,6 @@
                 "id" : 0,
                 "genderMale" : this.gender[0].num,
                 "genderFemale" : this.gender[1].num,
-                "genderOther" : this.gender[2].num,
-                "ageUnder17" : this.age[0].num,
                 "age1844" : this.age[1].num,
                 "age4564" : this.age[2].num,
                 "ageOver65" : this.age[3].num,
@@ -357,8 +355,6 @@
                 "id" : this.profile.id,
                 "genderMale" : this.gender[0].num,
                 "genderFemale" : this.gender[1].num,
-                "genderOther" : this.gender[2].num,
-                "ageUnder17" : this.age[0].num,
                 "age1844" : this.age[1].num,
                 "age4564" : this.age[2].num,
                 "ageOver65" : this.age[3].num,
@@ -413,17 +409,10 @@
                 num: this.profile.genderMale.toString()},
               {
                 strat: 'Female',
-                num: 'Female', num: this.profile.genderFemale.toString()},
-              {
-                strat: 'Other',
-                num: this.profile.genderOther.toString()}
-
+                num: 'Female', num: this.profile.genderFemale.toString()}
             ]);
             this.set('age',
             [{
-               strat: '17 & Under',
-               num: this.profile.ageUnder17.toString()},
-            {
                strat: '18-44 Years',
                num: this.profile.age1844.toString()},
             {
@@ -472,8 +461,6 @@
             this.profile = {
               genderMale: "",
               genderFemale: "",
-              genderOther: "",
-              ageUnder17: "",
               age1844: "",
               age4564: "",
               ageOver65: "",

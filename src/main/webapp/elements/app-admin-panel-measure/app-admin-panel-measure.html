@@ -79,7 +79,7 @@
         <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
             <div class="flex-item"><input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
             <div class="flex-item">
-                <paper-button raised on-tap="addMeasure" modalName="addMeasure" style="float:right; padding-top: 0.1em;">Add Measure</paper-button>
+                <paper-button hidden="{{canModifyData(role)}}" raised on-tap="addMeasure" modalName="addMeasure" style="float:right; padding-top: 0.1em;">Add Measure</paper-button>
             </div>
         </div>
         <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
@@ -90,16 +90,16 @@
                 <col span="1" style="width:10%">
             </colgroup>
             <thead>
-                <th>Selection</th>
+                <th hidden="{{!canSelect(role)}}">Selection</th>
                 <th><a sortingGroup='nqfId' on-tap="selectFunction">NQF ID</a></th>
                 <th><a sortingGroup='name' on-tap="selectFunction">Name</a></th>
                 <th><a sortingGroup='description' on-tap="selectFunction">Description</a></th>
-                <th></th>
+                <th hidden="{{canModifyData(role)}}"></th>
             </thead>
             <tbody>
             <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
             <tr data-id$="{{item.id}}">
-                <td>
+                <td hidden="{{!canSelect(role)}}">
                   <div align="center">
                     <template restamp="true" is="dom-if" if="{{item.selected}}">
                       <form on-tap="unselectMeasure">
@@ -119,7 +119,7 @@
                 <td><span>{{item.name}}</span></td>
                 <td><span>{{item.description}}</span></td>
                 <div align="center">
-                  <td style="font-size: 1em;">
+                  <td hidden="{{canModifyData(role)}}" style="font-size: 1em;">
                         <paper-button class="editButton" raised on-tap="editMeasure" modalName="editMeasure" id="{{item.index}}"><b>Edit</b></paper-button>
                   </td>
                 </div>
@@ -157,6 +157,7 @@
                 measureDescription: String,
                 sortVal: "defaultsort",
                 lastSortVal: "nqfID",
+                role: "String",
                 sortPass: String,
                 sortReverse: false
 
@@ -219,6 +220,22 @@
                 this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
                 var measureNum = e.target.parentNode.getAttribute('id');
                 this.$.editModal.measure = Object.create(this.measure[measureNum]);
+            },
+
+            canModifyData : function (role) {
+              if (role == "DPH_USER") {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+
+            canSelect : function(role) {
+                if (role == "ADMIN") {
+                    return true;
+                } else {
+                    return false;
+                }
             },
 
             editMeasure: function(e) {

@@ -1,112 +1,229 @@
 <dom-module id="app-main">
-    <style>
+    <style is="custom-style">
+        .mainTitle {
+          margin: 0px;
+          padding: 10px 0px 10px 5px;
+          color: #ffffff;
+          font-size: 20px;
+        }
         paper-material {
             border-radius: 2px;
             height: 100%;
             padding: 16px 0px 16px 0px;
-            width: calc(98.66% - 16px);
-            margin: 16px auto;
+            width: 95%;
+            margin: 0px auto;
             background: white;
         }
 
-        #mainToolbar {
+        paper-toolbar {
+            height: 40px;
             box-shadow: 0 4px 5px 0 rgba(0, 0, 0, .14),
             0 2px 9px 1px rgba(0, 0, 0, .12),
             0 4px 2px -2px rgba(0, 0, 0, .2);
         }
-
-        paper-menu iron-icon {
-            margin-right: 33px;
-            opacity: 0.54;
+        paper-toolbar ::shadow #topBar{
+          height: 40px;
         }
 
-        .paper-menu > .iron-selected {
-            color: var(--default-primary-color);
+        paper-drawer-panel {
+              --paper-drawer-panel-right-drawer-container: {
+                top: 42px;
+                height: 208px;
+                position: absolute;
+                z-index: 2;
+              };
         }
-
-
-        paper-menu a {
-            text-decoration: none;
-            color: var(--menu-link-color);
-            display: -ms-flexbox;
-            display: -webkit-flex;
-            display: flex;
-            -ms-flex-direction: row;
-            -webkit-flex-direction: row;
-            flex-direction: row;
-            -ms-flex-align: center;
-            -webkit-align-items: center;
-            align-items: center;
-            font-family: 'Roboto', 'Noto', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            text-rendering: optimizeLegibility;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 24px;
-            min-height: 40px;
-            padding: 0px 16px;
+        paper-button {
+          height: 40px;
         }
-
-        #drawerToolbar {
-            border-bottom: var(--drawer-toolbar-border-color);
-            /*height: 120px;*/
+        #drawer {
+            top:42px;
         }
-
         #paperToggle {
             width: 45px;
             height: 45px;
             border: none;
-            color: var(--drawer-menu-color);
-            background-color: transparent;
             margin-right: 16px;
             padding: 8px;
         }
+        /*#home {
+          background-color: #aca39a;
+        }*/
+        iron-pages {
+          height: 100%;
+          padding-top: 55px;
+          background-color: white;
+        }
+        /*paper-menu {
+          color: white;
+        }*/
+        .rightSide {
+          position: absolute;
+          right: 15px;
+        }
+        #changePassword {
+          background: white;
+          width: 40%;
+          height: 26%;
+        }
+        #editEmailOpen {
+          background: white;
+          width: 40%;
+          height: 20%;
+        }
+        #editQuestionsOpen {
+          background: white;
+          width: 40%;
+          height: 40%;
+        }
+        select {
+        height: 1.5em;
+        font-size: 1em;
+        background: white;
+        border: solid 1px;
+        max-width: 200px;
+        margin-left: .5em;
+        margin: 0px auto 0px auto;
+        text-align: center;
+        width: 300px;
+
+        }
+        paper-input {
+          margin: 0px auto 0px auto;
+          text-align: center;
+          width: 200px;
+        }
     </style>
     <template>
+      <paper-drawer-panel forceNarrow="true" right-drawer force-narrow>
+        <div main>
+          <paper-header-panel main mode="standard">
+            <paper-toolbar id="mainToolbar">
+                <h1 class = "mainTitle">CT DPH SHAPE Grant</h1>
+              <div class="rightSide">
+                <paper-button on-tap="navigateHome"><iron-icon icon="home"></iron-icon>&nbspHome</paper-button>
+                <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
+                      <paper-button on-tap="handleAdminPanel"><iron-icon icon="dashboard"></iron-icon>&nbspAdmin Panel</paper-button>
+                </template>
+                <paper-button paper-drawer-toggle on-tap="helpToggle"><iron-icon icon="help"></iron-icon>&nbspHelp</paper-button>
+                <paper-button paper-drawer-toggle on-tap="helpOff"><iron-icon icon="account-box"></iron-icon>&nbspMy Account</paper-button>
+              </div>
+            </paper-toolbar>
+          </paper-header-panel>
+        </div>
+          <div drawer>
+            <paper-menu>
+              <paper-item hidden="{{!helpSet}}" paper-drawer-toggle on-tap="contactUs">Contact Us</paper-item>
+              <paper-item hidden="{{!helpSet}}" paper-drawer-toggle on-tap="helpFunction">SHAPE User Guide</paper-item>
+              <paper-item on-tap="logout" hidden="{{helpSet}}">Logout</paper-item>
+              <paper-item on-tap="handleClickPassword" hidden="{{helpSet}}" paper-drawer-toggle>Reset Password</paper-item>
+              <paper-item on-tap="handleClickEmail"  hidden="{{helpSet}}" paper-drawer-toggle>Edit Email</paper-item>
+              <paper-item on-tap="handleClickSecurity"  hidden="{{helpSet}}" paper-drawer-toggle>Change Security Questions</paper-item>
+            </paper-menu>
+          </div>
+            </paper-drawer-panel>
+                  <iron-pages attr-for-selected="data-route" selected="{{route}}">
+                      <section id="home" data-route="home">
+                          <paper-materials>
+                              <app-dashboard id="dashboard"></app-dashboard>
+                          </paper-material>
+                      </section>
+                      <section data-route="adminpanel">
+                          <paper-material elevation="2">
+                              <app-admin-panel></app-admin-panel>
+                          </paper-material>
+                      </section>
+                      <section data-route="settings">
+                          <paper-material elevation="2">
+                              <h2 class="paper-font-display2">Contact</h2>
+                              <p>This is the contact section</p>
+                          </paper-material>
+                      </section>
+                  </iron-pages>
+    <!-- DIALOGS FROMAPP ACCOUNT-->
+                  <paper-dialog class="password_position" id="changePassword" modal>
+                        <h2>Reset Password</h2>
+                        <paper-input type="password" value="{{oldPassword}}" placeholder="Old password"></paper-input>
+                        <paper-input type="password" value="{{newPassword}}" placeholder="New password"></paper-input>
+                        <div class="rightSide">
+                          <paper-button class="primary" on-tap="setAjaxChangePassword">Save</paper-button>
+                          <paper-button class="secondary" on-tap="closePasswordModal">Close</paper-button>
+                        </div>
+                    </paper-dialog>
+                  <div style="position:absolute;top:0;left:0">
+                    <paper-dialog id="editEmailOpen" modal>
+                      <h2>Edit Email</h2>
+                        <paper-input value="{{email}}" placeholder="email"></paper-input>
+                        <div class="rightSide">
+                          <paper-button class="primary" on-tap="setAjaxEditEmail">Save</paper-button>
+                          <paper-button class="secondary" on-tap="closeEditEmail">Close</paper-button>
+                        </div>
+                    </paper-dialog>
+                  </div>
+                  <div style="position:absolute;top:0;left:0">
+                    <paper-dialog id="editQuestionsOpen" modal>
+                      <h2>Change Security Questions</h2>
+                      <label for="securityQuestion1">Question 1</label>
+                      <div>
+                      <select id="securityQuestion1" class="securityQuestion">
+                        <option selected>{{questionOne}}</option>
+                        <option>Who was your second grade teacher?</option>
+                        <option>What was the name of your first pet?</option>
+                        <option>Where did you learn to swim?</option>
+                        <option>What was your favorite high school class?</option>
+                        <option>Where was your first date?</option>
+                        <option>What was your favorite holiday gift?</option>
+                      </select>
+                      </div>
+                      <paper-input placeholder="Answer" value="{{answer1}}"></paper-input>
+                      <label for="securityQuestion2">Question 2</label>
+                      <div>
+                      <select id="securityQuestion2" class="securityQuestion">
+                        <option selected>{{questionTwo}}</option>
+                        <option>Who was your second grade teacher?</option>
+                        <option>What was the name of your first pet?</option>
+                        <option>Where did you learn to swim?</option>
+                        <option>What was your favorite high school class?</option>
+                        <option>Where was your first date?</option>
+                        <option>What was your favorite holiday gift?</option>
+                      </select>
+                      </div>
+                      <paper-input placeholder="Answer" value="{{answer2}}"></paper-input>
+                      <div class="rightSide">
+                        <paper-button class="primary" on-tap="setAjaxEditQuestions">Save</paper-button>
+                        <paper-button class="secondary" on-tap="closeQuestionsModal">Close</paper-button>
+                      </div>
+                    </paper-dialog>
+                  </div>
+                  <shape-iron-ajax-helper
+                      id="ajaxChangePassword"
+                      resource=""
+                      handle-as="json"
+                      method="POST"
+                      debounce-duration="300">
+                  </shape-iron-ajax-helper>
+                  <shape-iron-ajax-helper
+                      id="ajaxEditQuestions"
+                      resource=""
+                      handle-as="json"
+                      method="POST"
+                      debounce-duration="300">
+                  </shape-iron-ajax-helper>
+                  <shape-iron-ajax-helper
+                      id="ajaxEditEmail"
+                      resource=""
+                      handle-as="json"
+                      method="POST"
+                      debounce-duration="300">
+                  </shape-iron-ajax-helper>
+                  <shape-iron-ajax-helper
+                      id="findUsers"
+                      resource="/admin/user/findAll"
+                      handle-as="json"
+                      on-response="callBackfindUsers"
+                      debounce-duration="300">
+                  </shape-iron-ajax-helper>
 
-            <paper-header-panel main mode="standard">
-                <paper-toolbar id="mainToolbar">
-
-                    <paper-button on-tap="logout">Logout</paper-button>
-                    <span class = "title">CT DPH Shape Grant</span>
-                    <!--span> Ct DPH SHAPE </span-->
-
-
-                    <paper-icon-button icon="home" on-tap="navigateHome"></paper-icon-button>
-                    <!-- Toolbar icons -->
-                    <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
-                          <paper-button on-tap="handleAdminPanel">Admin Panel</paper-button>
-                    </template>
-                    <paper-button on-tap="handleAccount">Account</paper-button>
-                </paper-toolbar>
-                <iron-pages attr-for-selected="data-route" selected="{{route}}">
-                    <section data-route="home">
-                        <paper-materials>
-                            <app-dashboard id="dashboard"></app-dashboard>
-                        </paper-material>
-                    </section>
-
-                    <section data-route="account">
-                        <paper-material elevation="1">
-                            <app-account></app-account>
-                        </paper-material>
-                    </section>
-
-                    <section data-route="adminpanel">
-                        <paper-material elevation="1">
-                            <app-admin-panel></app-admin-panel>
-                        </paper-material>
-                    </section>
-
-                    <section data-route="settings">
-                        <paper-material elevation="1">
-                            <h2 class="paper-font-display2">Contact</h2>
-
-                            <p>This is the contact section</p>
-                        </paper-material>
-                    </section>
-
-                </iron-pages>
  </template>
 </dom-module>
 <script>
@@ -119,6 +236,10 @@
                 },
                 role : {
                   type: String
+                },
+                helpSet : {
+                  type : Boolean,
+                  value : false
                 }
             },
             attached: function () {
@@ -130,6 +251,9 @@
                 return true
               }
               if (role == "ORG_ADMIN") {
+                return true
+              }
+              if (role == "DPH_USER") {
                 return true
               }
               if (role == "REGISTERED") {
@@ -146,6 +270,13 @@
                     evt.stopPropagation();
                 }
             },
+            contactUs: function() {
+              // var yourMessage = document.getElementById("message").value;
+              var subject = "SHAPE Dashboard Help";
+              document.location.href = "mailto:jmoore@smcparners.com?subject="
+                  + encodeURIComponent(subject)
+            },
+
             menuSelect: function (e) {
                 app.select = 'login';
                 this.$.paperDrawerPanel.togglePanel();
@@ -162,13 +293,162 @@
                 var template = document.querySelector('template[is="dom-bind"]');
                 document.querySelector('app-admin-add').setajaxOrgs();
                 document.querySelector('app-admin-panel-user').setajax();
+
             },
             navigateHome: function (e) {
                 this.route = 'home';
             },
+            helpFunction: function (e) {
+                window.open("images/SHAPE_Dashboard_User_Guide.pdf", '_blank');
+            },
+            helpToggle: function () {
+              this.helpSet = true;
+            },
+            helpOff: function () {
+              this.helpSet = false;
+            },
             logout: function(){
                 app.$.loginPage.logout();
-            }
+            },
+            // the below functions are from the app-account element
+            //they were moved to app-main so that the account modals will display on this page
+            setAjaxChangePassword: function () {
+
+              // check password complexity
+              var password = this.newPassword;
+              var errors = [];
+              var lowercase = new RegExp("[a-z]");
+              var uppercase = new RegExp("[A-Z]");
+              var digit = new RegExp("[0-9]");
+              lowercase.test(password) ? true : errors.push("One lowercase");
+              uppercase.test(password) ? true : errors.push("One uppercase");
+              digit.test(password) ? true : errors.push("One digit");
+              if (password.length < 6) errors.push("More than 5 characters");
+              // if any errors
+              if (errors.length>0) {
+                errorString = "Your password doesn't contain: \n";
+                for (var i=0; i < errors.length; i++){
+                  errorString+= errors[i]+"\n";
+                }
+                alert(errorString);
+              }
+              else {
+                this.$.ajaxChangePassword.resource="/common/changepassword";
+                var requestObject = {
+                  "id": document.querySelector('app-login').$.userIdInput.value,
+                  "role": callBackUser.role,
+                  "password": this.oldPassword,
+                  "newPassword" : this.newPassword,
+                  "organizationId": callBackUser.organizationId,
+                  "firstName": callBackUser.firstName,
+                  "lastName": callBackUser.lastName,
+                  "email": callBackUser.email,
+                  "questionOne": callBackUser.questionOne,
+                  "questionTwo": callBackUser.questionTwo,
+                  "answerOne": callBackUser.answerOne,
+                  "answerTwo" : callBackUser.answerTwo
+                };
+                for (var property in requestObject) {
+                  if (!requestObject[property]) requestObject[property] = '';
+                }
+                this.$.ajaxChangePassword.body = JSON.stringify (requestObject);
+                this.$.ajaxChangePassword.method="POST";
+                this.$.ajaxChangePassword.callBack=this.callBackChangePassword;
+                this.$.ajaxChangePassword.generateRequest();
+                this.$.changePassword.toggle();
+              }
+            },
+
+            setAjaxEditEmail: function () {
+                this.$.ajaxEditEmail.resource="/common/account/edit";
+                this.$.ajaxEditEmail.body = JSON.stringify ({
+                      "id": document.querySelector('app-login').$.userIdInput.value,
+                      "role": callBackUser.role,
+                      "password": callBackUser.password,
+                      "organizationId": callBackUser.organizationId,
+                      "firstName": callBackUser.firstName,
+                      "lastName": callBackUser.lastName,
+                      "email": this.email,
+                      "questionOne": callBackUser.questionOne,
+                      "questionTwo": callBackUser.questionTwo,
+                      "answerOne": callBackUser.answerOne,
+                      "answerTwo" : callBackUser.answerTwo,
+                      "active" : true
+              });
+                this.$.ajaxEditEmail.method="POST";
+                this.$.ajaxEditEmail.callBack=this.callBackEditEmail;
+                this.$.ajaxEditEmail.generateRequest();
+                this.$.editEmailOpen.close();
+              },
+
+            setAjaxEditQuestions: function () {
+                this.$.ajaxEditQuestions.resource="/common/account/edit";
+                this.$.ajaxEditQuestions.body = JSON.stringify ({
+                      "id": document.querySelector('app-login').$.userIdInput.value,
+                      "role": callBackUser.role,
+                      "password": callBackUser.password,
+                      "organizationId": callBackUser.organizationId,
+                      "firstName": callBackUser.firstName,
+                      "lastName": callBackUser.lastName,
+                      "email": callBackUser.email,
+                      "questionOne": this.$.securityQuestion1.value,
+                      "questionTwo": this.$.securityQuestion2.value,
+                      "answerOne": this.answer1,
+                      "answerTwo" : this.answer2,
+                      "active" : true
+              });
+                this.answer1 = "";
+                this.answer2 = "";
+                this.$.ajaxEditQuestions.method="POST";
+                this.$.ajaxEditQuestions.callBack=this.callBackEditQuestions;
+                this.$.ajaxEditQuestions.generateRequest();
+                this.$.editQuestionsOpen.toggle();
+              },
+
+            closePasswordModal : function () {
+              this.$.changePassword.toggle();
+            },
+
+            closeEditEmail : function () {
+              this.$.editEmailOpen.toggle();
+            },
+
+            closeQuestionsModal : function () {
+              this.$.editQuestionsOpen.toggle();
+            },
+
+            callBackfindUsers: function(request) {
+              callBackUser=request.detail.response;
+              this.email = callBackUser.email;
+              this.questionOne = callBackUser.questionOne;
+              this.questionTwo = callBackUser.questionTwo;
+              this.answer1 = callBackUser.answerOne;
+              this.answer2 = callBackUser.answerTwo;
+              this.email = callBackUser.email;
+            },
+
+            handleClickPassword : function () {
+                this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
+                this.$.findUsers.callBack=this.callBackfindUsers;
+                this.$.findUsers.generateRequest();
+                this.$.changePassword.toggle();
+            },
+
+            handleClickEmail : function (e) {
+                this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
+                this.$.findUsers.callBack=this.callBackfindUsers;
+                this.$.findUsers.generateRequest();
+                this.$.editEmailOpen.open();
+            },
+
+            handleClickSecurity : function (e) {
+                this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
+                this.$.findUsers.callBack=this.callBackfindUsers;
+                this.$.findUsers.generateRequest();
+                this.$.editQuestionsOpen.open();
+            },
+
+
         });
     })();
 </script>

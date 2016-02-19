@@ -151,9 +151,9 @@
       </shape-iron-ajax-helper>
 
 
-      <div class="fab">
-        <paper-fab icon="add" elevation="5" on-tap="addMeasure" id="addFab"></paper-fab>
-        <paper-tooltip for="addFab" offset="3">Add New Measure</paper-tooltip>
+      <div is="dom-if" if="{{canModifyData(role)}}" class="fab">
+        <paper-fab hidden="{{canModifyData(role)}}" icon="add" elevation="5" on-tap="addMeasure" id="addFab"></paper-fab>
+        <paper-tooltip hidden="{{canModifyData(role)}}" for="addFab" offset="3">Add New Measure</paper-tooltip>
       </div>
       <paper-dialog-scrollable>
       <template is="dom-if" if="{{isMeasureData}}">
@@ -190,8 +190,8 @@
                           </google-chart>
                         </div>
                         <div class="child">
-                            <paper-button raised on-tap="editMeasure" measure={{item}} id="{{item.name}}">Edit</paper-button>
-                            <paper-button raised on-tap="deleteMeasure" measure={{item}}>Delete</paper-button>
+                            <paper-button hidden="{{canModifyData(role)}}" raised on-tap="editMeasure" measure={{item}} id="{{item.name}}">Edit</paper-button>
+                            <paper-button hidden="{{canModifyData(role)}}" raised on-tap="deleteMeasure" measure={{item}}>Delete</paper-button>
                         </div>
                     </div>
                     <div class="parent">
@@ -215,6 +215,7 @@
             properties: {
                 currentMeasure: String,
                 nMeasure: String,
+                role: String,
                 measureid: {
                   type: String
                 },
@@ -254,16 +255,12 @@
               this.deleteMeasureSetAjax(orgMeasureId);
             },
 
-            isOrgAdmin : function (role) {
-              if (role == "ADMIN") {
-                return true
-              }
-              if (role == "ORG_ADMIN") {
-                return true
-              }
-              if (role == "REGISTERED") {
-                return false
-              }
+            canModifyData : function (role) {
+              if (role == "DPH_USER") {
+                    return true;
+                } else {
+                    return false;
+                }
             },
 
             deleteMeasureSetAjax: function(orgMeasureId){
@@ -337,19 +334,15 @@
 
                 // find appropriate object of additional data
                 var done = false;
-                for (var object = 0; object < response.length && !done; object++) {
+                for (var object = 0; object < response.length; object++) {
                   var currentObject = response[object];
-                  if (currentObject.id == currentMeasure.measureId) {
-                    done = true;
-                    delete currentObject.id;
-
-                    // and add that data to it
+                    // and add that data to i
                     for (var property in currentObject) {
                       var polymerResource = 'measures.' + measure + '.' + property;
                       this.set(polymerResource, currentObject[property]);
                     }
 
-                  }
+
                 }
               }
             },

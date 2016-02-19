@@ -172,7 +172,6 @@
                   },
 
                       {name: 'Age', categories: [
-                        {strat: 'Under 18', num: 'editUnderEighteenNum', den: 'editUnderEighteenDen'},
                         {strat: '18-44 Years', num: 'editEighteenNum', den: 'editEighteenDen'},
                         {strat: '45-64 Years', num: 'editFortyFiveNum', den: 'editFortyFiveDen'},
                         {strat: '65-85 Years', num: 'editSixtyFiveNum', den: 'editSixtyFiveDen'} ]
@@ -266,8 +265,6 @@
           this.$$('#editHispanicDen').value = targetMeasure.ethnicityHispanicLatinoDen;
           this.$$('#editNotHispanicNum').value = targetMeasure.ethnicityNotHispanicLatinoNum;
           this.$$('#editNotHispanicDen').value = targetMeasure.ethnicityHispanicLatinoDen;
-          this.$$('#editUnderEighteenNum').value = targetMeasure.ageUnder17Num;
-          this.$$('#editUnderEighteenDen').value = targetMeasure.ageUnder17Den
           this.$$('#editEighteenNum').value = targetMeasure.age1844Num;
           this.$$('#editEighteenDen').value = targetMeasure.age1844Den;
           this.$$('#editFortyFiveNum').value = targetMeasure.age4564Num;
@@ -302,14 +299,10 @@
                 "raceNativeHawaiianDen": editHawaiianDen.value,
                 "raceWhiteNum": editWhiteNum.value,
                 "raceWhiteDen": editWhiteDen.value,
-                "genderOtherNum": editOtherNum.value,
-                "genderOtherDen": editOtherDen.value,
                 "ethnicityHispanicLatinoNum": editHispanicNum.value,
                 "ethnicityHispanicLatinoDen": editHispanicDen.value,
                 "ethnicityNotHispanicLatinoNum": editNotHispanicNum.value,
                 "ethnicityNotHispanicLatinoDen": editNotHispanicDen.value,
-                "ageUnder17Num": editUnderEighteenNum.value,
-                "ageUnder17Den": editUnderEighteenDen.value,
                 "age1844Num": editEighteenNum.value,
                 "age1844Den": editEighteenDen.value,
                 "age4564Num": editFortyFiveNum.value,
@@ -347,8 +340,6 @@
                 editHispanicDen.value = "",
                 editNotHispanicNum.value = "",
                 editNotHispanicDen.value = "",
-                editUnderEighteenNum.value = "",
-                editUnderEighteenDen.value = "",
                 editEighteenNum.value = "",
                 editEighteenDen.value = "",
                 editFortyFiveNum.value = "",
@@ -402,8 +393,6 @@
           editHispanicDen.value = "",
           editNotHispanicNum.value = "",
           editNotHispanicDen.value = "",
-          editUnderEighteenNum.value = "",
-          editUnderEighteenDen.value = "",
           editEighteenNum.value = "",
           editEighteenDen.value = "",
           editFortyFiveNum.value = "",
