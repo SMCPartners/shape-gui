@@ -121,14 +121,15 @@
               document.querySelector('app-measure-input').set("role", callBackUser.role);
               document.querySelector('app-dashboard').set("organizationId", callBackUser.organizationId);
               document.querySelector('app-dashboard').set("role", callBackUser.role);
+              document.querySelector('app-dashboard').setPriviledges(callBackUser.role, callBackUser.organizationId, callBackUser.id);
+              document.querySelector('app-dashboard').setAjax();
+              document.querySelector('app-history').setajaxMeasures();
               if  (callBackUser.resetPwd == true) {
                 app.select = "setupAccount";
                 }   else {
                 app.select = "main";
                 //this.$.loginCall.login(this.$.userIdInput.value, this.$.passwordInput.value);
                 //document.querySelector('app-account-setup').ajaxFindUsers();
-                document.querySelector('app-dashboard').setAjax();
-                document.querySelector('app-history').setajaxMeasures();
               };
             },
 

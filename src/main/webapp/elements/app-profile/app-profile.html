@@ -268,6 +268,9 @@
               isDemographicData: Boolean,
               genderMale : {
                 type: String
+              },
+              organizationid: {
+                type: String
               }
             },
             ready: function() {
@@ -311,7 +314,7 @@
               else{
                 if (app.$.mainPage.$.dashboard.isOrgSelected){
                 this.$.findStratByOrg.callBack = this.callBack
-                this.$.findStratByOrg.resource = "/common/organization_stratification/findAllByOrg/"+ document.getElementById('findUserOrganizations').value;
+                this.$.findStratByOrg.resource = "/common/organization_stratification/findAllByOrg/"+ this.organizationid;
                 this.$.findStratByOrg.generateRequest();
               }
             }

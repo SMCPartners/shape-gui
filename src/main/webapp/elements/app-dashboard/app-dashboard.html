@@ -42,20 +42,22 @@
     <template>
         <div style="margin: 0.5em 0;" class="flex-parent">
             <div class="flex-parent flex-child">
-                <label class="flex-child" style="font: inherit; margin-left:0.5em;"> <b>Organization: </b></label>
+                <label class="flex-child" style="font: inherit; margin-left:0.5em;" hidden={{!isSysAdmin}}> <b>Organization: </b></label>
                 <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                    <!--select id=findUserOrganizations style="font: inherit; margin-left:0.5em;" on-change="loadOrgData"-->
-                      <select id=findUserOrganizations on-change="loadOrgData">
-                      <div hidden="{{isOrgSelected}}">
-                        <option>Select Organization</option>>
+                    <!-- select id=findUserOrganizations style="font: inherit; margin-left:0.5em;" on-change="loadOrgData" -->
+                    <!-- <template is="dom-if" if={{multiOrgView}}> -->
+                      <select id=findUserOrganizations on-change="loadOrgData" hidden={{!isSysAdmin}}>
+                      <!-- <div hidden="{{isOrgSelected}}"> -->
+                        <!-- <option>Select Organization</option>> -->
                       </div>
                         <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
-                          <template is="dom-if" restamp="true" if="{{checkOrganizationAndMeasure(organizationId)}}">
+                          <!-- <template is="dom-if" restamp="true" if="{{checkOrganizationAndMeasure(organizationId)}}"> -->
                             <option style="font: inherit" value="{{item.id}}">{{item.name}}</option>
-                          </template>
+                          <!-- </template> -->
                       </template>
                     </select>
                 </div>
+                <!-- </template> -->
             </div>
 
         </div>
@@ -71,9 +73,10 @@
               reportPeriodQuarter={{reportPeriodQuarter}}
               reportPeriodYear={{reportPeriodYear}}
               dbid={{dbid}}
+              organizationid={{organizationId}}
               ></app-measure-input>
             <app-history id="history"></app-history>
-            <app-profile id="profile"></app-profile>
+            <app-profile id="profile" organizationid={{organizationId}}></app-profile>
         </iron-pages>
 
         <shape-iron-ajax-helper
@@ -112,17 +115,29 @@
               isOrgSelected: {
                 type: Boolean,
                 value: false
+              },
+              isSysAdmin: {
+                type: Boolean,
+                value: false
               }
             },
-
+            setPriviledges: function(role, organizationId, userId){
+              if( role == "ADMIN" || role =="DPH_USER"){
+                this.isSysAdmin = true;
+              }else {
+                this.isSysAdmin = false;
+              }
+              this.userId = userId;
+              this.organizationId = organizationId;
+            },
             setAjax: function () {
               this.$.findOrgs.generateRequest();
-              this.$.findProviders.generateRequest();
+              // this.$.findProviders.generateRequest();
             },
 
             checkOrganizationAndMeasure : function (organizationId) {
               for (i=0; i <this.organizations.length; i++) {
-                this.set(this.$.findUserOrganizations.value, organizationId);
+                this.set(this.organizationId, organizationId);
                 return true
               }
             },
@@ -189,7 +204,7 @@
 
             callBackOrgs: function(request) {
               this.organizations = request.detail.response;
-
+              this.loadOrgData();
             },
 
             callBackProviders: function(request) {
@@ -197,6 +212,7 @@
             },
 
             ready: function() {
+              this.selected  = 0;
 
                 this.providers = [
                   {_id: "1", name: "Provider 1"},
@@ -218,11 +234,18 @@
             },
 
             loadOrgData: function() {
+              if (this.isSysAdmin && this.$.findUSerOrganizations){ // if the user is a system admin, get the organization id from the drop down
+                this.organizationId = this.$.findUserOrganizations.value;
+              }
+
+
+
               for (i =0; i < this.organizations.length; i++) {
-                if (this.organizations[i].id.toString() === this.$.findUserOrganizations.value) {
+                if (this.organizations[i].id.toString() === this.organizationId) {
                   this.$.profile.set('orgData', this.organizations[i]);
                 }
               }
+
               if(this.$.findUserOrganizations.value!=="label"){
                 this.isOrgSelected = true;
                 this.$.profile.noOrgSel = false;
