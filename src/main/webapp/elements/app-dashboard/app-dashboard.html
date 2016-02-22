@@ -235,7 +235,7 @@
             },
 
             loadOrgData: function() {
-              if (this.isSysAdmin && this.$.findUSerOrganizations){ // if the user is a system admin, get the organization id from the drop down
+              if (this.isSysAdmin && this.$.findUserOrganizations.value !=""){ // if the user is a system admin, get the organization id from the drop down
                 this.organizationId = this.$.findUserOrganizations.value;
               }
 
