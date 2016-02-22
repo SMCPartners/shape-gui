@@ -116,8 +116,8 @@
                 <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
                       <paper-button on-tap="handleAdminPanel"><iron-icon icon="dashboard"></iron-icon>&nbspAdmin Panel</paper-button>
                 </template>
-                <paper-button paper-drawer-toggle on-tap="helpToggle"><iron-icon icon="help"></iron-icon>&nbspHelp</paper-button>
-                <paper-button paper-drawer-toggle on-tap="helpOff"><iron-icon icon="account-box"></iron-icon>&nbspMy Account</paper-button>
+                <paper-button paper-drawer-toggle on-tap="helpToggle"><iron-icon paper-drawer-toggle on-tap="helpToggle" icon="help"></iron-icon>&nbspHelp</paper-button>
+                <paper-button paper-drawer-toggle on-tap="helpOff"><iron-icon paper-drawer-toggle on-tap="helpToggle" icon="account-box"></iron-icon>&nbspMy Account</paper-button>
               </div>
             </paper-toolbar>
           </paper-header-panel>
