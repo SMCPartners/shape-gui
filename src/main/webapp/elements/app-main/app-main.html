@@ -25,7 +25,7 @@
           height: 40px;
         }
 
-        paper-drawer-panel {
+        #dropdown {
               --paper-drawer-panel-right-drawer-container: {
                 top: 42px;
                 height: 208px;
@@ -39,6 +39,8 @@
           --paper-drawer-panel-scrim: {
               z-index: 10!important;
             };
+
+              --paper-drawer-panel-scrim-opacity: 0;
         }
         paper-button {
           height: 40px;
@@ -53,9 +55,6 @@
             margin-right: 16px;
             padding: 8px;
         }
-        /*#home {
-          background-color: #aca39a;
-        }*/
         iron-pages {
           height: 100%;
           padding-top: 55px;
@@ -100,9 +99,14 @@
           text-align: center;
           width: 200px;
         }
+        paper-menu {
+          background-color: #3f51b5;
+          color: white;
+
+        }
     </style>
     <template>
-      <paper-drawer-panel forceNarrow="true" right-drawer force-narrow>
+      <paper-drawer-panel id="dropdown" forceNarrow="true" right-drawer force-narrow>
         <div main>
           <paper-header-panel main mode="standard">
             <paper-toolbar id="mainToolbar">
@@ -247,6 +251,10 @@
                 helpSet : {
                   type : Boolean,
                   value : false
+                },
+                menuID : {
+                  type : String,
+                  value: "accountsOn"
                 }
             },
             attached: function () {
@@ -309,10 +317,14 @@
                 window.open("images/SHAPE_Dashboard_User_Guide.pdf", '_blank');
             },
             helpToggle: function () {
+              this.$.dropdown.$.drawer.style.height = "104px"
               this.helpSet = true;
+              this.menuID = "helpOn";
             },
             helpOff: function () {
+              this.$.dropdown.$.drawer.style.height = "208px"
               this.helpSet = false;
+              this.menuID = "accountsOn";
             },
             logout: function(){
                 app.$.loginPage.logout();
