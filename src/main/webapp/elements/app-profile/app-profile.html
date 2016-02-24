@@ -298,8 +298,8 @@
         </div>
 
       <div class="center">
-        <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
-        <paper-button on-tap="cancelEdit" raised="2">Cancel</paper-button>
+        <paper-button hidden="{{canModifyData(role)}}" on-tap="editProfile" raised="2">{{profButton}}</paper-button>
+        <paper-button hidden="{{canModifyData(role)}}" on-tap="cancelEdit" raised="2">Cancel</paper-button>
       </div>
       </paper-material>
     </template>
@@ -447,7 +447,7 @@
                 </div>
               </div>
                 <div class="center">
-                  <paper-button on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
+                  <paper-button hidden="{{canModifyData(role)}}" on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
                 </div>
 
             </div>
@@ -465,6 +465,7 @@
             is: 'app-profile',
             properties: {
               organizationID: String,
+              role: String,
               //profile: Object,
               isDemographicData: Boolean,
               genderMale : {
@@ -719,6 +720,13 @@
            this.set('profile.patientPortalYes', this.profile.patientPortal);
            this.set('profile.patientPortalNo', !this.profile.patientPortal);
 
+          },
+          canModifyData : function (role) {
+            if (role == "DPH_USER") {
+                  return true;
+              } else {
+                  return false;
+              }
           },
           addNewStrat: function() {
               this.profbutton = "Add New Profile Data";
