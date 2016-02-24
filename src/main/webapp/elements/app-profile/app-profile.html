@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../elements.html">
+<link rel="import" href="../../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 
 <dom-module id="app-profile">
   <style>
@@ -130,6 +132,89 @@
         </div>
       </div>
       <template is="dom-if" if="{{isDemographicData}}">
+
+        <div>
+                <h1 class="center">Operational Information</h1>
+                <h3>Which best describes your organization?</h3>
+                <span>Please select 1:</span>
+                <div class="inputBlock">
+                  <paper-radio-group>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.primaryCarePractice}}" name="0">Primary Care Practice</paper-radio-button>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.fqhcLookALike}}" name="1">FQHC or FQHC look-a-like</paper-radio-button>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.comHealthCenter}}" name="2">Community Health Center</paper-radio-button>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.multiSpecPractice}}" name="3">Multi-Speciality Practice</paper-radio-button>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.pracConsortium}}" name="4">Practice Consortium</paper-radio-button>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.ambulatoryClinic}}" name="5">Ambulatory Clinic</paper-radio-button>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.hmo}}" name="6">HMO</paper-radio-button>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.aco}}" name="7">ACO</paper-radio-button>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.pcmh}}" name="8">PCMH</paper-radio-button>
+                    <paper-radio-button disabled="{{disabled}}" checked="{{profile.otherOrgDescrip}}" name="9">Other</paper-radio-button>
+                  </paper-radio-group>
+                </div>
+                <h3>Check all the applicable staff for your organization:</h3>
+                <span>Check all that apply</span>
+                <div class="inputBlock">
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.physicians}}">Physicians</paper-checkbox>
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.nursePrac}}">Nurse Practitioners</paper-checkbox>
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.rn}}">RNs</paper-checkbox>
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.lpn}}">LPNs</paper-checkbox>
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.pa}}">Physician Assistants</paper-checkbox>
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.medicalAssist}}">Medical Assistants</paper-checkbox>
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.residents}}">Residents</paper-checkbox>
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.interns}}">Interns</paper-checkbox>
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.communityHealthWorkers}}">Community Health Workers</paper-checkbox>
+                  <paper-checkbox disabled="{{disabled}}" checked="{{profile.trainedMotivationalInterview}}">Trained in motivational interviewing</paper-checkbox>
+                </div>
+                <h3>Payer Mix:</h3>
+                <div class="inputBlock">
+                  <div class="prefixedField">
+                    Medicare <paper-input disabled="{{disabled}}" value="{{profile.medicarePercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    Medicaid <paper-input disabled="{{disabled}}" value="{{profile.medicaidPercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    HMO <paper-input disabled="{{disabled}}" value="{{profile.hmoPercent}}"t></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    PPO <paper-input disabled="{{disabled}}" value="{{profile.ppoPercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    Uninsured/Self-Pay <paper-input disabled="{{disabled}}" value="{{profile.uninsuredSelfPercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    Private Insurance <paper-input disabled="{{disabled}}" value="{{profile.privatePercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                </div>
+                <h3>What EHR System does your organization use?</h3>
+                <div class="inputBlock">
+                  <div class="prefixedField">
+                    Vendor: <paper-input disabled="{{disabled}}" value="{{profile.vendor}}"></paper-input>
+                  </div>
+                  <div class="prefixedField">
+                    Product: <paper-input disabled="{{disabled}}" value="{{profile.product}}"></paper-input>
+                  </div>
+                  <div class="prefixedField">
+                    Version: <paper-input disabled="{{disabled}}" value="{{profile.versionEHR}}"></paper-input>
+                  </div>
+                  <div class="prefixedField">
+                    Completed 2014 CEHERT Upgrade?
+                    <paper-radio-group>
+                      <paper-radio-button disabled="{{disabled}}" checked="{{profile.completeCEHRTYes}}" name="0">Yes</paper-radio-button>
+                      <paper-radio-button disabled="{{disabled}}" checked="{{profile.completeCEHRTNo}}" name="1">No</paper-radio-button>
+                    </paper-radio-group>
+                  </div>
+                </div>
+                <div class="prefixedField">
+                    Do you have a patient portal?
+                    <paper-radio-group>
+                      <paper-radio-button disabled="{{disabled}}" checked="{{profile.patientPortalYes}}" name="0">Yes</paper-radio-button>
+                      <paper-radio-button disabled="{{disabled}}" checked="{{profile.patientPortalNo}}" name="1">No</paper-radio-button>
+                    </paper-radio-group>
+                  </div>
+                </div>
+              </div>
+
         <div class="lowerHalf">
           <h1 class="center">Patient Population</h1>
             <div class="firstColumn">
@@ -193,7 +278,89 @@
     </template>
     <template is="dom-if" if="{{!isDemographicData}}" restamp="true" id="newProfile">
 
-              <div class="lowerHalf">
+              <div>
+                <h1 class="center">Add Operational Information</h1>
+                <h3>Which best describes your organization?</h3>
+                <span>Please select 1:</span>
+                <div class="inputBlock">
+                  <paper-radio-group>
+                    <paper-radio-button checked="{{profile.primaryCarePractice}}" name="0">Primary Care Practice</paper-radio-button>
+                    <paper-radio-button checked="{{profile.fqhcLookALike}}" name="1">FQHC or FQHC look-a-like</paper-radio-button>
+                    <paper-radio-button checked="{{profile.comHealthCenter}}" name="2">Community Health Center</paper-radio-button>
+                    <paper-radio-button checked="{{profile.multiSpecPractice}}" name="3">Multi-Speciality Practice</paper-radio-button>
+                    <paper-radio-button checked="{{profile.pracConsortium}}" name="4">Practice Consortium</paper-radio-button>
+                    <paper-radio-button checked="{{profile.ambulatoryClinic}}" name="5">Ambulatory Clinic</paper-radio-button>
+                    <paper-radio-button checked="{{profile.hmo}}" name="6">HMO</paper-radio-button>
+                    <paper-radio-button checked="{{profile.aco}}" name="7">ACO</paper-radio-button>
+                    <paper-radio-button checked="{{profile.pcmh}}" name="8">PCMH</paper-radio-button>
+                    <paper-radio-button checked="{{profile.otherOrgDescrip}}" name="9">Other</paper-radio-button>
+                  </paper-radio-group>
+                </div>
+                <h3>Check all the applicable staff for your organization:</h3>
+                <span>Check all that apply</span>
+                <div class="inputBlock">
+                  <paper-checkbox checked="{{profile.physicians}}">Physicians</paper-checkbox>
+                  <paper-checkbox checked="{{profile.nursePrac}}">Nurse Practitioners</paper-checkbox>
+                  <paper-checkbox checked="{{profile.rn}}">RNs</paper-checkbox>
+                  <paper-checkbox checked="{{profile.lpn}}">LPNs</paper-checkbox>
+                  <paper-checkbox checked="{{profile.pa}}">Physician Assistants</paper-checkbox>
+                  <paper-checkbox checked="{{profile.medicalAssist}}">Medical Assistants</paper-checkbox>
+                  <paper-checkbox checked="{{profile.residents}}">Residents</paper-checkbox>
+                  <paper-checkbox checked="{{profile.interns}}">Interns</paper-checkbox>
+                  <paper-checkbox checked="{{profile.communityHealthWorkers}}">Community Health Workers</paper-checkbox>
+                  <paper-checkbox checked="{{profile.trainedMotivationalInterview}}">Trained in motivational interviewing</paper-checkbox>
+                </div>
+                <h3>Payer Mix:</h3>
+                <div class="inputBlock">
+                  <div class="prefixedField">
+                    Medicare <paper-input value="{{profile.medicarePercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    Medicaid <paper-input value="{{profile.medicaidPercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    HMO <paper-input value="{{profile.hmoPercent}}"t></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    PPO <paper-input value="{{profile.ppoPercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    Uninsured/Self-Pay <paper-input value="{{profile.uninsuredSelfPercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                  <div class="prefixedField">
+                    Private Insurance <paper-input value="{{profile.privatePercent}}"></paper-input><p class="smallFont">%</p>
+                  </div>
+                </div>
+                <h3>What EHR System does your organization use?</h3>
+                <div class="inputBlock">
+                  <div class="prefixedField">
+                    Vendor: <paper-input value="{{profile.vendor}}"></paper-input>
+                  </div>
+                  <div class="prefixedField">
+                    Product: <paper-input value="{{profile.product}}"></paper-input>
+                  </div>
+                  <div class="prefixedField">
+                    Version: <paper-input value="{{profile.versionEHR}}"></paper-input>
+                  </div>
+                  <div class="prefixedField">
+                    Completed 2014 CEHERT Upgrade?
+                    <paper-radio-group>
+                      <paper-radio-button checked="{{profile.completeCEHRTYes}}" name="0">Yes</paper-radio-button>
+                      <paper-radio-button checked="{{profile.completeCEHRTNo}}" name="1">No</paper-radio-button>
+                    </paper-radio-group>
+                  </div>
+                </div>
+                <div class="prefixedField">
+                    Do you have a patient portal?
+                    <paper-radio-group>
+                      <paper-radio-button checked="{{profile.patientPortalYes}}" name="0">Yes</paper-radio-button>
+                      <paper-radio-button checked="{{profile.patientPortalNo}}" name="1">No</paper-radio-button>
+                    </paper-radio-group>
+                  </div>
+                </div>
+              </div>
+
+              <div>
                 <h1 class="center">Add Patient Population Information</h1>
                   <div class="firstColumn">
                     <h3 class="center">Patient Volume</h3>
@@ -323,29 +490,59 @@
             setAjaxAddStrat: function() {
               this.$.addOrgStrat.body = JSON.stringify({
                 "id" : 0,
-                "genderMale" : this.gender[0].num,
-                "genderFemale" : this.gender[1].num,
-                "age1844" : this.age[1].num,
-                "age4564" : this.age[2].num,
-                "ageOver65" : this.age[3].num,
-                "ethnicityHispanicLatino" : this.ethnicity[0].num,
-                "ethnicityNotHispanicLatino" : this.ethnicity[1].num,
-                "raceAfricanAmerican" : this.race[0].num,
-                "raceAmericanIndian" : this.race[1].num,
-                "raceAsian" : this.race[2].num,
-                "raceNativeHawaiian" : this.race[3].num,
-                "raceWhite" : this.race[4].num,
-                "raceOther" : this.race[5].num,
-                "organizationId" : app.$.mainPage.$.dashboard.$.findUserOrganizations.value,
+                "genderMale" : parseFloat(this.gender[0].num),
+                "genderFemale" : parseFloat(this.gender[1].num),
+                "age1844" : parseFloat(this.age[0].num),
+                "age4564" : parseFloat(this.age[1].num),
+                "ageOver65" : parseFloat(this.age[2].num),
+                "ethnicityHispanicLatino" : parseFloat(this.ethnicity[0].num),
+                "ethnicityNotHispanicLatino" : parseFloat(this.ethnicity[1].num),
+                "raceAfricanAmerican" : parseFloat(this.race[0].num),
+                "raceAmericanIndian" : parseFloat(this.race[1].num),
+                "raceAsian" : parseFloat(this.race[2].num),
+                "raceNativeHawaiian" : parseFloat(this.race[3].num),
+                "raceWhite" : parseFloat(this.race[4].num),
+                "raceOther" : parseFloat(this.race[5].num),
+                "organizationId" : parseInt(app.$.mainPage.$.dashboard.$.findUserOrganizations.value),
                 "userId" : app.$.loginPage.$.userIdInput.value,
                 "rpDate" : "",
-                "totalPatients" : this.$$('#totalPatients').value,
-                "totalVisits" : this.$$('#totalVisits').value,
-                "patientsHypertension" : this.$$('#patientsHypertension').value,
-                "patientsDiabetes" : this.$$('#patientsDiabetes').value,
-                "patientsPreDiabetes" : this.$$('#patientsPreDiabetes').value,
-                "patientsHighBp" : this.$$('#patientsHighBp').value
-
+                "totalPatients" : parseFloat(this.$$('#totalPatients').value),
+                "totalVisits" : parseFloat(this.$$('#totalVisits').value),
+                "patientsHypertension" : parseFloat(this.$$('#patientsHypertension').value),
+                "patientsDiabetes" : parseFloat(this.$$('#patientsDiabetes').value),
+                "patientsPreDiabetes": parseFloat(this.$$('#patientsPreDiabetes').value),
+                "patientsHighBp" : parseFloat(this.$$('#patientsHighBp').value),
+                primaryCarePractice: !!this.profile.primaryCarePractice,
+                fqhcLookALike: !!this.profile.fqhcLookALike,
+                comHealthCenter: !!this.profile.comHealthCenter,
+                multiSpecPractice: !!this.profile.multiSpecPractice,
+                pracConsortium: !!this.profile.pracConsortium,
+                ambulatoryClinic: !!this.profile.ambulatoryClinic,
+                hmo: !!this.profile.hmo,
+                aco: !!this.profile.aco,
+                pcmh: !!this.profile.pcmh,
+                otherOrgDescrip: !!this.profile.otherOrgDescrip,
+                physicians: !!this.profile.physicians,
+                nursePrac: !!this.profile.nursePrac,
+                rn: !!this.profile.rn,
+                lpn: !!this.profile.lpn,
+                pa: !!this.profile.pa,
+                medicalAssist: !!this.profile.medicalAssist,
+                residents: !!this.profile.residents,
+                interns: !!this.profile.interns,
+                communityHealthWorkers: !!this.profile.communityHealthWorkers,
+                trainedMotivationalInterview: !!this.profile.trainedMotivationalInterview,
+                medicarePercent: parseFloat(this.profile.medicarePercent),
+                medicaidPercent: parseFloat(this.profile.medicaidPercent),
+                hmoPercent: parseFloat(this.profile.hmoPercent),
+                ppoPercent: parseFloat(this.profile.ppoPercent),
+                uninsuredSelfPercent: parseFloat(this.profile.uninsuredSelfPercent),
+                privatePercent: parseFloat(this.profile.privatePercent),
+                vendor: this.profile.vendor,
+                product: this.profile.product,
+                versionEHR: this.profile.versionEHR,
+                completeCEHRT: !!this.profile.completeCEHRTYes,
+                patientPortal: !!this.profile.patientPortalYes,
                });
               this.$.addOrgStrat.generateRequest();
               this.isDemographicData = 1;
@@ -355,9 +552,9 @@
                 "id" : this.profile.id,
                 "genderMale" : this.gender[0].num,
                 "genderFemale" : this.gender[1].num,
-                "age1844" : this.age[1].num,
-                "age4564" : this.age[2].num,
-                "ageOver65" : this.age[3].num,
+                "age1844" : this.age[0].num,
+                "age4564" : this.age[1].num,
+                "ageOver65" : this.age[2].num,
                 "ethnicityHispanicLatino" : this.ethnicity[0].num,
                 "ethnicityNotHispanicLatino" : this.ethnicity[1].num,
                 "raceAfricanAmerican" : this.race[0].num,
@@ -374,7 +571,38 @@
                 "patientsHypertension" : this.profile.patientsHypertension,
                 "patientsDiabetes" : this.profile.patientsDiabetes,
                 "patientsPreDiabetes" : this.profile.patientsPreDiabetes,
-                "patientsHighBp" : this.profile.patientsHighBp
+                "patientsHighBp" : this.profile.patientsHighBp,
+                primaryCarePractice: !!this.profile.primaryCarePractice,
+                fqhcLookALike: !!this.profile.fqhcLookALike,
+                comHealthCenter: !!this.profile.comHealthCenter,
+                multiSpecPractice: !!this.profile.multiSpecPractice,
+                pracConsortium: !!this.profile.pracConsortium,
+                ambulatoryClinic: !!this.profile.ambulatoryClinic,
+                hmo: !!this.profile.hmo,
+                aco: !!this.profile.aco,
+                pcmh: !!this.profile.pcmh,
+                otherOrgDescrip: !!this.profile.otherOrgDescrip,
+                physicians: !!this.profile.physicians,
+                nursePrac: !!this.profile.nursePrac,
+                rn: !!this.profile.rn,
+                lpn: !!this.profile.lpn,
+                pa: !!this.profile.pa,
+                medicalAssist: !!this.profile.medicalAssist,
+                residents: !!this.profile.residents,
+                interns: !!this.profile.interns,
+                communityHealthWorkers: !!this.profile.communityHealthWorkers,
+                trainedMotivationalInterview: !!this.profile.trainedMotivationalInterview,
+                medicarePercent: parseFloat(this.profile.medicarePercent),
+                medicaidPercent: parseFloat(this.profile.medicaidPercent),
+                hmoPercent: parseFloat(this.profile.hmoPercent),
+                ppoPercent: parseFloat(this.profile.ppoPercent),
+                uninsuredSelfPercent: parseFloat(this.profile.uninsuredSelfPercent),
+                privatePercent: parseFloat(this.profile.privatePercent),
+                vendor: this.profile.vendor,
+                product: this.profile.product,
+                versionEHR: this.profile.versionEHR,
+                completeCEHRT: !!this.profile.completeCEHRTYes,
+                patientPortal: !!this.profile.patientPortalYes,
                });
               this.$.postOrgStrat.generateRequest();
             },
@@ -384,6 +612,7 @@
 
              if(this.profile){
                this.isDemographicData = 1;
+               // this.isDemographicData = 0;
                this.populateProfile();
 
              }
@@ -392,7 +621,6 @@
                this.diasabled = false;
                this.setProfile();
              }
-
 
           },
           populateProfile: function() {
@@ -452,6 +680,10 @@
              num: this.profile.raceOther.toString()}
            ]);
 
+           this.set('profile.completeCEHRTYes', this.profile.completeCEHRT);
+           this.set('profile.completeCEHRTNo', !this.profile.completeCEHRT);
+           this.set('profile.patientPortalYes', this.profile.patientPortal);
+           this.set('profile.patientPortalNo', !this.profile.patientPortal);
 
           },
           addNewStrat: function() {
