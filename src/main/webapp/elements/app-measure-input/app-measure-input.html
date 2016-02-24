@@ -253,7 +253,7 @@
                 demIn.open();
             },
             deleteMeasure: function(e){
-              orgMeasureId = e.model.item.id;
+              orgMeasureId = e.model.item.orgMeasureId;
               this.deleteMeasureSetAjax(orgMeasureId);
             },
 
@@ -312,6 +312,7 @@
                   };
                   this.set('measures.'+measure+'.chartData', chartData);
                   this.set('measures.'+measure+'.chartOptions', chartOptions);
+                  this.set('measures.'+measure+'.orgMeasureId', currentMeasure.id);
                 }
                 var yearArray = [];
                 for (var measure in response) {
@@ -327,22 +328,25 @@
             },
 
             secondCallBack: function(request) {
-              var response = request.detail.response;
+              var response = request.detail.response; //get the detail information about measures
 
 
               // for each measure
-              for (var measure in this.measures) {
-                var currentMeasure = this.measures[measure];
+              for (var measure in this.measures) { //loop through all of the Organizational Measures
+                var currentMeasure = this.measures[measure]; // set the index of the array to a variable
 
                 // find appropriate object of additional data
-                var done = false;
-                for (var object = 0; object < response.length; object++) {
-                  var currentObject = response[object];
+                var done = false;// still not sure what this does.
+
+                for (var object = 0; object < response.length; object++) {  // loop through through response which is meta data for measures
+                if (response[object].id == currentMeasure.measureId){ //check if meta data is for the current index of this.measures array
+                  var currentObject = response[object]; // store meta data in variable
                     // and add that data to i
-                    for (var property in currentObject) {
-                      var polymerResource = 'measures.' + measure + '.' + property;
-                      this.set(polymerResource, currentObject[property]);
+                    for (var property in currentObject) { // loop through meta data
+                      var polymerResource = 'measures.' + measure + '.' + property; // set string to point to the correct position in the this.measures array
+                      this.set(polymerResource, currentObject[property]); // set the property in the this.measures array
                     }
+                  }
 
 
                 }
