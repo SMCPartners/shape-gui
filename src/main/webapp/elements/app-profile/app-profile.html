@@ -32,7 +32,7 @@
           top: 180px;
           right: 5%;
       }
-      .firstColumn {
+      /*.firstColumn {
         width: 40%;
         display: inline-block;
         margin-left: 15%;
@@ -42,7 +42,7 @@
       .demoColumn {
         width: 40%;
         display: inline-block;
-      }
+      }*/
 
       .columnHeader {
         margin-left: auto;
@@ -78,7 +78,26 @@
       .inputBlock {
         display: inline-block;
       }
-
+      .suffixedH3 h3 {
+        display: inline;
+      }
+      .justifiedItems paper-checkbox,
+      .justifiedItems paper-radio-button {
+        width: 230px;
+      }
+      .justifiedItems .prefixedField {
+        display: inline-block;
+      }
+      .fixedWidthSpan {
+        width: 148px;
+        display: inline-block;
+      }
+      .lowerHalf {
+        min-width: 38%;
+      }
+      .app-profile-wrapper {
+        margin-left: 15px;
+      }
 
   </style>
   <template>
@@ -133,11 +152,15 @@
       </div>
       <template is="dom-if" if="{{isDemographicData}}">
 
+        <div class='app-profile-wrapper layout horizontal'>
+
         <div>
                 <h1 class="center">Operational Information</h1>
-                <h3>Which best describes your organization?</h3>
-                <span>Please select 1:</span>
-                <div class="inputBlock">
+                <div class="suffixedH3">
+                  <h3>Which best describes your organization?</h3>
+                  <span>Please select 1:</span>
+                </div>
+                <div class="inputBlock justifiedItems">
                   <paper-radio-group>
                     <paper-radio-button disabled="{{disabled}}" checked="{{profile.primaryCarePractice}}" name="0">Primary Care Practice</paper-radio-button>
                     <paper-radio-button disabled="{{disabled}}" checked="{{profile.fqhcLookALike}}" name="1">FQHC or FQHC look-a-like</paper-radio-button>
@@ -151,9 +174,11 @@
                     <paper-radio-button disabled="{{disabled}}" checked="{{profile.otherOrgDescrip}}" name="9">Other</paper-radio-button>
                   </paper-radio-group>
                 </div>
-                <h3>Check all the applicable staff for your organization:</h3>
-                <span>Check all that apply</span>
-                <div class="inputBlock">
+                <div class="suffixedH3">
+                  <h3>Check all the applicable staff for your organization:</h3>
+                  <span>Check all that apply</span>
+                </div>
+                <div class="inputBlock justifiedItems">
                   <paper-checkbox disabled="{{disabled}}" checked="{{profile.physicians}}">Physicians</paper-checkbox>
                   <paper-checkbox disabled="{{disabled}}" checked="{{profile.nursePrac}}">Nurse Practitioners</paper-checkbox>
                   <paper-checkbox disabled="{{disabled}}" checked="{{profile.rn}}">RNs</paper-checkbox>
@@ -166,24 +191,24 @@
                   <paper-checkbox disabled="{{disabled}}" checked="{{profile.trainedMotivationalInterview}}">Trained in motivational interviewing</paper-checkbox>
                 </div>
                 <h3>Payer Mix:</h3>
-                <div class="inputBlock">
+                <div class="inputBlock justifiedItems">
                   <div class="prefixedField">
-                    Medicare <paper-input disabled="{{disabled}}" value="{{profile.medicarePercent}}"></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">Medicare </span><paper-input disabled="{{disabled}}" value="{{profile.medicarePercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    Medicaid <paper-input disabled="{{disabled}}" value="{{profile.medicaidPercent}}"></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">Medicaid </span><paper-input disabled="{{disabled}}" value="{{profile.medicaidPercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    HMO <paper-input disabled="{{disabled}}" value="{{profile.hmoPercent}}"t></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">HMO </span><paper-input disabled="{{disabled}}" value="{{profile.hmoPercent}}"t></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    PPO <paper-input disabled="{{disabled}}" value="{{profile.ppoPercent}}"></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">PPO </span><paper-input disabled="{{disabled}}" value="{{profile.ppoPercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    Uninsured/Self-Pay <paper-input disabled="{{disabled}}" value="{{profile.uninsuredSelfPercent}}"></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">Uninsured/Self-Pay </span><paper-input disabled="{{disabled}}" value="{{profile.uninsuredSelfPercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    Private Insurance <paper-input disabled="{{disabled}}" value="{{profile.privatePercent}}"></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">Private Insurance </span><paper-input disabled="{{disabled}}" value="{{profile.privatePercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                 </div>
                 <h3>What EHR System does your organization use?</h3>
@@ -213,7 +238,6 @@
                     </paper-radio-group>
                   </div>
                 </div>
-              </div>
 
         <div class="lowerHalf">
           <h1 class="center">Patient Population</h1>
@@ -270,6 +294,9 @@
 
             </div>
           </div>
+
+        </div>
+
       <div class="center">
         <paper-button on-tap="editProfile" raised="2">{{profButton}}</paper-button>
         <paper-button on-tap="cancelEdit" raised="2">Cancel</paper-button>
@@ -278,11 +305,15 @@
     </template>
     <template is="dom-if" if="{{!isDemographicData}}" restamp="true" id="newProfile">
 
+      <div class='app-profile-wrapper layout horizontal'>
+
               <div>
-                <h1 class="center">Add Operational Information</h1>
-                <h3>Which best describes your organization?</h3>
+                <div class="suffixedH3">
+                  <h1 class="center">Add Operational Information</h1>
+                  <h3>Which best describes your organization?</h3>
+                </div>
                 <span>Please select 1:</span>
-                <div class="inputBlock">
+                <div class="inputBlock justifiedItems">
                   <paper-radio-group>
                     <paper-radio-button checked="{{profile.primaryCarePractice}}" name="0">Primary Care Practice</paper-radio-button>
                     <paper-radio-button checked="{{profile.fqhcLookALike}}" name="1">FQHC or FQHC look-a-like</paper-radio-button>
@@ -296,9 +327,11 @@
                     <paper-radio-button checked="{{profile.otherOrgDescrip}}" name="9">Other</paper-radio-button>
                   </paper-radio-group>
                 </div>
-                <h3>Check all the applicable staff for your organization:</h3>
-                <span>Check all that apply</span>
-                <div class="inputBlock">
+                <div class="suffixedH3">
+                  <h3>Check all the applicable staff for your organization:</h3>
+                  <span>Check all that apply</span>
+                </div>
+                <div class="inputBlock justifiedItems">
                   <paper-checkbox checked="{{profile.physicians}}">Physicians</paper-checkbox>
                   <paper-checkbox checked="{{profile.nursePrac}}">Nurse Practitioners</paper-checkbox>
                   <paper-checkbox checked="{{profile.rn}}">RNs</paper-checkbox>
@@ -311,24 +344,24 @@
                   <paper-checkbox checked="{{profile.trainedMotivationalInterview}}">Trained in motivational interviewing</paper-checkbox>
                 </div>
                 <h3>Payer Mix:</h3>
-                <div class="inputBlock">
+                <div class="inputBlock justifiedItems">
                   <div class="prefixedField">
-                    Medicare <paper-input value="{{profile.medicarePercent}}"></paper-input><p class="smallFont">%</p>
+                     <span class="fixedWidthSpan">Medicare </span><paper-input value="{{profile.medicarePercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    Medicaid <paper-input value="{{profile.medicaidPercent}}"></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">Medicaid </span><paper-input value="{{profile.medicaidPercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    HMO <paper-input value="{{profile.hmoPercent}}"t></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">HMO </span><paper-input value="{{profile.hmoPercent}}"t></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    PPO <paper-input value="{{profile.ppoPercent}}"></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">PPO </span><paper-input value="{{profile.ppoPercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    Uninsured/Self-Pay <paper-input value="{{profile.uninsuredSelfPercent}}"></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">Uninsured/Self-Pay </span><paper-input value="{{profile.uninsuredSelfPercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                   <div class="prefixedField">
-                    Private Insurance <paper-input value="{{profile.privatePercent}}"></paper-input><p class="smallFont">%</p>
+                    <span class="fixedWidthSpan">Private Insurance </span><paper-input value="{{profile.privatePercent}}"></paper-input><p class="smallFont">%</p>
                   </div>
                 </div>
                 <h3>What EHR System does your organization use?</h3>
@@ -358,7 +391,6 @@
                     </paper-radio-group>
                   </div>
                 </div>
-              </div>
 
               <div>
                 <h1 class="center">Add Patient Population Information</h1>
@@ -413,10 +445,12 @@
 
                   </div>
                 </div>
+              </div>
                 <div class="center">
                   <paper-button on-tap="setAjaxAddStrat" raised="2">Add</paper-button>
                 </div>
 
+            </div>
 
       </paper-material>
 
