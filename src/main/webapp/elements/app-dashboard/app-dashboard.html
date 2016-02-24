@@ -239,10 +239,8 @@
                 this.organizationId = this.$.findUserOrganizations.value;
               }
 
-
-
               for (i =0; i < this.organizations.length; i++) {
-                if (this.organizations[i].id.toString() === this.organizationId) {
+                if (this.organizations[i].id.toString() == this.organizationId) {
                   this.$.profile.set('orgData', this.organizations[i]);
                 }
               }
