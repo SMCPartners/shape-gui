@@ -253,7 +253,7 @@
                 demIn.open();
             },
             deleteMeasure: function(e){
-              orgMeasureId = e.model.item.id;
+              orgMeasureId = e.model.item.orgMeasureId;
               this.deleteMeasureSetAjax(orgMeasureId);
             },
 
@@ -312,6 +312,7 @@
                   };
                   this.set('measures.'+measure+'.chartData', chartData);
                   this.set('measures.'+measure+'.chartOptions', chartOptions);
+                  this.set('measures.'+measure+'.orgMeasureId', currentMeasure.id);
                 }
                 var yearArray = [];
                 for (var measure in response) {
