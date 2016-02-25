@@ -53,25 +53,23 @@
 
         <h3>NQF measure&nbsp
           <span>{{item.nqfId}}</span>&nbspby Race:</h3>
-        <p>{{isRaceChart}}</p>
-        <div hidden$="{{!isNoRaceChart}}">
+        <div hidden$="{{!isChartComplete(item.raceData)}}">
           <google-chart options='{"vAxis": {"format":"percent", "viewWindow": {"min": 0, "max": 1} } }' cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"},{"role": "tooltip", "type": "string"}]' rows='{{item.raceData}}'>
           </google-chart>
         </div>
-        <div hidden$="{{isNoRaceChart}}">
+        <div hidden$="{{isChartComplete(item.raceData)}}">
           <p class="incompleteGraph">Data not available for chart.</p>
         </div>
 
 
-        <p>{{isAgeChart}}</p>
         <h3>NQF measure&nbsp
           <span>{{item.nqfId}}</span>&nbspby Age:</h3>
-        <div hidden$="{{!isNoAgeChart}}">
+        <div hidden$="{{!isChartComplete(item.ageData)}}">
 
           <google-chart options='{"vAxis": {"format":"percent", "viewWindow": {"min": 0, "max": 1} } }' cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"},{"role": "tooltip", "type": "string"}]' rows='{{item.ageData}}'>
           </google-chart>
         </div>
-        <div hidden$={{isNoAgeChart}}>
+        <div hidden$={{isChartComplete(item.ageData)}}>
           <p class="incompleteGraph">Data not available for chart.</p>
         </div>
 
@@ -79,11 +77,11 @@
 
         <h3>NQF measure&nbsp
           <span>{{item.nqfId}}</span>&nbspby Ethnicity:</h3>
-        <div hidden$="{{!isNoEthnicityChart}}">
+        <div hidden$="{{!isChartComplete(item.ethnicityData)}}">
           <google-chart options='{"vAxis": {"format":"percent", "viewWindow": {"min": 0, "max": 1} } }' cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"},{"role": "tooltip", "type": "string"}]' rows='{{item.ethnicityData}}'>
           </google-chart>
         </div>
-        <div hidden$="{{isNoEthnicityChart}}">
+        <div hidden$="{{isChartComplete(item.ethnicityData)}}">
           <p class="incompleteGraph">Data not available for chart.</p>
         </div>
 
@@ -91,13 +89,14 @@
 
         <h3>NQF measure&nbsp
           <span>{{item.nqfId}}</span>&nbspby Gender:</h3>
-        <div hidden$="{{!isNoGenderChart}}">
+        <div hidden$="{{!isChartComplete(item.genderData)}}">
           <google-chart options='{"vAxis": {"format":"percent", "viewWindow": {"min": 0, "max": 1} } }' cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"},{"role": "tooltip", "type": "string"}]' rows='{{item.genderData}}'>
           </google-chart>
+
+          <div hidden$="{{isChartComplete(item.genderData)}}">
+            <p class="incompleteGraph">Data not available for chart.</p>
+          </div>
     </template>
-    <div hidden$="{{isNoGenderChart}}">
-      <p class="incompleteGraph">Data not available for chart.</p>
-    </div>
     </paper-material>
 
 
@@ -130,26 +129,26 @@
       appHistDemograhicCallBack: function(evt) {
 
         this.set("orgMeasCharts", evt.detail.response);
-        if (this.isChartComplete(this.orgMeasCharts[0].ageData)) {
-          this.set('isNoAgeChart', true);
-        } else {
-          this.set('isNoAgeChart', false);
-        };
-        if (this.isChartComplete(this.orgMeasCharts[0].raceData)) {
-          this.set('isNoRaceChart', true);
-        } else {
-          this.set('isNoRaceChart', false);
-        };
-        if (this.isChartComplete(this.orgMeasCharts[0].genderData)) {
-          this.set('isNoGenderChart', true);
-        } else {
-          this.set('isNoGenderChart', false);
-        };
-        if (this.isChartComplete(this.orgMeasCharts[0].ethnicityData)) {
-          this.set('isNoEthnicityChart', true);
-        } else {
-          this.set('isNoEthnicityChart', false);
-        };
+        // if (this.isChartComplete(this.orgMeasCharts[0].ageData)) {
+        //   this.set('isNoAgeChart', true);
+        // } else {
+        //   this.set('isNoAgeChart', false);
+        // };
+        // if (this.isChartComplete(this.orgMeasCharts[0].raceData)) {
+        //   this.set('isNoRaceChart', true);
+        // } else {
+        //   this.set('isNoRaceChart', false);
+        // };
+        // if (this.isChartComplete(this.orgMeasCharts[0].genderData)) {
+        //   this.set('isNoGenderChart', true);
+        // } else {
+        //   this.set('isNoGenderChart', false);
+        // };
+        // if (this.isChartComplete(this.orgMeasCharts[0].ethnicityData)) {
+        //   this.set('isNoEthnicityChart', true);
+        // } else {
+        //   this.set('isNoEthnicityChart', false);
+        // };
         var historyDemographics = evt.detail.response;
         var demographicCharts = [
           'ageData',
