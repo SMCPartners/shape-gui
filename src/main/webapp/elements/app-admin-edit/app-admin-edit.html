@@ -180,14 +180,14 @@
                         <option value="REGISTERED">Registered</option>
                     </select>
                 </div>
-                <div class="marginClass">
+                <!--div class="marginClass">
                   <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Organization :</b></h></label>
                   <select class="alignRight" id="userOrgSelect" style="font: inherit">
                     <template is="dom-repeat" items="{{organizations}}">
                       <option style="font: inherit margin-right:0.9em;">{{item.name}}</option>
                     </template>
                   </select>
-                </div>
+                </div-->
             </div>
             <div align="center" class="saveCloseButtons">
                 <paper-button class="saveCloseButtons1" on-tap="ajaxEditUser" elevation="5"><b>Save</b></paper-button>
@@ -333,7 +333,7 @@
               }
               this.username = data.id;
               this.$.findUserRole.value = data.role;
-              this.$.userOrgSelect.value = data.organizationName;
+              // this.$.userOrgSelect.value = data.organizationName;
               this.$.editUser.open();
             },
 
