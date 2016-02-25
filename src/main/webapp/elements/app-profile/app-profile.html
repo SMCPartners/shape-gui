@@ -52,6 +52,9 @@
         display: inline-block;
         margin-right: 10px;
       }
+      .orginfo p {
+        display: block;
+      }
       .orginfo {
         margin-left: auto;
         margin-right: auto;
@@ -75,10 +78,10 @@
       .center {
         text-align: center;
       }
-      .smallFont {
+      /*.smallFont {
         font-size: .75em;
         margin-right: 25px;
-      }
+      }*/
       .inputBlock {
         display: inline-block;
       }
@@ -148,7 +151,7 @@
           <div class="address">
           <h3>Address:</h3>
           <p>{{orgData.addressStreet}}<p>
-            <p><span>{{orgData.addressCity}}</span>&nbsp<span>{{orgData.addressState}}</span>&nbsp<span>{{orgData.addressZip}}</span><p>
+            <p><span>{{orgData.addressCity}}</span>&nbsp;<span>{{orgData.addressState}}</span>&nbsp;<span>{{orgData.addressZip}}</span><p>
               <p>{{orgData.primaryContactPhone}}<p>
         </div>
         <div class="primaryContact">
