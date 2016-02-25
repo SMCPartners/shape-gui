@@ -61,12 +61,16 @@
         width: 35%;
         display: inline-block;
         margin-left: 15%;
-
-
+      }
+      .address * {
+        margin: 0;
       }
       .primaryContact{
         width: 35%;
         display: inline-block;
+      }
+      div.primaryContact * {
+        margin: 0;
       }
       .center {
         text-align: center;
@@ -78,12 +82,16 @@
       .inputBlock {
         display: inline-block;
       }
+      .suffixedH3 {
+        margin: 18px 0;
+      }
       .suffixedH3 h3 {
         display: inline;
       }
       .justifiedItems paper-checkbox,
       .justifiedItems paper-radio-button {
-        width: 230px;
+        width: 270px;
+        padding: 0;
       }
       .justifiedItems .prefixedField {
         display: inline-block;
@@ -93,10 +101,11 @@
         display: inline-block;
       }
       .lowerHalf {
-        min-width: 38%;
+        min-width: 45%;
+        margin-left: 70px;
       }
       .app-profile-wrapper {
-        margin-left: 15px;
+        margin-left: 50px;
       }
 
   </style>
@@ -135,18 +144,18 @@
       <div hidden="{{noOrgSel}}">
         <paper-material elevation="3">
         <h1 class="center">{{orgData.name}}</h1>
-        <div class="orginfo">
+        <div class="orginfo layout horizontal">
           <div class="address">
-          <h3 class="center">Address:<h3>
-          <h3 class="center">{{orgData.addressStreet}}<h3>
-            <h3 class="center"><span>{{orgData.addressCity}}</span>&nbsp<span>{{orgData.addressState}}</span>&nbsp<span>{{orgData.addressZip}}</span><h3>
-              <h3 class="center">{{orgData.primaryContactPhone}}<h3>
+          <h3>Address:</h3>
+          <p>{{orgData.addressStreet}}<p>
+            <p><span>{{orgData.addressCity}}</span>&nbsp<span>{{orgData.addressState}}</span>&nbsp<span>{{orgData.addressZip}}</span><p>
+              <p>{{orgData.primaryContactPhone}}<p>
         </div>
         <div class="primaryContact">
-          <h3 class="center">Primary Contact</h3>
-          <h3 class="center">{{orgData.primaryContactName}}</h3>
-          <h3 class="center">{{orgData.primaryContactRole}}</h3>
-          <h3 class="center">{{orgData.primaryContactEmail}}</h3>
+          <h3>Primary Contact:</h3>
+          <p>{{orgData.primaryContactName}}</p>
+          <p>{{orgData.primaryContactRole}}</p>
+          <p>{{orgData.primaryContactEmail}}</p>
 
         </div>
       </div>
@@ -155,7 +164,7 @@
         <div class='app-profile-wrapper layout horizontal'>
 
         <div>
-                <h1 class="center">Operational Information</h1>
+                <h1>Operational Information</h1>
                 <div class="suffixedH3">
                   <h3>Which best describes your organization?</h3>
                   <span>Please select 1:</span>
@@ -223,7 +232,7 @@
                     Version: <paper-input disabled="{{disabled}}" value="{{profile.versionEHR}}"></paper-input>
                   </div>
                   <div class="prefixedField">
-                    Completed 2014 CEHERT Upgrade?
+                    Completed 2014 CEHRT Upgrade?
                     <paper-radio-group>
                       <paper-radio-button disabled="{{disabled}}" checked="{{profile.completeCEHRTYes}}" name="0">Yes</paper-radio-button>
                       <paper-radio-button disabled="{{disabled}}" checked="{{profile.completeCEHRTNo}}" name="1">No</paper-radio-button>
@@ -240,16 +249,16 @@
                 </div>
 
         <div class="lowerHalf">
-          <h1 class="center">Patient Population</h1>
+          <h1>Patient Population</h1>
             <div class="firstColumn">
-              <h3 class="center">Patient Volume</h3>
+              <h3>Patient Volume</h3>
               <div class="inputBlock">
                 <paper-input value="{{profile.totalPatients}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients</p>
               </div>
               <div class="inputBlock">
                 <paper-input value="{{profile.totalVisits}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Visits per Year</p>
               </div>
-              <h3 class="center">Patient Counts</h3>
+              <h3>Patient Counts</h3>
               <div class="inputBlock">
                 <paper-input value="{{profile.patientsHypertension}}" disabled="{{disabled}}"></paper-input><p class="smallFont">Patients with a Diagnosis of Hypertension</p>
               </div>
@@ -308,11 +317,11 @@
       <div class='app-profile-wrapper layout horizontal'>
 
               <div>
+                <h1>Add Operational Information</h1>
                 <div class="suffixedH3">
-                  <h1 class="center">Add Operational Information</h1>
                   <h3>Which best describes your organization?</h3>
-                </div>
-                <span>Please select 1:</span>
+                  <span>Please select 1:</span>
+              </div>
                 <div class="inputBlock justifiedItems">
                   <paper-radio-group>
                     <paper-radio-button checked="{{profile.primaryCarePractice}}" name="0">Primary Care Practice</paper-radio-button>
@@ -376,7 +385,7 @@
                     Version: <paper-input value="{{profile.versionEHR}}"></paper-input>
                   </div>
                   <div class="prefixedField">
-                    Completed 2014 CEHERT Upgrade?
+                    Completed 2014 CEHRT Upgrade?
                     <paper-radio-group>
                       <paper-radio-button checked="{{profile.completeCEHRTYes}}" name="0">Yes</paper-radio-button>
                       <paper-radio-button checked="{{profile.completeCEHRTNo}}" name="1">No</paper-radio-button>
@@ -392,17 +401,17 @@
                   </div>
                 </div>
 
-              <div>
-                <h1 class="center">Add Patient Population Information</h1>
+              <div class="lowerHalf">
+                <h1>Add Patient Population Information</h1>
                   <div class="firstColumn">
-                    <h3 class="center">Patient Volume</h3>
+                    <h3>Patient Volume</h3>
                     <div class="inputBlock">
                       <paper-input id='totalPatients'></paper-input><p class="smallFont">Patients</p>
                     </div>
                     <div class="inputBlock">
                       <paper-input id="totalVisits"></paper-input><p class="smallFont">Visits per Year</p>
                     </div>
-                    <h3 class="center">Patient Counts</h3>
+                    <h3>Patient Counts</h3>
                     <div class="inputBlock">
                       <paper-input id="patientsHypertension"></paper-input><p class="smallFont">Patients with a Diagnosis of Hypertension</p>
                     </div>
@@ -527,9 +536,10 @@
                 "id" : 0,
                 "genderMale" : parseFloat(this.gender[0].num),
                 "genderFemale" : parseFloat(this.gender[1].num),
-                "age1844" : parseFloat(this.age[0].num),
-                "age4564" : parseFloat(this.age[1].num),
-                "ageOver65" : parseFloat(this.age[2].num),
+                "age17under" : parseFloat(this.age[0].num),
+                "age1844" : parseFloat(this.age[1].num),
+                "age4564" : parseFloat(this.age[2].num),
+                "ageOver65" : parseFloat(this.age[3].num),
                 "ethnicityHispanicLatino" : parseFloat(this.ethnicity[0].num),
                 "ethnicityNotHispanicLatino" : parseFloat(this.ethnicity[1].num),
                 "raceAfricanAmerican" : parseFloat(this.race[0].num),
@@ -587,9 +597,10 @@
                 "id" : this.profile.id,
                 "genderMale" : this.gender[0].num,
                 "genderFemale" : this.gender[1].num,
-                "age1844" : this.age[0].num,
-                "age4564" : this.age[1].num,
-                "ageOver65" : this.age[2].num,
+                "age17under" : parseFloat(this.age[0].num),
+                "age1844" : parseFloat(this.age[1].num),
+                "age4564" : parseFloat(this.age[2].num),
+                "ageOver65" : parseFloat(this.age[3].num),
                 "ethnicityHispanicLatino" : this.ethnicity[0].num,
                 "ethnicityNotHispanicLatino" : this.ethnicity[1].num,
                 "raceAfricanAmerican" : this.race[0].num,
@@ -676,6 +687,9 @@
             ]);
             this.set('age',
             [{
+               strat: '17 & Under',
+               num: this.profile.age17under.toString()},
+            {
                strat: '18-44 Years',
                num: this.profile.age1844.toString()},
             {
@@ -716,9 +730,11 @@
            ]);
 
            this.set('profile.completeCEHRTYes', this.profile.completeCEHRT);
-           this.set('profile.completeCEHRTNo', !this.profile.completeCEHRT);
+           if (typeof this.profile.completeCEHRT != 'undefined')
+             this.set('profile.completeCEHRTNo', !this.profile.completeCEHRT);
            this.set('profile.patientPortalYes', this.profile.patientPortal);
-           this.set('profile.patientPortalNo', !this.profile.patientPortal);
+           if (typeof this.profile.patientPortal != 'undefined')
+             this.set('profile.patientPortalNo', !this.profile.patientPortal);
 
           },
           canModifyData : function (role) {
@@ -735,6 +751,7 @@
             this.profile = {
               genderMale: "",
               genderFemale: "",
+              age17under: "",
               age1844: "",
               age4564: "",
               ageOver65: "",
