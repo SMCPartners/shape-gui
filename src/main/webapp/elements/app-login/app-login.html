@@ -186,6 +186,7 @@
 
             callBackfindUsers: function(request) {
               callBackUser=request.detail.response;
+              document.querySelector('app-admin-add').set("role", callBackUser.role);
               document.querySelector('app-admin-panel').set("role", callBackUser.role);
               document.querySelector('app-admin-panel-user').set("organizationId", callBackUser.organizationId);
               document.querySelector('app-admin-panel-user').set("role", callBackUser.role);
