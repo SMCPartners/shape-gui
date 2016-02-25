@@ -245,7 +245,7 @@
                 appDemographicInput.measureName=nMeasure;
                 targetMeasure=e.currentTarget;
                 this.inputMeasureID=e.currentTarget.measure.measureId;
-                this.dbid=e.currentTarget.measure.id;
+                this.dbid=e.currentTarget.measure.orgMeasureId;
                 this.orgMeasure=e.currentTarget.measure;
                 this.reportPeriodYear=e.currentTarget.measure.reportPeriodYear;
                 document.querySelector('app-demographic-input').ajaxFindUsers();
