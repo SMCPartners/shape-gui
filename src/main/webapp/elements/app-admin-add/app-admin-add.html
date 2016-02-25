@@ -141,8 +141,8 @@
           </label>
           <select class="alignRight" id="findUserRole" style="font: inherit; margin-left:0.5em;">
             <option value="REGISTERED">Registered</option>
-            <option hidden="{{!isAdmin()}}" value="ADMIN">Admin</option>
-            <option hidden="{{!isAdmin()}}"value="DPH_USER">DPH User</option>
+            <option hidden="{{isOrgAdmin(role)}}" value="ADMIN">Admin</option>
+            <option hidden="{{isOrgAdmin(role)}}" value="DPH_USER">DPH User</option>
             <option value="ORG_ADMIN">Organization Admin</option>
           </select>
         </div>
@@ -306,8 +306,8 @@
           this.$.addUser.open();
         };
       },
-      isAdmin: function(){
-        if (this.role =="ADMIN"){
+      isOrgAdmin: function(role){
+        if (role =="ORG_ADMIN"){
           return true;
         }else{
           return false;
