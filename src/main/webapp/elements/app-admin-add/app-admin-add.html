@@ -139,11 +139,11 @@
           <label style="font: inherit">
             <h><b>Select Role :</b></h>
           </label>
-          <select class="alignRight" id=findUserRole style="font: inherit; margin-left:0.5em;">
-            <option value="ADMIN">Admin</option>
-            <option value="DPH_USER">DPH User</option>
-            <option value="ORG_ADMIN">Organization Admin</option>
+          <select class="alignRight" id="findUserRole" style="font: inherit; margin-left:0.5em;">
             <option value="REGISTERED">Registered</option>
+            <option hidden="{{!isAdmin()}}" value="ADMIN">Admin</option>
+            <option hidden="{{!isAdmin()}}"value="DPH_USER">DPH User</option>
+            <option value="ORG_ADMIN">Organization Admin</option>
           </select>
         </div>
         <div class="flex-child">
@@ -211,7 +211,8 @@
         primaryContactName: String,
         primaryContactRole: String,
         primaryContactEmail: String,
-        primaryContactPhone: String
+        primaryContactPhone: String,
+        role: String
 
       },
       ready: function() {
@@ -305,7 +306,13 @@
           this.$.addUser.open();
         };
       },
-
+      isAdmin: function(){
+        if (this.role =="ADMIN"){
+          return true;
+        }else{
+          return false;
+        }
+      },
       logProvider: function(e) {
         var selectChoice = this.$.providerOrgSelect.value;
         for (var org in this.organizations) {
