@@ -222,10 +222,10 @@
                 infoMod.open();
             },
 
-            setajax: function() {
-              listViewOrg=document.querySelector('app-dashboard').$.findUserOrganizations.value;
-              listViewMeasure=document.querySelector('app-history').$.selectMeasure.value;
-              listViewYear=document.querySelector('app-history').$.selectYear.value;
+            setajax: function(orgId, measure, year) {
+              listViewOrg=orgId;
+              listViewMeasure=measure;
+              listViewYear=year;
               this.$.findListView.resource= "/common/show/listView/" + listViewOrg + '/' + listViewMeasure + '/' + listViewYear;
               this.$.findListView.callBack = this.callBack;
               this.$.findListView.generateRequest();
