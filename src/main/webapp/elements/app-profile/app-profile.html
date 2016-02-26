@@ -15,6 +15,9 @@
           font-weight: 600;
         }
       }
+      .longInput {
+        width: 225px;
+      }
 
       h1 {
         padding-top: 25px;
@@ -232,13 +235,13 @@
                 <h3>What EHR System does your organization use?</h3>
                 <div class="inputBlock">
                   <div class="prefixedField">
-                    Vendor: <paper-input disabled="{{disabled}}" value="{{profile.vendor}}"></paper-input>
+                    Vendor: <paper-input class="longInput" disabled="{{disabled}}" value="{{profile.vendor}}"></paper-input>
                   </div>
                   <div class="prefixedField">
-                    Product: <paper-input disabled="{{disabled}}" value="{{profile.product}}"></paper-input>
+                    Product: <paper-input class="longInput" disabled="{{disabled}}" value="{{profile.product}}"></paper-input>
                   </div>
                   <div class="prefixedField">
-                    Version: <paper-input disabled="{{disabled}}" value="{{profile.versionEHR}}"></paper-input>
+                    Version: <paper-input class="longInput" disabled="{{disabled}}" value="{{profile.versionEHR}}"></paper-input>
                   </div>
                   <div class="prefixedField">
                     Completed 2014 CEHRT Upgrade?
@@ -385,13 +388,13 @@
                 <h3>What EHR System does your organization use?</h3>
                 <div class="inputBlock">
                   <div class="prefixedField">
-                    Vendor: <paper-input value="{{profile.vendor}}"></paper-input>
+                    Vendor: <paper-input class="longInput" value="{{profile.vendor}}"></paper-input>
                   </div>
                   <div class="prefixedField">
-                    Product: <paper-input value="{{profile.product}}"></paper-input>
+                    Product: <paper-input class="longInput" value="{{profile.product}}"></paper-input>
                   </div>
                   <div class="prefixedField">
-                    Version: <paper-input value="{{profile.versionEHR}}"></paper-input>
+                    Version: <paper-input class="longInput" value="{{profile.versionEHR}}"></paper-input>
                   </div>
                   <div class="prefixedField">
                     Completed 2014 CEHRT Upgrade?
