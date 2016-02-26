@@ -268,8 +268,6 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
                 this.$$('#maleDen').value = "",
                 this.$$('#femaleNum').value = "",
                 this.$$('#femaleDen').value = "",
-                this.$$('#underSeventeenNum').value = "",
-                this.$$('#underSeventeenDen').value = "",
                 this.$$('#eighteenNum').value = "",
                 this.$$('#eighteenDen').value = "",
                 this.$$('#fortyFiveNum').value = "",
@@ -300,6 +298,7 @@ git <link rel="import" href="../../bower_components/polymer/polymer.html">
 
             callBackAppDemographic: function () {
               document.querySelector('app-measure-input').setAjaxMeasure();
+              document.querySelector('app-dashboard').loadOrgData();
             },
 
             submitForm: function(request) {
