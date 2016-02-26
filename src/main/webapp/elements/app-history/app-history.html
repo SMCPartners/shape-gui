@@ -137,6 +137,7 @@
                     <paper-tab>Measure Demographics</paper-tab>
                 </paper-tabs>
                 -->
+                <div hidden$="{{nothingshowing}}"><!-- FIX ME -->
                 <div hidden$="{{!isDataForMeasure}}">
                   <iron-pages selected="{{selectedView}}">
                       <app-history-list-view id = "histolist"></app-history-list-view>
@@ -146,6 +147,7 @@
                 </div>
                 <div hidden$="{{isDataForMeasure}}">
                 <h2 style="text-align:center;margin-top:2.5%">There is no data for this measure.</h2>
+                </div>
                 </div>
               </div>
             </div>
@@ -201,6 +203,10 @@
                 };*/
 
             },
+            setMeasureDefault: function(){
+                this.nothingshowing = true;
+                this.$.selectMeasure.value = "label"
+            },
 
             setajaxMeasures: function () {
               this.$.findMeasures.resource = "/common/measure/findAll";
@@ -220,8 +226,9 @@
 
             },
             callBackYears: function(evt){
+              console.log(evt.detail.response);
               this.$.selectYear.disabled = false;
-              this.years = evt.detail.response;// get all years for given measure for organization
+              this.set('years', evt.detail.response);// get all years for given measure for organization
               (!this.years.length) ? this.isDataForMeasure = false : this.isDataForMeasure = true; // if there are no years with data, there is no data for that measure
               this.loadMeasureData();
             },
@@ -246,7 +253,7 @@
                 this.$.histographic.setAjax(orgId, measure, year);
                 this.$.histoaggregate.setAjax(orgId, measure, year);
                 this.$.histolist.setajax(orgId, measure, year);
-              }else{
+                this.nothingshowing = false ; // this was a work around for the years array not updating for the drop down. see related fix me above
 
               }
             },
