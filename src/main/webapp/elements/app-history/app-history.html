@@ -70,7 +70,7 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"><b>Measure:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select id="selectMeasure" name="measure" style="font: inherit" on-change="loadMeasureData">
+                        <select id="selectMeasure" name="measure" style="font: inherit" on-change="setAjaxYears">
                           <option value = "label">Select Measure</option>
                             <template is="dom-repeat" restamp="true" selectedMeasures={{item}} items="{{measures}}">
                               <template is="dom-if" if="{{item.selected}}">
@@ -99,7 +99,7 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"> <b>Year:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select id="selectYear" style="font: inherit" on-change="loadMeasureData">
+                        <select id="selectYear" style="font: inherit" on-change="loadMeasureData" disabled>
                             <template is="dom-repeat" items="{{years}}">
                                 <option style="font: inherit" value="{{item}}">
                                     <span>{{item}}</span>
@@ -137,11 +137,17 @@
                     <paper-tab>Measure Demographics</paper-tab>
                 </paper-tabs>
                 -->
-                <iron-pages selected="{{selectedView}}">
-                    <app-history-list-view id = "histolist"></app-history-list-view>
-                    <app-history-aggregate id="histoaggregate"></app-history-aggregate>
-                    <app-history-demographics id="histographic"></app-history-demographics>
-                </iron-pages>
+                <div hidden$="{{!isDataForMeasure}}">
+                  <iron-pages selected="{{selectedView}}">
+                      <app-history-list-view id = "histolist"></app-history-list-view>
+                      <app-history-aggregate id="histoaggregate"></app-history-aggregate>
+                      <app-history-demographics id="histographic"></app-history-demographics>
+                  </iron-pages>
+                </div>
+                <div hidden$="{{isDataForMeasure}}">
+                <h2 style="text-align:center;margin-top:2.5%">There is no data for this measure.</h2>
+                </div>
+              </div>
             </div>
         </div>
         <shape-iron-ajax-helper
@@ -150,6 +156,14 @@
           method="GET"
           handle-as="json"
           on-response="callBackMeasures"
+          debounce-duration="300">
+        </shape-iron-ajax-helper>
+        <shape-iron-ajax-helper
+          id="findYears"
+          resource="/common/get/measure_years/1/1"
+          method="GET"
+          handle-as="json"
+          on-response="callBackYears"
           debounce-duration="300">
         </shape-iron-ajax-helper>
     </template>
@@ -166,6 +180,9 @@
                 },
               selectMeasure : {
                 Array
+              },
+              isDataForMeasure: {
+                value: true
               }
                 /*stratify: {
                     gender1: "Male",
@@ -190,6 +207,24 @@
               this.$.findMeasures.callBack=this.callBackMeasures;
               this.$.findMeasures.generateRequest();
             },
+            setAjaxYears: function(){ // make call to get years, for the measure selected and teh organization selected
+              this.$.selectMeasure.value !=="label" ? this.isMeasureSelected = true : this.isMeasureSelected = false;
+              if (this.isMeasureSelected){
+                this.$.selectYear.disabled=true;
+                orgId = document.querySelector('app-dashboard').organizationId
+                measureId = this.$.selectMeasure.value;
+                this.$.findYears.resource = "/common/get/measure_years/"+orgId+"/"+measureId;// set call for given organzaiton and for given measure
+                this.$.findYears.callBack=this.callBackYears;
+                this.$.findYears.generateRequest()
+              }
+
+            },
+            callBackYears: function(evt){
+              this.$.selectYear.disabled = false;
+              this.years = evt.detail.response;// get all years for given measure for organization
+              (!this.years.length) ? this.isDataForMeasure = false : this.isDataForMeasure = true; // if there are no years with data, there is no data for that measure
+              this.loadMeasureData();
+            },
 
             callBackMeasures: function(request) {
               this.measures=request.detail.response;
@@ -202,16 +237,17 @@
 
             },
             loadMeasureData: function() {
-              this.$.selectMeasure.value !=="label" ? this.isMeasureSelected = true : this.isMeasureSelected = false;
-              this.$.selectYear.value !=="label" ? this.isYearSelected = true : this.isYearSelected = false;
-
-              if (app.$.mainPage.$.dashboard.isOrgSelected && this.isYearSelected && this.isMeasureSelected ){
-                year=this.$.selectYear.value;
+              // this.setAjaxYears()
+              this.$.selectYear.value !="" ? this.isYearSelected = true : this.isYearSelected = false;
+              if (app.$.mainPage.$.dashboard.isOrgSelected && this.years.length && this.isMeasureSelected ){
+                year = (this.$.selectYear.value) ? this.$.selectYear.value : this.years[0]
                 measure = this.$.selectMeasure.value;
                 orgId = app.$.mainPage.$.dashboard.$.findUserOrganizations.value
                 this.$.histographic.setAjax(orgId, measure, year);
                 this.$.histoaggregate.setAjax(orgId, measure, year);
-                this.$.histolist.setajax();
+                this.$.histolist.setajax(orgId, measure, year);
+              }else{
+
               }
             },
 
