@@ -247,9 +247,18 @@
               // this.setAjaxYears()
               this.$.selectYear.value !="" ? this.isYearSelected = true : this.isYearSelected = false;
               if (app.$.mainPage.$.dashboard.isOrgSelected && this.years.length && this.isMeasureSelected ){
-                year = (this.$.selectYear.value) ? this.$.selectYear.value : this.years[0]
+                  for(i = 0; i < this.years.length; i++) {    //This
+                    if (this.$.selectYear.value = this.years[i]) {
+                      year = this.$.selectYear.value;
+                      break;
+                    } else {
+                      year = this.years[0];
+                    }
+                  }
+
+                //year = (this.$.selectYear.value) ? this.$.selectYear.value : this.years[0];
                 measure = this.$.selectMeasure.value;
-                orgId = app.$.mainPage.$.dashboard.$.findUserOrganizations.value
+                orgId = app.$.mainPage.$.dashboard.$.findUserOrganizations.value;
                 this.$.histographic.setAjax(orgId, measure, year);
                 this.$.histoaggregate.setAjax(orgId, measure, year);
                 this.$.histolist.setajax(orgId, measure, year);
