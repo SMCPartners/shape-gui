@@ -170,8 +170,8 @@
         this.set("orgMeasCharts", historyDemographics);
 
       },
-      setAjax: function(orgId, measureId, year) {
-        this.$.showAppHistoryDemographics.resource = "/common/show/appHistDemographic/" + orgId + "/" + measureId + "/" + year;
+      setAjax: function(orgId, measureId) {
+        this.$.showAppHistoryDemographics.resource = "/common/show/appHistDemographic/" + orgId + "/" + measureId + "/" + app.$.mainPage.$.dashboard.$.history.selYear;
         this.$.showAppHistoryDemographics.generateRequest();
       },
       isChartComplete: function(array) {
