@@ -321,7 +321,6 @@
                   }
 
                 }
-                document.querySelector('app-history').set('years', yearArray);
               } else {
                 this.isMeasureData=0;
               }
@@ -354,11 +353,11 @@
             },
 
             setAjaxMeasure: function() {
-              if(app.$.mainPage.$.dashboard.isOrgSelected){
+              // if(app.$.mainPage.$.dashboard.isOrgSelected){
                 this.$.findMeasureInput.resource = '/common/organization_measure/findAllByOrg/' + this.organizationid;
                 this.$.findMeasureInput.callBack = this.callBack;
                 this.$.findMeasureInput.generateRequest();
-              }
+              // }
             },
 
             setAppHistoryGraph: function() {

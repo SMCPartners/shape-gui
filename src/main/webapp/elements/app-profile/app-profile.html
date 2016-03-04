@@ -35,18 +35,6 @@
           top: 180px;
           right: 5%;
       }
-      /*.firstColumn {
-        width: 40%;
-        display: inline-block;
-        margin-left: 15%;
-        vertical-align: top;
-
-      }
-      .demoColumn {
-        width: 40%;
-        display: inline-block;
-      }*/
-
       .columnHeader {
         margin-left: auto;
         margin-right: auto;
@@ -147,11 +135,11 @@
           debounce-duration="300"
           on-response="setajax">
       </shape-iron-ajax-helper>
-      <div hidden="{{!noOrgSel}}">
+      <!-- <div hidden="{{!noOrgSel}}">
         <br>
         <br>
         <h1 class=" center">Please Select an Organization</h1>
-      </div>
+      </div> -->
 
       <div hidden="{{noOrgSel}}">
         <paper-material elevation="3">
@@ -504,7 +492,7 @@
                 this.profButton = 'Edit'
                 this.disabled = true;
                 this.setProfile();
-                this.noOrgSel = true;
+                // this.noOrgSel = true;
             },
 
             editProfile: function(e) {
@@ -530,18 +518,17 @@
                   this.setajax();
             },
             setajax: function() {
-              if (app.$.mainPage.$.dashboard.$.findUserOrganizations.value === "Select Organization"){
-                this.noOrgSel = true;
-                return 0;
-              }
-              else{
-                if (app.$.mainPage.$.dashboard.isOrgSelected){
+              // if (app.$.mainPage.$.dashboard.$.findUserOrganizations.value === "Select Organization"){
+              //   this.noOrgSel = true;
+              //   return 0;
+              // }
+              // else{
+                // if (app.$.mainPage.$.dashboard.isOrgSelected){
                 this.$.findStratByOrg.callBack = this.callBack
                 this.$.findStratByOrg.resource = "/common/organization_stratification/findAllByOrg/"+ this.organizationid;
                 this.$.findStratByOrg.generateRequest();
-              }
-            }
-
+              // }
+            // }
             },
             setAjaxAddStrat: function() {
               this.$.addOrgStrat.body = JSON.stringify({

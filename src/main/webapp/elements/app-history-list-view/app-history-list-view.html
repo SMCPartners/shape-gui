@@ -225,7 +225,7 @@
             setajax: function(orgId, measure, year) {
               listViewOrg=orgId;
               listViewMeasure=measure;
-              listViewYear=year;
+              listViewYear= app.$.mainPage.$.dashboard.$.history.selYear;
               this.$.findListView.resource= "/common/show/listView/" + listViewOrg + '/' + listViewMeasure + '/' + listViewYear;
               this.$.findListView.callBack = this.callBack;
               this.$.findListView.generateRequest();

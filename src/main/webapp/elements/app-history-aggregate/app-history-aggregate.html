@@ -94,8 +94,8 @@
               }
               this.set("aggChartData", percentGraph)
             },
-            setAjax: function(orgId, measureId, year){
-              this.$.showAppHistoryAggregate.resource="/common/show/aggregateComparison/"+measureId+"/"+year
+            setAjax: function(orgId, measureId){
+              this.$.showAppHistoryAggregate.resource="/common/show/aggregateComparison/"+measureId+"/"+app.$.mainPage.$.dashboard.$.history.selYear;
               this.$.showAppHistoryAggregate.generateRequest();
 
 
