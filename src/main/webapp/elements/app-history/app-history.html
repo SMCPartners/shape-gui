@@ -107,15 +107,6 @@
                             </template>
                         </select>
                     </div>
-                    <!--
-                    <select>
-                        <option>2015</option>
-                        <option>2014</option>
-                        <option>2013</option>
-                        <option>2012</option>
-                        <option>2011</option>
-                    </select>
-                    -->
                 </div>
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"><b>Analytics:</b></label>
@@ -130,13 +121,6 @@
                 </div>
             </div>
             <div>
-                <!--
-                <paper-tabs selected="{{selected}}">
-                    <paper-tab>List</paper-tab>
-                    <paper-tab>Measure Trend</paper-tab>
-                    <paper-tab>Measure Demographics</paper-tab>
-                </paper-tabs-->
-                <!-- <div hidden$="{{nothingshowing}}"FIX ME -->
                 <div hidden$="{{!isDataForMeasure}}">
                   <iron-pages selected="{{selectedView}}">
                       <app-history-list-view id = "histolist"></app-history-list-view>
@@ -185,22 +169,6 @@
               isDataForMeasure: {
                 value: true
               }
-                /*stratify: {
-                    gender1: "Male",
-                    gender2: "Female",
-                    race1: "African American/Black",
-                    race2: "American Indian or Alaska Native",
-                    race3: "Asian",
-                    race4: "Native Hawaiian or Pacific Islander",
-                    race5: "White",
-                    race6: "Other",
-                    ethnicity1: "Hispanic/Latino",
-                    ethnicity2: "Not Hispanic/Latino",
-                    age1: "18-44 Years",
-                    age2: "45-64 Years",
-                    age3: "65-85 Years"
-                };*/
-
             },
             setMeasureDefault: function(){
                 this.nothingshowing = true;
@@ -260,8 +228,6 @@
 
             },
             loadMeasureData: function(year) {
-              //this.$.selectYear.value !="" ? this.isYearSelected = true : this.isYearSelected = false;
-              // if (app.$.mainPage.$.dashboard.isOrgSelected && this.years.length && this.isMeasureSelected ){
                 if (this.years.length && this.isMeasureSelected ){
 
                 var measure = this.$.selectMeasure.value;
@@ -277,7 +243,6 @@
                         this.$.histographic.setAjax(orgId, measure);
                         break;
                 }
-                //this.nothingshowing = false ; // this was a work around for the years array not updating for the drop down. see related fix me above
               }
             },
 
