@@ -30,7 +30,8 @@
     }
 
     .incompleteGraph {
-      font-weight: 400;
+      text-align: center;
+      font-size: 2em;
     }
   </style>
   <template>
@@ -53,23 +54,23 @@
 
         <h3>NQF measure&nbsp
           <span>{{item.nqfId}}</span>&nbspby Race:</h3>
-        <div hidden$="{{!isChartComplete(item.raceData)}}">
+        <div hidden="{{noRaceChart}}">
           <google-chart options='{"vAxis": {"format":"percent", "viewWindow": {"min": 0, "max": 1} } }' cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"},{"role": "tooltip", "type": "string"}]' rows='{{item.raceData}}'>
           </google-chart>
         </div>
-        <div hidden$="{{isChartComplete(item.raceData)}}">
+        <div hidden="{{!noRaceChart}}">
           <p class="incompleteGraph">Data not available for chart.</p>
         </div>
 
 
         <h3>NQF measure&nbsp
           <span>{{item.nqfId}}</span>&nbspby Age:</h3>
-        <div hidden$="{{!isChartComplete(item.ageData)}}">
+        <div hidden="{{noAgeChart}}">
 
           <google-chart options='{"vAxis": {"format":"percent", "viewWindow": {"min": 0, "max": 1} } }' cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"},{"role": "tooltip", "type": "string"}]' rows='{{item.ageData}}'>
           </google-chart>
         </div>
-        <div hidden$={{isChartComplete(item.ageData)}}>
+        <div hidden={{!noAgeChart}}>
           <p class="incompleteGraph">Data not available for chart.</p>
         </div>
 
@@ -77,11 +78,11 @@
 
         <h3>NQF measure&nbsp
           <span>{{item.nqfId}}</span>&nbspby Ethnicity:</h3>
-        <div hidden$="{{!isChartComplete(item.ethnicityData)}}">
+        <div hidden="{{noEthnicityChart}}">
           <google-chart options='{"vAxis": {"format":"percent", "viewWindow": {"min": 0, "max": 1} } }' cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"},{"role": "tooltip", "type": "string"}]' rows='{{item.ethnicityData}}'>
           </google-chart>
         </div>
-        <div hidden$="{{isChartComplete(item.ethnicityData)}}">
+        <div hidden="{{!noEthnicityChart}}">
           <p class="incompleteGraph">Data not available for chart.</p>
         </div>
 
@@ -89,11 +90,12 @@
 
         <h3>NQF measure&nbsp
           <span>{{item.nqfId}}</span>&nbspby Gender:</h3>
-        <div hidden$="{{!isChartComplete(item.genderData)}}">
+        <div hidden="{{noGenderChart}}">
           <google-chart options='{"vAxis": {"format":"percent", "viewWindow": {"min": 0, "max": 1} } }' cols='[{"label": "Data", "type": "string"},{"label": "Num / Den", "type": "number"},{"role": "tooltip", "type": "string"}]' rows='{{item.genderData}}'>
           </google-chart>
+        </div>
 
-          <div hidden$="{{isChartComplete(item.genderData)}}">
+          <div hidden="{{!noGenderChart}}">
             <p class="incompleteGraph">Data not available for chart.</p>
           </div>
     </template>
@@ -125,7 +127,12 @@
           type: Boolean
         }
       },
-      ready: function() {},
+      ready: function() {
+        this.noRaceChart = false;
+        this.noAgeChart = false;
+        this.noEthnicityChart = false;
+        this.noGenderChart = false;
+      },
       appHistDemograhicCallBack: function(evt) {
 
         this.set("orgMeasCharts", evt.detail.response);
@@ -133,21 +140,28 @@
         //   this.set('isNoAgeChart', true);
         // } else {
         //   this.set('isNoAgeChart', false);
+        //   delete this.orgMeasCharts[0].ageData;
         // };
         // if (this.isChartComplete(this.orgMeasCharts[0].raceData)) {
         //   this.set('isNoRaceChart', true);
         // } else {
         //   this.set('isNoRaceChart', false);
+        //   delete this.orgMeasCharts[0].raceData;
+        //
         // };
         // if (this.isChartComplete(this.orgMeasCharts[0].genderData)) {
         //   this.set('isNoGenderChart', true);
         // } else {
         //   this.set('isNoGenderChart', false);
+        //   delete this.orgMeasCharts[0].genderData;
+        //
         // };
         // if (this.isChartComplete(this.orgMeasCharts[0].ethnicityData)) {
         //   this.set('isNoEthnicityChart', true);
         // } else {
         //   this.set('isNoEthnicityChart', false);
+        //   delete this.orgMeasCharts[0].ethnicityData;
+        //
         // };
         var historyDemographics = evt.detail.response;
         var demographicCharts = [
@@ -167,21 +181,46 @@
             }
           }
         }
+        if (historyDemographics[0].raceData.length < 3 ) {
+          delete historyDemographics[0].raceData;
+          this.noRaceChart = true;
+        } else {
+          this.noRaceChart = false;
+        }
+        if (historyDemographics[0].ageData.length < 3 ) {
+          delete historyDemographics[0].ageData;
+          this.noAgeChart = true;
+        } else {
+          this.noAgeChart = false;
+        }
+        if (historyDemographics[0].ethnicityData.length < 2 ) {
+          delete historyDemographics[0].ethnicityData;
+          this.noEthnicityChart = true;
+        } else {
+          this.noEthnicityChart = false;
+        }
+        if (historyDemographics[0].genderData.length < 2 ) {
+          delete historyDemographics[0].genderData;
+          this.noGenderChart = true;
+        } else {
+          this.noGenderChart = false;
+        }
+
         this.set("orgMeasCharts", historyDemographics);
 
       },
       setAjax: function(orgId, measureId) {
         this.$.showAppHistoryDemographics.resource = "/common/show/appHistDemographic/" + orgId + "/" + measureId + "/" + app.$.mainPage.$.dashboard.$.history.selYear;
         this.$.showAppHistoryDemographics.generateRequest();
-      },
-      isChartComplete: function(array) {
-          if (!array[0][0]) { //this array will be false
-            return false; // if the server is returning false this will be false
-          } else {
-            return true; // otherwise it will be true
-          }
-
-        }
+      }
+      // isChartComplete: function(array) {
+      //     if (!array[0][0]) { //this array will be false
+      //       return false; // if the server is returning false this will be false
+      //     } else {
+      //       return true; // otherwise it will be true
+      //     }
+      //
+      //   }
     });
   })();
 </script>
