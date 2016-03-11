@@ -99,7 +99,7 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"> <b>Year:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select id="selectYear" style="font: inherit" on-change="loadMeasureData" disabled>
+                        <select id="selectYear" style="font: inherit" on-change="setNewYear">
                             <template is="dom-repeat" items="{{years}}">
                                 <option style="font: inherit" value="{{item}}">
                                     <span>{{item}}</span>
@@ -107,20 +107,11 @@
                             </template>
                         </select>
                     </div>
-                    <!--
-                    <select>
-                        <option>2015</option>
-                        <option>2014</option>
-                        <option>2013</option>
-                        <option>2012</option>
-                        <option>2011</option>
-                    </select>
-                    -->
                 </div>
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"><b>Analytics:</b></label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select value="{{selectedView::change}}" style="font: inherit;" on-change="loadMeasureData">
+                        <select id="selectView" value="{{selectedView::change}}" style="font: inherit;" on-change="loadMeasureData">
                             <option value ="label">Choose view..</option>
                             <option value="0">List View</option>
                             <option value="1">Aggregate Comparison</option>
@@ -130,14 +121,6 @@
                 </div>
             </div>
             <div>
-                <!--
-                <paper-tabs selected="{{selected}}">
-                    <paper-tab>List</paper-tab>
-                    <paper-tab>Measure Trend</paper-tab>
-                    <paper-tab>Measure Demographics</paper-tab>
-                </paper-tabs>
-                -->
-                <div hidden$="{{nothingshowing}}"><!-- FIX ME -->
                 <div hidden$="{{!isDataForMeasure}}">
                   <iron-pages selected="{{selectedView}}">
                       <app-history-list-view id = "histolist"></app-history-list-view>
@@ -148,7 +131,7 @@
                 <div hidden$="{{isDataForMeasure}}">
                 <h2 style="text-align:center;margin-top:2.5%">There is no data for this measure.</h2>
                 </div>
-                </div>
+                <!-- </div> -->
               </div>
             </div>
         </div>
@@ -186,22 +169,6 @@
               isDataForMeasure: {
                 value: true
               }
-                /*stratify: {
-                    gender1: "Male",
-                    gender2: "Female",
-                    race1: "African American/Black",
-                    race2: "American Indian or Alaska Native",
-                    race3: "Asian",
-                    race4: "Native Hawaiian or Pacific Islander",
-                    race5: "White",
-                    race6: "Other",
-                    ethnicity1: "Hispanic/Latino",
-                    ethnicity2: "Not Hispanic/Latino",
-                    age1: "18-44 Years",
-                    age2: "45-64 Years",
-                    age3: "65-85 Years"
-                };*/
-
             },
             setMeasureDefault: function(){
                 this.nothingshowing = true;
@@ -213,23 +180,36 @@
               this.$.findMeasures.callBack=this.callBackMeasures;
               this.$.findMeasures.generateRequest();
             },
+            setNewYear: function(){
+              this.selYear = this.$.selectYear.value;
+              this.loadMeasureData();
+            },
             setAjaxYears: function(){ // make call to get years, for the measure selected and teh organization selected
               this.$.selectMeasure.value !=="label" ? this.isMeasureSelected = true : this.isMeasureSelected = false;
               if (this.isMeasureSelected){
-                this.$.selectYear.disabled=true;
-                orgId = document.querySelector('app-dashboard').organizationId
+                //this.$.selectYear.disabled=true;
+                //orgId = document.querySelector('app-dashboard').organizationId
+                orgId = document.querySelector('app-dashboard').$.findUserOrganizations.value;
                 measureId = this.$.selectMeasure.value;
                 this.$.findYears.resource = "/common/get/measure_years/"+orgId+"/"+measureId;// set call for given organzaiton and for given measure
                 this.$.findYears.callBack=this.callBackYears;
-                this.$.findYears.generateRequest()
+                this.$.findYears.generateRequest();
               }
 
             },
             callBackYears: function(evt){
-              console.log(evt.detail.response);
-              this.$.selectYear.disabled = false;
+              this.$.selectYear.value !="" ? this.isYearSelected = true : this.isYearSelected = false;
+              this.set('currentYear', this.$.selectYear.value); //save previously selected year into this.currentYear
               this.set('years', evt.detail.response);// get all years for given measure for organization
               (!this.years.length) ? this.isDataForMeasure = false : this.isDataForMeasure = true; // if there are no years with data, there is no data for that measure
+              for(i = 0; i < this.years.length; i++) {    //This
+                if (this.currentYear == this.years[i]) {
+                  this.selYear = this.currentYear;
+                  break;
+                } else {
+                  this.selYear = this.years[0];
+                }
+              }
               this.loadMeasureData();
             },
 
@@ -243,18 +223,26 @@
 
 
             },
-            loadMeasureData: function() {
-              // this.setAjaxYears()
-              this.$.selectYear.value !="" ? this.isYearSelected = true : this.isYearSelected = false;
-              if (app.$.mainPage.$.dashboard.isOrgSelected && this.years.length && this.isMeasureSelected ){
-                year = (this.$.selectYear.value) ? this.$.selectYear.value : this.years[0]
-                measure = this.$.selectMeasure.value;
-                orgId = app.$.mainPage.$.dashboard.$.findUserOrganizations.value
-                this.$.histographic.setAjax(orgId, measure, year);
-                this.$.histoaggregate.setAjax(orgId, measure, year);
-                this.$.histolist.setajax(orgId, measure, year);
-                this.nothingshowing = false ; // this was a work around for the years array not updating for the drop down. see related fix me above
+            checkYears: function() {
 
+
+            },
+            loadMeasureData: function(year) {
+                if (this.years.length && this.isMeasureSelected ){
+
+                var measure = this.$.selectMeasure.value;
+                var orgId = app.$.mainPage.$.dashboard.$.findUserOrganizations.value;
+                switch(this.$.selectView.value) {
+                    case "0":
+                        this.$.histolist.setajax(orgId, measure);
+                        break;
+                    case "1":
+                        this.$.histoaggregate.setAjax(orgId, measure);
+                        break;
+                    case "2":
+                        this.$.histographic.setAjax(orgId, measure);
+                        break;
+                }
               }
             },
 

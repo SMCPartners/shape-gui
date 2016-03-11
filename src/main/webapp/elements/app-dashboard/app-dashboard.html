@@ -65,7 +65,7 @@
             <paper-tabs selected="{{selected}}" noink no-slide>
 
             <paper-tab>Measure Input</paper-tab>
-            <paper-tab>Past Measure Reports</paper-tab>
+            <paper-tab on-tap="beginGetPast">Past Measure Reports</paper-tab>
             <paper-tab>Organization Profile</paper-tab>
         </paper-tabs>
         <iron-pages selected="{{selected}}">
@@ -226,12 +226,16 @@
                   {quarter: '3'},
                   {quarter: '4'}
                 ];
-                this.years = [
-                  {year: '2015'},
-                  {year: '2016'},
-                  {year: '2017'},
-                  {year: '2018'}
-                ];
+                // this.years = [
+                //   {year: '2015'},
+                //   {year: '2016'},
+                //   {year: '2017'},
+                //   {year: '2018'}
+                // ];
+            },
+            beginGetPast: function() {
+              //this.orgId = this.$.findUserOrganizations.value;
+              this.$.history.setAjaxYears();
             },
 
             loadOrgData: function() {
@@ -245,21 +249,23 @@
                 }
               }
 
-              if(this.$.findUserOrganizations.value!=="label"){
-                this.isOrgSelected = true;
-                this.$.profile.noOrgSel = false;
-              }else{
-                this.isOrgSelected = false;
-              }
-              if (this.isOrgSelected){
+              // if(this.$.findUserOrganizations.value!=="label"){
+              //   this.isOrgSelected = true;
+              //   this.$.profile.noOrgSel = false;
+              // }else{
+              //   this.isOrgSelected = false;
+              // }
+
+              // if (this.isOrgSelected){
                 if (this.counter > 0){
                   this.loadEmptyAppProfile();
                 };
                 document.querySelector('app-measure-input').setAjaxMeasure();
                 document.querySelector('app-profile').setajax();
-                this.$.history.setAjaxYears();
 
-              }
+
+              // }
+               this.$.history.setAjaxYears();
             }
         });
     })();

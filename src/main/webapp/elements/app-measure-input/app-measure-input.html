@@ -314,14 +314,14 @@
                   this.set('measures.'+measure+'.chartOptions', chartOptions);
                   this.set('measures.'+measure+'.orgMeasureId', currentMeasure.id);
                 }
-                // var yearArray = [];
-                // for (var measure in response) {
-                //   if (yearArray.indexOf(response[measure].reportPeriodYear) === -1){
-                //   yearArray.push(response[measure].reportPeriodYear);
-                //   }
-                //
-                // }
-                // document.querySelector('app-history').set('years', yearArray);
+
+                var yearArray = [];
+                for (var measure in response) {
+                  if (yearArray.indexOf(response[measure].reportPeriodYear) === -1){
+                  yearArray.push(response[measure].reportPeriodYear);
+                  }
+
+                }
               } else {
                 this.isMeasureData=0;
               }
@@ -354,11 +354,11 @@
             },
 
             setAjaxMeasure: function() {
-              if(app.$.mainPage.$.dashboard.isOrgSelected){
+              // if(app.$.mainPage.$.dashboard.isOrgSelected){
                 this.$.findMeasureInput.resource = '/common/organization_measure/findAllByOrg/' + this.organizationid;
                 this.$.findMeasureInput.callBack = this.callBack;
                 this.$.findMeasureInput.generateRequest();
-              }
+              // }
             },
 
             setAppHistoryGraph: function() {
