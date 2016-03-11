@@ -131,6 +131,13 @@
           on-response="callBack"
           debounce-duration="300">
       </shape-iron-ajax-helper>
+      <shape-iron-ajax-helper
+          id="findMeasure"
+          resource=""
+          handle-as="json"
+          on-response="measureDetailPopUp"
+          debounce-duration="300">
+      </shape-iron-ajax-helper>
 
       <paper-dialog-scrollable>
       <template is="dom-repeat" items="{{measures}}" measure={{item}}>
@@ -215,11 +222,19 @@
             },
             measureDetail: function (e) {
                 var nInfo = e.currentTarget.id;
-                var nDescription = e.currentTarget.data;
-                measureEdit=e.currentTarget;
-                appInformationModal.nameOfMeasure=nInfo;
-                appInformationModal.detailedDescription=nDescription;
-                infoMod.open();
+                this.$.findMeasure.resource = "/common/find/measure_by_id/"+this.measure
+                this.$.findMeasure.generateRequest()
+            },
+            measureDetailPopUp: function(evt){
+              measure = evt.detail.response
+              // var nDescription = e.currentTarget.data;
+              appInformationModal.measNQF = measure.name;
+              appInformationModal.measDesc = measure.description;
+              appInformationModal.numDesc = measure.numeratorDescription;
+              appInformationModal.denomDesc = measure.denominatorDescription;
+              appInformationModal.exclDesc = measure.exclusionsDescription;
+              appInformationModal.NQFnumber = measure.nqfId;
+              infoMod.open();
             },
 
             setajax: function(orgId, measure, year) {
@@ -229,6 +244,7 @@
               this.$.findListView.resource= "/common/show/listView/" + listViewOrg + '/' + listViewMeasure + '/' + listViewYear;
               this.$.findListView.callBack = this.callBack;
               this.$.findListView.generateRequest();
+              this.measure = listViewMeasure;
             },
 
             callBack: function(request) {

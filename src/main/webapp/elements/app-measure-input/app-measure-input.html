@@ -314,6 +314,7 @@
                   this.set('measures.'+measure+'.chartOptions', chartOptions);
                   this.set('measures.'+measure+'.orgMeasureId', currentMeasure.id);
                 }
+
                 var yearArray = [];
                 for (var measure in response) {
                   if (yearArray.indexOf(response[measure].reportPeriodYear) === -1){
