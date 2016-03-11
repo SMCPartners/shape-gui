@@ -202,14 +202,15 @@
               this.set('currentYear', this.$.selectYear.value); //save previously selected year into this.currentYear
               this.set('years', evt.detail.response);// get all years for given measure for organization
               (!this.years.length) ? this.isDataForMeasure = false : this.isDataForMeasure = true; // if there are no years with data, there is no data for that measure
-              for(i = 0; i < this.years.length; i++) {    //This
-                if (this.currentYear == this.years[i]) {
-                  this.selYear = this.currentYear;
-                  break;
-                } else {
-                  this.selYear = this.years[0];
-                }
-              }
+              // for(i = 0; i < this.years.length; i++) {    //This loop checks if the current year selected in the drop down is a year with data for
+              //   if (this.currentYear == this.years[i]) {
+              //     this.selYear = this.currentYear;
+              //     break;
+              //   } else {
+              //     this.selYear = this.years[0];
+              //   }
+              // }
+              this.selYear = this.years[0]
               this.loadMeasureData();
             },
 
@@ -229,7 +230,6 @@
             },
             loadMeasureData: function(year) {
                 if (this.years.length && this.isMeasureSelected ){
-
                 var measure = this.$.selectMeasure.value;
                 var orgId = app.$.mainPage.$.dashboard.$.findUserOrganizations.value;
                 switch(this.$.selectView.value) {
