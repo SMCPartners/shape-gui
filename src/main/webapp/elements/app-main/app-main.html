@@ -209,6 +209,7 @@
                   </div>
                   <shape-iron-ajax-helper
                       id="ajaxChangePassword"
+                      on-response="callBackChangePassword"
                       resource=""
                       handle-as="json"
                       method="POST"
@@ -376,10 +377,11 @@
                 this.$.ajaxChangePassword.method="POST";
                 this.$.ajaxChangePassword.callBack=this.callBackChangePassword;
                 this.$.ajaxChangePassword.generateRequest();
-                this.$.changePassword.toggle();
               }
             },
-
+            callBackChangePassword: function(){
+              this.$.changePassword.toggle();
+            },
             setAjaxEditEmail: function () {
                 this.$.ajaxEditEmail.resource="/common/account/edit";
                 this.$.ajaxEditEmail.body = JSON.stringify ({
@@ -446,13 +448,14 @@
               this.answer1 = callBackUser.answerOne;
               this.answer2 = callBackUser.answerTwo;
               this.email = callBackUser.email;
+              this.$.changePassword.toggle();
             },
 
             handleClickPassword : function () {
                 this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
                 this.$.findUsers.callBack=this.callBackfindUsers;
                 this.$.findUsers.generateRequest();
-                this.$.changePassword.toggle();
+
             },
 
             handleClickEmail : function (e) {
