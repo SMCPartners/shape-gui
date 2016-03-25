@@ -448,13 +448,14 @@
               this.answer1 = callBackUser.answerOne;
               this.answer2 = callBackUser.answerTwo;
               this.email = callBackUser.email;
-              this.$.changePassword.toggle();
+//              this.$.changePassword.toggle();
             },
 
             handleClickPassword : function () {
                 this.$.findUsers.resource="/admin/user/find/" + document.querySelector('app-login').$.userIdInput.value;
                 this.$.findUsers.callBack=this.callBackfindUsers;
                 this.$.findUsers.generateRequest();
+                this.$.changePassword.toggle();
 
             },
 
@@ -484,9 +485,10 @@ var inactivityTime = function () {
     document.onkeypress = resetTimer;
 
     function logout() {
-        alert("You have been logged out due to inactivity.")
-        location.reload(true)
-    }
+		if (app.select !== "login"){
+        	alert("You have been logged out due to inactivity.")
+        	location.reload(true)
+    	}
 
     function resetTimer() {
         clearTimeout(t);
