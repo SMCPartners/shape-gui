@@ -104,6 +104,9 @@
           color: white;
 
         }
+        #resetPasswordQuestion {
+          margin: 0 24px;
+        }
     </style>
     <template>
       <paper-drawer-panel id="dropdown" forceNarrow="true" right-drawer force-narrow>
@@ -157,6 +160,17 @@
                         <paper-input type="password" value="{{oldPassword}}" placeholder="Old password"></paper-input>
                         <paper-input type="password" value="{{newPassword}}" placeholder="New password"></paper-input>
                         <div style="margin: 20px; font-size:.7em;">Password must contain at least: 6 characters, an uppercase letter, a lowercase letter, and a number.</div>
+                        <label>Security question
+                          <select id="resetPasswordQuestion">
+                            <option>Who was your second grade teacher?</option>
+                            <option>What was the name of your first pet?</option>
+                            <option>Where did you learn to swim?</option>
+                            <option>What was your favorite high school class?</option>
+                            <option>Where was your first date?</option>
+                            <option>What was your favorite holiday gift?</option>
+                          </select>
+                        </label>
+                        <paper-input id="resetPasswordAnswer" placeholder="Answer"></paper-input>
                         <div class="rightSide">
                           <paper-button class="primary" on-tap="setAjaxChangePassword">Save</paper-button>
                           <paper-button class="secondary" on-tap="closePasswordModal">Close</paper-button>
@@ -364,10 +378,8 @@
                   "firstName": callBackUser.firstName,
                   "lastName": callBackUser.lastName,
                   "email": callBackUser.email,
-                  "questionOne": callBackUser.questionOne,
-                  "questionTwo": callBackUser.questionTwo,
-                  "answerOne": callBackUser.answerOne,
-                  "answerTwo" : callBackUser.answerTwo
+                  "questionOne": this.$.resetPasswordQuestion.value,
+                  "answerOne": this.$.resetPasswordAnswer.value,
                 };
                 for (var property in requestObject) {
                   if (!requestObject[property]) requestObject[property] = '';
@@ -376,7 +388,7 @@
                 this.$.ajaxChangePassword.method="POST";
                 this.$.ajaxChangePassword.callBack=this.callBackChangePassword;
                 this.$.ajaxChangePassword.generateRequest();
-                this.$.changePassword.toggle();
+                this.closePasswordModal();
               }
             },
 
@@ -427,6 +439,10 @@
               },
 
             closePasswordModal : function () {
+              // clear fields
+              this.$.resetPasswordAnswer.value = '';
+              this.oldPassword = '';
+              this.newPassword = '';
               this.$.changePassword.toggle();
             },
 
