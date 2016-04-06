@@ -37,8 +37,12 @@
           this.$.errorDialog.open()
         },
         closeError: function(){
+            this.$.errorDialog.toggle();
+
+            console.log(this.errorText);
+            if( this.errorText != "Your current password is not correct."){
             app.select='login';
-            this.$.errorDialog.toggle()
+            }
         }
 
         });
