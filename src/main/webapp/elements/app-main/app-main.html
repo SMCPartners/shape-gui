@@ -104,9 +104,6 @@
           color: white;
 
         }
-        #resetPasswordQuestion {
-          margin: 0 24px;
-        }
     </style>
     <template>
       <paper-drawer-panel id="dropdown" forceNarrow="true" right-drawer force-narrow>
@@ -160,17 +157,8 @@
                         <paper-input type="password" value="{{oldPassword}}" placeholder="Old password"></paper-input>
                         <paper-input type="password" value="{{newPassword}}" placeholder="New password"></paper-input>
                         <div style="margin: 20px; font-size:.7em;">Password must contain at least: 6 characters, an uppercase letter, a lowercase letter, and a number.</div>
-                        <label>Security question
-                          <select id="resetPasswordQuestion">
-                            <option>Who was your second grade teacher?</option>
-                            <option>What was the name of your first pet?</option>
-                            <option>Where did you learn to swim?</option>
-                            <option>What was your favorite high school class?</option>
-                            <option>Where was your first date?</option>
-                            <option>What was your favorite holiday gift?</option>
-                          </select>
-                        </label>
-                        <paper-input id="resetPasswordAnswer" placeholder="Answer"></paper-input>
+                        <p>Security question: <span>{{resetPasswordSecurityQuestion}}</span></p>
+                        <paper-input value="{{resetPasswordSecurityAnswer}}" placeholder="Answer"></paper-input>
                         <div class="rightSide">
                           <paper-button class="primary" on-tap="setAjaxChangePassword">Save</paper-button>
                           <paper-button class="secondary" on-tap="closePasswordModal">Close</paper-button>
@@ -222,13 +210,6 @@
                     </paper-dialog>
                   </div>
                   <shape-iron-ajax-helper
-                      id="ajaxChangePassword"
-                      resource=""
-                      handle-as="json"
-                      method="POST"
-                      debounce-duration="300">
-                  </shape-iron-ajax-helper>
-                  <shape-iron-ajax-helper
                       id="ajaxEditQuestions"
                       resource=""
                       handle-as="json"
@@ -249,6 +230,21 @@
                       on-response="callBackfindUsers"
                       debounce-duration="300">
                   </shape-iron-ajax-helper>
+                  <shape-iron-ajax-helper
+                      id="getResetPasswordSecurityQuestion"
+                      handle-as="json"
+                      on-response="callBackGetSecurityQuestion"
+                      debounce-duration="300">
+                  </shape-iron-ajax-helper>
+                  <shape-iron-ajax-helper
+                      id="ajaxChangePassword"
+                      handle-as="json"
+                      on-response="callBackChangePassword"
+                      debounce-duration="300"
+                      method="POST"
+                      resource="/common/password_change">
+                  </shape-iron-ajax-helper>
+
 
  </template>
 </dom-module>
@@ -368,28 +364,17 @@
                 alert(errorString);
               }
               else {
-                this.$.ajaxChangePassword.resource="/common/changepassword";
-                var requestObject = {
-                  "id": document.querySelector('app-login').$.userIdInput.value,
-                  "role": callBackUser.role,
-                  "password": this.oldPassword,
-                  "newPassword" : this.newPassword,
-                  "organizationId": callBackUser.organizationId,
-                  "firstName": callBackUser.firstName,
-                  "lastName": callBackUser.lastName,
-                  "email": callBackUser.email,
-                  "questionOne": this.$.resetPasswordQuestion.value,
-                  "answerOne": this.$.resetPasswordAnswer.value,
-                };
-                for (var property in requestObject) {
-                  if (!requestObject[property]) requestObject[property] = '';
-                }
-                this.$.ajaxChangePassword.body = JSON.stringify (requestObject);
-                this.$.ajaxChangePassword.method="POST";
-                this.$.ajaxChangePassword.callBack=this.callBackChangePassword;
+                this.$.ajaxChangePassword.body = JSON.stringify({
+                  questionAnswer: this.resetPasswordSecurityAnswer,
+                  newPassword: this.newPassword,
+                  oldPassword: this.oldPassword
+                });
                 this.$.ajaxChangePassword.generateRequest();
-                this.closePasswordModal();
               }
+            },
+
+            callBackChangePassword: function() {
+              this.closePasswordModal();
             },
 
             setAjaxEditEmail: function () {
@@ -440,7 +425,8 @@
 
             closePasswordModal : function () {
               // clear fields
-              this.$.resetPasswordAnswer.value = '';
+              this.resetPasswordSecurityAnswer = '';
+              this.resetPasswordQuestion = '';
               this.oldPassword = '';
               this.newPassword = '';
               this.$.changePassword.toggle();
@@ -462,6 +448,13 @@
               this.answer1 = callBackUser.answerOne;
               this.answer2 = callBackUser.answerTwo;
               this.email = callBackUser.email;
+
+              this.$.getResetPasswordSecurityQuestion.resource = '/common/password_question/' + callBackUser.id;
+              this.$.getResetPasswordSecurityQuestion.generateRequest();
+            },
+
+            callBackGetSecurityQuestion: function(event) {
+              this.resetPasswordSecurityQuestion = event.detail.response.passwordQuestion;
             },
 
             handleClickPassword : function () {
