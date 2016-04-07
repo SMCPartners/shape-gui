@@ -227,7 +227,7 @@
           alert("Emails do not match");
         else if (this.username.length < 4) {
           alert("Username must be at least 4 characters")
-        } {
+        }else {
           this.$.ajaxAddUser.resource = "/admin/create/user";
           this.$.ajaxAddUser.body = JSON.stringify({
             "id": this.username,
