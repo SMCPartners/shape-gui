@@ -112,7 +112,7 @@
           //this.callBack=this.loginCallBack;
           this.$.loginCall.generateRequest()
         },
-        loginCallBack: function(response){
+        loginCallBack: function(event){
           if (event.detail.response.token) {
             localStorage.token = event.detail.response.token
             if (this.callBack) {
