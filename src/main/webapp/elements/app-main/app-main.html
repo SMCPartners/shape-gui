@@ -368,7 +368,8 @@
                 this.$.ajaxChangePassword.body = JSON.stringify({
                   questionAnswer: this.resetPasswordSecurityAnswer,
                   newPassword: this.newPassword,
-                  oldPassword: this.oldPassword
+                  oldPassword: this.oldPassword,
+                  userId: callBackUser.id
                 });
                 this.$.ajaxChangePassword.generateRequest();
               }
