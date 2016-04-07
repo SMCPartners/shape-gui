@@ -134,6 +134,7 @@
           <paper-input label="First Name" value="{{userFirstName}}"></paper-input>
           <paper-input label="Last Name" value="{{userLastName}}"></paper-input>
           <paper-input label="Email" value="{{userEmail}}"></paper-input>
+          <paper-input label="Repeat email" value="{{userEmailRepeat}}"></paper-input>
         </div>
         <div>
           <label style="font: inherit">
@@ -220,24 +221,31 @@
       },
 
       setAjaxAddUser: function() {
-        this.$.ajaxAddUser.resource = "/admin/create/user";
-        this.$.ajaxAddUser.body = JSON.stringify({
-          "id": this.username,
-          "role": this.$.findUserRole.value,
-          "password": "",
-          "organizationId": this.$.findUserOrganizationId.value,
-          "firstName": this.userFirstName,
-          "lastName": this.userLastName,
-          "email": this.userEmail
-        });
-        this.username = "";
-        this.userFirstName = "";
-        this.userLastName = "";
-        this.userEmail = "";
-        this.$.ajaxAddUser.method = "POST";
-        this.$.ajaxAddUser.callBack = this.callBackAddUser;
-        this.$.ajaxAddUser.generateRequest();
-        this.$.addUser.toggle();
+        if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.userEmail))
+          alert("Invalid email");
+        else if (this.userEmail != this.userEmailRepeat)
+          alert("Emails do not match");
+        else {
+          this.$.ajaxAddUser.resource = "/admin/create/user";
+          this.$.ajaxAddUser.body = JSON.stringify({
+            "id": this.username,
+            "role": this.$.findUserRole.value,
+            "password": "",
+            "organizationId": this.$.findUserOrganizationId.value,
+            "firstName": this.userFirstName,
+            "lastName": this.userLastName,
+            "email": this.userEmail
+          });
+          this.username = "";
+          this.userFirstName = "";
+          this.userLastName = "";
+          this.userEmail = "";
+          this.userEmailRepeat = "";
+          this.$.ajaxAddUser.method = "POST";
+          this.$.ajaxAddUser.callBack = this.callBackAddUser;
+          this.$.ajaxAddUser.generateRequest();
+          this.$.addUser.toggle();
+        }
       },
 
       callBackAddUser: function(request) {
