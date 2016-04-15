@@ -72,13 +72,6 @@
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
                         <select id="selectMeasure" name="measure" style="font: inherit" on-change="setAjaxYears">
                           <option value = "label">Select Measure</option>
-                            <template is="dom-repeat" restamp="true" selectedMeasures={{item}} items="{{measures}}">
-                              <template is="dom-if" if="{{item.selected}}">
-                                <option style="font: inherit" value={{item.id}}>
-                                    NQF <span>{{item.nqfId}}</span> <span>{{item.name}}</span>
-                                </option>
-                              </template>
-                            </template>
                         </select>
                     </div>
 
@@ -99,13 +92,7 @@
                 <div class="child parent">
                     <label class="child" style="font: inherit; margin-left:0.5em;"> <b>Year:</b> </label>
                     <div class="child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
-                        <select id="selectYear" style="font: inherit" on-change="setNewYear">
-                            <template is="dom-repeat" items="{{years}}">
-                                <option style="font: inherit" value="{{item}}">
-                                    <span>{{item}}</span>
-                                </option>
-                            </template>
-                        </select>
+                        <select id="selectYear" style="font: inherit" on-change="setNewYear"></select>
                     </div>
                 </div>
                 <div class="child parent">
@@ -200,7 +187,15 @@
             callBackYears: function(evt){
               this.$.selectYear.value !="" ? this.isYearSelected = true : this.isYearSelected = false;
               this.set('currentYear', this.$.selectYear.value); //save previously selected year into this.currentYear
-              this.set('years', evt.detail.response);// get all years for given measure for organization
+
+              this.$.selectYear.innerHtml = '';
+              evt.detail.response.forEach(function(year) {
+                var option = document.createElement('option');
+                option.value = year;
+                option.innerHTML = year;
+                this.$.selectYear.appendChild(option);
+              }.bind(this));
+
               (!this.years.length) ? this.isDataForMeasure = false : this.isDataForMeasure = true; // if there are no years with data, there is no data for that measure
               // for(i = 0; i < this.years.length; i++) {    //This loop checks if the current year selected in the drop down is a year with data for
               //   if (this.currentYear == this.years[i]) {
@@ -215,7 +210,13 @@
             },
 
             callBackMeasures: function(request) {
-              this.measures=request.detail.response;
+              this.$.selectMeasure.innerHTML = '<option value="label">Select Measure</option>';
+              request.detail.response.forEach(function(measure) {
+                var option = document.createElement('option');
+                option.value = measure.id;
+                option.innerHTML = 'NQF ' + measure.nqfId + ' ' + measure.name;
+                this.$.selectMeasure.appendChild(option);
+              }.bind(this));
             },
 
             ready: function() {
