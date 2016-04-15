@@ -43,11 +43,16 @@
     <template>
         <div style="margin: 0.5em 0;" class="flex-parent">
             <div class="flex-parent flex-child">
-                <label class="flex-child" style="font: inherit; margin-left:0.5em;" hidden={{!isSysAdmin}}> <b>Organization: </b></label>
-                <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
+                <div class="layout horizontal center-justified">
                     <!-- select id=findUserOrganizations style="font: inherit; margin-left:0.5em;" on-change="loadOrgData" -->
                     <!-- <template is="dom-if" if={{multiOrgView}}> -->
-                      <select id=findUserOrganizations on-change="loadOrgData" hidden={{!isSysAdmin}}></select>
+                  <label hidden={{!isSysAdmin}}> <b>Organization: </b>
+                    <select
+                      id=findUserOrganizations
+                      style="box-shadow: 1px 1px 1px 1px lightgray"
+                      on-change="loadOrgData"
+                      hidden={{!isSysAdmin}} ></select>
+                  </label>
                 </div>
                 <!-- </template> -->
             </div>
