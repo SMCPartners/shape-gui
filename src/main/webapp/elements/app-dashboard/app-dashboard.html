@@ -47,16 +47,13 @@
                 <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
                     <!-- select id=findUserOrganizations style="font: inherit; margin-left:0.5em;" on-change="loadOrgData" -->
                     <!-- <template is="dom-if" if={{multiOrgView}}> -->
-                      <select id=findUserOrganizations on-change="loadOrgData" hidden={{!isSysAdmin}}>
-                      <!-- <div hidden="{{isOrgSelected}}"> -->
-                        <!-- <option>Select Organization</option>> -->
-                      </div>
-                        <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
-                          <!-- <template is="dom-if" restamp="true" if="{{checkOrganizationAndMeasure(organizationId)}}"> -->
-                            <option style="font: inherit" value="{{item.id}}">{{item.name}}</option>
-                          <!-- </template> -->
-                      </template>
-                    </select>
+                      <paper-dropdown-menu id=findUserOrganizations on-change="loadOrgData" hidden={{!isSysAdmin}}>
+                        <paper-menu>
+                          <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
+                            <paper-item style="font: inherit" value="{{item.id}}">{{item.name}}</paper-item>
+                          </template>
+                        </paper-menu>
+                      </paper-dropdown-menu>
                 </div>
                 <!-- </template> -->
             </div>
@@ -206,6 +203,9 @@
             callBackOrgs: function(request) {
               this.organizations = request.detail.response;
               this.loadOrgData();
+              this.async(function() {
+                console.log(this.$.findUserOrganizations.innerHTML);
+              });
             },
 
             callBackProviders: function(request) {

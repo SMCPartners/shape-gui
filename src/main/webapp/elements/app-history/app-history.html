@@ -134,7 +134,6 @@
                 <!-- </div> -->
               </div>
             </div>
-        </div>
         <shape-iron-ajax-helper
           id="findMeasures"
           resource=""
@@ -164,9 +163,10 @@
                     notify: true
                 },
               selectMeasure : {
-                Array
+                type: Array
               },
               isDataForMeasure: {
+                type: Boolean,
                 value: true
               }
             },
@@ -244,7 +244,7 @@
                         break;
                 }
               }
-            },
+            }
 
         });
     })();
