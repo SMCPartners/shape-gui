@@ -195,6 +195,7 @@
                 option.innerHTML = year;
                 this.$.selectYear.appendChild(option);
               }.bind(this));
+              this.years = evt.detail.response;
 
               (!this.years.length) ? this.isDataForMeasure = false : this.isDataForMeasure = true; // if there are no years with data, there is no data for that measure
               // for(i = 0; i < this.years.length; i++) {    //This loop checks if the current year selected in the drop down is a year with data for
