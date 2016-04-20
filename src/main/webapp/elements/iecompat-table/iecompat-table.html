@@ -1,14 +1,52 @@
 <dom-module id="iecompat-table">
 
   <template>
-    <table>
-      <content></content>
-    </table>
+  
+    <style>
+      .table {
+        border-left: 1px solid black;
+        border-top: 1px solid black;
+      }
+    
+      .top-cell, .body-cell {
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+        padding: 8px;
+      }
+      
+      .top-cell {
+        background: #0066FF;
+        color: #ffffff;
+        font-weight: bold;
+      }
+    </style>
+  
+    <div class="table">
+      <div class="layout horizontal">
+        <template is="dom-repeat" items="{{tableTop}}">
+          <div class="flex top-cell">{{item}}</div>
+        <template>
+      </div>
+      <template is="dom-repeat" items="{{tableBody}}">
+        <div class="layout horizontal">
+          <template is="dom-repeat" items="{{item}}">
+            <div class="flex body-cell">{{item}}</div>
+          </template>
+          <div class="flex body-cell">
+            <paper-button>Edit</paper-button>
+          </div>
+        </div>
+      <template>
+     </div>
   </template>
 
   <script>
     Polymer({
-      is: 'iecompat-table'
+      is: 'iecompat-table',
+      properties: {
+        tableTop: Array,
+        tableBody: Array
+      }
     });
   </script>
 

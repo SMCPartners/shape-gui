@@ -86,19 +86,13 @@
               </div>
             </template>
         </div>
-        <iecompat-table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
-            <colgroup>
-                <col span="4" style="width:20%">
-                <col span="2" style="width:10%">
-            </colgroup>
-            <thead>
+        <iecompat-table id="table" table-top='["Username", "Name", "Role", "Organization", "Status", ""]' >
                 <th sortingGroup='id' on-tap="selectFunction">Username</th>
                 <th sortingGroup='firstName' on-tap="selectFunction">Name</th>
                 <th sortingGroup='role' on-tap="selectFunction">Role</th>
                 <th sortingGroup='organizationName' on-tap="selectFunction">Organization</th>
                 <th hidden="{{!isOrgAdmin(role)}}" sortingGroup='userStatus' on-tap="selectFunction">Status</th>
                 <th hidden="{{!isOrgAdmin(role)}}"></th>
-            </thead>
             <tbody>
             <template is="dom-repeat" id="table" items="{{users}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
                 <tr data-id$="{{item.id}}">
@@ -291,7 +285,17 @@
              },
 
             callBack: function(request) {
-              this.users = request.detail.response;
+              var tableBody = [];
+              for (var i = 0; i < request.detail.response.length; i++) {
+                tableBody.push([
+                  request.detail.response[i].id,
+                  request.detail.response[i].firstName + ' ' + request.detail.response[i].lastName,
+                  request.detail.response[i].role,
+                  request.detail.response[i].organizationName,
+                  request.detail.response[i].active
+                ]);
+              }
+              //this.$.table
               //loop to add an inde value to each object in the this.Users.Array
               for (i = 0 ; i < this.users.length; i ++)
               {
