@@ -139,6 +139,13 @@
     (function () {
         Polymer({
             is: 'app-login',
+            
+            // FOR TESTING, REMOVE
+            ready: function() {
+              this.$.userIdInput.value = 'jobins2';
+              this.$.passwordInput.value = 'PAss1!';
+              this.$.login.fire('tap');
+            },
 
             properties: {
                 route: {

@@ -77,6 +77,22 @@
     };
   </style>
   <template>
+  
+    <shape-iron-ajax-helper id="ajaxAddOrganization" resource="/common/organization/add" handle-as="json" method="POST" debounce-duration="300">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddProvider" resource="/admin/provider/add" handle-as="json" method="POST" debounce-duration="300" on-response="addProviderCallback">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddOrganization" resource="/common/organization/add" handle-as="json" method="POST" debounce-duration="300">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddProvider" resource="/admin/provider/add" handle-as="json" method="POST" debounce-duration="300" on-response="addProviderCallback">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddUser" resource="" body="" method="POST" handle-as="json" on-response="callBackAddUser" debounce-duration="300">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="ajaxAddMeasure" resource="" body="" method="POST" handle-as="json" on-response="callBackAddMeasure" debounce-duration="300">
+    </shape-iron-ajax-helper>
+    <shape-iron-ajax-helper id="findOrgs" resource="" method="GET" handle-as="json" on-response="callBackOrgs" debounce-duration="300">
+    </shape-iron-ajax-helper>
+  
     <div style="position:absolute;top:0;left:0">
       <paper-dialog id="addProvider" class="modalPositionProvider">
         <div style="text-align:center">
@@ -180,20 +196,6 @@
         </div>
       </paper-dialog>
     </div>
-    <shape-iron-ajax-helper id="ajaxAddOrganization" resource="/common/organization/add" handle-as="json" method="POST" debounce-duration="300">
-    </shape-iron-ajax-helper>
-    <shape-iron-ajax-helper id="ajaxAddProvider" resource="/admin/provider/add" handle-as="json" method="POST" debounce-duration="300" on-response="addProviderCallback">
-    </shape-iron-ajax-helper>
-    <shape-iron-ajax-helper id="ajaxAddOrganization" resource="/common/organization/add" handle-as="json" method="POST" debounce-duration="300">
-    </shape-iron-ajax-helper>
-    <shape-iron-ajax-helper id="ajaxAddProvider" resource="/admin/provider/add" handle-as="json" method="POST" debounce-duration="300" on-response="addProviderCallback">
-    </shape-iron-ajax-helper>
-    <shape-iron-ajax-helper id="ajaxAddUser" resource="" body="" method="POST" handle-as="json" on-response="callBackAddUser" debounce-duration="300">
-    </shape-iron-ajax-helper>
-    <shape-iron-ajax-helper id="ajaxAddMeasure" resource="" body="" method="POST" handle-as="json" on-response="callBackAddMeasure" debounce-duration="300">
-    </shape-iron-ajax-helper>
-    <shape-iron-ajax-helper id="findOrgs" resource="" method="GET" handle-as="json" on-response="callBackOrgs" debounce-duration="300">
-    </shape-iron-ajax-helper>
   </template>
 </dom-module>
 <script>
