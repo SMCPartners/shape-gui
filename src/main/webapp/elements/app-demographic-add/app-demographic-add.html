@@ -104,15 +104,7 @@
           <div class="dropdown_box">
             <h3 class="headerTitle">Measure:</h3>
               <div class="dropdown">
-                  <select id="mid" name="measure" style="font: inherit">
-                      <template is="dom-repeat" items="{{measures}}">
-                        <template is="dom-if" if="{{item.selected}}">
-                          <option style="font: inherit" value="{{item.id}}">
-                              NQF <span>{{item.nqfId}}</span> <span>{{item.name}}</span>
-                          </option>
-                        </template>
-                      </template>
-                  </select>
+                  <select id="mid" name="measure" style="font: inherit"></select>
               </div>
             </div>
 
@@ -132,13 +124,7 @@
             <div class="dropdown_box">
               <h3 class="headerTitle">Year:</h3>
                 <div class="dropdown">
-                    <select name="quarter" id="reportPeriodYear">
-                        <template is="dom-repeat" items="{{yearChoose}}">
-                            <option style="font: inherit" value="{{item.year}}">
-                                <span>{{item.year}}</span>
-                            </option>
-                        </template>
-                    </select>
+                    <select name="quarter" id="reportPeriodYear"></select>
                 </div>
               </div>
               <!--Dropdown-->
@@ -210,12 +196,14 @@
               ]
               var dateObj = new Date;
               var currentYear = dateObj.getFullYear();
-              this.yearChoose = [
-                {_id: "1", year: currentYear},
-                {_id: "2", year: currentYear - 1 },
-                {_id: "3", year: currentYear - 2 },
-                {_id: "4", year: currentYear - 3 }
-              ];
+              
+              // fill year dropdown
+              for (var i = 0; i >= -3; i--) {
+                var option = document.createElement('option');
+                option.innerHTML = currentYear + i;
+                this.$.reportPeriodYear.appendChild(option);
+              }
+              
                 this.stratifyGroups = [
                 {name: 'Gender', categories: [
                     {strat: 'Male', num: 'maleNum', den: 'maleDen'},
@@ -361,8 +349,13 @@
               this.$.getOrgMeasures.generateRequest();
             },
             setDropdowns: function(request) {
-              var response = request.detail.response;
-              this.set('measures', response);
+              this.$.mid.innerHTML = '';
+              for (var i in request.detail.response) {
+                var option = document.createElement('option');
+                option.value = request.detail.response[i].id;
+                option.innerHTML = 'NQF ' + request.detail.response[i].nqfId + ' ' + request.detail.response[i].name;
+                this.$.mid.appendChild(option);
+              }
             }
         });
     })();

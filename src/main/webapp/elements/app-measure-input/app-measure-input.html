@@ -123,6 +123,12 @@
         paper-material {
           padding: 15px;
         }
+
+        paper-dialog-scrollable {
+          min-width: 100%;
+          border: none;
+        }
+
     </style>
     <template>
 
@@ -161,23 +167,23 @@
       <template is="dom-if" if="{{isMeasureData}}">
           <template is="dom-repeat" items="{{measures}}" measure={{item}}>
                 <paper-material elevation="3">
-                    <div class="parent">
-                        <div value="{{item.nqfId}}" class="child header">NQF ID: <span>{{item.nqfId}}</span></div>
-                        <div class="child header">{{item.name}}</div>
+                    <div class="layout horizontal wrap">
+                        <div value="{{item.nqfId}}" class="header">NQF ID: <span>{{item.nqfId}}</span></div>
+                        &nbsp;&nbsp;&nbsp;<div class="header">{{item.name}}</div>
                         <!--div class="child header">RP Quarter: <span>{{item.reportPeriodQuarter}}</span></div-->
-                        <div class="child header">RP Year: <span>{{item.reportPeriodYear}}</span></div>
-                        <div class="child">
+                        <div class="header">RP Year: <span>{{item.reportPeriodYear}}</span></div>
+                        <div>
                             <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item}}"></paper-icon-button>
                         </div>
                     </div>
                     <div class="child description">{{item.description}}</div>
-                    <div class="parent">
+                    <div class="layout horizontal wrap center">
                         <div class="fraction1 child">
                             <span class="fup">Numerator</span>
                             <span class="bar">/</span>
                             <span class="fdn">Denominator</span>
                         </div>
-                        <div class="child header">=</div>
+                        <div class="child header">&nbsp;=&nbsp;</div>
                         <div class="fraction2 child">
                             <span class="fup">{{item.numeratorValue}}</span>
                             <span class="bar">/</span>
@@ -185,7 +191,6 @@
                         </div>
                         <div class="child">
                           <google-chart
-                            id="measureChart"
                             type="pie"
                             data="{{item.chartData}}"
                             options="{{item.chartOptions}}">
@@ -197,9 +202,9 @@
                         </div>
                     </div>
                     <div class="parent">
-                        <paper-material elevation="0" class="child resultBox">
+                        <paper-material elevation="0" class="child resultBox layout horizontal">
                             <div class="resultForward">Your Measure Results:</div>
-                            <div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}
+                            &nbsp;<div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}
                             </div>
                         </paper-material>
                     </div>

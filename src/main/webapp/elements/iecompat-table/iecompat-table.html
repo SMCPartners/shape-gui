@@ -1,0 +1,144 @@
+<dom-module id="iecompat-table">
+
+  <style>
+    .table {
+      border-left: 1px solid black;
+      border-top: 1px solid black;
+    }
+
+    .top-cell, .body-cell {
+      border-right: 1px solid black;
+      border-bottom: 1px solid black;
+      padding: 8px;
+      width: 0;
+    }
+
+    .top-cell {
+      background: #0066FF;
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .active {
+      background: green;
+    }
+
+    .inactive {
+      background: red;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    paper-input {
+      width: 200px;
+      padding: 8px;
+    }
+  </style>
+
+  <template>
+
+    <paper-input placeholder="Search" value="{{searchString}}"></paper-input>
+
+    <div class="table">
+      <div class="layout horizontal">
+        <template is="dom-repeat" items="{{tableTop}}">
+          <div class$="{{getTopCellClasses(index)}}" data-index$="{{index}}" on-tap="sort">{{item}}</div>
+        </template>
+      </div>
+
+      <template id="bodyRepeat" is="dom-repeat" items="{{tableBody}}" as="row" sort="compare" filter="{{filter(searchString)}}">
+        <div class="layout horizontal">
+
+          <template is="dom-repeat" items="{{row.data}}">
+            <div class$="{{getBodyCellClasses(index)}}">
+
+              <template is="dom-if" if="{{isBoolean(item)}}">
+                <template is="dom-if" if="{{item}}">
+                  <paper-button raised class="active" data-id$="{{row.id}}" on-tap="inactivate">Active</paper-button>
+                </template>
+                <template is="dom-if" if="{{!item}}">
+                  <paper-button raised class="inactive" data-id$="{{row.id}}" on-tap="activate">Inactive</paper-button>
+                </template>
+              </template>
+
+              <template is="dom-if" if="{{!isBoolean(item)}}">{{item}}</template>
+
+            </div>
+          </template>
+
+          <div class$="{{getBodyCellClasses('last')}}">
+            <paper-button raised data-id$="{{row.id}}" on-tap="edit">Edit</paper-button>
+          </div>
+
+        </div>
+      </template>
+
+    </div>
+  </template>
+
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'iecompat-table',
+    properties: {
+      tableTop: Array,
+      tableBody: Array,
+      host: Object,
+      hideEndCells: {
+        type: Number,
+        value: 0
+      }
+    },
+    isBoolean: function(item) {
+      if (typeof item == 'boolean') return true;
+    },
+    activate: function(event) {
+      this.host.activate(event.currentTarget.getAttribute('data-id'));
+    },
+    inactivate: function(event) {
+      this.host.inactivate(event.currentTarget.getAttribute('data-id'));
+    },
+    edit: function(event) {
+      this.host.edit(event.currentTarget.getAttribute('data-id'));
+    },
+    getTopCellClasses: function(index) {
+      if (index >= this.tableTop.length - this.hideEndCells)
+        return 'hidden';
+      else return 'flex top-cell';
+    },
+    getBodyCellClasses: function(index) {
+      if (index == 'last' && this.hideEndCells > 0
+          ||
+          index >= this.tableTop.length - this.hideEndCells)
+        return 'hidden';
+      else return 'flex body-cell';
+    },
+    compare: function(a, b) {
+      if (this.sortIndex == undefined) return 0;
+      if (a.data[this.sortIndex] < b.data[this.sortIndex]) var result = -1;
+      else if (a.data[this.sortIndex] == b.data[this.sortIndex]) var result = 0;
+      else var result =  1;
+      if (this.sortReverse) result = -result;
+      return result;
+    },
+    sort: function(event) {
+      if (this.sortIndex == event.currentTarget.getAttribute('data-index'))
+        this.sortReverse = !this.sortReverse;
+      else {
+        this.sortReverse = false;
+        this.sortIndex = event.currentTarget.getAttribute('data-index');
+      }
+      this.$.bodyRepeat.render();
+    },
+    filter: function(searchText) {
+      return function(row) {
+        for (var i in row.data)
+          if (row.data[i].toString().toLowerCase().indexOf(searchText.toLowerCase()) != -1) return true;
+        return false;
+      };
+    }
+  });
+</script>

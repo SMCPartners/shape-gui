@@ -43,20 +43,16 @@
     <template>
         <div style="margin: 0.5em 0;" class="flex-parent">
             <div class="flex-parent flex-child">
-                <label class="flex-child" style="font: inherit; margin-left:0.5em;" hidden={{!isSysAdmin}}> <b>Organization: </b></label>
-                <div class="flex-child" style="box-shadow: 1px 1px 1px 1px lightgray; margin: 0 1em;">
+                <div class="layout horizontal center-justified">
                     <!-- select id=findUserOrganizations style="font: inherit; margin-left:0.5em;" on-change="loadOrgData" -->
                     <!-- <template is="dom-if" if={{multiOrgView}}> -->
-                      <select id=findUserOrganizations on-change="loadOrgData" hidden={{!isSysAdmin}}>
-                      <!-- <div hidden="{{isOrgSelected}}"> -->
-                        <!-- <option>Select Organization</option>> -->
-                      </div>
-                        <template is="dom-repeat" restamp="true" userOrganization={{item}} items="{{organizations}}">
-                          <!-- <template is="dom-if" restamp="true" if="{{checkOrganizationAndMeasure(organizationId)}}"> -->
-                            <option style="font: inherit" value="{{item.id}}">{{item.name}}</option>
-                          <!-- </template> -->
-                      </template>
-                    </select>
+                  <label hidden={{!isSysAdmin}}> <b>Organization: </b>
+                    <select
+                      id=findUserOrganizations
+                      style="box-shadow: 1px 1px 1px 1px lightgray"
+                      on-change="loadOrgData"
+                      hidden={{!isSysAdmin}} ></select>
+                  </label>
                 </div>
                 <!-- </template> -->
             </div>
@@ -205,6 +201,13 @@
 
             callBackOrgs: function(request) {
               this.organizations = request.detail.response;
+              this.$.findUserOrganizations.innerHTML = '';
+              request.detail.response.forEach(function(org) {
+                var element = document.createElement('option');
+                element.innerHTML = org.name;
+                element.value = org.id;
+                this.$.findUserOrganizations.appendChild(element);
+              }.bind(this));
               this.loadOrgData();
             },
 

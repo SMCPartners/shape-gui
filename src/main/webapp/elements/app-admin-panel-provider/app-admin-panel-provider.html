@@ -86,6 +86,9 @@
           width: 80%;
           height: 90%;
         };
+        .addButton {
+          padding-top: 8px;
+        }
 
     </style>
     </shape-iron-ajax-helper>
@@ -123,56 +126,15 @@
             debounce-duration="300">
           </shape-iron-ajax-helper>
 
-        <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
-            <div class='flex-item'>
-                <input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;">
-            </div>
-
-            <div class="flex-item">
-                <paper-button hidden="{{!isDPHUser(role)}}" raised on-tap="addProvider" modalName="addProvider" style="float:right; padding-top: 0.1em;">Add Provider</paper-button>
-            </div>
+        <div class="layout horizontal end-justified">
+          <paper-button class="addButton" hidden="{{!isDPHUser(role)}}" raised on-tap="addProvider" modalName="addProvider" >Add Provider</paper-button>
         </div>
 
-        <table class="order-table table-hover" style="width: 100%; padding: 0 0.4em;">
-            <!-- <colgroup>
-                <col span="4" style="width:23.5%">
-                <col span="1" style="width:6%">
-            </colgroup> -->
-            <thead>
-                <!-- sorting not working on npi -->
-                <th sortingGroup="name" on-tap="selectFunction">Name</th>
-                <th sortingGroup="npi" on-tap="selectFunction">NPI</th>
-                <th sortingGroup="organization" on-tap="selectFunction">Organization</th>
-                <th hidden$="{{!isOrgAdmin(role)}}" sortingGroup="active" on-tap="selectFunction">Status</th>
-                <th hidden="{{!isOrgAdmin(role)}}"></th>
-            </thead>
-            <tbody>
-            <template is="dom-repeat" items="{{providers}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
-                <tr data-id$="{{item.id}}">
-                    <td><span>{{item.name}}</span></td>
-                    <td><span>{{item.npi}}</span></td>
-                    <td><span>{{item.organization}}</span></td>
-                    <td hidden="{{!isOrgAdmin(role)}}">
-                    <div align="center">
-                      <template restamp="true" is="dom-if" if="{{item.active}}">
-                        <paper-button align="center" class="green" providers={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
-                      </template>
-                      <template restamp="true" is="dom-if" if="{{!item.active}}">
-                        <paper-button align="center" class="red" providers={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
-                      </template>
-                    </div>
-                    </td>
-                    <div align="center">
-                      <td hidden="{{!isOrgAdmin(role)}}" style="font-size: 1em;">
-                        <paper-button class="editButton" raised on-tap="editProvider" modalName="editProvider"><b>Edit</b></paper-button>
-                      </td>
-                    </div>
-                </tr>
-                </template>
-                <app-admin-add id="inputModal"></app-admin-add>
-                <app-admin-edit id="editModal"></app-admin-edit>
-            </tbody>
-        </table>
+        <iecompat-table id="table" table-top='["Name", "NPI", "Organization", "Status", ""]' host="{{this}}"></iecompat-table>
+
+        <app-admin-add id="inputModal"></app-admin-add>
+        <app-admin-edit id="editModal"></app-admin-edit>
+
     </template>
 </dom-module>
 <script>
@@ -189,6 +151,10 @@
             sortPass: String,
             sortReverse: false,
             lastSortVal: "firstName"
+            },
+
+            ready: function() {
+              this.this = this;
             },
 
             _filter: function(val) {
@@ -246,41 +212,29 @@
               },
 
 
-              setAjaxActivate: function(e) {
+              activate: function(id) {
                 this.$.ajaxActivateProvider.resource="/admin/provider/activate";
-                this.$.ajaxActivateProvider.body = JSON.stringify ({"entId": e.currentTarget.providers.id});
+                this.$.ajaxActivateProvider.body = JSON.stringify ({"entId": id});
                 this.$.ajaxActivateProvider.method="POST";
                 this.$.ajaxActivateProvider.callBack=this.callBackActivate;
                 this.$.ajaxActivateProvider.generateRequest();
-                activeIndicator=e.currentTarget;
               },
 
-              setAjaxInactivate: function(e) {
+              inactivate: function(id) {
                 this.$.ajaxInactivateProvider.resource="/admin/provider/inactivate";
-                this.$.ajaxInactivateProvider.body = JSON.stringify ({"entId": e.currentTarget.providers.id});
+                this.$.ajaxInactivateProvider.body = JSON.stringify ({"entId": id});
                 this.$.ajaxInactivateProvider.method="POST";
                 this.$.ajaxInactivateProvider.callBack=this.callBackInactivate;
                 this.$.ajaxInactivateProvider.generateRequest();
-                activeIndicator=e.currentTarget;
               },
 
-              callBackActivate: function(request) {
-                  for(var i = 0; i<this.providers.length; i++){
-                    if (this.providers[i].id == activeIndicator.providers.id){
-                      var stringPath= 'providers.'+i+'.active';
-                      this.set(stringPath, true);
-                    };
-                  };
+              callBackActivate: function() {
+                this.setajax();
               },
 
-              callBackInactivate: function(request) {
-                 for(var i = 0; i<this.providers.length; i++){
-                   if (this.providers[i].id == activeIndicator.providers.id){
-                     var stringPath= 'providers.'+i+'.active';
-                     this.set(stringPath, false);
-                   };
-                 };
-               },
+              callBackInactivate: function() {
+                this.setajax();
+              },
 
             _sort: function(val) {
                   var clicked = this.sortPass;
@@ -316,33 +270,49 @@
              },
 
             callBack: function(request) {
-              this.set('providers', request.detail.response);
+              this.providersData = request.detail.response;
+              this.tableBody = [];
+              for (var i = 0; i < request.detail.response.length; i++)
+                this.tableBody.push({
+                  data: [
+                    request.detail.response[i].name,
+                    request.detail.response[i].npi,
+                    '',
+                    request.detail.response[i].active
+                  ],
+                  id: request.detail.response[i].id
+                });
+
               this.$.getOrgNames.generateRequest();
             },
 
             getOrgNamesCallBack: function(request) {
-              var response = request.detail.response;
-              for (var provider in this.providers) {
-                var currentProvider = this.providers[provider];
-                var done = false;
-                for (var org = 0; org < response.length && !done; org ++) {
-                  var currentOrg = response[org];
-                  if (currentProvider.organizationId == currentOrg.id) {
-                    done = true;
-                    this.set('providers.'+provider+'.organization', currentOrg.name);
+              for (var prov in this.providersData)
+                for (var org in request.detail.response)
+                  if (request.detail.response[org].id == this.providersData[prov].organizationId) {
+                    this.tableBody[prov].data[2] = request.detail.response[org].name;
+                    break;
                   }
-                }
-              }
+              this.$.table.tableBody = this.tableBody;
             },
 
-            editProvider: function(e) {
+            editProvider: function(id) {
               var providerId = this.findAncestor(e.target, 'tr').dataset.id;
               for (var provider in this.providers) {
                 if (this.providers[provider].id == providerId) {
                   var providerData = this.providers[provider];
+                  break;
                 }
               }
               this.$.editModal.editProviderButton(providerData);
+            },
+
+            edit: function(id) {
+              for (var i in this.providersData)
+                if (id == this.providersData[i].id) {
+                  this.$.editModal.editProviderButton(this.providersData[i]);
+                  break;
+                }
             },
 
             addProvider: function(e){

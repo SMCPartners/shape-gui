@@ -38,7 +38,7 @@
                 <paper-tab on-tap="loadTable">USER</paper-tab>
                 <paper-tab on-tap="loadProviderTable">PROVIDER</paper-tab>
               <!--template is="dom-if" if="{{checkOrganizationAndMeasure(role)}}"-->
-                <paper-tab on-tap="loadOrgTable" style="border-right: 1px solid lightgray;">ORGANIZATION</paper-tab>
+                <paper-tab on-tap="loadOrgTable">ORGANIZATION</paper-tab>
 
               <template is="dom-if" if="{{checkOrganizationAndMeasure(role)}}">
                 <paper-tab on-tap="loadMeasureTable">MEASURE</paper-tab>

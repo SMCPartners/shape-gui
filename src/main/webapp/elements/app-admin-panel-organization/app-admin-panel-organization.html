@@ -75,6 +75,10 @@
           white-space: nowrap;
         }
 
+        .addButton {
+          padding-top: 8px;
+        }
+
     </style>
     <template>
 
@@ -85,63 +89,18 @@
           on-response="callBack"
           debounce-duration="300">
       </shape-iron-ajax-helper>
-        <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
-            <div class="flex-item"><input type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
-            <template is="dom-if" if="{{isOrgAdmin(role)}}">
-            <div class="flex-item">
-                <paper-button raised on-tap="addOrganization" modalName="addOrganization" style="float:right;padding-top: 0.1em;">Add Organization</paper-button>
+
+          <template is="dom-if" if="{{isOrgAdmin(role)}}">
+            <div class="layout horizontal end-justified">
+              <paper-button class="addButton" raised on-tap="addOrganization" modalName="addOrganization">Add Organization</paper-button>
             </div>
-            </template>
-        </div>
-        <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
-            <colgroup>
-                <col span="1" style="width:20%">
-                <col span="1" style="width:10%">
-                <col span="3" style="width:15%">
-                <col span="3" style="width:8.33%">
-            </colgroup>
-            <thead>
-                <th sortingGroup="name" on-tap="selectFunction">Name</th>
-                <th sortingGroup="addressState" on-tap="selectFunction">Address</th>
-                <th sortingGroup="primaryContactPhone" on-tap="selectFunction">Primary Contact Phone</th>
-                <th sortingGroup="primaryContactName" on-tap="selectFunction">Primary Contact Name</th>
-                <th sortingGroup="primaryContactEmail" on-tap="selectFunction">Primary Contact Email</th>
-                <th sortingGroup= "primaryContactRole" on-tap="selectFunction">Primary Contact Role</th>
-                <th hidden="{{!isOrgAdmin(role)}}" sortingGroup= "organizationStatus" on-tap="selectFunction">Status</th>
-                <th hidden="{{!canEdit(role)}}"></th>
-            </thead>
-            <tbody>
-            <template id="orgTable" is="dom-repeat" items="{{organization}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
-                <tr data-id$="{{item.id}}">
-                    <td><span>{{item.name}}</span></td>
-                    <td><span class="nowrap">{{item.addressStreet}}</span><br><span>{{item.addressCity}}</span>&nbsp<span>{{item.addressState}}</span>&nbsp<span>{{item.addressZip}}</span></td>
-                    <td><span class="noWrap">{{item.primaryContactPhone}}</span></td>
-                    <td><span class="noWrap">{{item.primaryContactName}}</span></td>
-                    <td><span>{{item.primaryContactEmail}}</span></td>
-                    <td><span>{{item.primaryContactRole}}</span></td>
-                    <td hidden="{{!isOrgAdmin(role)}}">
-                      <div align="center">
-                      <template restamp="true" is="dom-if" if="{{item.active}}">
-                        <paper-button align="center" class="green" organizations={{item}} on-tap="setAjaxInactivate"><b>Active</b></paper-button>
-                      </template>
-                    </div>
-                      <div align="center">
-                      <template restamp="true" is="dom-if" if="{{!item.active}}">
-                        <paper-button align="center" class="red" organizations={{item}} on-tap="setAjaxActivate"><b>Inactive<b></paper-button>
-                      </template>
-                    </div>
-                    </td>
-                    <div align="center">
-                      <td hidden="{{!canEdit(role)}}" style="font-size: 1em;">
-                            <paper-button class="editButton" raised on-tap="editOrganization" modalName="editOrganization"><b>Edit</b></paper-button>
-                      </td>
-                    </div>
-                </tr>
-            </template>
-                <app-admin-add id="inputModal"></app-admin-add>
-                <app-admin-edit id="editModal"></app-admin-edit>
-            </tbody>
-        </table>
+          </template>
+
+          <iecompat-table id="table" table-top='["Name", "Address", "Primary Contact Phone", "Primary Contact Name", "Primary Contact Email", "Primary Contact Role", "Status", ""]' host="{{this}}"></iecompat-table>
+
+        <app-admin-add id="inputModal"></app-admin-add>
+        <app-admin-edit id="editModal"></app-admin-edit>
+
         <shape-iron-ajax-helper
             id="ajaxActivateOrg"
             resource=""
@@ -173,6 +132,7 @@
             },
 
             ready: function() {
+              this.this = this;
             },
 
             _filter: function(val) {
@@ -209,40 +169,28 @@
                 }
             },
 
-            setAjaxActivate: function(e) {
+            activate: function(id) {
               this.$.ajaxActivateOrg.resource="/admin/organization/activate/";
-              this.$.ajaxActivateOrg.body = JSON.stringify ({"entId": e.currentTarget.organizations.id});
+              this.$.ajaxActivateOrg.body = JSON.stringify ({"entId": id});
               this.$.ajaxActivateOrg.method="POST";
               this.$.ajaxActivateOrg.callBack=this.callBackActivate
               this.$.ajaxActivateOrg.generateRequest();
-              activeIndicator=e.currentTarget;
             },
 
-            setAjaxInactivate: function(e) {
+            inactivate: function(id) {
               this.$.ajaxInactivateOrg.resource="/admin/organization/inactivate/";
-              this.$.ajaxInactivateOrg.body = JSON.stringify ({"entId": e.currentTarget.organizations.id});
+              this.$.ajaxInactivateOrg.body = JSON.stringify ({"entId": id});
               this.$.ajaxInactivateOrg.method="POST";
               this.$.ajaxInactivateOrg.callBack=this.callBackInactivate
               this.$.ajaxInactivateOrg.generateRequest();
-              activeIndicator=e.currentTarget;
             },
 
             callBackActivate: function(request) {
-                for(var i = 0; i<this.organization.length; i++){
-                  if (this.organization[i].id == activeIndicator.organizations.id){
-                    stringPath= 'organization.'+i+'.active';
-                    this.set(stringPath, true);
-                  };
-                };
+              this.setajax();
             },
 
             callBackInactivate: function(request) {
-               for(var i = 0; i<this.organization.length; i++){
-                 if (this.organization[i].id == activeIndicator.organizations.id){
-                   stringPath= 'organization.'+i+'.active';
-                   this.set(stringPath, false);
-                 };
-               };
+              this.setajax();
              },
 
             selectFunction: function(e) {
@@ -283,11 +231,10 @@
                     }
              },
 
-            editOrganization: function(e) {
-              var organizationId = this.findAncestor(e.target, 'tr').dataset.id;
-              for (var organizations in this.organization) {
-                if (this.organization[organizations].id == organizationId) {
-                  var organizationData = this.organization[organizations];
+            edit: function(id) {
+              for (var i in this.organization) {
+                if (this.organization[i].id == id) {
+                  var organizationData = this.organization[id];
                 }
               }
               this.$.editModal.editOrganizationButton(organizationData);
@@ -318,10 +265,25 @@
 
            callBack: function(request) {
              this.organization = request.detail.response;
+
+             var tableBody = []
              for (i = 0; i < this.organization.length; i ++){
-               this.organization[i].index = i;
-             };
+               tableBody.push({
+                 data: [
+                   this.organization[i].name,
+                   this.organization[i].addressStreet + ', ' + this.organization[i].addressCity + ', ' + this.organization[i].addressState + ' ' + this.organization[i].addressZip,
+                   this.organization[i].primaryContactPhone,
+                   this.organization[i].primaryContactName,
+                   this.organization[i].primaryContactEmail,
+                   this.organization[i].primaryContactRole,
+                   this.organization[i].active
+                 ],
+                 id: this.organization[i].id
+               });
+             }
+             this.$.table.tableBody = tableBody;
            },
+
            storeValue: function() {
 
            }

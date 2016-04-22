@@ -66,6 +66,10 @@
         align-self: auto;
         };
 
+        .addButton {
+          padding-top: 8px;
+        }
+
     </style>
     <template>
       <shape-iron-ajax-helper
@@ -75,59 +79,16 @@
           on-response="callBack"
           debounce-duration="300">
       </shape-iron-ajax-helper>
-        <div style="padding: 0 0.4em; display: flex;" class='flex-container'>
-            <div class="flex-item"><input class="search" type="text" value="{{filterVal::input}}" data-table="order-table" placeholder="Search" style="height: 2em; margin: 0.5em 0.4em;"></div>
-            <div class="flex-item">
-                <paper-button hidden="{{canModifyData(role)}}" raised on-tap="addMeasure" modalName="addMeasure" style="float:right; padding-top: 0.1em;">Add Measure</paper-button>
-            </div>
+
+        <div class="layout horizontal end-justified">
+          <paper-button class="addButton" hidden="{{canModifyData(role)}}" raised on-tap="addMeasure" modalName="addMeasure">Add Measure</paper-button>
         </div>
-        <table class="order-table table-rows" style="width: 100%; padding: 0 0.4em;">
-            <colgroup>
-                <col span="2" style="width:10%">
-                <col span="1" style="width:20%">
-                <col span="1" style="width:60%">
-                <col span="1" style="width:10%">
-            </colgroup>
-            <thead>
-                <th hidden="{{!canSelect(role)}}">Selection</th>
-                <th><a sortingGroup='nqfId' on-tap="selectFunction">NQF ID</a></th>
-                <th><a sortingGroup='name' on-tap="selectFunction">Name</a></th>
-                <th><a sortingGroup='description' on-tap="selectFunction">Description</a></th>
-                <th hidden="{{canModifyData(role)}}"></th>
-            </thead>
-            <tbody>
-            <template is="dom-repeat" items="{{measure}}" filter="{{_filter(filterVal)}}" sort="{{_sort(sortVal)}}">
-            <tr data-id$="{{item.id}}">
-                <td hidden="{{!canSelect(role)}}">
-                  <div align="center">
-                    <template restamp="true" is="dom-if" if="{{item.selected}}">
-                      <form on-tap="unselectMeasure">
-                        <input checked id=unselectUserMeasure type="checkbox" name="measureUnselect" value="{{item.id}}">
-                      </form>
-                    </template>
-                  </div>
-                  <div align="center">
-                    <template restamp="true" is="dom-if" if="{{!item.selected}}">
-                      <form on-tap="selectMeasure">
-                        <input id=selectUserMeasure type="checkbox" name="measureSelect" value="{{item.id}}">
-                      </form>
-                    </template>
-                  </div>
-                </td>
-                <td><span>{{item.nqfId}}</span></td>
-                <td><span>{{item.name}}</span></td>
-                <td><span>{{item.description}}</span></td>
-                <div align="center">
-                  <td hidden="{{canModifyData(role)}}" style="font-size: 1em;">
-                        <paper-button class="editButton" raised on-tap="editMeasure" modalName="editMeasure" id="{{item.index}}"><b>Edit</b></paper-button>
-                  </td>
-                </div>
-            </tr>
-            </template>
-                <app-admin-add id="inputModal"></app-admin-add>
-                <app-admin-edit id="editModal"></app-admin-edit>
-            </tbody>
-        </table>
+
+        <iecompat-table id="table" table-top='["NQF ID", "Name", "Description", ""]' host="{{this}}"></iecompat-table>
+
+        <app-admin-add id="inputModal"></app-admin-add>
+        <app-admin-edit id="editModal"></app-admin-edit>
+
         <shape-iron-ajax-helper
             id="ajaxSelectMeasure"
             resource="/admin/measure/select"
@@ -163,6 +124,7 @@
             },
 
             ready: function() {
+              this.this = this;
             },
 
             _filter: function(val) {
@@ -215,10 +177,11 @@
                     }
              },
 
-            editMeasure: function(e) {
-                this.$.editModal.editButton(e.target.parentNode.getAttribute("modalName"));
-                var measureNum = e.target.parentNode.getAttribute('id');
-                this.$.editModal.measure = Object.create(this.measure[measureNum]);
+            edit: function(id) {
+              for (var i in this.measure)
+                if (this.measure[i].id == id)
+                  this.$.editModal.editMeasureButton(this.measure[i]);
+              // this.$.editModal.measure = Object.create(this.measure[id]);
             },
 
             canModifyData : function (role) {
@@ -303,9 +266,19 @@
 
            callBack: function(request) {
              this.measure = request.detail.response;
+
+             var tableBody = [];
              for (i = 0; i < this.measure.length; i ++){
-               this.measure[i].index = i;
-             };
+               tableBody.push({
+                 data: [
+                   this.measure[i].nqfId,
+                   this.measure[i].name,
+                   this.measure[i].description
+                 ],
+                 id: this.measure[i].id
+               });
+             }
+             this.$.table.tableBody = tableBody
            }
         });
 })();

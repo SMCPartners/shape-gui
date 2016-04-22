@@ -121,6 +121,9 @@
           float: left;
 
         }
+        .padding {
+          padding: 8px !important;
+        }
     </style>
     <template>
 
@@ -141,31 +144,30 @@
 
       <paper-dialog-scrollable>
       <template is="dom-repeat" items="{{measures}}" measure={{item}}>
-            <paper-material class="pms">
-                <div class="parent">
-                    <div class="child header" value="{{nqfid}}">NQF ID: <span>{{item.nqfId}}</span></div>
+            <paper-material class="pms padding">
+                <div class="layout horizontal wrap">
+                    <div class="header" value="{{nqfid}}">NQF ID: <span>{{item.nqfId}}</span></div>
                     <!--div class="child header">RP Quarter: <span>{{item.reportPeriodQuarter}}</span></div-->
-                    <div class="child header">{{item.name}}</div>
+                    &nbsp;&nbsp;&nbsp;<div class="header">{{item.name}}</div>
                     <div class="child">
                         <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item.description}}"></paper-icon-button>
                     </div>
                 </div>
                 <div class="child description">{{item.description}}</div>
-                <div class="parent">
-                    <div class="fraction1 child">
+                <div class="layout horizontal wrap center">
+                    <div class="fraction1">
                         <span class="fup">Numerator</span>
                         <span class="bar">/</span>
                         <span class="fdn">Denominator</span>
                     </div>
-                    <div class="child header">=</div>
-                    <div class="fraction2 child">
+                    <div class="header">&nbsp;=&nbsp;</div>
+                    <div class="fraction2">
                         <span class="fup">{{item.numeratorValue}}</span>
                         <span class="bar">/</span>
                         <span class="fdn">{{item.denominatorValue}}</span>
                     </div>
-                    <div class="child">
+                    <div>
                       <google-chart
-                        id="measureChart"
                         type="pie"
                         data="{{item.chartData}}"
                         options="{{item.chartOptions}}">
@@ -175,7 +177,7 @@
                 <div class="parent">
                     <paper-material elevation="0" class="child resultBox">
                         <div class="resultForward">Your Measure Results:</div>
-                        <div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}
+                        &nbsp;<div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}</div>
                     </paper-material>
                 </div>
                 </paper-material>
@@ -183,7 +185,7 @@
       </paper-dialog-scrollable>
 
     </template>
-</dom-module> -->
+</dom-module>
 <script>
     (function () {
         Polymer({
