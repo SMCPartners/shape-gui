@@ -183,7 +183,7 @@
               this.$.selectYear.value !="" ? this.isYearSelected = true : this.isYearSelected = false;
               this.set('currentYear', this.$.selectYear.value); //save previously selected year into this.currentYear
 
-              this.$.selectYear.innerHtml = '';
+              this.$.selectYear.innerHTML = '';
               evt.detail.response.forEach(function(year) {
                 var option = document.createElement('option');
                 option.value = year;

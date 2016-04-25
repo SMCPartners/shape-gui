@@ -291,14 +291,14 @@
       // fill org dropdowns
       this.$.findUserOrganizationId.innerHTML = '';
       this.$.providerOrgSelect.innerHTML = '';
-      this.$.findUserOrganizationId.innerHTML = '';
       for (var i = 0; i < request.detail.response.length; i++) {
+
         var option = document.createElement('option');
+        console.log(request.detail.response[i].name);
         option.value = request.detail.response[i].id;
         option.innerHTML = request.detail.response[i].name;
         this.$.findUserOrganizationId.appendChild(option);
         this.$.providerOrgSelect.appendChild(option.cloneNode(true));
-        this.$.findUserOrganizationId.appendChild(option.cloneNode(true));
       }
     },
 
