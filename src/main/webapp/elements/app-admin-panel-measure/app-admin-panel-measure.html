@@ -67,7 +67,7 @@
         };
 
         .addButton {
-          padding-top: 8px;
+          margin-top: 8px;
         }
 
     </style>
@@ -80,9 +80,11 @@
           debounce-duration="300">
       </shape-iron-ajax-helper>
 
-        <div class="layout horizontal end-justified">
-          <paper-button class="addButton" hidden="{{canModifyData(role)}}" raised on-tap="addMeasure" modalName="addMeasure">Add Measure</paper-button>
-        </div>
+        <template is="dom-if" if="{{canSelect(role)}}">
+          <div class="layout horizontal end-justified">
+            <paper-button class="addButton" hidden="{{canModifyData(role)}}" raised on-tap="addMeasure" modalName="addMeasure">Add Measure</paper-button>
+          </div>
+        </template>
 
         <iecompat-table id="table" host="{{this}}"></iecompat-table>
 
@@ -287,6 +289,7 @@
                }
                else {
                  this.$.table.tableTop = ["NQF ID", "Name", "Description", ""];
+                 this.$.table.hideEndCells = 1;
                }
 
              }
