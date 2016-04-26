@@ -84,7 +84,7 @@
           <paper-button class="addButton" hidden="{{canModifyData(role)}}" raised on-tap="addMeasure" modalName="addMeasure">Add Measure</paper-button>
         </div>
 
-        <iecompat-table id="table" table-top='["NQF ID", "Name", "Description", ""]' host="{{this}}"></iecompat-table>
+        <iecompat-table id="table" host="{{this}}"></iecompat-table>
 
         <app-admin-add id="inputModal"></app-admin-add>
         <app-admin-edit id="editModal"></app-admin-edit>
@@ -192,8 +192,8 @@
                 }
             },
 
-            canSelect : function(role) {
-                if (role == "ADMIN") {
+            canSelect : function() {
+                if (this.role == "ADMIN") {
                     return true;
                 } else {
                     return false;
@@ -210,24 +210,34 @@
               this.$.editModal.editMeasureButton(measureData);
             },
 
-            selectMeasure: function (e) {
-                this.$.ajaxSelectMeasure.body = JSON.stringify({
-                  "entId" : e.currentTarget.selectUserMeasure.value,
-                });
-                this.$.ajaxSelectMeasure.generateRequest();
-            },
+            // selectMeasure: function (e) {
+            //     this.$.ajaxSelectMeasure.body = JSON.stringify({
+            //       "entId" : e.currentTarget.selectUserMeasure.value,
+            //     });
+            //     this.$.ajaxSelectMeasure.generateRequest();
+            // },
 
             selectMeasureCallBack: function(request) {
                 document.querySelector('app-history').setajaxMeasures();
                 this.setajax();
             },
 
-            unselectMeasure: function (e) {
-                this.$.ajaxUnselectMeasure.body = JSON.stringify({
-                  "entId" : e.currentTarget.unselectUserMeasure.value,
-                });
-                this.$.ajaxUnselectMeasure.generateRequest();
+            activate: function(id) {
+              this.$.ajaxSelectMeasure.body = JSON.stringify({'entId': id});
+              this.$.ajaxSelectMeasure.generateRequest();
             },
+
+            inactivate: function(id) {
+              this.$.ajaxUnselectMeasure.body = JSON.stringify({'entId': id});
+              this.$.ajaxUnselectMeasure.generateRequest();
+            },
+
+            // unselectMeasure: function (e) {
+            //     this.$.ajaxUnselectMeasure.body = JSON.stringify({
+            //       "entId" : e.currentTarget.unselectUserMeasure.value,
+            //     });
+            //     this.$.ajaxUnselectMeasure.generateRequest();
+            // },
 
             unselectMeasureCallBack: function(request) {
                 document.querySelector('app-history').setajaxMeasures();
@@ -257,26 +267,28 @@
               this.$.findMeasures.generateRequest();
             },
 
-            callBack: function(request) {
-              this.organization = request.detail.response;
-              for (i = 0; i < this.organization.length; i ++){
-                this.organization[i].index = i;
-              };
-            },
-
            callBack: function(request) {
              this.measure = request.detail.response;
 
              var tableBody = [];
              for (i = 0; i < this.measure.length; i ++){
+
                tableBody.push({
                  data: [
                    this.measure[i].nqfId,
                    this.measure[i].name,
-                   this.measure[i].description
+                   this.measure[i].description,
                  ],
                  id: this.measure[i].id
                });
+               if (this.canSelect()) {
+                 tableBody[tableBody.length - 1].data.push(this.measure[i].selected);
+                 this.$.table.tableTop = ["NQF ID", "Name", "Description", "Status", ""];
+               }
+               else {
+                 this.$.table.tableTop = ["NQF ID", "Name", "Description", ""];
+               }
+
              }
              this.$.table.tableBody = tableBody
            }
