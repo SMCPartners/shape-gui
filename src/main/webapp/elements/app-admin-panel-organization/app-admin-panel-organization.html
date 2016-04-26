@@ -234,7 +234,7 @@
             edit: function(id) {
               for (var i in this.organization) {
                 if (this.organization[i].id == id) {
-                  var organizationData = this.organization[id];
+                  var organizationData = this.organization[i];
                 }
               }
               this.$.editModal.editOrganizationButton(organizationData);

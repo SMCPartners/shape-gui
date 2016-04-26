@@ -299,7 +299,7 @@
             },
             setAllOrgs: function(request){
                 this.organizations=request.detail.response;
-                
+
                 this.$.providerOrgSelect.innerHTML = '';
                 for (var i = 0; i < request.detail.response.length; i++) {
                   var option = document.createElement('option');
