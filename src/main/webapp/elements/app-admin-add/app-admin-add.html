@@ -169,12 +169,7 @@
         <label style="font: inherit">
           <h><b>Select Role :</b></h>
         </label>
-        <select class="alignRight" id="findUserRole" style="font: inherit; margin-left:0.5em;">
-          <option value="REGISTERED">Registered</option>
-          <option hidden="{{isOrgAdmin(role)}}" value="ADMIN">Admin</option>
-          <option hidden="{{isOrgAdmin(role)}}" value="DPH_USER">DPH User</option>
-          <option value="ORG_ADMIN">Organization Admin</option>
-        </select>
+        <select class="alignRight" id="findUserRole" style="font: inherit; margin-left:0.5em;"></select>
       </div>
       <div class="flex-child">
         <label class="flex-child" style="font: inherit">
@@ -207,8 +202,10 @@
       primaryContactRole: String,
       primaryContactEmail: String,
       primaryContactPhone: String,
-      role: String
-
+      role: {
+        type: String,
+        observer: 'onRoleChange'
+      }
     },
     ready: function() {
       this.providerData = {};
@@ -294,7 +291,6 @@
       for (var i = 0; i < request.detail.response.length; i++) {
 
         var option = document.createElement('option');
-        console.log(request.detail.response[i].name);
         option.value = request.detail.response[i].id;
         option.innerHTML = request.detail.response[i].name;
         this.$.findUserOrganizationId.appendChild(option);
@@ -324,11 +320,7 @@
       };
     },
     isOrgAdmin: function(role){
-      if (role =="ORG_ADMIN"){
-        return true;
-      }else{
-        return false;
-      }
+      if (this.role == 'ORG_ADMIN') return true;
     },
     logProvider: function(e) {
       var selectChoice = this.$.providerOrgSelect.value;
@@ -424,6 +416,23 @@
 
     orgCallback: function() {
       document.querySelector('app-admin-panel-organization').setajax();
+    },
+
+    onRoleChange: function() {
+      // fill user role dropdown
+      this.$.findUserRole.innerHTML = '';
+      function createOption(text, value) {
+        var option = document.createElement('option');
+        option.innerHTML = text;
+        option.value = value;
+        return option;
+      }
+      this.$.findUserRole.appendChild(createOption('Registered', 'REGISTERED'));
+      this.$.findUserRole.appendChild(createOption('Organization Admin', 'ORG_ADMIN'));
+      if (!this.isOrgAdmin()) {
+        this.$.findUserRole.appendChild(createOption('DPH User', 'DPH_USER'));
+        this.$.findUserRole.appendChild(createOption('Admin', 'ADMIN'));
+      }
     }
 
   });
