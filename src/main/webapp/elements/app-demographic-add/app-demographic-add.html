@@ -196,14 +196,14 @@
               ]
               var dateObj = new Date;
               var currentYear = dateObj.getFullYear();
-              
+
               // fill year dropdown
               for (var i = 0; i >= -3; i--) {
                 var option = document.createElement('option');
                 option.innerHTML = currentYear + i;
                 this.$.reportPeriodYear.appendChild(option);
               }
-              
+
                 this.stratifyGroups = [
                 {name: 'Gender', categories: [
                     {strat: 'Male', num: 'maleNum', den: 'maleDen'},
@@ -350,12 +350,13 @@
             },
             setDropdowns: function(request) {
               this.$.mid.innerHTML = '';
-              for (var i in request.detail.response) {
-                var option = document.createElement('option');
-                option.value = request.detail.response[i].id;
-                option.innerHTML = 'NQF ' + request.detail.response[i].nqfId + ' ' + request.detail.response[i].name;
-                this.$.mid.appendChild(option);
-              }
+              for (var i in request.detail.response)
+                if (request.detail.response[i].selected) {
+                  var option = document.createElement('option');
+                  option.value = request.detail.response[i].id;
+                  option.innerHTML = 'NQF ' + request.detail.response[i].nqfId + ' ' + request.detail.response[i].name;
+                  this.$.mid.appendChild(option);
+                }
             }
         });
     })();

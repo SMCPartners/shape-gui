@@ -208,10 +208,12 @@
             callBackMeasures: function(request) {
               this.$.selectMeasure.innerHTML = '<option value="label">Select Measure</option>';
               request.detail.response.forEach(function(measure) {
-                var option = document.createElement('option');
-                option.value = measure.id;
-                option.innerHTML = 'NQF ' + measure.nqfId + ' ' + measure.name;
-                this.$.selectMeasure.appendChild(option);
+                if (measure.selected) {
+                  var option = document.createElement('option');
+                  option.value = measure.id;
+                  option.innerHTML = 'NQF ' + measure.nqfId + ' ' + measure.name;
+                  this.$.selectMeasure.appendChild(option);
+                }
               }.bind(this));
             },
 
