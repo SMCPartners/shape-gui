@@ -166,14 +166,7 @@
                 </div>
                 <div class="marginClass">
                   <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Role :</b></h></label>
-                    <select class="alignRight" id=findUserRole style="font: inherit">
-                      <template is="dom-if" restamp="true" if="{{isOrgAdmin(role)}}">
-                        <option value="ADMIN">Admin</option>
-                      </template>
-                        <option value="ORG_ADMIN">Organization Admin</option>
-                        <option value="REGISTERED">Registered</option>
-                        <option value="DPH_USER">DPH User</option>
-                    </select>
+                    <select class="alignRight" id=findUserRole style="font: inherit"></select>
                 </div>
                 <!--div class="marginClass">
                   <label class="flex-child" style="font: inherit margin-left:.9em"> <h><b>Select Organization :</b></h></label>
@@ -277,6 +270,10 @@
               userorganization:{
                 type: String
               },
+              role: {
+                type: String,
+                observer: 'onRoleChange'
+              }
             },
 
             isOrgAdmin : function (role) {
@@ -289,9 +286,6 @@
               if (role == "REGISTERED") {
                 return false
               }
-            },
-
-            ready: function() {
             },
 
             getData: function(){
@@ -482,6 +476,21 @@
             },
             editProviderCallback: function() {
               document.querySelector('app-admin-panel-provider').$.findProviders.generateRequest();
+            },
+            onRoleChange: function() {
+              function createOption(text, value) {
+                var option = document.createElement('option');
+                option.innerHTML = text;
+                option.value = value;
+                return option;
+              }
+              this.$.findUserRole.innerHTML = '';
+              this.$.findUserRole.appendChild(createOption('Registered', 'REGISTERED'));
+              this.$.findUserRole.appendChild(createOption('Organization Admin', 'ORG_ADMIN'));
+              if (this.role == 'ADMIN') {
+                this.$.findUserRole.appendChild(createOption('DPH User', 'DPH_USER'));
+                this.$.findUserRole.appendChild(createOption('Admin', 'ADMIN'));
+              }
             }
         });
     })();
