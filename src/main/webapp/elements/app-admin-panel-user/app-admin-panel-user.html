@@ -91,9 +91,11 @@
             </template>
         </div>-->
 
-        <div class="layout horizontal end-justified">
-          <paper-button class="addButton" raised on-tap="addUser">Add User</paper-button>
-        </div>
+        <template is="dom-if" if="{{notDphUser(role)}}">
+          <div class="layout horizontal end-justified">
+            <paper-button class="addButton" raised on-tap="addUser">Add User</paper-button>
+          </div>
+        </template>
 
         <iecompat-table id="table" table-top='["Username", "Name", "Role", "Organization", "Status", ""]' host="{{this}}"></iecompat-table>
 
@@ -296,6 +298,9 @@
                 if (siblingMatches[match] == element) return true;
               }
               return false;
+            },
+            notDphUser: function(role) {
+              if (role != 'DPH_USER') return true;
             }
         });
 })();

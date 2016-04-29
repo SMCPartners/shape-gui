@@ -126,9 +126,11 @@
             debounce-duration="300">
           </shape-iron-ajax-helper>
 
-        <div class="layout horizontal end-justified">
-          <paper-button class="addButton" hidden="{{!isDPHUser(role)}}" raised on-tap="addProvider" modalName="addProvider" >Add Provider</paper-button>
-        </div>
+        <template is="dom-if" if="{{notDphUser(role)}}">
+          <div class="layout horizontal end-justified">
+            <paper-button class="addButton" hidden="{{!isDPHUser(role)}}" raised on-tap="addProvider" modalName="addProvider" >Add Provider</paper-button>
+          </div>
+        </template>
 
         <iecompat-table id="table" table-top='["Name", "NPI", "Organization", "Status", ""]' host="{{this}}"></iecompat-table>
 
@@ -330,6 +332,9 @@
                 if (siblingMatches[match] == element) return true;
               }
               return false;
+            },
+            notDphUser: function(role) {
+              if (role != 'DPH_USER') return true;
             }
         });
 })();
