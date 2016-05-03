@@ -96,7 +96,7 @@
             </div>
           </template>
 
-          <iecompat-table id="table" table-top="{{getTableTop(role)}}" host="{{this}}"></iecompat-table>
+          <iecompat-table id="table" table-top="{{getTableTop(role)}}" host="{{this}}" hide-end-cells="{{getHideEndCells(role)}}"></iecompat-table>
 
         <app-admin-add id="inputModal"></app-admin-add>
         <app-admin-edit id="editModal"></app-admin-edit>
@@ -287,6 +287,10 @@
            getTableTop: function(role) {
              if (role == 'ORG_ADMIN') return ['Name', 'Address', 'Primary Contact Phone', 'Primary Contact Name', 'Primary Contact Email', 'Primary Contact Role', ''];
              else return ['Name', 'Address', 'Primary Contact Phone', 'Primary Contact Name', 'Primary Contact Email', 'Primary Contact Role', 'Status', ''];
+           },
+           getHideEndCells: function(role) {
+             if (role == 'DPH_USER') return 2;
+             else return 0;
            },
 
            storeValue: function() {

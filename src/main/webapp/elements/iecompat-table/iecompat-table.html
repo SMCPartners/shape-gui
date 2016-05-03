@@ -44,7 +44,7 @@
     <div class="table">
       <div class="layout horizontal">
         <template is="dom-repeat" items="{{tableTop}}">
-          <div class$="{{getTopCellClasses(index)}}" data-index$="{{index}}" on-tap="sort">{{item}}</div>
+          <div class$="{{getTopCellClasses(index, hideEndCells)}}" data-index$="{{index}}" on-tap="sort">{{item}}</div>
         </template>
       </div>
 
@@ -52,7 +52,7 @@
         <div class="layout horizontal">
 
           <template is="dom-repeat" items="{{row.data}}">
-            <div class$="{{getBodyCellClasses(index)}}">
+            <div class$="{{getBodyCellClasses(index, hideEndCells)}}">
 
               <template is="dom-if" if="{{isBoolean(item)}}">
                 <template is="dom-if" if="{{item}}">

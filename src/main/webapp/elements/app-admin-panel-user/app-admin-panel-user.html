@@ -97,7 +97,7 @@
           </div>
         </template>
 
-        <iecompat-table id="table" table-top='["Username", "Name", "Role", "Organization", "Status", ""]' host="{{this}}"></iecompat-table>
+        <iecompat-table id="table" table-top='["Username", "Name", "Role", "Organization", "Status", ""]' host="{{this}}" hide-end-cells="{{getHideEndCells(role)}}"></iecompat-table>
 
         <app-admin-add id="inputModal"></app-admin-add>
         <app-admin-edit id="editModal"></app-admin-edit>
@@ -301,6 +301,10 @@
             },
             notDphUser: function(role) {
               if (role != 'DPH_USER') return true;
+            },
+            getHideEndCells: function(role) {
+              if (role == 'DPH_USER') return 2;
+              else return 0;
             }
         });
 })();
