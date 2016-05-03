@@ -118,9 +118,7 @@
     },
     compare: function(a, b) {
       if (this.sortIndex == undefined) return 0;
-      if (a.data[this.sortIndex] < b.data[this.sortIndex]) var result = -1;
-      else if (a.data[this.sortIndex] == b.data[this.sortIndex]) var result = 0;
-      else var result =  1;
+      var result = a.data[this.sortIndex].localeCompare(b.data[this.sortIndex]);
       if (this.sortReverse) result = -result;
       return result;
     },
