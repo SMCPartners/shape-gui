@@ -96,7 +96,7 @@
             </div>
           </template>
 
-          <iecompat-table id="table" table-top='["Name", "Address", "Primary Contact Phone", "Primary Contact Name", "Primary Contact Email", "Primary Contact Role", "Status", ""]' host="{{this}}"></iecompat-table>
+          <iecompat-table id="table" table-top="{{getTableTop(role)}}" host="{{this}}"></iecompat-table>
 
         <app-admin-add id="inputModal"></app-admin-add>
         <app-admin-edit id="editModal"></app-admin-edit>
@@ -276,12 +276,17 @@
                    this.organization[i].primaryContactName,
                    this.organization[i].primaryContactEmail,
                    this.organization[i].primaryContactRole,
-                   this.organization[i].active
                  ],
                  id: this.organization[i].id
                });
+               if (this.role != 'ORG_ADMIN') tableBody[i].data.push(this.organization[i].active);
              }
              this.$.table.tableBody = tableBody;
+           },
+
+           getTableTop: function(role) {
+             if (role == 'ORG_ADMIN') return ['Name', 'Address', 'Primary Contact Phone', 'Primary Contact Name', 'Primary Contact Email', 'Primary Contact Role', ''];
+             else return ['Name', 'Address', 'Primary Contact Phone', 'Primary Contact Name', 'Primary Contact Email', 'Primary Contact Role', 'Status', ''];
            },
 
            storeValue: function() {
