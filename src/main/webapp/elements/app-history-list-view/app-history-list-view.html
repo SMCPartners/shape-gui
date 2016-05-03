@@ -122,7 +122,16 @@
 
         }
         .padding {
-          padding: 8px !important;
+          padding: 15px !important;
+        }
+        .horizontalMargin {
+          margin: 0 24px;
+        }
+        .leftMargin {
+          margin-left: 40px;
+        }
+        .center-justified {
+          text-align: center;
         }
     </style>
     <template>
@@ -145,16 +154,17 @@
       <paper-dialog-scrollable>
       <template is="dom-repeat" items="{{measures}}" measure={{item}}>
             <paper-material class="pms padding">
-                <div class="layout horizontal wrap">
-                    <div class="header" value="{{nqfid}}">NQF ID: <span>{{item.nqfId}}</span></div>
-                    <!--div class="child header">RP Quarter: <span>{{item.reportPeriodQuarter}}</span></div-->
-                    &nbsp;&nbsp;&nbsp;<div class="header">{{item.name}}</div>
-                    <div class="child">
-                        <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item.description}}"></paper-icon-button>
-                    </div>
+                <div class="layout horizontal wrap justified">
+                  <div class="layout horizontal center-justified flex wrap leftMargin">
+                    <div class="header horizontalMargin" value="{{nqfid}}">NQF ID: <span>{{item.nqfId}}</span></div>
+                    <div class="header horizontalMargin">{{item.name}}</div>
+                  </div>
+                  <div class="child">
+                    <paper-icon-button icon="info" on-tap="measureDetail" id="{{item.name}}" data="{{item.description}}"></paper-icon-button>
+                  </div>
                 </div>
                 <div class="child description">{{item.description}}</div>
-                <div class="layout horizontal wrap center">
+                <div class="layout horizontal wrap center center-justified">
                     <div class="fraction1">
                         <span class="fup">Numerator</span>
                         <span class="bar">/</span>
@@ -175,7 +185,7 @@
                     </div>
                 </div>
                 <div class="parent">
-                    <paper-material elevation="0" class="child resultBox">
+                    <paper-material elevation="0" class="child resultBox layout horizontal">
                         <div class="resultForward">Your Measure Results:</div>
                         &nbsp;<div class="results">{{computePercentage(item.numeratorValue, item.denominatorValue)}}</div>
                     </paper-material>
